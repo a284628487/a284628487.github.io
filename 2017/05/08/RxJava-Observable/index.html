@@ -6,17 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 放肆的Coder</title>
+  <title>RxJava Observable 数据转换 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="使用 Observable 对请求数据进行转换处理 merge很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 subscribe 来添加一个请求成功/失败的订阅。 1234567891011121314151617181920212223242526Observable&amp;lt;User&amp;gt; obLogin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava Observable 数据转换">
+<meta property="og:url" content="http://yoursite.com/2017/05/08/RxJava-Observable/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="使用 Observable 对请求数据进行转换处理 merge很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 subscribe 来添加一个请求成功/失败的订阅。 1234567891011121314151617181920212223242526Observable&amp;lt;User&amp;gt; obLogin">
+<meta property="og:updated_time" content="2017-05-08T13:46:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="RxJava Observable 数据转换">
+<meta name="twitter:description" content="使用 Observable 对请求数据进行转换处理 merge很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 subscribe 来添加一个请求成功/失败的订阅。 1234567891011121314151617181920212223242526Observable&amp;lt;User&amp;gt; obLogin">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,114 +157,196 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-RxJava-Observable" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      RxJava Observable 数据转换
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/08/RxJava-Observable/" class="archive-article-date">
+
+        
+        <a href="/2017/05/08/RxJava-Observable/" class="archive-article-date">
   	<time datetime="2017-05-08T13:37:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/08/RxJava-Observable/">RxJava Observable 数据转换</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 <strong>Observable</strong> 对请求数据进行转换处理</p>
+<h2 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h2><p>很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 <strong>subscribe</strong> 来添加一个请求成功/失败的订阅。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">Observable&lt;User&gt; obLogin = service.login(<span class="string">"Michael Cai"</span>, <span class="string">"***"</span>);</div><div class="line">Observable&lt;Message&gt; obMsg = service.message();</div><div class="line">Observable.merge(obLogin, obMsg)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .subscribe(<span class="keyword">new</span> Observer&lt;Object&gt;() &#123;</div><div class="line">    </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(@NonNull Object o)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onNext: "</span> + o);</div><div class="line">            <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Message) &#123;</div><div class="line">                <span class="comment">// TODO</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (o <span class="keyword">instanceof</span> User) &#123;</div><div class="line">                <span class="comment">// TODO</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(@NonNull Throwable e)</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onComplete: "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码创建了两个请求，一个是登录，一个是获取消息，使用 <strong>merge</strong> 方法合并的 <strong>Observable</strong> 请求被发起的顺序是按照参数传递的顺序，上面的 <strong>Login</strong> 请求在 <strong>Message</strong> 请求的前面被调用。</p>
+<h3 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h3><ul>
+<li><strong>onSubscribe</strong> 仅调用一次，请求被合并后，后面也只调用了一次 <strong>subscribe</strong></li>
+<li><strong>onNext</strong> 调用多次，每个请求在成功之后，都会被调用</li>
+<li><strong>onError</strong></li>
+<li><strong>onComplete</strong> 仅调用一次，当所有请求都完成之后被调用</li>
+</ul>
+<h2 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h2><p>大多数情况下，服务器返回的数据通常是这样的</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"message"</span>: <span class="string">"Success"</span>,</div><div class="line">  <span class="attr">"code"</span>: <span class="number">0</span>,</div><div class="line">  <span class="attr">"data"</span>: &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果直接按照之前的方式，则在请求结果返回回来之后，在 onNext 方法中，还得进行一次判断，如果 <strong>code</strong> 为0则表示成功，如果 <strong>code</strong> 不为0，则表示参数错误，得分别进行处理。而 <strong>flatMap</strong> 则可以帮且解决这个问题，可以将服务器返回的数据先进行转换。</p>
+<h4 id="创建服务器返回数据类型"><a href="#创建服务器返回数据类型" class="headerlink" title="创建服务器返回数据类型"></a>创建服务器返回数据类型</h4><p>服务器返回的数据 <strong>data</strong> 是多种多样的，所以使用泛型定义 <strong>data</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Result</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> code = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> String message = <span class="string">""</span>;</div><div class="line">    <span class="keyword">public</span> T data;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="api-接口定义"><a href="#api-接口定义" class="headerlink" title="api 接口定义"></a>api 接口定义</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"login"</span>)</div><div class="line">Observable&lt;Result&lt;User&gt;&gt; login(<span class="meta">@Query</span>(<span class="string">"username"</span>) String name, <span class="meta">@Query</span>(<span class="string">"pwd"</span>) String pwd);</div></pre></td></tr></table></figure>
+<h4 id="发起请求"><a href="#发起请求" class="headerlink" title="发起请求"></a>发起请求</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">service.login(<span class="string">"Michael Cai"</span>, <span class="string">"***"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .flatMap(<span class="keyword">new</span> Function&lt;Result&lt;User&gt;, ObservableSource&lt;User&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> ObservableSource&lt;User&gt; <span class="title">apply</span><span class="params">(@NonNull Result&lt;User&gt; result)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="keyword">if</span> (result.code == <span class="number">0</span>) &#123; <span class="comment">// 如果 code = 0，则请求成功</span></div><div class="line">                <span class="keyword">return</span> Observable.just(result.data);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 请求失败</span></div><div class="line">            <span class="keyword">return</span> Observable.error(<span class="keyword">new</span> ApiException(result.code, result.message));</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Observer&lt;User&gt;() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(@NonNull User user)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onNext: "</span> + user);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(@NonNull Throwable e)</span> </span>&#123;</div><div class="line">            Log.e(TAG, <span class="string">"onError: "</span> + e.getMessage());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onComplete: "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>当接口请求成功之后，如果服务器返回的 code 是 0，则表示成功，使用 <strong>Observable.just</strong> 生成 <strong>Observable</strong> 对象并返回，如果是其它数值，则使用 <strong>Observable.error</strong> 返回错误。</p>
+<p>在 <strong>subscribe</strong> 订阅了 <strong>Observer</strong> 对象之后，以下两种服务器的返回值将分别执行 onNext 和 onError；</p>
+<ul>
+<li>{“code”:0, “message”:”Success”, “data”:{“name”:”ccf”, “msg”: “what?”, “age”:28 }}</li>
+<li>{“code”:1, “message”:”Invalidated Pwd”}</li>
+</ul>
+<h3 id="Refactor"><a href="#Refactor" class="headerlink" title="Refactor"></a>Refactor</h3><p>可以将上面的 <strong>flatMap</strong> 中的 <strong>Funtion</strong> 提取出来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FunctionResult</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Result</span>&gt; <span class="keyword">implements</span> <span class="title">Function</span>&lt;<span class="title">Result</span>&lt;<span class="title">T</span>&gt;, <span class="title">ObservableSource</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ObservableSource&lt;T&gt; <span class="title">apply</span><span class="params">(@NonNull Result&lt;T&gt; tResult)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">if</span> (tResult.code == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> Observable.just(tResult.data);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> Observable.error(<span class="keyword">new</span> ApiException(tResult.code, tResult.message));</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line">service.login(<span class="string">"Michael Cai"</span>, <span class="string">"***"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .flatMap(<span class="keyword">new</span> FunctionResult())</div><div class="line">    .subscribe(...);</div></pre></td></tr></table></figure>
+<h3 id="使用-flatMap-操作数组"><a href="#使用-flatMap-操作数组" class="headerlink" title="使用 flatMap 操作数组"></a>使用 flatMap 操作数组</h3><p>继续上面的应用场景，某一个 <strong>api</strong> 接口服务器返回的 <strong>data</strong> 是一个用户列表，而我们的某一个需求是获取所有用户的等级求平均值，最简单的方法是获取到所有用户之后遍历获取每一个用户的等级然后得出所有用户的平均等级，然后这样的话就会在 <strong>onNext</strong> 里面写一个循环，增加了代码的嵌套层次，<strong>flatMap</strong> 则可以很好的解决这个问题，它可以把数组，列表里面的元素包装到一个 <strong>Observable</strong> 里面，我们只需要在 <strong>onNext</strong> 方法里面对每一个获取到的 <strong>User</strong> 进行处理即可，然后当 <strong>onComplete</strong> 调用的时候则表示所有的 <strong>User</strong> 都处理完毕。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">service.users()</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .flatMap(<span class="keyword">new</span> Function&lt;Result&lt;List&lt;User&gt;&gt;, Observable&lt;User&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Observable&lt;User&gt; <span class="title">apply</span><span class="params">(@NonNull Result&lt;List&lt;User&gt;&gt; listResult)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="keyword">return</span> Observable.fromIterable(listResult.data);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Observer&lt;User&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(@NonNull User user)</span> </span>&#123;</div><div class="line">            <span class="comment">// TODO</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="comment">// TODO</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>有时候，可能我们需要将一种接口定义中的 <strong>Observable\<entity></entity></strong> 转换成另一种数据 <strong>Entity2</strong>，这时就可以使用 <strong>map</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">service.login(<span class="string">"Michael Cai"</span>, <span class="string">"***"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .map(<span class="keyword">new</span> Function&lt;User, String&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(@NonNull User user)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="keyword">return</span> user.name;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"userName: "</span> + s);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>上面的 <strong>map</strong> 方法把原本的 接口定义的 <strong>Observable\<user></user></strong> 转换成了 <strong>Observable\<string></string></strong> 。</p>
+<blockquote>
+<p><strong>map</strong> 和 <strong>flatMap</strong> 都是将数据从一种数据类型转换成另外一种数据类，但不同的是：<strong>map</strong> 是将服务器返回的数据转换成另外一种数据类型，而 <strong>flatMap</strong> 则是将服务器返回的数据通过定义的规则转换生成一个 <strong>Observable</strong> 对象，供调用者使用 <strong>subscribe</strong> 进行订阅，也就是输出类型不同；</p>
+</blockquote>
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><p>合并多个请求，当几个请求都执行完成之后，统一再进行后续操作处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Observable&lt;User&gt; ou1 = service.user(<span class="number">10001</span>);</div><div class="line">Observable&lt;User&gt; ou2 = service.user(<span class="number">10002</span>);</div><div class="line">Observable</div><div class="line">    .zip(ou1, ou2, <span class="keyword">new</span> BiFunction&lt;User, User, Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Integer <span class="title">apply</span><span class="params">(@NonNull User user, @NonNull User user2)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="keyword">return</span> user.age - user2.age;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"accept: "</span> + integer);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码将两个通过 <strong>id</strong> 获取用户信息的请求打包，当两个请求都完成之后，再计算两个用户的年龄差。</p>
+<p><strong>zip</strong> 方法的最后一个参数，则是所有请求完成之后，将执行的操作，对于只有两个请求，则使用 <strong>BiFunction</strong> ，对于3个及3个以上的请求，则是 <strong>Function3</strong>、<strong>Function4</strong> …<br>两者的定义其实相同：</p>
+<ul>
+<li>BiFunction</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BiFunction</span>&lt;<span class="title">T1</span>, <span class="title">T2</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line">    <span class="meta">@NonNull</span></div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(@NonNull T1 t1, @NonNull T2 t2)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Function3</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function3</span> &lt;<span class="title">T1</span>, <span class="title">T2</span>, <span class="title">T3</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line">    <span class="meta">@NonNull</span></div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(@NonNull T1 t1, @NonNull T2 t2, @NonNull T3 t3)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="retry"><a href="#retry" class="headerlink" title="retry"></a>retry</h2><p>有些网络请求因网络异常或者请求超时时，需要再次请求，通常会连续请求3次，如果3次都失败则不再请求，普通的常规方法则是自已在代码中使用一个记数器，来记录请求失败的次数，但在 RxJava 中，可以使用 retry 定义多次请求的次数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">service.login(<span class="string">"a"</span>, <span class="string">"b"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .retry(<span class="number">3</span>, <span class="keyword">new</span> Predicate&lt;Throwable&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(@NonNull Throwable throwable)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// 返回 true 表示需要 retry</span></div><div class="line">            Log.e(TAG, <span class="string">"test: retry"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(...);</div></pre></td></tr></table></figure>
+<h2 id="chain-of-requests"><a href="#chain-of-requests" class="headerlink" title="chain of requests"></a>chain of requests</h2><p>有时候，我们需要用A接口的请求结果来请求B接口，可以使用下面的方式来实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">service.user(<span class="number">10001</span>).subscribeOn(Schedulers.io())</div><div class="line">    .flatMap(<span class="keyword">new</span> Function&lt;User, ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt; apply(<span class="meta">@NonNull</span> User user) <span class="keyword">throws</span> Exception &#123;</div><div class="line">            <span class="keyword">return</span> service.rss(user.tag);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;Result&lt;List&lt;User&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Result&lt;List&lt;User&gt;&gt; listResult)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// TODO</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码先根据 userid 获取用户信息，然后根据用户的 tag 获取相关的用户列表，这种情况就是有两个请求，但后一个请求需要使用前一个接口返回的数据。</p>
+<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><ul>
+<li><strong>filter</strong>：集合进行过滤</li>
+<li><strong>each</strong>：遍历集合</li>
+<li><strong>take</strong>：取出集合中的前几个</li>
+<li><strong>skip</strong>：跳过前几个元素</li>
+<li><strong>doOnNext</strong>：在onNext的时候调用</li>
+<li><strong>doOnComplete</strong>：在请求完成的时候调用</li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/08/RxJava-Observable/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/06/Android-Retrofit2/" class="archive-article-date">
-  	<time datetime="2017-05-06T07:37:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-06</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/06/Android-Retrofit2/">Using Retrofit2 to do network requests on Android platform</a>
-    </h1>
+  
+    <a href="/2017/05/06/Android-Retrofit2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Using Retrofit2 to do network requests on Android platform</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/05/hello-world/" class="archive-article-date">
-  	<time datetime="2017-05-05T08:56:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/05/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -286,8 +369,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
