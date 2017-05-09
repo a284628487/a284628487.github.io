@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/5 | 放肆的Coder</title>
+  <title>Retrofit2 使用中遇到的一些 Issue | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/archives/2017/05/index.html">
+  <meta name="description" content="在使用 Retrofit2 开发过程当中遇到的一些 Issus。">
+<meta name="keywords" content="Retrofit2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit2 使用中遇到的一些 Issue">
+<meta property="og:url" content="http://yoursite.com/2017/05/09/Retrofit-Issue/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="在使用 Retrofit2 开发过程当中遇到的一些 Issus。">
+<meta property="og:updated_time" content="2017-05-09T09:37:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="Retrofit2 使用中遇到的一些 Issue">
+<meta name="twitter:description" content="在使用 Retrofit2 开发过程当中遇到的一些 Issus。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,36 +158,112 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Retrofit-Issue" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Retrofit2 使用中遇到的一些 Issue
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/09/Retrofit-Issue/" class="archive-article-date">
+
+        
+        <a href="/2017/05/09/Retrofit-Issue/" class="archive-article-date">
   	<time datetime="2017-05-09T01:32:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-09</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/09/Retrofit-Issue/">Retrofit2 使用中遇到的一些 Issue</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用 <strong>Retrofit2</strong> 开发过程当中遇到的一些 <strong>Issus</strong>。<br><a id="more"></a></p>
+<h2 id="String类型数据支持"><a href="#String类型数据支持" class="headerlink" title="String类型数据支持"></a>String类型数据支持</h2><p>在使用 <strong>GsonConverterFactory</strong> 之后，如果在一个接口中定义了 <strong>Observable\<string></string></strong>，则服务器返回的 <strong>String</strong> 字符串不会被正确处理，因为 <strong>GsonConveterFactory</strong> 会尝试把返回的字符串转换成 <strong>JSON_OBJECT</strong>，而不管接口中定义 <strong>String</strong> 数据类型。</p>
+<p>可以对 <strong>retrofit</strong> 添加多个 <strong>Converter</strong> 来既支持 <strong>String</strong>，也支持 <strong>Gson</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit2 = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">    .baseUrl(<span class="string">"http://10.50.40.53:8081/"</span>)</div><div class="line">    <span class="comment">// 字符串 支持</span></div><div class="line">    .addConverterFactory(ScalarsConverterFactory.create())</div><div class="line">    <span class="comment">// Gson 支持</span></div><div class="line">    .addConverterFactory(GsonConverterFactory.create())</div><div class="line">    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</div><div class="line">    .build();</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<strong>ScalarsConverterFactory</strong> 需要在 <strong>GsonConverterFactory</strong> 的前面。</p>
+</blockquote>
+<h2 id="Scheduler"><a href="#Scheduler" class="headerlink" title="Scheduler"></a>Scheduler</h2><p><strong>Scheduler</strong> 是 <strong>RxJava</strong> 的线程调度器，可以指定代码执行的线程。<strong>RxJava</strong> 内置了几种线程：</p>
+<ul>
+<li><strong>AndroidSchedulers.mainThread()</strong>  主线程</li>
+<li><strong>Schedulers.immediate()</strong>  当前线程，即默认Scheduler</li>
+<li><strong>Schedulers.newThread()</strong>  启用新线程</li>
+<li><strong>Schedulers.io()</strong>  IO线程，内部是一个数量无上限的线程池，可以进行文件、数据库和网络操作。</li>
+<li><strong>Schedulers.computation()</strong>  CPU计算用的线程，内部是一个数目固定为CPU核数的线程池，适合于CPU密集型计算，不能操作文件、数据库和网络。</li>
+</ul>
+<blockquote>
+<p>一般的网络请求应该使用io,因为io使用了无限的线程池，而newThread没有线程池维护</p>
+</blockquote>
+<h2 id="Annotation"><a href="#Annotation" class="headerlink" title="Annotation"></a>Annotation</h2><p>所有的请求都需要一个请求方法注解，<strong>Retrofit2</strong> 定义了5种请求方式 <strong>GET</strong>, <strong>POST</strong>, <strong>PUT</strong>, <strong>DELETE</strong>, and <strong>HEAD</strong> 。</p>
+<h3 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"/user/&#123;uid&#125;"</span>)</div><div class="line"><span class="function">Call&lt;User&gt; <span class="title">getUser</span><span class="params">(@Path(<span class="string">"uid"</span>)</span> String uid)</span>;</div></pre></td></tr></table></figure>
+<p><strong>Path</strong> 表示请求路径中 <strong>uid</strong> 部分是动态替换的，比如 <strong>getUser(“10001”)</strong> 和 <strong>getUser(“10002”)</strong> 分别是获取 <strong>uid</strong> 为 10001 和 10002 的两个用户的信息。</p>
+<h3 id="QueryMap"><a href="#QueryMap" class="headerlink" title="QueryMap"></a>QueryMap</h3><p>有的情况下，有很多个查询参数，为了避免冗长的方法定义，可以使用 <strong>@QueryMap</strong> 来将所有的请求参数放到 <strong>Map</strong> 中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"users"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">users</span><span class="params">(@QueryMap Map&lt;String, String&gt; filters)</span></span>;</div></pre></td></tr></table></figure>
+<p>上面的接口定义表示通过 <strong>Map</strong> 中定义好的键值对，去请求相关的用户列表。</p>
+<h3 id="Headers-amp-Header"><a href="#Headers-amp-Header" class="headerlink" title="Headers &amp; Header"></a>Headers &amp; Header</h3><ul>
+<li>Headers 用于在请求中预设一些 Header;</li>
+<li>Header 用于在请求方法中动态的传入 Header;</li>
+</ul>
+<p>多个 <strong>Header</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Headers</span>(&#123;</div><div class="line">    <span class="string">"Accept: application/vnd.github.v3.full+json"</span>,</div><div class="line">    <span class="string">"User-Agent: Ubuntu 12.04"</span></div><div class="line">&#125;)</div><div class="line"><span class="meta">@GET</span>(<span class="string">"/user/&#123;uid&#125;"</span>)</div><div class="line"><span class="function">User <span class="title">getUser</span><span class="params">(@Path(<span class="string">"uid"</span>)</span> String uid)</span>;</div></pre></td></tr></table></figure>
+<p>单个 <strong>Header</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Headers(&quot;Cache-Control: max-age=640000&quot;)</div><div class="line">@GET(&quot;/user/&#123;uid&#125;&quot;)</div><div class="line">User getUser(@Path(&quot;uid&quot;) String uid);</div></pre></td></tr></table></figure>
+<p>动态传入 <strong>Header</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">getUser</span><span class="params">(@Header(<span class="string">"Authorization"</span>)</span> String authorization, @<span class="title">Path</span><span class="params">(<span class="string">"uid"</span>)</span> String uid)</span></div></pre></td></tr></table></figure>
+<h2 id="OkHttp3"><a href="#OkHttp3" class="headerlink" title="OkHttp3"></a>OkHttp3</h2><p>添加依赖</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'com.squareup.okhttp3:okhttp:3.0.1'</span></div><div class="line">compile <span class="string">'com.squareup.okhttp3:logging-interceptor:3.0.1'</span></div></pre></td></tr></table></figure>
+<p>创建 <strong>Client</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">HttpLoggingInterceptor interceptor = <span class="keyword">new</span> HttpLoggingInterceptor();</div><div class="line">interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);</div><div class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">        .addInterceptor(interceptor)</div><div class="line">        .retryOnConnectionFailure(<span class="keyword">true</span>)</div><div class="line">        .connectTimeout(<span class="number">15</span>, TimeUnit.SECONDS)</div><div class="line">        .addNetworkInterceptor(mTokenInterceptor)</div><div class="line">        .build();</div></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li>HttpLoggingInterceptor 是一个拦截器，用于输出网络请求和结果的 Log，可以配置 level 为 BASIC / HEADERS / BODY，都很好理解，对应的是原来 retrofit 的 set log level 方法，现在 retrofit 已经没有这个方法了，所以只能到 OkHttp 这边来配置，并且 BODY 对应原来到 FULL;</li>
+<li>retryOnConnectionFailure 方法为设置出现错误进行重新连接;</li>
+<li>connectTimeout 设置超时时间;</li>
+<li>addNetworkInterceptor 让所有网络请求都附上你的拦截器，这里设置了一个 token 拦截器，就是在所有网络请求的 header 加上 token 参数;</li>
+</ul>
+</blockquote>
+<p>添加 <strong>Token</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Interceptor mTokenInterceptor = <span class="keyword">new</span> Interceptor() &#123;</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Request originalRequest = chain.request();</div><div class="line">        <span class="keyword">if</span> (Your.sToken == <span class="keyword">null</span> || hasAuthorizationHeader(originalRequest)) &#123;</div><div class="line">            <span class="keyword">return</span> chain.proceed(originalRequest);</div><div class="line">        &#125;</div><div class="line">        Request authorised = originalRequest.newBuilder()</div><div class="line">            .header(<span class="string">"Authorization"</span>, Your.sToken)</div><div class="line">            .build();</div><div class="line">        <span class="keyword">return</span> chain.proceed(authorised);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>第 4 行如果 <strong>token</strong> 是空的，比如对于登陆请求，是没有 <strong>token</strong> 的，只有等到登陆之后才有 <strong>token</strong>，这时候就不需要添加 <strong>token</strong>。另外，如果你的请求中已经带有验证 <strong>header</strong> 了，比如你手动设置了一个另外的 <strong>token</strong>，那么也不需要再添加这一个 <strong>token</strong>。</p>
+</blockquote>
+<h3 id="Authenticator"><a href="#Authenticator" class="headerlink" title="Authenticator"></a>Authenticator</h3><p>如果你需要在遇到 <strong>401 Not Authorised</strong> 的时候进行刷新 <strong>token</strong>，可以使用 <strong>Authenticator</strong>，这是一个专门设计用于当验证出现错误的时候，进行询问获取处理的拦截器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Authenticator mAuthenticator = <span class="keyword">new</span> Authenticator() &#123;</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Request <span class="title">authenticate</span><span class="params">(Route route, Response response)</span></span></div><div class="line">            <span class="keyword">throws</span> IOException &#123;</div><div class="line">        String sToken = service.refreshToken();</div><div class="line">        <span class="keyword">return</span> response.request().newBuilder()</div><div class="line">                       .addHeader(<span class="string">"Authorization"</span>, sToken)</div><div class="line">                       .build();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分别使用 <strong>OkHttpClient.Builder</strong> 对象的 <strong>addNetworkInterceptor(…)</strong> 和 <strong>authenticator(…)</strong> 添加定义好的拦截器。</p>
+<h3 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CookiesInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Context context;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CookiesInterceptor</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.context = context;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 重写拦截方法，处理自定义的Cookies信息</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Request request = chain.request();</div><div class="line">        Request compressedRequest = request.newBuilder()</div><div class="line">                .header(<span class="string">"cookie"</span>, CookieUtil.getCookies(context))</div><div class="line">                .build();</div><div class="line">        Response response = chain.proceed(compressedRequest);</div><div class="line">        CookieUtil.saveCookies(response.headers(), context);</div><div class="line">        <span class="keyword">return</span> response;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实例化 <strong>OkHttpClient</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">Context context = Application.getInstance().getApplicationContext();</div><div class="line"><span class="comment">//设定30秒超时</span></div><div class="line">mOkHttpClient.setConnectTimeout(<span class="number">30</span>, TimeUnit.SECONDS);</div><div class="line"><span class="comment">//设置拦截器，以用于自定义Cookies的设置</span></div><div class="line">mOkHttpClient.networkInterceptors()</div><div class="line">        .add(<span class="keyword">new</span> CookiesInterceptor(context));</div><div class="line"><span class="comment">//设置缓存目录</span></div><div class="line">File cacheDirectory = <span class="keyword">new</span> File(context.getCacheDir()</div><div class="line">                    .getAbsolutePath(), <span class="string">"HttpCache"</span>);</div><div class="line">Cache cache = <span class="keyword">new</span> Cache(cacheDirectory, <span class="number">20</span> * <span class="number">1024</span> * <span class="number">1024</span>);</div><div class="line">mOkHttpClient.setCache(cache);</div><div class="line"><span class="comment">//构建Retrofit</span></div><div class="line">mRetrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">    <span class="comment">//配置服务器路径</span></div><div class="line">    .baseUrl(...)  </div><div class="line">    <span class="comment">//设置日期解析格式，这样可以直接解析Date类型</span></div><div class="line">    .setDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>)  </div><div class="line">    <span class="comment">//配置转化库，默认是Gson</span></div><div class="line">    .addConverterFactory(ResponseConverterFactory.create())</div><div class="line">    <span class="comment">//配置回调库，采用RxJava</span></div><div class="line">    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</div><div class="line">    <span class="comment">//设置OKHttpClient为网络客户端</span></div><div class="line">    .client(mOkHttpClient)</div><div class="line">    .build();</div></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -197,130 +275,89 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/09/Retrofit-Issue/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/08/RxJava-Observable/" class="archive-article-date">
-  	<time datetime="2017-05-08T13:37:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-08</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/08/RxJava-Observable/">RxJava Observable 数据转换</a>
-    </h1>
+  
+    <a href="/2017/05/08/RxJava-Observable/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RxJava Observable 数据转换</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RxJava</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Observable</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/06/Android-Retrofit2/" class="archive-article-date">
-  	<time datetime="2017-05-06T07:37:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/06/Android-Retrofit2/">Using Retrofit2 to do network requests on Android platform</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Retrofit2</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/05/hello-world/" class="archive-article-date">
-  	<time datetime="2017-05-05T08:56:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/05/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -343,8 +380,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -8,16 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>RxJava Observable 数据转换 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用 Observable 对请求数据进行转换处理 merge很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 subscribe 来添加一个请求成功/失败的订阅。 1234567891011121314151617181920212223242526Observable&amp;lt;User&amp;gt; obLogin">
+  <meta name="description" content="RxJava 提供了多种请求数据处理，转换的方法，本篇主要记录使用 Observable 对请求数据进行转换处理的方法。">
+<meta name="keywords" content="RxJava,Observable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RxJava Observable 数据转换">
 <meta property="og:url" content="http://yoursite.com/2017/05/08/RxJava-Observable/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="使用 Observable 对请求数据进行转换处理 merge很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 subscribe 来添加一个请求成功/失败的订阅。 1234567891011121314151617181920212223242526Observable&amp;lt;User&amp;gt; obLogin">
-<meta property="og:updated_time" content="2017-05-08T13:46:38.000Z">
+<meta property="og:description" content="RxJava 提供了多种请求数据处理，转换的方法，本篇主要记录使用 Observable 对请求数据进行转换处理的方法。">
+<meta property="og:updated_time" content="2017-05-09T01:03:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava Observable 数据转换">
-<meta name="twitter:description" content="使用 Observable 对请求数据进行转换处理 merge很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 subscribe 来添加一个请求成功/失败的订阅。 1234567891011121314151617181920212223242526Observable&amp;lt;User&amp;gt; obLogin">
+<meta name="twitter:description" content="RxJava 提供了多种请求数据处理，转换的方法，本篇主要记录使用 Observable 对请求数据进行转换处理的方法。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -177,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>使用 <strong>Observable</strong> 对请求数据进行转换处理</p>
+        <p><strong>RxJava</strong> 提供了多种请求数据处理，转换的方法，本篇主要记录使用 <strong>Observable</strong> 对请求数据进行转换处理的方法。<br><a id="more"></a></p>
 <h2 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h2><p>很多情况下，在一个页面同时需要请求两个及以上的接口，然后每次请求也都需要更新UI，此时可以将多个请求 “合并”，而不必对每次请求都使用 <strong>subscribe</strong> 来添加一个请求成功/失败的订阅。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">Observable&lt;User&gt; obLogin = service.login(<span class="string">"Michael Cai"</span>, <span class="string">"***"</span>);</div><div class="line">Observable&lt;Message&gt; obMsg = service.message();</div><div class="line">Observable.merge(obLogin, obMsg)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .observeOn(AndroidSchedulers.mainThread())</div><div class="line">    .subscribe(<span class="keyword">new</span> Observer&lt;Object&gt;() &#123;</div><div class="line">    </div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(@NonNull Object o)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onNext: "</span> + o);</div><div class="line">            <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Message) &#123;</div><div class="line">                <span class="comment">// TODO</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (o <span class="keyword">instanceof</span> User) &#123;</div><div class="line">                <span class="comment">// TODO</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(@NonNull Throwable e)</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onComplete: "</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
 <p>上面的代码创建了两个请求，一个是登录，一个是获取消息，使用 <strong>merge</strong> 方法合并的 <strong>Observable</strong> 请求被发起的顺序是按照参数传递的顺序，上面的 <strong>Login</strong> 请求在 <strong>Message</strong> 请求的前面被调用。</p>
@@ -222,11 +223,11 @@
 <li>Function3</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function3</span> &lt;<span class="title">T1</span>, <span class="title">T2</span>, <span class="title">T3</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line">    <span class="meta">@NonNull</span></div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(@NonNull T1 t1, @NonNull T2 t2, @NonNull T3 t3)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="retry"><a href="#retry" class="headerlink" title="retry"></a>retry</h2><p>有些网络请求因网络异常或者请求超时时，需要再次请求，通常会连续请求3次，如果3次都失败则不再请求，普通的常规方法则是自已在代码中使用一个记数器，来记录请求失败的次数，但在 RxJava 中，可以使用 retry 定义多次请求的次数。</p>
+<h2 id="retry"><a href="#retry" class="headerlink" title="retry"></a>retry</h2><p>有些网络请求因网络异常或者请求超时时，需要再次请求，通常会连续请求3次，如果3次都失败则不再请求，普通的常规方法则是自已在代码中使用一个记数器，来记录请求失败的次数，但在 <strong>RxJava</strong> 中，可以使用 <strong>retry</strong> 定义多次请求的次数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">service.login(<span class="string">"a"</span>, <span class="string">"b"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .retry(<span class="number">3</span>, <span class="keyword">new</span> Predicate&lt;Throwable&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(@NonNull Throwable throwable)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// 返回 true 表示需要 retry</span></div><div class="line">            Log.e(TAG, <span class="string">"test: retry"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(...);</div></pre></td></tr></table></figure>
 <h2 id="chain-of-requests"><a href="#chain-of-requests" class="headerlink" title="chain of requests"></a>chain of requests</h2><p>有时候，我们需要用A接口的请求结果来请求B接口，可以使用下面的方式来实现</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">service.user(<span class="number">10001</span>).subscribeOn(Schedulers.io())</div><div class="line">    .flatMap(<span class="keyword">new</span> Function&lt;User, ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt; apply(<span class="meta">@NonNull</span> User user) <span class="keyword">throws</span> Exception &#123;</div><div class="line">            <span class="keyword">return</span> service.rss(user.tag);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;Result&lt;List&lt;User&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Result&lt;List&lt;User&gt;&gt; listResult)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// TODO</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<p>上面的代码先根据 userid 获取用户信息，然后根据用户的 tag 获取相关的用户列表，这种情况就是有两个请求，但后一个请求需要使用前一个接口返回的数据。</p>
+<p>上面的代码先根据 <strong>userid</strong> 获取用户信息，然后根据用户的 <strong>tag</strong> 获取相关的用户列表，这种情况就是有两个请求，但后一个请求需要使用前一个接口返回的数据。</p>
 <h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><ul>
 <li><strong>filter</strong>：集合进行过滤</li>
 <li><strong>each</strong>：遍历集合</li>
@@ -264,6 +265,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RxJava</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Observable</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -327,6 +343,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/05/09/Retrofit-Issue/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Retrofit2 使用中遇到的一些 Issue
+        
+      </div>
+    </a>
   
   
     <a href="/2017/05/06/Android-Retrofit2/" id="article-nav-older" class="article-nav-link-wrap">
@@ -438,7 +463,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RxJava</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
               </li>
             
             <div class="clearfix"></div>

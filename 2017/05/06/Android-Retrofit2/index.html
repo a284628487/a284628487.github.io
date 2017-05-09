@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Using Retrofit2 to do network requests on Android platform | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在 Android 开发中使用 Retrofit2 + RxJava 框架进行网络请求。 Configure配置 build.gradle 1234compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.squareup.retrofit2:adapter-rxjava2:2.2.0&apos;compile &apos;com.squareup.ret">
-<meta name="keywords" content="Android">
+  <meta name="description" content="在 Android 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 Retfofit，然而 Retrofit 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 OkHttp处理的，本篇主要记录使用 Retrofit2 + RxJava 框架来进行网络请求的一些方法。">
+<meta name="keywords" content="Retrofit2,Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Using Retrofit2 to do network requests on Android platform">
 <meta property="og:url" content="http://yoursite.com/2017/05/06/Android-Retrofit2/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="在 Android 开发中使用 Retrofit2 + RxJava 框架进行网络请求。 Configure配置 build.gradle 1234compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.squareup.retrofit2:adapter-rxjava2:2.2.0&apos;compile &apos;com.squareup.ret">
-<meta property="og:updated_time" content="2017-05-07T13:17:35.000Z">
+<meta property="og:description" content="在 Android 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 Retfofit，然而 Retrofit 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 OkHttp处理的，本篇主要记录使用 Retrofit2 + RxJava 框架来进行网络请求的一些方法。">
+<meta property="og:updated_time" content="2017-05-09T01:07:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Using Retrofit2 to do network requests on Android platform">
-<meta name="twitter:description" content="在 Android 开发中使用 Retrofit2 + RxJava 框架进行网络请求。 Configure配置 build.gradle 1234compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.squareup.retrofit2:adapter-rxjava2:2.2.0&apos;compile &apos;com.squareup.ret">
+<meta name="twitter:description" content="在 Android 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 Retfofit，然而 Retrofit 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 OkHttp处理的，本篇主要记录使用 Retrofit2 + RxJava 框架来进行网络请求的一些方法。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在 <strong>Android</strong> 开发中使用 <strong>Retrofit2</strong> + <strong>RxJava</strong> 框架进行网络请求。</p>
+        <p>在 <strong>Android</strong> 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 <strong>Retfofit</strong>，然而 <strong>Retrofit</strong> 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 <strong>OkHttp</strong>处理的，本篇主要记录使用 <strong>Retrofit2</strong> + <strong>RxJava</strong> 框架来进行网络请求的一些方法。<br><a id="more"></a></p>
 <h2 id="Configure"><a href="#Configure" class="headerlink" title="Configure"></a>Configure</h2><p>配置 <strong>build.gradle</strong></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div><div class="line">compile <span class="string">'com.squareup.retrofit2:adapter-rxjava2:2.2.0'</span></div><div class="line">compile <span class="string">'com.squareup.retrofit2:converter-gson:2.2.0'</span></div><div class="line">compile <span class="string">'io.reactivex.rxjava2:rxandroid:2.0.1'</span></div></pre></td></tr></table></figure>
 <h2 id="Interface-Api"><a href="#Interface-Api" class="headerlink" title="Interface Api"></a>Interface Api</h2><p>定义网络请求接口，不需要定义完整的url，在 <strong>Retrofit</strong> 中，需要把一个完整的 url 拆分成两部分，比如 <a href="http://10.50.40.53:8081/v1/hello" target="_blank" rel="external">http://10.50.40.53:8081/v1/hello</a> ，需要拆分成两部分:</p>
@@ -303,6 +303,10 @@
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Retrofit2</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
@@ -493,7 +497,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">RxJava</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
               </li>
             
             <div class="clearfix"></div>
