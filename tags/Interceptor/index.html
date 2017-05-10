@@ -6,19 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Using Retrofit2 to do network requests on Android platform | 放肆的Coder</title>
+  <title>Tag: Interceptor | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在 Android 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 Retfofit，然而 Retrofit 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 OkHttp处理的，本篇主要记录使用 Retrofit2 + RxJava 框架来进行网络请求的一些方法。">
-<meta name="keywords" content="Android,Retrofit2">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Using Retrofit2 to do network requests on Android platform">
-<meta property="og:url" content="http://yoursite.com/2017/05/06/Android-Retrofit2/index.html">
+  <meta name="description" content="start">
+<meta property="og:type" content="website">
+<meta property="og:title" content="放肆的Coder">
+<meta property="og:url" content="http://yoursite.com/tags/Interceptor/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="在 Android 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 Retfofit，然而 Retrofit 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 OkHttp处理的，本篇主要记录使用 Retrofit2 + RxJava 框架来进行网络请求的一些方法。">
-<meta property="og:updated_time" content="2017-05-10T08:05:31.000Z">
+<meta property="og:description" content="start">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Using Retrofit2 to do network requests on Android platform">
-<meta name="twitter:description" content="在 Android 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 Retfofit，然而 Retrofit 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 OkHttp处理的，本篇主要记录使用 Retrofit2 + RxJava 框架来进行网络请求的一些方法。">
+<meta name="twitter:title" content="放肆的Coder">
+<meta name="twitter:description" content="start">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -158,249 +156,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android-Retrofit2" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Using Retrofit2 to do network requests on Android platform
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/05/10/OkHttp-Interceptor/" class="archive-article-date">
+  	<time datetime="2017-05-10T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/05/10/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
     </h1>
   
 
-        
-        <a href="/2017/05/06/Android-Retrofit2/" class="archive-article-date">
-  	<time datetime="2017-05-06T07:37:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在 <strong>Android</strong> 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 <strong>Retfofit</strong>，然而 <strong>Retrofit</strong> 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 <strong>OkHttp</strong>处理的，本篇主要记录使用 <strong>Retrofit2</strong> + <strong>RxJava</strong> 框架来进行网络请求的一些方法。<br><a id="more"></a></p>
-<h2 id="Configure"><a href="#Configure" class="headerlink" title="Configure"></a>Configure</h2><p>配置 <strong>build.gradle</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div><div class="line">compile <span class="string">'com.squareup.retrofit2:adapter-rxjava2:2.2.0'</span></div><div class="line">compile <span class="string">'com.squareup.retrofit2:converter-gson:2.2.0'</span></div><div class="line">compile <span class="string">'io.reactivex.rxjava2:rxandroid:2.0.1'</span></div></pre></td></tr></table></figure>
-<h2 id="Interface-Api"><a href="#Interface-Api" class="headerlink" title="Interface Api"></a>Interface Api</h2><p>定义网络请求接口，不需要定义完整的url，在 <strong>Retrofit</strong> 中，需要把一个完整的 url 拆分成两部分，比如 <a href="http://10.50.40.53:8081/v1/hello" target="_blank" rel="external">http://10.50.40.53:8081/v1/hello</a> ，需要拆分成两部分:</p>
-<ul>
-<li><strong>baseUrl</strong> <a href="http://10.50.40.53:8081/，后面在" target="_blank" rel="external">http://10.50.40.53:8081/，后面在</a> <strong>Retrofit</strong> 实例化的时候会使用到，</li>
-<li><strong>apiPath</strong> v1/hello 则是请求的服务接口具体路径地址，定义接口时指定服务接口的请求方式，通常是 <strong>GET</strong> 和 <strong>POST</strong> ，来完成一个api接口的定义。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WebService</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> String BaseService = <span class="string">"v1/"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@GET</span>(BaseService + <span class="string">"hello"</span>)</div><div class="line">    <span class="function">Observable&lt;User&gt; <span class="title">hello</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用 <strong>@GET</strong> 注解修饰 api 接口 hello ，表示 hello 接口的请求方式为 <strong>GET</strong>，<strong>@GET</strong> 注解中的地址则是该 api 请求的服务器接口地址。该接口的返回值是 <strong>Observable</strong> 对象，关于该对象可参考 <strong>RxJava</strong> 。</p>
-<h2 id="Retrofit-init"><a href="#Retrofit-init" class="headerlink" title="Retrofit init"></a>Retrofit init</h2><p>使用 <strong>Retforit.Builder</strong> 生成一个 <strong>Retrofit</strong> 实例，通常在一个应用中<strong>Retrofit</strong> 实例为一个单例对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit2 = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">       .baseUrl(<span class="string">"http://10.50.40.53:8081/"</span>)</div><div class="line">       .addConverterFactory(GsonConverterFactory.create())</div><div class="line">       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</div><div class="line">       .build();</div><div class="line">WebService service = retrofit2.create(WebService.class);</div></pre></td></tr></table></figure>
-<ul>
-<li><strong>baseUrl</strong> 指定服务器地址，通常以 <strong>/</strong> 结束;</li>
-<li><strong>addConverterFactory</strong> 指定数据转换器，该转换器会将服务器返回的响应数据自动转换为接口中定义 <strong>Bean</strong> 数据类型，上面的 hello 接口，在服务器响应之后，则会自动把服务器返回的数据转换为 <strong>User</strong> 对象，<strong>GsonConverterFactory</strong> 就是将服务器返回的数据使用 <strong>Gson</strong> 转换器转换为 <strong>Java</strong> 中的实体对象的一个工具类；</li>
-<li><strong>addCallAdapterFactory</strong> 在 hello 接口中，定义的返回数据类型是 <strong>Observable<user></user></strong> ，上面的 <strong>addConverterFactory</strong> 只是把数据转换成了 <strong>Java</strong> 实体对象，如果想使用 <strong>RxJava</strong> 中的 <strong>Observable</strong> ,还需要使用 <strong>RxJava2CallAdapterFactory</strong> 将 <strong>User</strong> 对象进行封装返回；</li>
-</ul>
-<h2 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h2><p>在使用 retrofit 生成了 service 接口的实例之后，即可调用该接口进行网络请求。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">service.hello()</div><div class="line">	.subscribeOn(Schedulers.io())</div><div class="line">	.observeOn(AndroidSchedulers.mainThread())</div><div class="line">	.subscribe(<span class="keyword">new</span> Observer&lt;User&gt;() &#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(User value)</span> </span>&#123;</div><div class="line">			Log.d(TAG, <span class="string">"onError: "</span> + value);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line">			Log.d(TAG, <span class="string">"onError: "</span> + e);</div><div class="line">		&#125;</div><div class="line">			</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">			Log.d(TAG, <span class="string">"onComplete: "</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;);</div></pre></td></tr></table></figure>
-<p>请求完成后，如果请求成功会执行 <strong>onNext</strong> 方法，失败则执行 <strong>onError</strong>，最后执行 <strong>onComplete</strong> 方法。</p>
-<p>服务器返回的数据 {“name”: “Michael Cai”, “age”: 20} ，会被自动转换成一个 <strong>User</strong> 对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">	<span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Interface-params"><a href="#Interface-params" class="headerlink" title="Interface params"></a>Interface params</h2><h3 id="GET"><a href="#GET" class="headerlink" title="GET"></a><strong>GET</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"login"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Query(<span class="string">"username"</span>)</span> String username, @<span class="title">Query</span><span class="params">(<span class="string">"pwd"</span>)</span> String pwd)</span>;</div><div class="line"></div><div class="line"><span class="comment">// 根据 id 列表获取用户列表</span></div><div class="line"><span class="comment">// 后台获取到的参数为 userIds = 10001, userIds = 10002 ...</span></div><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"users"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Query(<span class="string">"userIds"</span>)</span> List&lt;String&gt; userIds)</span>;</div></pre></td></tr></table></figure>
-<h3 id="POST"><a href="#POST" class="headerlink" title="POST"></a><strong>POST</strong></h3><ul>
-<li>使用 <strong>Field</strong></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FormUrlEncoded</span></div><div class="line"><span class="meta">@POST</span>(ServiceName + <span class="string">"login"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Field(<span class="string">"username"</span>)</span> String username, @<span class="title">Field</span><span class="params">(<span class="string">"pwd"</span>)</span> String pwd)</span>;</div></pre></td></tr></table></figure>
-<ul>
-<li>使用 <strong>FieldMap</strong></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FormUrlEncoded</span></div><div class="line"><span class="meta">@POST</span>(ServiceName + <span class="string">"login"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@FieldMap HashMap&lt;String, String&gt; map)</span></span>;</div></pre></td></tr></table></figure>
-<ul>
-<li>使用 <strong>Body</strong></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@POST</span>(ServiceName + <span class="string">"login"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Body User user)</span></span>;</div></pre></td></tr></table></figure>
-<p><strong>User</strong> 对象中的所有属性名及对应的属性值将被当作参数及参数值传到服务器。</p>
-<h3 id="Upload-File"><a href="#Upload-File" class="headerlink" title="Upload-File"></a>Upload-File</h3><blockquote>
-<p>上传文件需要使用 <strong>@Multipart</strong> 注解，文件需要被包装到 <strong>Map</strong> 对象中。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Multipart</span></div><div class="line"><span class="meta">@POST</span>(<span class="string">"file?__type=1"</span>)</div><div class="line"><span class="function">Observable&lt;Result&gt; <span class="title">fileUpload</span><span class="params">(@PartMap Map&lt;String, RequestBody&gt; params)</span></span>;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>将文件转换成 <strong>Map</strong> 对象，注意需要传入正确的 <strong>MediaType</strong> ，在下面的例子中使用的是 application/excel 表示传的文件是 excel 文件。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, RequestBody&gt; <span class="title">packBody</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">    Map&lt;String, RequestBody&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    RequestBody fileBody = RequestBody.create(MediaType.parse(<span class="string">"application/excel"</span>), file);</div><div class="line">    RequestBody userId = RequestBody.create(MediaType.parse(<span class="string">"text/plain"</span>), <span class="string">"10001"</span>);</div><div class="line">    map.put(<span class="string">"userId"</span>, userId);</div><div class="line">    map.put(<span class="string">"file\"; filename=\""</span> + file.getName() + <span class="string">""</span>, fileBody);</div><div class="line">    <span class="keyword">return</span> map;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>上传多个文件</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Map&lt;String, RequestBody&gt; params = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">List&lt;String&gt; paths = ...;</div><div class="line"><span class="keyword">for</span> (String image : paths) &#123;</div><div class="line">    File file = <span class="keyword">new</span> File(image);</div><div class="line">    RequestBody images = RequestBody.create(MediaType.parse(<span class="string">"image/*"</span>), file);</div><div class="line">    params.put(<span class="string">"images\"; filename=\""</span> + file.getName() + <span class="string">""</span>, images);</div><div class="line">&#125;</div><div class="line">service.updateImages(params);</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Multipart</span></div><div class="line"><span class="meta">@POST</span>(<span class="string">"/analyze"</span>)</div><div class="line"><span class="function">Observable&lt;String&gt; <span class="title">upLoadImage</span><span class="params">(@Part(<span class="string">"api_key"</span>)</span> String api_key, @<span class="title">Part</span> <span class="params">(<span class="string">"api_secret"</span>)</span> String api_secret, @Part MultipartBody.Part file)</span>;</div></pre></td></tr></table></figure>
-<h2 id="ChangeURL"><a href="#ChangeURL" class="headerlink" title="ChangeURL"></a>ChangeURL</h2><p>之前的配置方式，所要访问的 <strong>baseUrl</strong> 和 <strong>apiPath</strong> 都是固定的，除了固定的配置方法，还可以使用 <strong>@Url</strong> 动态配置。</p>
-<p>动态配置 <strong>URL</strong> 需要注意的地方是 <strong>GET</strong> 请求需要注意 <strong>@Url</strong> 参数的位置，<strong>@Url</strong> 必须在 <strong>@Query</strong> 参数的前面。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span></div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Url String url,</span></span></div><div class="line">	@Query(<span class="string">"username"</span>) String username);</div></pre></td></tr></table></figure>
-<p>接下来则可以改变所请求的 <strong>url</strong> 了，甚至可以指定到其它服务器上。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service.login(<span class="string">"http://192.168.0.2:8080/v1/login"</span>, <span class="string">"Michael Cai"</span>)...;</div></pre></td></tr></table></figure>
-<p>对于 <strong>POST</strong> 请求，则没有参数定义位置的限制。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@POST</span></div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Body User ur, @Url String url)</span></span>;</div><div class="line"><span class="comment">//</span></div><div class="line"><span class="meta">@POST</span></div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Url String url, @Body User ur)</span></span>;</div></pre></td></tr></table></figure>
-<p>上面两种写法都没有问题，对于 <strong>POST</strong> 请求来说，使用 <strong>@Field</strong> 和 <strong>@FieldMap</strong> 传参方式也是同样的。</p>
-<h2 id="User-Defined-ConverterFactory"><a href="#User-Defined-ConverterFactory" class="headerlink" title="User-Defined ConverterFactory"></a>User-Defined ConverterFactory</h2><p>有些情况下，由于某些原因服务器返回的数据，并不是标准的 <strong>JSON</strong> 格式数据，需要进行预处理，这时候就需要使用自定义的 <strong>ConverterFactory</strong>。<br>比如 <strong>SOAP</strong> 网络协议返回的数据：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">soap12:Envelope</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">soap12:Body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">LoginResponse</span> <span class="attr">xmlns</span>=<span class="string">"http://com.sxmlgd.citygrid/"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">LoginResult</span>&gt;</span>&#123;"name":"Michael Cai", "age": 27&#125;<span class="tag">&lt;/<span class="name">LoginResult</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">LoginResponse</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">soap12:Body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">soap12:Envelope</span>&gt;</span></div></pre></td></tr></table></figure>
-<p><strong>JSON</strong> 数据是包含在一段 <strong>xml</strong> 里面的，是 <strong>ApiResult</strong> 节点的值，参考 <strong>GsonConverterFactory</strong> 来自定义 <strong>SoapConverterFactory</strong>:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoapConverterFactory</span> <span class="keyword">extends</span> <span class="title">Converter</span>.<span class="title">Factory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Gson gson;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SoapConverterFactory</span><span class="params">(Gson gson)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gson = gson;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SoapConverterFactory <span class="title">create</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapJsonFactory(<span class="keyword">new</span> Gson());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SoapConverterFactory <span class="title">create</span><span class="params">(Gson gson)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapJsonFactory(gson);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> Converter&lt;ResponseBody, ?&gt; responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) &#123;</div><div class="line">        TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type));</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapResponseBodyConverter&lt;&gt;(adapter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> Converter&lt;?, RequestBody&gt; requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) &#123;</div><div class="line">        TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type));</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapRequestBodyConverter&lt;&gt;(gson, adapter);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>自定义 <strong>ConverterFactory</strong> 同时还需要定义 <strong>RequestBodyConverter</strong> 和 <strong>ResponseBodyConverter</strong>，三者结合在一起使用。</p>
-<ul>
-<li>SoapRequestBodyConverter.java</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoapRequestBodyConverter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">T</span>, <span class="title">RequestBody</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> MediaType MEDIA_TYPE = MediaType.parse(<span class="string">"application/soap+xml; charset=UTF-8"</span>);</div><div class="line">    <span class="comment">// 此处对于 SOAP 请求需要指定 MediaType 为 application/soap+xml;</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Charset UTF_8 = Charset.forName(<span class="string">"UTF-8"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Gson gson;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TypeAdapter&lt;T&gt; adapter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SoapRequestBodyConverter</span><span class="params">(Gson gson, TypeAdapter&lt;T&gt; adapter)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gson = gson;</div><div class="line">        <span class="keyword">this</span>.adapter = adapter;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RequestBody <span class="title">convert</span><span class="params">(T value)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Buffer buffer = <span class="keyword">new</span> Buffer();</div><div class="line">        Writer writer = <span class="keyword">new</span> OutputStreamWriter(buffer.outputStream(), UTF_8);</div><div class="line">        JsonWriter jsonWriter = gson.newJsonWriter(writer);</div><div class="line">        adapter.write(jsonWriter, value);</div><div class="line">        jsonWriter.close();</div><div class="line">        <span class="keyword">return</span> RequestBody.create(MEDIA_TYPE, buffer.readByteString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>SoapResponseBodyConverter.java</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoapResponseBodyConverter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">ResponseBody</span>, <span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TypeAdapter&lt;T&gt; adapter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SoapResponseBodyConverter</span><span class="params">(TypeAdapter&lt;T&gt; adapter)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.adapter = adapter;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">convert</span><span class="params">(ResponseBody value)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String responseString = value.string();</div><div class="line">            Pattern pat = Pattern.compile(<span class="string">"Result&gt;([\\s\\S]*?)"</span> + <span class="string">"&lt;/"</span>);</div><div class="line">            <span class="comment">// 使用正则表达式提取服务器返回的 JSON 数据;</span></div><div class="line">            Matcher m = pat.matcher(responseString);</div><div class="line">            String json;</div><div class="line">            <span class="keyword">if</span> (m.find()) &#123;</div><div class="line">                json = m.group(<span class="number">1</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                json = <span class="string">"&#123;\"error\":1,\"msg\":\"Error 001\"&#125;"</span>;</div><div class="line">            &#125;</div><div class="line">            Log.d(<span class="string">"SoapResponseBodyConverter"</span>, json);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">return</span> adapter.fromJson(json);</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                Log.e(<span class="string">"SoapResponseBodyConverter"</span>, e.getMessage());</div><div class="line">                <span class="keyword">return</span> (T) json;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            value.close();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="RequestBody"><a href="#RequestBody" class="headerlink" title="RequestBody"></a>RequestBody</h2><p>对于 <strong>SOAP</strong> 请求来说，通常接口定义和通常接触的请求有一些小的区别，有些比较老旧的传参数方式是传一段 <strong>xml</strong> 数据给后台：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Login</span> <span class="attr">xmlns</span>=<span class="string">"http://com.sxmlgd.citygrid/"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">UserName</span>&gt;</span>string<span class="tag">&lt;/<span class="name">UserName</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Pwd</span>&gt;</span>string<span class="tag">&lt;/<span class="name">Pwd</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Login</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这种情况下得使用 <strong>@Body</strong> 结合 <strong>RequestBody</strong> 来定义请求接口；<br>比如一个 <strong>SOAP</strong> 请求接口</p>
-<blockquote>
-<p><a href="http://192.168.0.1:8030/AwesomeService.asmx" target="_blank" rel="external">http://192.168.0.1:8030/AwesomeService.asmx</a> 只是是一个 <strong>Service</strong> 地址，而具体的接口 <strong>api</strong>#login 则是定义在该 <strong>Service</strong> 里面；</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ServiceName = <span class="string">"AwesomeService.asmx"</span>;</div><div class="line"></div><div class="line"><span class="meta">@POST</span>(ServiceName)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Body UDRequestBody body)</span></span>;</div></pre></td></tr></table></figure>
-<h4 id="UDRequestBody-java"><a href="#UDRequestBody-java" class="headerlink" title="UDRequestBody.java"></a>UDRequestBody.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDRequestBody</span> <span class="keyword">extends</span> <span class="title">RequestBody</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String apiName;</div><div class="line">    <span class="keyword">private</span> String[] keysAndValues;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UDRequestBody <span class="title">create</span><span class="params">(String apiName, String... keysAndValues)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UDRequestBody(apiName, keysAndValues);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">UDRequestBody</span><span class="params">(String apiName, String... keysAndValues)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.apiName = apiName;</div><div class="line">        <span class="keyword">int</span> len = keysAndValues.length;</div><div class="line">        <span class="keyword">this</span>.keysAndValues = <span class="keyword">new</span> String[len];</div><div class="line">        System.arraycopy(keysAndValues, <span class="number">0</span>, <span class="keyword">this</span>.keysAndValues, <span class="number">0</span>, keysAndValues.length);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> MediaType <span class="title">contentType</span><span class="params">()</span> </span>&#123;</div><div class="line">    	<span class="comment">// 定义 MediaType</span></div><div class="line">        <span class="keyword">return</span> MediaType.parse(<span class="string">"application/soap+xml"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeTo</span><span class="params">(BufferedSink sink)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    	<span class="comment">// 传递 xml 数据到服务器后台;</span></div><div class="line">        String ori = getSoapXml(apiName, keysAndValues);</div><div class="line">        sink.write(ori.getBytes(<span class="string">"utf-8"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取请求内容</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> apiName</div><div class="line">     * <span class="doctag">@param</span> nameValues</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getSoapXml</span><span class="params">(String apiName, String... nameValues)</span></span>&#123;</div><div class="line">    	<span class="comment">// 在该方法中返回需要传递到服务器后台的 xml 数据；</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Request-lt-gt-Response"><a href="#Request-lt-gt-Response" class="headerlink" title="Request &lt;=&gt; Response"></a>Request &lt;=&gt; Response</h2><blockquote>
-<p>AppClient Request —&gt; Retrofit 2 –&gt; Conveters –&gt; Retrofit 2 —&gt; OkHttp3 –&gt; WebService handle Request<br>WebSevice Response –&gt; OkHttp3 –&gt; Retrofit2 –&gt; Conveters –&gt; Retrofit2 –&gt; AppClient handle Response</p>
-</blockquote>
-<ul>
-<li><p><a href="https://github.com/a284628487/AndroidPoint/blob/master/Retrofit2%20examples.md" target="_blank" rel="external"> Link1 </a></p>
-</li>
-<li><p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0915/3460.html" target="_blank" rel="external"> Link2 </a></p>
-</li>
-</ul>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Retrofit2</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/06/Android-Retrofit2/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/05/08/RxJava-Observable/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          RxJava Observable 数据转换
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/05/05/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -423,9 +236,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
