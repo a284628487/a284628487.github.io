@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/09/Retrofit-Annotation/index.html">
 <meta property="og:site_name" content="放肆的Coder">
 <meta property="og:description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
-<meta property="og:updated_time" content="2017-05-11T02:35:56.000Z">
+<meta property="og:updated_time" content="2017-05-11T09:13:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Retrofit2中的常用Annotation">
 <meta name="twitter:description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
@@ -198,6 +198,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Headers(&quot;Cache-Control: max-age=640000&quot;)</div><div class="line">@GET(&quot;/user/&#123;uid&#125;&quot;)</div><div class="line">User getUser(@Path(&quot;uid&quot;) String uid);</div></pre></td></tr></table></figure>
 <p>动态传入 <strong>Header</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">getUser</span><span class="params">(@Header(<span class="string">"Authorization"</span>)</span> String authorization, @<span class="title">Path</span><span class="params">(<span class="string">"uid"</span>)</span> String uid)</span></div></pre></td></tr></table></figure>
+<p>接口定义中的 <strong>Header</strong> ，在 <strong>Interceptor</strong> 里面，可以通过 <strong>request.header(“key”)</strong> 获取到所定义的 <strong>header</strong> 值；</p>
 
       
 
@@ -425,11 +426,7 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -438,6 +435,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">

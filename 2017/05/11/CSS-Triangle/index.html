@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: IO | 放肆的Coder</title>
+  <title>使用CSS绘制Triangle三角形 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/IO/index.html">
+  <meta name="description" content="像上面图片中的几种三角形，不需要使用图片，使用 CSS 即可方便实现，甚至还能更改尺寸。">
+<meta name="keywords" content="CSS3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用CSS绘制Triangle三角形">
+<meta property="og:url" content="http://yoursite.com/2017/05/11/CSS-Triangle/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="像上面图片中的几种三角形，不需要使用图片，使用 CSS 即可方便实现，甚至还能更改尺寸。">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201705/11/1494483839_4912.png">
+<meta property="og:updated_time" content="2017-05-11T06:29:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="使用CSS绘制Triangle三角形">
+<meta name="twitter:description" content="像上面图片中的几种三角形，不需要使用图片，使用 CSS 即可方便实现，甚至还能更改尺寸。">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201705/11/1494483839_4912.png">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,64 +160,151 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-CSS-Triangle" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/11/RxJava-IO/" class="archive-article-date">
-  	<time datetime="2017-05-11T02:27:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-11</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/11/RxJava-IO/">RxJava中的线程</a>
+    <h1 class="article-title" itemprop="name">
+      使用CSS绘制Triangle三角形
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/05/11/CSS-Triangle/" class="archive-article-date">
+  	<time datetime="2017-05-11T05:47:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://img.my.csdn.net/uploads/201705/11/1494483839_4912.png" alt=""><br>像上面图片中的几种三角形，不需要使用图片，使用 <strong>CSS</strong> 即可方便实现，甚至还能更改尺寸。<br><a id="more"></a></p>
+<p>下面的 <strong>css</strong> 样式定义了上图中的各种样式。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">&lt;style&gt;</div><div class="line">    div &#123;</div><div class="line">        float: left;</div><div class="line">        margin-right: 8px;</div><div class="line">        background: #b4b472;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-up &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-left: 25px solid transparent;</div><div class="line">        border-right: 25px solid transparent;</div><div class="line">        border-bottom: 50px solid red;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-down &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-left: 25px solid transparent;</div><div class="line">        border-right: 25px solid transparent;</div><div class="line">        border-top: 50px solid red;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-left &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-bottom: 25px solid transparent;</div><div class="line">        border-top: 25px solid transparent;</div><div class="line">        border-right: 50px solid red;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-right &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-bottom: 25px solid transparent;</div><div class="line">        border-top: 25px solid transparent;</div><div class="line">        border-left: 50px solid red;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-topleft &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-top: 50px solid red;</div><div class="line">        border-right: 50px solid transparent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-topright &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-top: 50px solid red;</div><div class="line">        border-left: 50px solid transparent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-bottomleft &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-bottom: 50px solid red;</div><div class="line">        border-right: 50px solid transparent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-bottomright &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-bottom: 50px solid red;</div><div class="line">        border-left: 50px solid transparent;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-up-down &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-left: 25px solid transparent;</div><div class="line">        border-right: 25px solid transparent;</div><div class="line">        border-bottom: 25px solid red;</div><div class="line">        border-top: 25px solid red;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #triangle-left-right &#123;</div><div class="line">        width: 0;</div><div class="line">        height: 0;</div><div class="line">        border-top: 25px solid transparent;</div><div class="line">        border-bottom: 25px solid transparent;</div><div class="line">        border-left: 25px solid red;</div><div class="line">        border-right: 25px solid red;</div><div class="line">    &#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RxJava</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IO</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">CSS3</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/11/CSS-Triangle/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/05/11/RxJava-IO/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RxJava中的线程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +327,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
