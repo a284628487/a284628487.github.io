@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>在 OkHttp 中使用 Interceptor 预处理网络请求 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息。">
+  <meta name="description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息，而对于 Header ，Token 的统一管理添加，也可以通过 Interceptor 来实现。">
 <meta name="keywords" content="OkHttp3,Interceptor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 OkHttp 中使用 Interceptor 预处理网络请求">
 <meta property="og:url" content="http://yoursite.com/2017/05/10/OkHttp-Interceptor/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息。">
-<meta property="og:updated_time" content="2017-05-10T08:33:22.000Z">
+<meta property="og:description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息，而对于 Header ，Token 的统一管理添加，也可以通过 Interceptor 来实现。">
+<meta property="og:updated_time" content="2017-05-11T02:04:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 OkHttp 中使用 Interceptor 预处理网络请求">
-<meta name="twitter:description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息。">
+<meta name="twitter:description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息，而对于 Header ，Token 的统一管理添加，也可以通过 Interceptor 来实现。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>通过定义拦截器 <strong>Interceptor</strong> ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 <strong>Log</strong> 打印出请求的一些信息。<br><a id="more"></a></p>
+        <p>通过定义拦截器 <strong>Interceptor</strong> ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 <strong>Log</strong> 打印出请求的一些信息，而对于 <strong>Header</strong> ，<strong>Token</strong> 的统一管理添加，也可以通过 <strong>Interceptor</strong> 来实现。<br><a id="more"></a></p>
 <h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> okhttp3.*;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123; </div><div class="line">        <span class="comment">// 封装 headers，添加请求头信息</span></div><div class="line">        Request request = chain.request().newBuilder()</div><div class="line">                .addHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>) <span class="comment">//添加请求头信息</span></div><div class="line">                .build();</div><div class="line">        Headers headers = request.headers();</div><div class="line">        System.out.println(<span class="string">"Content-Type is : "</span> + headers.get(<span class="string">"Content-Type"</span>));</div><div class="line">        String requestUrl = request.url().toString(); <span class="comment">// 获取请求url地址</span></div><div class="line">        String methodStr = request.method(); <span class="comment">// 获取请求方式</span></div><div class="line">        RequestBody body = request.body(); <span class="comment">// 获取请求body</span></div><div class="line">        String bodyStr = (body==<span class="keyword">null</span>?<span class="string">""</span>:body.toString());</div><div class="line">        Response response = chain.proceed(request); </div><div class="line">        <span class="keyword">if</span> (response != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"Response is not null"</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            System.out.println(<span class="string">"Response is null"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> response;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>上面的代码定义了一个 <strong>Interceptor</strong> ，对 <strong>request</strong> 请求添加了一个请求头 <strong>Content-Type</strong> ，值是 <strong>application/json</strong>，使用了该 <strong>Interceptor</strong> 的 <strong>client</strong> 发起的所有请求，都会自动添加上这个请求头。</p>
 <p><strong>request</strong> 的几个重要方法：</p>
@@ -309,6 +309,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2017/05/11/Retrofit-Soap-UserDefine-Converter/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          使用Retrofit提交Soap请求以及自定义Converter解析数据
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/05/10/OkHttp-Request/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">使用 OkHttp 进行网络请求</div>
@@ -419,14 +428,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
               </li>
              
@@ -435,7 +436,27 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Soap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RxJava</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
              
               <li class="article-tag-list-item">

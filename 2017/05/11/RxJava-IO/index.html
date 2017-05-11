@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: OkHttp3 | 放肆的Coder</title>
+  <title>RxJava中的线程 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/OkHttp3/index.html">
+  <meta name="description" content="Scheduler 是 RxJava 的线程调度器，可以指定代码执行的线程。RxJava 内置了几种线程，我们可以直接使用。">
+<meta name="keywords" content="RxJava,IO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava中的线程">
+<meta property="og:url" content="http://yoursite.com/2017/05/11/RxJava-IO/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="Scheduler 是 RxJava 的线程调度器，可以指定代码执行的线程。RxJava 内置了几种线程，我们可以直接使用。">
+<meta property="og:updated_time" content="2017-05-11T02:33:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="RxJava中的线程">
+<meta name="twitter:description" content="Scheduler 是 RxJava 的线程调度器，可以指定代码执行的线程。RxJava 内置了几种线程，我们可以直接使用。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,102 +158,172 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-RxJava-IO" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/10/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2017-05-10T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/10/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      RxJava中的线程
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/05/11/RxJava-IO/" class="archive-article-date">
+  	<time datetime="2017-05-11T02:27:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Scheduler</strong> 是 <strong>RxJava</strong> 的线程调度器，可以指定代码执行的线程。<strong>RxJava</strong> 内置了几种线程，我们可以直接使用。<br><a id="more"></a></p>
+<h2 id="Scheduler"><a href="#Scheduler" class="headerlink" title="Scheduler"></a>Scheduler</h2><ul>
+<li><strong>AndroidSchedulers.mainThread()</strong>  Android开发中专用的主线程</li>
+<li><strong>Schedulers.immediate()</strong>  当前线程，即默认Scheduler</li>
+<li><strong>Schedulers.newThread()</strong>  启用新线程，并在新线程执行操作</li>
+<li><strong>Schedulers.io()</strong>  IO线程，（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程。</li>
+<li><strong>Schedulers.computation()</strong>  CPU计算用的线程，内部是一个数目固定为CPU核数的线程池，适合于CPU密集型计算，不能操作文件、数据库和网络。该 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中， 否则 I/O 操作的等待时间会浪费 CPU。</li>
+</ul>
+<blockquote>
+<p>一般的网络请求应该使用io，因为io使用了无限的线程池，而newThread没有线程池维护。</p>
+</blockquote>
+<h2 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable</h2><ul>
+<li>Observable.create()…..subscribeOn(Schedulers.io()) // 创建子线程 </li>
+<li>Observable.just()…..subscribeOn(Schedulers.io()) // 未创建子线程 </li>
+<li>Observable.from()…..subscribeOn(Schedulers.io()) // 未创建子线程</li>
+</ul>
+<blockquote>
+<p>耗时操作需要用.create()方式创建Observable。</p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RxJava</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IO</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/11/RxJava-IO/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/10/OkHttp-Request/" class="archive-article-date">
-  	<time datetime="2017-05-10T01:39:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/10/OkHttp-Request/">使用 OkHttp 进行网络请求</a>
-    </h1>
+  
+    <a href="/2017/05/11/Retrofit-Soap-UserDefine-Converter/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用Retrofit提交Soap请求以及自定义Converter解析数据</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -274,9 +346,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

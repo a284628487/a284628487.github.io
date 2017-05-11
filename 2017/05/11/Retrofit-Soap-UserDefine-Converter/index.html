@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: OkHttp3 | 放肆的Coder</title>
+  <title>使用Retrofit提交Soap请求以及自定义Converter解析数据 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/OkHttp3/index.html">
+  <meta name="description" content="HTTP 只负责把数据传送过去，不会管这个数据是 XML、HTML、图片、文本文件或者别的什么。而 SOAP 协议则定义了怎么把一个对象变成 XML 文本，在远程如何调用等。">
+<meta name="keywords" content="Retrofit2,Soap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Retrofit提交Soap请求以及自定义Converter解析数据">
+<meta property="og:url" content="http://yoursite.com/2017/05/11/Retrofit-Soap-UserDefine-Converter/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="HTTP 只负责把数据传送过去，不会管这个数据是 XML、HTML、图片、文本文件或者别的什么。而 SOAP 协议则定义了怎么把一个对象变成 XML 文本，在远程如何调用等。">
+<meta property="og:updated_time" content="2017-05-11T02:00:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="使用Retrofit提交Soap请求以及自定义Converter解析数据">
+<meta name="twitter:description" content="HTTP 只负责把数据传送过去，不会管这个数据是 XML、HTML、图片、文本文件或者别的什么。而 SOAP 协议则定义了怎么把一个对象变成 XML 文本，在远程如何调用等。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,102 +158,196 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Retrofit-Soap-UserDefine-Converter" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/10/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2017-05-10T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/10/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      使用Retrofit提交Soap请求以及自定义Converter解析数据
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/05/11/Retrofit-Soap-UserDefine-Converter/" class="archive-article-date">
+  	<time datetime="2017-05-11T01:12:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>HTTP</strong> 只负责把数据传送过去，不会管这个数据是 <strong>XML</strong>、<strong>HTML</strong>、图片、文本文件或者别的什么。而 <strong>SOAP</strong> 协议则定义了怎么把一个对象变成 <strong>XML</strong> 文本，在远程如何调用等。<br><a id="more"></a></p>
+<p><strong>Web service</strong> 一般就是用 <strong>SOAP</strong> 协议通过 <strong>HTTP</strong> 来调用它，其实他就是一个 <strong>WSDL</strong> 文档，客户可以阅读 <strong>WSDL</strong> 文档来用这个 <strong>Web service</strong>。客户根据 <strong>WSDL</strong> 描述文档，会生成一个 <strong>SOAP</strong> 请求消息。客户端生成的 <strong>SOAP</strong> 请求会被嵌入在一个 <strong>HTTP POST</strong> 请求中，发送给 <strong>Web</strong> 服务器。<strong>Web</strong> 服务器再把这些请求转发给 <strong>Web service</strong> 请求处理器。请求处理器解析收到的 <strong>SOAP</strong> 请求，调用 <strong>Web service</strong>，然后再生成相应的 <strong>SOAP</strong> 应答。<strong>Web</strong> 服务器得到 <strong>SOAP</strong> 应答后，会再通过 <strong>HTTP</strong> 应答的方式把它送回到客户端。</p>
+<p><strong>Web Service</strong> 协议主要包括两个方面，传输协议和数据表示：</p>
+<ul>
+<li>传输协议 : 可以是 <strong>Http</strong> 或其他，现在通用的是 <strong>http+soap</strong>。</li>
+<li>数据表示 : 可以是键值对、<strong>xml</strong> 或其他。</li>
+</ul>
+<p><strong>SOAP</strong> 简单的理解，就是这样的一个开放协议 <strong>SOAP=RPC+HTTP+XML</strong>：采用 <strong>HTTP</strong> 作为底层通讯协议；<strong>RPC</strong> 作为一致性的调用途径，<strong>XML</strong> 作为数据传送的格式，允许服务提供者和服务客户经过防火墙在 <strong>INTERNET</strong> 进行通讯交互。</p>
+<h2 id="接口定义"><a href="#接口定义" class="headerlink" title="接口定义"></a>接口定义</h2><p><strong>SOAP</strong> 由于是传 <strong>xml</strong> 数据给服务器，所以得使用 <strong>@Body</strong> + <strong>RequestBody</strong> 来定义请求接口。</p>
+<blockquote>
+<p><a href="http://192.168.0.1:8030/AwesomeService.asmx" target="_blank" rel="external">http://192.168.0.1:8030/AwesomeService.asmx</a> 只是一个 <strong>Service</strong> 地址，而具体的接口 <strong>api</strong>#Login 则是定义在该 <strong>Service</strong> 里面的方法；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ServiceName = <span class="string">"AwesomeService.asmx"</span>;</div><div class="line"></div><div class="line"><span class="meta">@POST</span>(ServiceName)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">login</span><span class="params">(@Body UDRequestBody body)</span></span>;</div></pre></td></tr></table></figure>
+<p>比如 <strong>Login</strong> 接口需要客户端传递的 <strong>xml</strong> 为</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Login</span> <span class="attr">xmlns</span>=<span class="string">"http://com.sxmlgd.citygrid/"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">UserName</span>&gt;</span>string<span class="tag">&lt;/<span class="name">UserName</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Pwd</span>&gt;</span>string<span class="tag">&lt;/<span class="name">Pwd</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Login</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="生成RequestBody"><a href="#生成RequestBody" class="headerlink" title="生成RequestBody"></a>生成RequestBody</h2><p>为了方便其它接口使用，继承 <strong>RequestBody</strong> 实现一个自定义的 <strong>UDRequestBody</strong> ，有两个重要的方法：</p>
+<ul>
+<li><strong>contentType()</strong> : 设置请求的 <strong>Content-Type</strong> 为 <strong>application/soap+xml</strong>;</li>
+<li><strong>writeTo()</strong> : 将 <strong>xml</strong> 字符串通过 <strong>BufferedSink</strong>#write 写入请求体;</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDRequestBody</span> <span class="keyword">extends</span> <span class="title">RequestBody</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String apiName;</div><div class="line">    <span class="keyword">private</span> String[] keysAndValues;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UDRequestBody <span class="title">create</span><span class="params">(String apiName, String... keysAndValues)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UDRequestBody(apiName, keysAndValues);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">UDRequestBody</span><span class="params">(String apiName, String... keysAndValues)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.apiName = apiName;</div><div class="line">        <span class="keyword">int</span> len = keysAndValues.length;</div><div class="line">        <span class="keyword">this</span>.keysAndValues = <span class="keyword">new</span> String[len];</div><div class="line">        System.arraycopy(keysAndValues, <span class="number">0</span>, <span class="keyword">this</span>.keysAndValues, <span class="number">0</span>, keysAndValues.length);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> MediaType <span class="title">contentType</span><span class="params">()</span> </span>&#123;</div><div class="line">    	<span class="comment">// 定义 MediaType</span></div><div class="line">        <span class="keyword">return</span> MediaType.parse(<span class="string">"application/soap+xml"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeTo</span><span class="params">(BufferedSink sink)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    	<span class="comment">// 传递 xml 数据到服务器后台;</span></div><div class="line">        String ori = getSoapXml(apiName, keysAndValues);</div><div class="line">        sink.write(ori.getBytes(<span class="string">"utf-8"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取请求内容</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> apiName</div><div class="line">     * <span class="doctag">@param</span> nameValues</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getSoapXml</span><span class="params">(String apiName, String... nameValues)</span></span>&#123;</div><div class="line">    	<span class="comment">// 在该方法中返回需要传递到服务器后台的 xml 数据；</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="自定义ConverterFactory"><a href="#自定义ConverterFactory" class="headerlink" title="自定义ConverterFactory"></a>自定义ConverterFactory</h2><p><strong>SOAP</strong> 网络协议返回的数据通常也是一段 <strong>xml</strong> ，而不是标准的 <strong>JSON</strong> 格式。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">soap12:Envelope</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">soap12:Body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">LoginResponse</span> <span class="attr">xmlns</span>=<span class="string">"http://com.sxmlgd.citygrid/"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">LoginResult</span>&gt;</span>&#123;"name":"Michael Cai", "age": 27&#125;<span class="tag">&lt;/<span class="name">LoginResult</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">LoginResponse</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">soap12:Body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">soap12:Envelope</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>JSON</strong> 数据是在最里层的 <strong>ApiResult</strong> 节点的值，所以可以先获取到这个节点的值，然后再使用 <strong>Gson</strong> 工具来转换。</p>
+<p>参考 <strong>GsonConverterFactory</strong> 来自定义 <strong>SoapConverterFactory</strong>:<br>需要定义三个文件</p>
+<ul>
+<li><strong>SoapConverterFactory</strong> : 定义请求和响应转换器</li>
+<li><strong>SoapRequestBodyConverter</strong> : 指定请求方式，生成请求体</li>
+<li><strong>SoapResponseBodyConverter</strong> : 获取响应数据，使用正则表达式获取 <strong>JSON</strong> 数据，再使用 <strong>Gson</strong> 转换成 <strong>Entity</strong>。</li>
+</ul>
+<h4 id="SoapConverterFactory-java"><a href="#SoapConverterFactory-java" class="headerlink" title="SoapConverterFactory.java"></a>SoapConverterFactory.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoapConverterFactory</span> <span class="keyword">extends</span> <span class="title">Converter</span>.<span class="title">Factory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Gson gson;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SoapConverterFactory</span><span class="params">(Gson gson)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gson = gson;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SoapConverterFactory <span class="title">create</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapJsonFactory(<span class="keyword">new</span> Gson());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SoapConverterFactory <span class="title">create</span><span class="params">(Gson gson)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapJsonFactory(gson);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> Converter&lt;ResponseBody, ?&gt; responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) &#123;</div><div class="line">        TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type));</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapResponseBodyConverter&lt;&gt;(adapter);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> Converter&lt;?, RequestBody&gt; requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) &#123;</div><div class="line">        TypeAdapter&lt;?&gt; adapter = gson.getAdapter(TypeToken.get(type));</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SoapRequestBodyConverter&lt;&gt;(gson, adapter);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="SoapRequestBodyConverter-java"><a href="#SoapRequestBodyConverter-java" class="headerlink" title="SoapRequestBodyConverter.java"></a>SoapRequestBodyConverter.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoapRequestBodyConverter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">T</span>, <span class="title">RequestBody</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> MediaType MEDIA_TYPE = MediaType.parse(<span class="string">"application/soap+xml; charset=UTF-8"</span>);</div><div class="line">    <span class="comment">// 此处对于 SOAP 请求需要指定 MediaType 为 application/soap+xml;</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Charset UTF_8 = Charset.forName(<span class="string">"UTF-8"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Gson gson;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TypeAdapter&lt;T&gt; adapter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SoapRequestBodyConverter</span><span class="params">(Gson gson, TypeAdapter&lt;T&gt; adapter)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.gson = gson;</div><div class="line">        <span class="keyword">this</span>.adapter = adapter;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RequestBody <span class="title">convert</span><span class="params">(T value)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Buffer buffer = <span class="keyword">new</span> Buffer();</div><div class="line">        Writer writer = <span class="keyword">new</span> OutputStreamWriter(buffer.outputStream(), UTF_8);</div><div class="line">        JsonWriter jsonWriter = gson.newJsonWriter(writer);</div><div class="line">        adapter.write(jsonWriter, value);</div><div class="line">        jsonWriter.close();</div><div class="line">        <span class="keyword">return</span> RequestBody.create(MEDIA_TYPE, buffer.readByteString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="SoapResponseBodyConverter-java"><a href="#SoapResponseBodyConverter-java" class="headerlink" title="SoapResponseBodyConverter.java"></a>SoapResponseBodyConverter.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SoapResponseBodyConverter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">ResponseBody</span>, <span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> TypeAdapter&lt;T&gt; adapter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SoapResponseBodyConverter</span><span class="params">(TypeAdapter&lt;T&gt; adapter)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.adapter = adapter;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">convert</span><span class="params">(ResponseBody value)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String responseString = value.string();</div><div class="line">            Pattern pat = Pattern.compile(<span class="string">"Result&gt;([\\s\\S]*?)"</span> + <span class="string">"&lt;/"</span>);</div><div class="line">            <span class="comment">// 使用正则表达式提取服务器返回的 JSON 数据;</span></div><div class="line">            Matcher m = pat.matcher(responseString);</div><div class="line">            String json;</div><div class="line">            <span class="keyword">if</span> (m.find()) &#123;</div><div class="line">                json = m.group(<span class="number">1</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                json = <span class="string">"&#123;\"error\":1,\"msg\":\"Error 001\"&#125;"</span>;</div><div class="line">            &#125;</div><div class="line">            Log.d(<span class="string">"SoapResponseBodyConverter"</span>, json);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">return</span> adapter.fromJson(json);</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                Log.e(<span class="string">"SoapResponseBodyConverter"</span>, e.getMessage());</div><div class="line">                <span class="keyword">return</span> (T) json;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            value.close();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Over</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Retrofit2</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Soap</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/11/Retrofit-Soap-UserDefine-Converter/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/10/OkHttp-Request/" class="archive-article-date">
-  	<time datetime="2017-05-10T01:39:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/10/OkHttp-Request/">使用 OkHttp 进行网络请求</a>
-    </h1>
+    <a href="/2017/05/11/RxJava-IO/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          RxJava中的线程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/10/OkHttp-Interceptor/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在 OkHttp 中使用 Interceptor 预处理网络请求</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -274,9 +370,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

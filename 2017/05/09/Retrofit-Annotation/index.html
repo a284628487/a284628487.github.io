@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: OkHttp3 | 放肆的Coder</title>
+  <title>Retrofit2中的常用Annotation | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/OkHttp3/index.html">
+  <meta name="description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
+<meta name="keywords" content="Retrofit2,Annotation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit2中的常用Annotation">
+<meta property="og:url" content="http://yoursite.com/2017/05/09/Retrofit-Annotation/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
+<meta property="og:updated_time" content="2017-05-11T02:35:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="Retrofit2中的常用Annotation">
+<meta name="twitter:description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,102 +158,182 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Retrofit-Annotation" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/10/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2017-05-10T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/10/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      Retrofit2中的常用Annotation
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/05/09/Retrofit-Annotation/" class="archive-article-date">
+  	<time datetime="2017-05-09T01:32:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Retrofit2</strong> 中的常用 <strong>Annotation</strong>，这些 <strong>Annotation</strong>，可以让我们快速的配置一个请求 <strong>URL</strong>，包括请求地址，请求方式，请求参数等。<br><a id="more"></a></p>
+<h2 id="Annotation"><a href="#Annotation" class="headerlink" title="Annotation"></a>Annotation</h2><p>所有的请求都需要一个请求方法注解，<strong>Retrofit2</strong> 定义了5种请求方式 <strong>GET</strong>, <strong>POST</strong>, <strong>PUT</strong>, <strong>DELETE</strong>, and <strong>HEAD</strong> 。</p>
+<h3 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"/user/&#123;uid&#125;"</span>)</div><div class="line"><span class="function">Call&lt;User&gt; <span class="title">getUser</span><span class="params">(@Path(<span class="string">"uid"</span>)</span> String uid)</span>;</div></pre></td></tr></table></figure>
+<p><strong>Path</strong> 表示请求路径中 <strong>uid</strong> 部分是动态替换的，比如 <strong>getUser(“10001”)</strong> 和 <strong>getUser(“10002”)</strong> 分别是获取 <strong>uid</strong> 为 10001 和 10002 的两个用户的信息。</p>
+<h3 id="QueryMap"><a href="#QueryMap" class="headerlink" title="QueryMap"></a>QueryMap</h3><p>有的情况下，有很多个查询参数，为了避免冗长的方法定义，可以使用 <strong>@QueryMap</strong> 来将所有的请求参数放到 <strong>Map</strong> 中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"users"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">users</span><span class="params">(@QueryMap Map&lt;String, String&gt; filters)</span></span>;</div></pre></td></tr></table></figure>
+<p>上面的接口定义表示通过 <strong>Map</strong> 中定义好的键值对，去请求相关的用户列表。</p>
+<blockquote>
+<p><strong>QueryMap</strong> 用于指定 <strong>GET</strong> 请求的参数集，相对应的，<strong>FieldMap</strong> 则用于指定 <strong>POST</strong> 请求的参数集；</p>
+</blockquote>
+<h3 id="Headers-amp-Header"><a href="#Headers-amp-Header" class="headerlink" title="Headers &amp; Header"></a>Headers &amp; Header</h3><ul>
+<li>Headers 用于在请求中预设一些 Header;</li>
+<li>Header 用于在请求方法中动态的传入 Header;</li>
+</ul>
+<p>多个 <strong>Header</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Headers</span>(&#123;</div><div class="line">    <span class="string">"Accept: application/vnd.github.v3.full+json"</span>,</div><div class="line">    <span class="string">"User-Agent: Ubuntu 12.04"</span></div><div class="line">&#125;)</div><div class="line"><span class="meta">@GET</span>(<span class="string">"/user/&#123;uid&#125;"</span>)</div><div class="line"><span class="function">User <span class="title">getUser</span><span class="params">(@Path(<span class="string">"uid"</span>)</span> String uid)</span>;</div></pre></td></tr></table></figure>
+<p>单个 <strong>Header</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Headers(&quot;Cache-Control: max-age=640000&quot;)</div><div class="line">@GET(&quot;/user/&#123;uid&#125;&quot;)</div><div class="line">User getUser(@Path(&quot;uid&quot;) String uid);</div></pre></td></tr></table></figure>
+<p>动态传入 <strong>Header</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">getUser</span><span class="params">(@Header(<span class="string">"Authorization"</span>)</span> String authorization, @<span class="title">Path</span><span class="params">(<span class="string">"uid"</span>)</span> String uid)</span></div></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Retrofit2</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Annotation</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/09/Retrofit-Annotation/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/10/OkHttp-Request/" class="archive-article-date">
-  	<time datetime="2017-05-10T01:39:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-10</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/10/OkHttp-Request/">使用 OkHttp 进行网络请求</a>
-    </h1>
+    <a href="/2017/05/10/OkHttp-Request/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          使用 OkHttp 进行网络请求
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/08/RxJava-Observable/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RxJava Observable 数据转换</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -274,9 +356,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

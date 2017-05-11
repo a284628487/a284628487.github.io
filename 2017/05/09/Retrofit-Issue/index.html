@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/09/Retrofit-Issue/index.html">
 <meta property="og:site_name" content="放肆的Coder">
 <meta property="og:description" content="在使用 Retrofit2 开发过程当中遇到的一些 Issus。">
-<meta property="og:updated_time" content="2017-05-10T08:29:21.000Z">
+<meta property="og:updated_time" content="2017-05-11T02:10:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Retrofit2 使用中遇到的一些 Issue">
 <meta name="twitter:description" content="在使用 Retrofit2 开发过程当中遇到的一些 Issus。">
@@ -179,12 +179,6 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在使用 <strong>Retrofit2</strong> 开发过程当中遇到的一些 <strong>Issus</strong>。<br><a id="more"></a></p>
-<h2 id="String类型数据支持"><a href="#String类型数据支持" class="headerlink" title="String类型数据支持"></a>String类型数据支持</h2><p>在使用 <strong>GsonConverterFactory</strong> 之后，如果在一个接口中定义了 <strong>Observable\<string></string></strong>，则服务器返回的 <strong>String</strong> 字符串不会被正确处理，因为 <strong>GsonConveterFactory</strong> 会尝试把返回的字符串转换成 <strong>JSON_OBJECT</strong>，而不管接口中定义 <strong>String</strong> 数据类型。</p>
-<p>可以对 <strong>retrofit</strong> 添加多个 <strong>Converter</strong> 来既支持 <strong>String</strong>，也支持 <strong>Gson</strong>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit2 = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">    .baseUrl(<span class="string">"http://10.50.40.53:8081/"</span>)</div><div class="line">    <span class="comment">// 字符串 支持</span></div><div class="line">    .addConverterFactory(ScalarsConverterFactory.create())</div><div class="line">    <span class="comment">// Gson 支持</span></div><div class="line">    .addConverterFactory(GsonConverterFactory.create())</div><div class="line">    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</div><div class="line">    .build();</div></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：<strong>ScalarsConverterFactory</strong> 需要在 <strong>GsonConverterFactory</strong> 的前面。</p>
-</blockquote>
 <h2 id="Scheduler"><a href="#Scheduler" class="headerlink" title="Scheduler"></a>Scheduler</h2><p><strong>Scheduler</strong> 是 <strong>RxJava</strong> 的线程调度器，可以指定代码执行的线程。<strong>RxJava</strong> 内置了几种线程：</p>
 <ul>
 <li><strong>AndroidSchedulers.mainThread()</strong>  主线程</li>
@@ -443,6 +437,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Soap</a>
               </li>
              
               <li class="article-tag-list-item">

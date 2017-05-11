@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/08/RxJava-Observable/index.html">
 <meta property="og:site_name" content="放肆的Coder">
 <meta property="og:description" content="RxJava 提供了多种请求数据处理，转换的方法，本篇主要记录使用 Observable 对请求数据进行转换处理的方法。">
-<meta property="og:updated_time" content="2017-05-09T01:03:39.000Z">
+<meta property="og:updated_time" content="2017-05-11T03:42:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava Observable 数据转换">
 <meta name="twitter:description" content="RxJava 提供了多种请求数据处理，转换的方法，本篇主要记录使用 Observable 对请求数据进行转换处理的方法。">
@@ -226,9 +226,20 @@
 <h2 id="retry"><a href="#retry" class="headerlink" title="retry"></a>retry</h2><p>有些网络请求因网络异常或者请求超时时，需要再次请求，通常会连续请求3次，如果3次都失败则不再请求，普通的常规方法则是自已在代码中使用一个记数器，来记录请求失败的次数，但在 <strong>RxJava</strong> 中，可以使用 <strong>retry</strong> 定义多次请求的次数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">service.login(<span class="string">"a"</span>, <span class="string">"b"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .retry(<span class="number">3</span>, <span class="keyword">new</span> Predicate&lt;Throwable&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(@NonNull Throwable throwable)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// 返回 true 表示需要 retry</span></div><div class="line">            Log.e(TAG, <span class="string">"test: retry"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(...);</div></pre></td></tr></table></figure>
 <h2 id="chain-of-requests"><a href="#chain-of-requests" class="headerlink" title="chain of requests"></a>chain of requests</h2><p>有时候，我们需要用A接口的请求结果来请求B接口，可以使用下面的方式来实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">service.user(<span class="number">10001</span>).subscribeOn(Schedulers.io())</div><div class="line">    .flatMap(<span class="keyword">new</span> Function&lt;User, ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt; apply(<span class="meta">@NonNull</span> User user) <span class="keyword">throws</span> Exception &#123;</div><div class="line">            <span class="keyword">return</span> service.rss(user.tag);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;Result&lt;List&lt;User&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Result&lt;List&lt;User&gt;&gt; listResult)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// TODO</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">service.user(<span class="number">10001</span>).subscribeOn(Schedulers.io())</div><div class="line">    .flatMap(<span class="keyword">new</span> Function&lt;User, ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> ObservableSource&lt;Result&lt;List&lt;User&gt;&gt;&gt; apply(<span class="meta">@NonNull</span> User user) <span class="keyword">throws</span> Exception &#123;</div><div class="line">        	<span class="comment">// 根据 user.tag 获取订阅的用户</span></div><div class="line">            <span class="keyword">return</span> service.rss(user.tag);</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;Result&lt;List&lt;User&gt;&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Result&lt;List&lt;User&gt;&gt; listResult)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="comment">// TODO</span></div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
 <p>上面的代码先根据 <strong>userid</strong> 获取用户信息，然后根据用户的 <strong>tag</strong> 获取相关的用户列表，这种情况就是有两个请求，但后一个请求需要使用前一个接口返回的数据。</p>
-<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><ul>
+<h2 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h2><p><strong>concat</strong> 用于连续发起两个请求，请求顺序同上，都是在第一个请求成功之后，再发起第二个请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Observable&lt;User&gt; ou1 = ...;</div><div class="line">Observable&lt;Topic&gt; ot2 = ...;</div><div class="line"></div><div class="line">Observable.concat(ou1, ot2)</div><div class="line">    .subscribe(<span class="keyword">new</span> Observer&lt;Object&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(@NonNull Object o)</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(@NonNull Throwable e)</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<p>上面定义了两个 <strong>Observable</strong>，使用 <strong>concat</strong> 之后，第二个请求需要在第一个请求发起后并成功获取到服务器的响应之后再被发出。和上一节相比，在 <strong>onNext</strong> 方法中，需要对 <strong>Object</strong> 进行类型判断也转换，相对来说复杂了。</p>
+<blockquote>
+<p>注意：如果第一个请求失败，则第二个请求不会被继续发起。</p>
+</blockquote>
+<h2 id="onErrorReturnItem-onErrorReturn"><a href="#onErrorReturnItem-onErrorReturn" class="headerlink" title="onErrorReturnItem / onErrorReturn"></a>onErrorReturnItem / onErrorReturn</h2><p>当网络请求失败时，可能需要加载一些默认的数据，此时就可以使用 <strong>onErrorReturnItem</strong> 来实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">User defaultUr = ...;</div><div class="line"></div><div class="line">service.login(<span class="string">"Michael Cai"</span>, <span class="string">"pwd"</span>)</div><div class="line">    .subscribeOn(Schedulers.io())</div><div class="line">    .onErrorReturnItem(defaultUr)</div><div class="line">    .subscribe();</div></pre></td></tr></table></figure>
+<p>请求失败时 <strong>Observer</strong> 中会获取到一个默认的 <strong>User</strong> 对象，<strong>onNext</strong> 方法会被执行，而不会执行 <strong>onError</strong>。</p>
+<p>也可以使用 <strong>onErrorReturn</strong> ，返回一个默认的数据即可，在 <strong>OnErrorReturn</strong> 里面可以获取到失败的信息；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.onErrorReturn(<span class="keyword">new</span> Function&lt;Throwable, User&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">apply</span><span class="params">(@NonNull Throwable throwable)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">return</span> ur;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">.subscribe(...);</div></pre></td></tr></table></figure>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><ul>
 <li><strong>filter</strong>：集合进行过滤</li>
 <li><strong>each</strong>：遍历集合</li>
 <li><strong>take</strong>：取出集合中的前几个</li>
@@ -344,18 +355,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/05/09/Retrofit-Issue/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/05/09/Retrofit-Annotation/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Retrofit2 使用中遇到的一些 Issue
+          Retrofit2中的常用Annotation
         
       </div>
     </a>
   
   
-    <a href="/2017/05/06/Android-Retrofit2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Using Retrofit2 to do network requests on Android platform</div>
+    <a href="/2017/05/06/Android-Retrofit/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android中用Retrofit2进行网络请求</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -463,14 +474,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
               </li>
              
@@ -479,7 +482,27 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Retrofit2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Soap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">RxJava</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
              
               <li class="article-tag-list-item">
