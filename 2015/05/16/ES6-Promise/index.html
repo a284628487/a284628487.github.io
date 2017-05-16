@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Observable | 放肆的Coder</title>
+  <title>ES6中Promise处理异步请求流程 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/Observable/index.html">
+  <meta name="description" content="Promise 对象可以理解为一次执行的异步操作，使用 promise 对象之后可以使用一种链式调用的方式来组织代码。比如使用 ajax 发一个A请求后，成功后拿到数据，我们需要把数据传给B请求，传统的写法会有多个嵌套一层层写下去，或者把第二个请求提取成另外一个方法，但这样增加了阅读成本，并不能一眼看出这两个请求是流程化两个连续请求；">
+<meta name="keywords" content="Promise">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6中Promise处理异步请求流程">
+<meta property="og:url" content="http://yoursite.com/2015/05/16/ES6-Promise/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="Promise 对象可以理解为一次执行的异步操作，使用 promise 对象之后可以使用一种链式调用的方式来组织代码。比如使用 ajax 发一个A请求后，成功后拿到数据，我们需要把数据传给B请求，传统的写法会有多个嵌套一层层写下去，或者把第二个请求提取成另外一个方法，但这样增加了阅读成本，并不能一眼看出这两个请求是流程化两个连续请求；">
+<meta property="og:updated_time" content="2017-05-16T07:37:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="ES6中Promise处理异步请求流程">
+<meta name="twitter:description" content="Promise 对象可以理解为一次执行的异步操作，使用 promise 对象之后可以使用一种链式调用的方式来组织代码。比如使用 ajax 发一个A请求后，成功后拿到数据，我们需要把数据传给B请求，传统的写法会有多个嵌套一层层写下去，或者把第二个请求提取成另外一个方法，但这样增加了阅读成本，并不能一眼看出这两个请求是流程化两个连续请求；">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,64 +158,203 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ES6-Promise" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/08/20/RxJava-Observable/" class="archive-article-date">
-  	<time datetime="2014-08-20T13:37:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-20</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/08/20/RxJava-Observable/">RxJava Observable 数据转换</a>
+    <h1 class="article-title" itemprop="name">
+      ES6中Promise处理异步请求流程
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2015/05/16/ES6-Promise/" class="archive-article-date">
+  	<time datetime="2015-05-16T03:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Promise</strong> 对象可以理解为一次执行的异步操作，使用 <strong>promise</strong> 对象之后可以使用一种链式调用的方式来组织代码。比如使用 <strong>ajax</strong> 发一个A请求后，成功后拿到数据，我们需要把数据传给B请求，传统的写法会有多个嵌套一层层写下去，或者把第二个请求提取成另外一个方法，但这样增加了阅读成本，并不能一眼看出这两个请求是流程化两个连续请求；<br><a id="more"></a></p>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>使用 <strong>Promise</strong> 构造方法创建对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;</div><div class="line">    <span class="comment">// TODO</span></div><div class="line">    <span class="comment">// 成功调用resolve 往下传递参数 且只接受一个参数</span></div><div class="line">    <span class="comment">// 失败调用reject  往下传递参数 且只接受一个参数</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><strong>promise</strong> 对象实例有如下几个方法用于获取操作结果：</p>
+<ul>
+<li><strong>then(callback)</strong> : 异步操作成功</li>
+<li><strong>catch(callback)</strong> : 异步操作失败</li>
+<li><strong>then(callback, errorCallback)</strong> : 上面两个方法分别只捕获成功/失败的情况，对于 <strong>then</strong> 的重载方法，可以传入两个 <strong>callback</strong>，第二个 <strong>callback</strong> 则用于处理失败的情况；</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</div><div class="line">    resolve(<span class="number">3</span>);</div><div class="line">&#125;);</div><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(value);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="number">2</span>);</div></pre></td></tr></table></figure>
+<p>上面的代码执行后的输出结果是 1 2 3；</p>
+<h2 id="Promise-的三种状态"><a href="#Promise-的三种状态" class="headerlink" title="Promise 的三种状态"></a>Promise 的三种状态</h2><p>Promise 对象有三种状态：</p>
+<ul>
+<li><strong>Resolve</strong> 可以理解为成功的状态；</li>
+<li><strong>Rejected</strong> 可以理解为失败的状态；</li>
+<li><strong>Pending</strong> 既不是 <strong>Resolve</strong> 也不是 <strong>Rejected</strong> 状态；该状态是Promise对象实例创建时候的初始状态；</li>
+</ul>
+<blockquote>
+<p><strong>Promise</strong> 对象中的<strong>resolve</strong>方法就是调用<strong>then</strong>对象的第一个函数，也就是成功的状态；而<strong>reject</strong>方法就是调用<strong>then</strong>对象的第二个函数，也就是失败的状态；</p>
+</blockquote>
+<h2 id="Call-chaining"><a href="#Call-chaining" class="headerlink" title="Call chaining"></a>Call chaining</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</div><div class="line">    resolve(<span class="number">3</span>);</div><div class="line">&#125;);</div><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(value);</div><div class="line">    <span class="keyword">return</span> <span class="built_in">parseInt</span>(value) + <span class="number">1</span>;</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(value);</div><div class="line">    <span class="keyword">return</span> <span class="built_in">parseInt</span>(value) + <span class="number">1</span>;</div><div class="line">&#125;).then(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(value);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面的代码执行后输出结果是 3 4 5，因为每次 <strong>then()</strong> 调用后，都会返回一个 <strong>新的Promise对象</strong>，所以可以使用链式调用；如果传入 <strong>then()</strong> 的 <strong>callback</strong> 有返回值，则返回的 <strong>promise</strong> 对象的 <strong>then()</strong> 函数中 <strong>callback</strong> 将获取到该返回值；</p>
+<blockquote>
+<p><strong>then()</strong> 表示异步操作成功，会返回一个新的 <strong>promise</strong> 对象，但实际上 <strong>catch()</strong> 方法也会返回一个新的 <strong>promise</strong> 对象；</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</div><div class="line">    resolve(<span class="number">3</span>);</div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> thenPromise = promise1.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(value);</div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> catchPromise = thenPromise.catch(<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(promise1 !== thenPromise); <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(thenPromise !== catchPromise); <span class="comment">//true</span></div></pre></td></tr></table></figure>
+<h2 id="快速创建-Promise-对象"><a href="#快速创建-Promise-对象" class="headerlink" title="快速创建 Promise 对象"></a>快速创建 Promise 对象</h2><ul>
+<li>Promise.resolve(value)</li>
+<li>Promise.reject(error)</li>
+</ul>
+<h2 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a>Promise.all</h2><p>假如有两个异步操作，不管他们的先后顺序，需要当这两个操作都成功后执行下一步操作，此时可以使用 <strong>Promise.all</strong> ；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">    setTimeout(resolve, <span class="number">500</span>, <span class="string">'P1'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">    setTimeout(resolve, <span class="number">600</span>, <span class="string">'P2'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 同时执行p1和p2，并在它们都完成后执行then:</span></div><div class="line"><span class="built_in">Promise</span>.all([p1, p2]).then(<span class="function"><span class="keyword">function</span> (<span class="params">results</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(results); <span class="comment">// 获得一个Array: ['P1', 'P2']</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race"></a>Promise.race</h2><p><strong>Promise.race</strong> 是只要有一个 <strong>promise</strong> 对象 <strong>resolved</strong> 或者 <strong>rejected</strong>，程序就会停止，且会继续后面的处理逻辑；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">    setTimeout(resolve, <span class="number">500</span>, <span class="string">'P1'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">    setTimeout(resolve, <span class="number">600</span>, <span class="string">'P2'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">Promise</span>.race([p1, p2]).then(<span class="function"><span class="keyword">function</span> (<span class="params">result</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(result); <span class="comment">// 'P1'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>由于p1执行较快，<strong>Promise</strong>的<strong>then()</strong>将获得结果’P1’。</p>
+<blockquote>
+<p>注：<strong>p2仍在继续执行</strong>，但执行结果将被丢弃！</p>
+</blockquote>
+<h2 id="JQuery-ajax-中的-Promise"><a href="#JQuery-ajax-中的-Promise" class="headerlink" title="JQuery ajax 中的 Promise"></a>JQuery ajax 中的 Promise</h2><p>一个传统的 ajax 请求通常如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">   <span class="attr">url</span>: <span class="string">''</span>,</div><div class="line">   <span class="attr">dataType</span>:<span class="string">'json'</span>,</div><div class="line">   <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>我们可以使用 <strong>Promise</strong> 对该请求进行封装：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajaxPromise</span>(<span class="params">url, method=<span class="string">"GET"</span>, data=&#123;&#125;</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">        $.ajax(&#123;</div><div class="line">            <span class="attr">url</span>: url,</div><div class="line">            <span class="attr">method</span>: method,</div><div class="line">            <span class="attr">params</span>: data,</div><div class="line">            <span class="attr">dataType</span>: <span class="string">'json'</span>,</div><div class="line">            <span class="attr">success</span>: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">                resolve(data);</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">error</span>: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">                reject(err);</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> promise;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ...</span></div><div class="line">ajaxPromise(<span class="string">'https://api.github.com/emojis'</span>)</div><div class="line">        .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> data.zzz;</div><div class="line">        &#125;)</div><div class="line">        .then(<span class="function"><span class="keyword">function</span> (<span class="params">zzz</span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(zzz);</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<p>通过把 <strong>ajax</strong> 方法包装到 <strong>Promise</strong> 对象之中，使用 <strong>resolve()</strong> 和 <strong>reject()</strong> 把异步操作结果返回，这样就可以使用 <strong>then</strong>，<strong>catch</strong> 方法了。</p>
+<p><strong>JQuery</strong> 的 <strong>ajax</strong> 方法，实际上也返回了一个 <strong>Promise</strong> 对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> jqPromise = $.ajax(<span class="string">'/api/categories'</span>, &#123;</div><div class="line">    <span class="attr">dataType</span>: <span class="string">'json'</span></div><div class="line">&#125;);<span class="comment">// 请求已经发送了</span></div><div class="line"></div><div class="line"><span class="comment">// 使用 JQuery Promise 对象</span></div><div class="line">jqPromise.done(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">    ajaxLog(<span class="string">'成功, 收到的数据: '</span> + <span class="built_in">JSON</span>.stringify(data));</div><div class="line">&#125;).fail(<span class="function"><span class="keyword">function</span> (<span class="params">xhr, status</span>) </span>&#123;</div><div class="line">    ajaxLog(<span class="string">'失败: '</span> + xhr.status + <span class="string">', 原因: '</span> + status);</div><div class="line">&#125;).always(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    ajaxLog(<span class="string">'请求完成: 无论成功或失败都会调用'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RxJava</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Observable</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Promise</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2015/05/16/ES6-Promise/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/05/06/Android-Retrofit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android中用Retrofit2进行网络请求
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2014/08/21/RxJava-IO/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RxJava中的线程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +377,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
