@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Interceptor | 放肆的Coder</title>
+  <title>在 OkHttp 中使用 Interceptor 预处理网络请求 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/Interceptor/index.html">
+  <meta name="description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息，而对于 Header ，Token 的统一管理添加，也可以通过 Interceptor 来实现。">
+<meta name="keywords" content="OkHttp3,Interceptor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 OkHttp 中使用 Interceptor 预处理网络请求">
+<meta property="og:url" content="http://yoursite.com/2014/08/17/OkHttp-Interceptor/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息，而对于 Header ，Token 的统一管理添加，也可以通过 Interceptor 来实现。">
+<meta property="og:updated_time" content="2017-05-15T06:34:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="在 OkHttp 中使用 Interceptor 预处理网络请求">
+<meta name="twitter:description" content="通过定义拦截器 Interceptor ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 Log 打印出请求的一些信息，而对于 Header ，Token 的统一管理添加，也可以通过 Interceptor 来实现。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,36 +158,78 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OkHttp-Interceptor" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/08/17/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2014-08-17T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/08/17/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      在 OkHttp 中使用 Interceptor 预处理网络请求
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2014/08/17/OkHttp-Interceptor/" class="archive-article-date">
+  	<time datetime="2014-08-17T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>通过定义拦截器 <strong>Interceptor</strong> ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 <strong>Log</strong> 打印出请求的一些信息，而对于 <strong>Header</strong> ，<strong>Token</strong> 的统一管理添加，也可以通过 <strong>Interceptor</strong> 来实现。<br><a id="more"></a></p>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> okhttp3.*;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123; </div><div class="line">        <span class="comment">// 封装 headers，添加请求头信息</span></div><div class="line">        Request request = chain.request().newBuilder()</div><div class="line">                .addHeader(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>) <span class="comment">//添加请求头信息</span></div><div class="line">                .build();</div><div class="line">        Headers headers = request.headers();</div><div class="line">        System.out.println(<span class="string">"Content-Type is : "</span> + headers.get(<span class="string">"Content-Type"</span>));</div><div class="line">        String requestUrl = request.url().toString(); <span class="comment">// 获取请求url地址</span></div><div class="line">        String methodStr = request.method(); <span class="comment">// 获取请求方式</span></div><div class="line">        RequestBody body = request.body(); <span class="comment">// 获取请求body</span></div><div class="line">        String bodyStr = (body==<span class="keyword">null</span>?<span class="string">""</span>:body.toString());</div><div class="line">        Response response = chain.proceed(request); </div><div class="line">        <span class="keyword">if</span> (response != <span class="keyword">null</span>) &#123;</div><div class="line">            System.out.println(<span class="string">"Response is not null"</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            System.out.println(<span class="string">"Response is null"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> response;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码定义了一个 <strong>Interceptor</strong> ，对 <strong>request</strong> 请求添加了一个请求头 <strong>Content-Type</strong> ，值是 <strong>application/json</strong>，使用了该 <strong>Interceptor</strong> 的 <strong>client</strong> 发起的所有请求，都会自动添加上这个请求头。</p>
+<p><strong>request</strong> 的几个重要方法：</p>
+<ul>
+<li>url : 获取请求地址</li>
+<li>method : 获取请求方式</li>
+<li>body : 获取请求体</li>
+</ul>
+<p>使用 <strong>Interceptor</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient().newBuilder()</div><div class="line">	.addInterceptor(<span class="keyword">new</span> MyInterceptor())</div><div class="line">	.build();</div></pre></td></tr></table></figure>
+<h2 id="TokenInterceptor"><a href="#TokenInterceptor" class="headerlink" title="TokenInterceptor"></a>TokenInterceptor</h2><p>拦截器的作用在于处理请求信息，对请求数据加密或者在请求响应时存储 <strong>cookies</strong> ，或者封装 <strong>access token</strong> 便于服务器验证等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Interceptor mTokenInterceptor = <span class="keyword">new</span> Interceptor() &#123;</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Request originalRequest = chain.request();</div><div class="line">        <span class="comment">// sToken == null : un-logined</span></div><div class="line">        <span class="comment">// hasAuthorizationHeader : 已经有 Authorization 信息</span></div><div class="line">        <span class="keyword">if</span> (Your.sToken == <span class="keyword">null</span> || hasAuthorizationHeader(originalRequest)) &#123;</div><div class="line">            <span class="keyword">return</span> chain.proceed(originalRequest);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 添加 Authorization</span></div><div class="line">        Request authorised = originalRequest.newBuilder()</div><div class="line">            .header(<span class="string">"Authorization"</span>, Your.sToken)</div><div class="line">            .build();</div><div class="line">        <span class="keyword">return</span> chain.proceed(authorised);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果 <strong>token</strong> 是空的，比如对于登录请求，是没有 <strong>token</strong> 的，只有等到登陆之后才有 <strong>token</strong>，这时候就不需要添加 <strong>token</strong>。另外，如果请求中已经带有验证 <strong>header</strong> 了，比如你手动设置了一个另外的 <strong>token</strong>，那么也不需要再为请求添加这一个 <strong>token</strong>。</p>
+</blockquote>
+<h2 id="Authenticator"><a href="#Authenticator" class="headerlink" title="Authenticator"></a>Authenticator</h2><p>如果需要在遇到 <strong>401 Not Authorised</strong> 的时候进行刷新 <strong>token</strong>，可以使用 <strong>Authenticator</strong>，这是一个专门设计用于当验证出现错误的时候，进行询问获取处理的拦截器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Authenticator mAuthenticator = <span class="keyword">new</span> Authenticator() &#123;</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> Request <span class="title">authenticate</span><span class="params">(Route route, Response response)</span></span></div><div class="line">            <span class="keyword">throws</span> IOException &#123;</div><div class="line">        String sToken = service.refreshToken();</div><div class="line">        <span class="keyword">return</span> response.request().newBuilder()</div><div class="line">                       .addHeader(<span class="string">"Authorization"</span>, sToken)</div><div class="line">                       .build();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分别使用 <strong>OkHttpClient.Builder</strong> 对象的 <strong>addNetworkInterceptor(…)</strong> 和 <strong>authenticator(…)</strong> 添加定义好的拦截器。</p>
+<h2 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CookiesInterceptor</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Context context;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CookiesInterceptor</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.context = context;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 重写拦截方法，处理自定义的Cookies信息</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Request request = chain.request();</div><div class="line">        Request compressedRequest = request.newBuilder()</div><div class="line">                .header(<span class="string">"cookie"</span>, getCookies(context))</div><div class="line">                .build();</div><div class="line">        Response response = chain.proceed(compressedRequest);</div><div class="line">        <span class="comment">// 保存 cookie</span></div><div class="line">        saveCookies(response.headers(), context);</div><div class="line">        <span class="keyword">return</span> response;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面定义的 <strong>CookiesInterceptor</strong> 当请求成功之后，使用 <strong>saveCookies</strong> 方法保存服务器返回的 <strong>cookies</strong> 信息，在请求之前，读取本地缓存好的 <strong>cookie</strong> 信息添加到 <strong>header</strong> 中。</p>
+<p>配置 <strong>HttpClient</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">OkHttpClient client = ...;</div><div class="line"><span class="comment">// 设置拦截器，以用于自定义Cookies的设置</span></div><div class="line">client.networkInterceptors()</div><div class="line">        .add(<span class="keyword">new</span> CookiesInterceptor(context));</div><div class="line"><span class="comment">// 设置缓存目录</span></div><div class="line">File cacheDirectory = <span class="keyword">new</span> File(context.getCacheDir()</div><div class="line">                    .getAbsolutePath(), <span class="string">"HttpCache"</span>);</div><div class="line">Cache cache = <span class="keyword">new</span> Cache(cacheDirectory, <span class="number">20</span> * <span class="number">1024</span> * <span class="number">1024</span>);</div><div class="line">client.setCache(cache);</div></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -201,19 +245,98 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2014/08/17/OkHttp-Interceptor/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/08/20/RxJava-Observable/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          RxJava Observable 数据转换
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2014/08/17/RxJava-Begin/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RxJava框架介绍</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +359,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Interceptor | 放肆的Coder</title>
+  <title>JavaScript 使用 fetch 进行网络请求 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/Interceptor/index.html">
+  <meta name="description" content="Fetch API 提供了一个获取资源的接口(包括跨网络)。任何使用过 XMLHttpRequest 的人都会熟悉它，新的 API 提供了更强大和更灵活的功能集。Fetch 提供了对 Request 和 Response （以及其他与网络请求有关的）对象的通用定义。使之今后可以被使用到更多地应用场景中：无论是 service workers、Cache API、又或者是其他处理请求和响应的方式，甚">
+<meta name="keywords" content="JavaScript,Fetch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 使用 fetch 进行网络请求">
+<meta property="og:url" content="http://yoursite.com/2016/05/15/JavaScript-fetch/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="Fetch API 提供了一个获取资源的接口(包括跨网络)。任何使用过 XMLHttpRequest 的人都会熟悉它，新的 API 提供了更强大和更灵活的功能集。Fetch 提供了对 Request 和 Response （以及其他与网络请求有关的）对象的通用定义。使之今后可以被使用到更多地应用场景中：无论是 service workers、Cache API、又或者是其他处理请求和响应的方式，甚">
+<meta property="og:updated_time" content="2017-05-16T02:03:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="JavaScript 使用 fetch 进行网络请求">
+<meta name="twitter:description" content="Fetch API 提供了一个获取资源的接口(包括跨网络)。任何使用过 XMLHttpRequest 的人都会熟悉它，新的 API 提供了更强大和更灵活的功能集。Fetch 提供了对 Request 和 Response （以及其他与网络请求有关的）对象的通用定义。使之今后可以被使用到更多地应用场景中：无论是 service workers、Cache API、又或者是其他处理请求和响应的方式，甚">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,64 +158,216 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-JavaScript-fetch" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/08/17/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2014-08-17T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/08/17/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      JavaScript 使用 fetch 进行网络请求
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2016/05/15/JavaScript-fetch/" class="archive-article-date">
+  	<time datetime="2016-05-15T13:10:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Fetch API</strong> 提供了一个获取资源的接口(包括跨网络)。任何使用过 <strong>XMLHttpRequest</strong> 的人都会熟悉它，新的 <strong>API</strong> 提供了更强大和更灵活的功能集。<strong>Fetch</strong> 提供了对 <strong>Request</strong> 和 <strong>Response</strong> （以及其他与网络请求有关的）对象的通用定义。使之今后可以被使用到更多地应用场景中：无论是 <strong>service workers</strong>、<strong>Cache API</strong>、又或者是其他处理请求和响应的方式，甚至是任何一种需要你自己在程序中生成响应的方式。<br><a id="more"></a><br>在新的 <strong>ES7</strong> 提案中新添加了 <strong>fetch()</strong> 方法，<strong>fetch()</strong> 方法用于发起获取资源的请求。它返回一个 <strong>promise</strong>，这个 <strong>promise</strong> 会在请求响应后被 <strong>resolve</strong>，并传回 <strong>Response</strong> 对象。<br>当遇到网络错误时，<strong>fetch()</strong> 返回的 <strong>promise</strong> 会被 <strong>reject</strong>，并传回 <strong>TypeError</strong>，虽然这也可能因为权限或其它问题导致。成功的 <strong>fetch()</strong> 检查不仅要包括 <strong>promise</strong> 被 <strong>resolve</strong>，还要包括 <strong>Response.ok</strong> 属性为 true。HTTP 404 状态并不被认为是网络错误。<br>此功能某些浏览器尚在开发中，所以暂时不能直接在生产环境使用，现阶段浏览器端开发，可以使用 <strong>isomorphic-fetch</strong> 替代。</p>
+<h2 id="传统-XMLHttpRequest-请求网络"><a href="#传统-XMLHttpRequest-请求网络" class="headerlink" title="传统 XMLHttpRequest 请求网络"></a>传统 XMLHttpRequest 请求网络</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">xhr.open(<span class="string">'GET'</span>, url);</div><div class="line">xhr.responseType = <span class="string">'json'</span>;</div><div class="line"></div><div class="line">xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(xhr.response);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">xhr.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Oops, error"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">xhr.send();</div></pre></td></tr></table></figure>
+<p>上面是一个典型的 <strong>XMLHttpRequest</strong> 请求发起流程。</p>
+<h2 id="使用-fetch-请求网络"><a href="#使用-fetch-请求网络" class="headerlink" title="使用 fetch 请求网络"></a>使用 <strong>fetch</strong> 请求网络</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fetch = <span class="built_in">require</span>(<span class="string">'isomorphic-fetch'</span>);</div><div class="line"></div><div class="line">fetch(<span class="string">"https://api.github.com/emojis"</span>)</div><div class="line">    .then(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">if</span>(response.status == <span class="number">200</span>)&#123;</div><div class="line">            <span class="keyword">return</span> response.json();</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    .then(<span class="function">(<span class="params">emojis</span>)=&gt;</span> &#123;</div><div class="line">        <span class="keyword">var</span> keyLength = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> prop <span class="keyword">in</span> emojis) &#123;</div><div class="line">            keyLength++;</div><div class="line">            <span class="keyword">var</span> url = emojis[prop];</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">console</span>.log(keyLength);</div><div class="line">    &#125;)</div><div class="line">    .catch(<span class="function">(<span class="params">e</span>)=&gt;</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(e);</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：需要提前安装 isomorphic-fetch。</p>
+</blockquote>
+<p>上面的代码还可以进一步简写成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">fetch(<span class="string">"https://api.github.com/emojis"</span>)</div><div class="line">    .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</div><div class="line">    .then(<span class="function"><span class="params">json</span>=&gt;</span>onGetJson(json))</div><div class="line">    .catch(<span class="function"><span class="params">e</span>=&gt;</span><span class="built_in">console</span>.log(e));</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onGetJson</span>(<span class="params">json</span>) </span>&#123;</div><div class="line">    <span class="comment">// TODO</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="async-amp-await"><a href="#async-amp-await" class="headerlink" title="async &amp; await"></a>async &amp; await</h2><p>上面的写法流程看起来更加清晰，但是仍然是 <strong>Callback</strong> 的写法，可以使用 <strong>async</strong> 和 <strong>await</strong> 处理 <strong>fetch</strong> ，让整个流程就像是同步流程一样。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fetch = <span class="built_in">require</span>(<span class="string">'isomorphic-fetch'</span>);</div><div class="line"></div><div class="line"><span class="function">(<span class="params"><span class="keyword">async</span> (</span>)=&gt;</span> &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">var</span> data = <span class="keyword">await</span> fetch(<span class="string">"https://api.github.com/emojis"</span>);</div><div class="line">        <span class="keyword">var</span> json = <span class="keyword">await</span> data.json();</div><div class="line">        onGetEmojis(json);</div><div class="line">    &#125; <span class="keyword">catch</span>(e) &#123;</div><div class="line">        <span class="built_in">console</span>.log(e);</div><div class="line">    &#125;</div><div class="line">&#125;)()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onGetEmojis</span>(<span class="params">json</span>) </span>&#123;</div><div class="line">    <span class="comment">// TODO</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用 <strong>await</strong> 后，写异步代码就像写同步代码一样。<strong>await</strong> 后面可以跟 <strong>Promise</strong> 对象，表示等待 <strong>Promise</strong> <strong>resolve</strong>() 才会继续向下执行，如果 <strong>Promise</strong> 被 <strong>reject</strong>() 或抛出异常则会被外面的 <strong>try…catch</strong> 捕获。</p>
+<h2 id="fetch-语法"><a href="#fetch-语法" class="headerlink" title="fetch 语法"></a>fetch 语法</h2><blockquote>
+<p>Promise<response> fetch(input[, init]);</response></p>
+</blockquote>
+<p>两个参数 <strong>input</strong> 和 <strong>init</strong>，<strong>input</strong> 可以是请求的地址，也可以是一个 <strong>request</strong> 请求对象。</p>
+<h3 id="可选参数-init"><a href="#可选参数-init" class="headerlink" title="可选参数 init"></a>可选参数 init</h3><p>一个配置项对象，包括所有对请求的设置。可选的参数有：</p>
+<ul>
+<li>method: 请求使用的方法，如 GET、POST。</li>
+<li>headers: 请求的头信息，形式为 Headers 的对象或包含 ByteString 值的对象字面量。</li>
+<li>body: 请求的 body 信息：可能是一个 Blob、BufferSource、FormData、URLSearchParams 或者 USVString 对象。注意 GET 或 HEAD 方法的请求不能包含 body 信息。</li>
+<li>mode: 请求的模式，如 cors、 no-cors 或者 same-origin。</li>
+<li>credentials: 请求的 credentials，如 omit、same-origin 或者 include。为了在当前域名内自动发送 cookie ， 必须提供这个选项， 从 Chrome 50 开始， 这个属性也可以接受 * FederatedCredential 实例或是一个 PasswordCredential 实例。</li>
+<li>cache:  请求的 cache 模式: default 、 no-store 、 reload 、 no-cache 、 force-cache 或者 only-if-cached 。</li>
+<li>redirect: 可用的 redirect 模式: follow (自动重定向), error (如果产生重定向将自动终止并且抛出一个错误), 或者 manual (手动处理重定向). 在Chrome中，Chrome 47之前的默认值是 follow，从 Chrome 47开始是 manual。</li>
+<li>referrer: 一个 USVString 可以是 no-referrer、client或一个 URL。默认是 client。</li>
+<li>referrerPolicy: Specifies the value of the referer HTTP header. May be one of no-referrer、 no-referrer-when-downgrade、 origin、 origin-when-cross-origin、 unsafe-url 。</li>
+<li>integrity: 包括请求的  subresource integrity 值 （ 例如： sha256-BpfBw7ivV8q2jLiT13fxDYAe2tJllusRSZ273h2nFSE=）。</li>
+</ul>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p><strong>fetch</strong> 返回一个 <strong>Promise</strong>，<strong>resolve</strong> 时回传 <strong>Response</strong> 对象。</p>
+<h2 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h2><p>可以使用 <strong>Response.Response()</strong> 构造函数来创建一个 <strong>Response</strong> 对象，但通常会是其他的 <strong>API</strong> 操作返回了一个 <strong>Response</strong> 对象，例如一个 <strong>service worker</strong> 的<strong>Fetchevent.respondWith</strong>，或者一个简单的 <strong>GlobalFetch.fetch()</strong>。</p>
+<h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><blockquote>
+<p>Response.Response() // 创建一个 Response 对象</p>
+</blockquote>
+<h3 id="attr-amp-method"><a href="#attr-amp-method" class="headerlink" title="attr &amp; method"></a>attr &amp; method</h3><ul>
+<li><strong>Response.ok</strong> 包含了一个布尔值来标示该Response成功(状态码200-299) 还是失败</li>
+<li><strong>Body.json()</strong> 读取 Response对象并且将它设置为已读（因为Responses对象被设置为了 stream 的方式，所以它们只能被读取一次），并返回一个被解析为JSON格式的promise对象</li>
+<li><strong>Body.text()</strong> 读取 Response对象并且将它设置为已读（因为Responses对象被设置为了 stream 的方式，所以它们只能被读取一次），并返回一个被解析为USVString格式的promise对象</li>
+</ul>
+<h2 id="版本兼容"><a href="#版本兼容" class="headerlink" title="版本兼容"></a>版本兼容</h2><p>fetch 原生支持率不高，幸运的是，引入下面这些 polyfill 后可以完美支持 IE8+ ：</p>
+<ul>
+<li>由于 IE8 是 ES3，需要引入 ES5 的 polyfill: es5-shim, es5-sham</li>
+<li>引入 Promise 的 polyfill: es6-promise</li>
+<li>引入 fetch 探测库：fetch-detector</li>
+<li>引入 fetch 的 polyfill: fetch-ie8</li>
+<li>可选：如果你还使用了 jsonp，引入 fetch-jsonp</li>
+<li>可选：开启 Babel 的 runtime 模式，现在就使用 async/await</li>
+</ul>
+<p><strong>Fetch polyfill</strong> 的基本原理是探测是否存在 <strong>window.fetch</strong> 方法，如果没有则用 <strong>XHR</strong> 实现。这也是 <strong>github/fetch</strong> 的做法，但是有些浏览器（Chrome 45）原生支持 Fetch，但响应中有中文时会乱码，老外又不太关心这种问题，所以我才有了 fetch-detector 和 fetch-ie8 只在浏览器稳定支持 Fetch 情况下才使用原生 Fetch。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalFetch/fetch" target="_blank" rel="external">GlobalFetch</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API" target="_blank" rel="external">Fetch_API</a></li>
+<li><a href="https://github.com/camsong/blog" target="_blank" rel="external">Fetch</a></li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Fetch</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2016/05/15/JavaScript-fetch/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/05/17/JavaScript-ES7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JavaScript ES7 中的 async 和 await
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2016/05/09/Retrofit-Soap-UserDefine-Converter/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用Retrofit提交Soap请求以及自定义Converter解析数据</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +390,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

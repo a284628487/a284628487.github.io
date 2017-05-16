@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Interceptor | 放肆的Coder</title>
+  <title>使用 OkHttp 进行网络请求 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/Interceptor/index.html">
+  <meta name="description" content="OkHttp 作为一个优秀的开源框架，它能处理很多疑难杂症，使用非常方便，在 Android 开发中已经使用得非常广泛。">
+<meta name="keywords" content="OkHttp3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 OkHttp 进行网络请求">
+<meta property="og:url" content="http://yoursite.com/2014/08/14/OkHttp-Request/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="OkHttp 作为一个优秀的开源框架，它能处理很多疑难杂症，使用非常方便，在 Android 开发中已经使用得非常广泛。">
+<meta property="og:updated_time" content="2017-05-15T06:34:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="使用 OkHttp 进行网络请求">
+<meta name="twitter:description" content="OkHttp 作为一个优秀的开源框架，它能处理很多疑难杂症，使用非常方便，在 Android 开发中已经使用得非常广泛。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,36 +158,93 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OkHttp-Request" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/08/17/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2014-08-17T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/08/17/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      使用 OkHttp 进行网络请求
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2014/08/14/OkHttp-Request/" class="archive-article-date">
+  	<time datetime="2014-08-14T01:39:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>OkHttp</strong> 作为一个优秀的开源框架，它能处理很多疑难杂症，使用非常方便，在 <strong>Android</strong> 开发中已经使用得非常广泛。<br><!-- 如果服务器配置了多个IP地址，当第一个 **IP** 连接失败的时候，**OkHttp** 会自动尝试下一个 **IP** ，此外 **OkHttp** 还处理了代理服务器问题和 **SSL** 握手失败问题。--><br><a id="more"></a></p>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">    .connectTimeout(<span class="number">2</span>, TimeUnit.SECONDS)</div><div class="line">    .build();</div><div class="line">Request request = <span class="keyword">new</span> Request.Builder()</div><div class="line">    .url(<span class="string">"http://10.50.40.53:8081/login"</span>)</div><div class="line">    .addHeader(<span class="string">"Authorization"</span>, <span class="string">"abcde"</span>)</div><div class="line">    .method(<span class="string">"GET"</span>, <span class="keyword">null</span>)</div><div class="line">    .build();</div><div class="line"></div><div class="line">Call call = client.newCall(request);</div><div class="line">call.enqueue(<span class="keyword">new</span> Callback() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call call, IOException e)</span> </span>&#123;</div><div class="line">        Log.e(TAG, <span class="string">"onFailure: "</span> + e);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call call, Response response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> success = response.isSuccessful();</div><div class="line">        Log.d(TAG, <span class="string">"onResponse: "</span> + success);</div><div class="line">        String responseString = response.body().string();</div><div class="line">        Log.d(TAG, <span class="string">"onResponse: "</span> + responseString);</div><div class="line">        runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="comment">// TODO</span></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码使用 <strong>OkHttpClient.Builder</strong> 创建了一个 <strong>client</strong> 实例，然后使用 <strong>Request.Builder</strong> 创建一个 <strong>request</strong> 实例，该对象存储了该次请求所需要传递到服务器的信息，以及 <strong>http</strong> 请求的一些设置。通过 <strong>client.newCall</strong> 创建一个 <strong>Call</strong> 对象，该对象的 <strong>enqueue</strong> 方法被调用的时候，<strong>request</strong> 所携带的信息被传递到后台服务器。</p>
+<blockquote>
+<p>通常一个应用中，<strong>OkHttpClient</strong> 实例是使用单例来存储，整个应用使用同一个 <strong>client</strong> 实例。</p>
+</blockquote>
+<h2 id="Request-Builder"><a href="#Request-Builder" class="headerlink" title="Request.Builder"></a>Request.Builder</h2><p>使用 <strong>Request.Builder</strong> 可以快速的创建一个请求配置，比如请求方式，参数传递，添加 <strong>Header</strong> 等。</p>
+<h3 id="method"><a href="#method" class="headerlink" title="method"></a>method</h3><p>使用 <strong>Request.Builder</strong> 指定请求方式，有两种方式，一是使用 <strong>Request.Builder</strong> 的 <strong>method</strong> 方法，二是使用请求方式对应的方法名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">builder.method(<span class="string">"GET"</span>, <span class="keyword">null</span>); <span class="comment">// 第二个参数为 RequestBody，可携带需要传给服务器的数据</span></div><div class="line"><span class="comment">// or</span></div><div class="line">builder.get();</div></pre></td></tr></table></figure>
+<p>其它请求方式 <strong>POST</strong>、<strong>DELETE</strong>、<strong>HEAD</strong>、<strong>PUT</strong>、<strong>PATCH</strong> 等都有相对应的方法；</p>
+<blockquote>
+<p>注意：<strong>GET</strong> 请求和 <strong>HEAD</strong> 请求，如果使用 <strong>method</strong> 来指定，则第二个参数必须为 <strong>null</strong>。</p>
+</blockquote>
+<h3 id="addHeader"><a href="#addHeader" class="headerlink" title="addHeader"></a>addHeader</h3><p>使用 <strong>addHeader</strong> 方法可以为请求添加请求头信息，也可以使用 <strong>header</strong> 或者 <strong>headers</strong> 方法指定请求头。</p>
+<h2 id="RequestBody"><a href="#RequestBody" class="headerlink" title="RequestBody"></a>RequestBody</h2><p>在使用 <strong>POST</strong>、<strong>DELETE</strong> 等请求时，需要使用 <strong>RequestBody</strong> 来传递参数到后台服务器，<strong>RequestBody</strong> 是一个抽象类，可以使用 <strong>FormBody</strong> 来快速创建一个参数信息表单。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">RequestBody body = <span class="keyword">new</span> FormBody.Builder()</div><div class="line">    .addEncoded(<span class="string">"username"</span>, <span class="string">"ccf"</span>)</div><div class="line">    .build();</div></pre></td></tr></table></figure>
+<p>这样创建的一个 <strong>FormBody</strong> 表单对象，在请求的时候就会被传递到服务器。</p>
+<h2 id="Upload-File"><a href="#Upload-File" class="headerlink" title="Upload-File"></a>Upload-File</h2><p>文件上传也是一个 <strong>POST</strong> 请求，不过此时需要使用 <strong>RequestBody</strong>，而不能直接使用 <strong>FormBody</strong>。</p>
+<p>比如上传一个 <strong>txt</strong> 文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">File file = ...;</div><div class="line">RequestBody.Builder builder = <span class="keyword">new</span> RequestBody.Builder();</div><div class="line"><span class="comment">// ...</span></div><div class="line">builder.post(RequestBody.create(MediaType.parse(<span class="string">"text/plain"</span>), file));</div></pre></td></tr></table></figure>
+<p>相对应的，如果上传其它文件，则把 <strong>MediaType</strong> 更改成对应的 <strong>type</strong> 即可。</p>
+<h2 id="File-Download"><a href="#File-Download" class="headerlink" title="File-Download"></a>File-Download</h2><p>文件下载和普通的 GET 请求在使用上没有区别，只是在 Callback#onResponse方法处理上，需要做一些调整。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call call, Response response)</span> </span>&#123;</div><div class="line">    InputStream inputStream = response.body().byteStream();</div><div class="line">    <span class="comment">// TODO</span></div><div class="line">    saveFile(inputStream);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="MultipartBody"><a href="#MultipartBody" class="headerlink" title="MultipartBody"></a>MultipartBody</h2><p>有时在上传文件的同时还需要传其他参数，此时可以使用 <strong>MultipartBody</strong> 上传文件和参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">File file = ...;</div><div class="line">RequestBody requestBody = <span class="keyword">new</span> MultipartBody.Builder()</div><div class="line">    .setType(MultipartBody.FORM)</div><div class="line">    .addFormDataPart(<span class="string">"title"</span>, <span class="string">"Awesome picture"</span>)</div><div class="line">    .addFormDataPart(<span class="string">"image"</span>, <span class="string">"awesome_picture.jpg"</span>,</div><div class="line">            RequestBody.create(MediaType.parse(<span class="string">"image/*"</span>), </div><div class="line">            file))</div><div class="line">    .build();</div><div class="line"></div><div class="line">Request request = <span class="keyword">new</span> Request.Builder()</div><div class="line">    .header(<span class="string">"Authorization"</span>, <span class="string">"Client-ID "</span> + <span class="string">"..."</span>)</div><div class="line">    .url(...)</div><div class="line">    .post(requestBody)</div><div class="line">    .build();</div></pre></td></tr></table></figure>
+<h2 id="OkHttpClient-Builder"><a href="#OkHttpClient-Builder" class="headerlink" title="OkHttpClient.Builder"></a>OkHttpClient.Builder</h2><p><strong>client</strong> 所需要的所有配置，都可以通过 <strong>Builder</strong> 来快速创建配置。</p>
+<h3 id="timeout-amp-cache"><a href="#timeout-amp-cache" class="headerlink" title="timeout &amp; cache"></a>timeout &amp; cache</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">File sdcache = getExternalCacheDir();</div><div class="line"><span class="keyword">int</span> cacheSize = <span class="number">10</span> * <span class="number">1024</span> * <span class="number">1024</span>;</div><div class="line">OkHttpClient.Builder builder = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">    .connectTimeout(<span class="number">10</span>, TimeUnit.SECONDS)</div><div class="line">    .writeTimeout(<span class="number">20</span>, TimeUnit.SECONDS)</div><div class="line">    .readTimeout(<span class="number">20</span>, TimeUnit.SECONDS)</div><div class="line">    .cache(<span class="keyword">new</span> Cache(sdcache.getAbsoluteFile(), cacheSize));</div></pre></td></tr></table></figure>
+<p>通过上面的三个 <strong>xxxTimeout</strong> 方法可以设置相应的超时时间，以及缓存文件存放位置。</p>
+<h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><ul>
+<li>retryOnConnectionFailure : 设置失败重连;</li>
+<li>addNetworkInterceptor : 添加拦截器，可以在拦截器中添加进行 <strong>debug</strong> 输入，添加请求头等;</li>
+</ul>
+<h2 id="Call"><a href="#Call" class="headerlink" title="Call"></a>Call</h2><p><strong>Call</strong> 对象用于发起请求，当一个请求发起之后，可以使用 <strong>cancel()</strong> 方法取消该请求。</p>
+<p>发起请求有两种方式:</p>
+<ul>
+<li><strong>enqueue(Callback)</strong> 发起异步请求，使用网络请求线程</li>
+<li><strong>execute</strong> 发起同步请求，使用当前代码所在的线程</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -193,27 +252,102 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
-        		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2014/08/14/OkHttp-Request/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/08/17/RxJava-Begin/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          RxJava框架介绍
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2014/08/11/CSS-Triangle/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用CSS绘制Triangle三角形</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +370,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

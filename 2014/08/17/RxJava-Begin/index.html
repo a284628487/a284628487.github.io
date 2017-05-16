@@ -6,17 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: Interceptor | 放肆的Coder</title>
+  <title>RxJava框架介绍 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/Interceptor/index.html">
+  <meta name="description" content="RxJava 到底是什么？使用 RxJava 到底有什么好处呢？其实 RxJava 是 ReactiveX 使用 Java 语言实现的版本。什么是 ReactiveX 呢？简单的说，ReactiveX 就是 观察者模式+迭代器模式+函数式编程三种模式的结合体。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava框架介绍">
+<meta property="og:url" content="http://yoursite.com/2014/08/17/RxJava-Begin/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="RxJava 到底是什么？使用 RxJava 到底有什么好处呢？其实 RxJava 是 ReactiveX 使用 Java 语言实现的版本。什么是 ReactiveX 呢？简单的说，ReactiveX 就是 观察者模式+迭代器模式+函数式编程三种模式的结合体。">
+<meta property="og:updated_time" content="2017-05-15T09:18:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="RxJava框架介绍">
+<meta name="twitter:description" content="RxJava 到底是什么？使用 RxJava 到底有什么好处呢？其实 RxJava 是 ReactiveX 使用 Java 语言实现的版本。什么是 ReactiveX 呢？简单的说，ReactiveX 就是 观察者模式+迭代器模式+函数式编程三种模式的结合体。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,64 +157,198 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-RxJava-Begin" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/08/17/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2014-08-17T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/08/17/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      RxJava框架介绍
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        <a href="/2014/08/17/RxJava-Begin/" class="archive-article-date">
+  	<time datetime="2014-08-17T06:59:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>RxJava</strong> 到底是什么？使用 <strong>RxJava</strong> 到底有什么好处呢？其实 <strong>RxJava</strong> 是 <strong>ReactiveX</strong> 使用 <strong>Java</strong> 语言实现的版本。<br>什么是 <strong>ReactiveX</strong> 呢？简单的说，<strong>ReactiveX</strong> 就是 <strong>观察者模式</strong>+<strong>迭代器模式</strong>+<strong>函数式编程</strong>三种模式的结合体。</p>
+<a id="more"></a>
+<ul>
+<li>扩展<strong>观察者模式</strong>，通过使用可观察的对象序列流来表述一系列事件，订阅者进行占点观察并对序列流做出反应；</li>
+<li>借鉴<strong>迭代器模式</strong>，对多个对象序列进行迭代输出，订阅者可以依次处理不同的对象序列；</li>
+<li>使用<strong>函数式编程思想</strong>(functional programming)，简化问题解决的步骤；</li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><strong>RxJava</strong> 中的两大核心就是 <strong>Observable</strong> (被观察者，也就是事件源)和 <strong>Subscriber</strong> (观察者)，由 <strong>Observable</strong> 发出一系列的事件，<strong>Subscriber</strong> 进行订阅接收并进行处理，看起来就好像是设计模式中的观察者模式，但是跟观察者模式不同的地方就在于，如果没有观察者 <strong>Subscriber</strong>，<strong>Observable</strong> 是不会发出任何事件的。</p>
+<p>由于 <strong>Observable</strong> 发出的事件并不仅限于一个，有可能是多个的，如何确保每一个事件都能发送到 <strong>Subscriber</strong> 上进行处理呢？<strong>ReactiveX</strong> 借鉴了设计模式的迭代器模式，对事件进行迭代轮询<strong>next</strong>()、<strong>hasNext</strong>()，在迭代过程中如果出现异常则直接抛出(throws Exceptions)，下表是 <strong>Observable</strong> 和迭代器 <strong>Iterable</strong> 的对比：</p>
+<table>
+<thead>
+<tr>
+<th>事件Event</th>
+<th>迭代器 Iterable</th>
+<th>Observable </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接收数据</td>
+<td>T next()</td>
+<td>onNext(T) </td>
+</tr>
+<tr>
+<td>遇到错误</td>
+<td>throw Exception</td>
+<td>onError(Exception) </td>
+</tr>
+<tr>
+<td>迭代完成</td>
+<td>!hasNext()</td>
+<td>onComplete()</td>
+</tr>
+</tbody>
+</table>
+<p>与 <strong>Iterable</strong> 不同的地方在于，迭代器模式在事件处理上采用的是“同步/拉式”的方式，而 <strong>Observable</strong> 采用的是“异步/推式”的方式。</p>
+<ul>
+<li><strong>Observable</strong>：事件源，英文释义“可观察的”，在观察者模式中称为“被观察者”或“可观察对象”；</li>
+<li><strong>Observer</strong>：观察者，可接收 <strong>Observable</strong>、<strong>Subject</strong> 发出的数据；</li>
+<li><strong>Consumer</strong>：观察者，只能处理 <strong>Observable</strong> 发出的接收数据处理方法，不能处理 <strong>onError</strong>，<strong>onComplete</strong>；</li>
+<li><strong>Subject</strong>：<strong>Subject</strong> 是一个比较特殊的对象，既可充当事件源，也可充当观察者；</li>
+<li><strong>ObservableEmitter</strong>：事件发起者，调用对象的 <strong>onNext</strong>，<strong>onError</strong>，<strong>onComplete</strong> 分别表示发出一个迭代事件，异常事件，完成的事件；对象的 <strong>isDisposed</strong>() 方法用于判断 <strong>subscribe</strong>() 方法返回的对象，用户是否已经取消订阅，如果用户取消订阅了，为了节省系统开销，此时即可结束流程，而不必要再调用 <strong>onNext</strong> 或者 <strong>onComplete</strong> 等方法； </li>
+<li><strong>Disposable</strong>：<strong>subscribe</strong>()方法返回的对象，该对象有 <strong>isDisposed</strong>() 和<strong>dispose</strong>() 方法分别用于 判断事件源是否已经迭代完成 和 取消订阅；</li>
+</ul>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Observable.just(<span class="number">100</span>)</div><div class="line">    .subscribe(<span class="keyword">new</span> Consumer&lt;Integer&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Log.e(TAG, <span class="string">"accept: "</span> + integer);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>Observable.just</strong> 快速创建一个 <strong>Observable</strong> 对象；</li>
+<li><strong>Observalbe</strong> 对象实例的 <strong>subscribe</strong> 方法将 <strong>Observable</strong> 对象和 <strong>Observer</strong> 对象关联起来；</li>
+</ul>
+<h2 id="使用ObservableOnSubscribe生成Observable"><a href="#使用ObservableOnSubscribe生成Observable" class="headerlink" title="使用ObservableOnSubscribe生成Observable"></a>使用ObservableOnSubscribe生成Observable</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> @NonNull ObservableEmitter&lt;Integer&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!e.isDisposed()) &#123;</div><div class="line">            e.onNext(<span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        Observable.timer(<span class="number">2000</span>, TimeUnit.MILLISECONDS)</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;Long&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(@NonNull Long aLong)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="keyword">if</span> (!e.isDisposed())</div><div class="line">                            e.onNext(<span class="number">2</span>);</div><div class="line">                        e.onComplete();</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>上面的代码在第一次 <strong>onNext</strong> 调用之后，通过 <strong>timer</strong> 在 2s 后再次调用 <strong>onNext</strong> 发出事件，此时先判断用户是否已经取消掉了订阅，如果没有取消订阅，则才会再发出事件；</p>
 
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2014/08/17/RxJava-Begin/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/08/17/OkHttp-Interceptor/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          在 OkHttp 中使用 Interceptor 预处理网络请求
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2014/08/14/OkHttp-Request/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用 OkHttp 进行网络请求</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +371,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
