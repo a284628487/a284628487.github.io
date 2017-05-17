@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>React 技术栈 Redux 入门 | 放肆的Coder</title>
+  <title>React 中使用 Redux 入门 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Redux 适合用于前端业务非常复杂，或者需要从多个数据源请求数据等需求。Redux 将整个应用所需要用到的数据组织存放在一个叫做 state 的对象里面，每次从服务器请求数据或者用户交互使数据发生改变之后，都需要先发送一个 action，然后在 action 处理函数中更新 state 对象。和常规做法不同的是，我们并不需要手动去更新 UI，更新 UI 的过程由中间件去完成，state 对象改变">
 <meta name="keywords" content="React,Redux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React 技术栈 Redux 入门">
+<meta property="og:title" content="React 中使用 Redux 入门">
 <meta property="og:url" content="http://yoursite.com/2016/10/15/React+Redux/index.html">
 <meta property="og:site_name" content="放肆的Coder">
 <meta property="og:description" content="Redux 适合用于前端业务非常复杂，或者需要从多个数据源请求数据等需求。Redux 将整个应用所需要用到的数据组织存放在一个叫做 state 的对象里面，每次从服务器请求数据或者用户交互使数据发生改变之后，都需要先发送一个 action，然后在 action 处理函数中更新 state 对象。和常规做法不同的是，我们并不需要手动去更新 UI，更新 UI 的过程由中间件去完成，state 对象改变">
-<meta property="og:updated_time" content="2017-05-16T13:09:19.000Z">
+<meta property="og:updated_time" content="2017-05-17T01:33:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React 技术栈 Redux 入门">
+<meta name="twitter:title" content="React 中使用 Redux 入门">
 <meta name="twitter:description" content="Redux 适合用于前端业务非常复杂，或者需要从多个数据源请求数据等需求。Redux 将整个应用所需要用到的数据组织存放在一个叫做 state 的对象里面，每次从服务器请求数据或者用户交互使数据发生改变之后，都需要先发送一个 action，然后在 action 处理函数中更新 state 对象。和常规做法不同的是，我们并不需要手动去更新 UI，更新 UI 的过程由中间件去完成，state 对象改变">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
@@ -165,7 +165,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      React 技术栈 Redux 入门
+      React 中使用 Redux 入门
     </h1>
   
 
@@ -316,11 +316,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/10/16/React+React-Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/10/16/Redux-Multi-Reducers/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          React 结合 React-Redux 入门
+          Redux 多个 Reducer 分拆
         
       </div>
     </a>
@@ -443,7 +443,31 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -459,18 +483,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
@@ -479,19 +491,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Soap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,10 +508,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Observable</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
             
             <div class="clearfix"></div>

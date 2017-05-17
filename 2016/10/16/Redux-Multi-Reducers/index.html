@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: JavaScript | 放肆的Coder</title>
+  <title>Redux 多个 Reducer 分拆 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="放肆的Coder">
-<meta property="og:url" content="http://yoursite.com/tags/JavaScript/index.html">
+  <meta name="description" content="在 Redux 中，对 state 进行计算重新返回的方法通常叫做 reducer，如果 state 比较简单，只在一个 reducer 中也可以清晰的看明白数据处理过程，但 redux 通常用来处理复杂的应用程序，state 结构通常比较庞大，结构比较复杂，如果都写到一个方法里面，非常不便于维护，此时就需要对 reducer 进行拆分成多个子 reducer。">
+<meta name="keywords" content="Redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux 多个 Reducer 分拆">
+<meta property="og:url" content="http://yoursite.com/2016/10/16/Redux-Multi-Reducers/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:description" content="start">
+<meta property="og:description" content="在 Redux 中，对 state 进行计算重新返回的方法通常叫做 reducer，如果 state 比较简单，只在一个 reducer 中也可以清晰的看明白数据处理过程，但 redux 通常用来处理复杂的应用程序，state 结构通常比较庞大，结构比较复杂，如果都写到一个方法里面，非常不便于维护，此时就需要对 reducer 进行拆分成多个子 reducer。">
+<meta property="og:updated_time" content="2017-05-17T02:55:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="放肆的Coder">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="Redux 多个 Reducer 分拆">
+<meta name="twitter:description" content="在 Redux 中，对 state 进行计算重新返回的方法通常叫做 reducer，如果 state 比较简单，只在一个 reducer 中也可以清晰的看明白数据处理过程，但 redux 通常用来处理复杂的应用程序，state 结构通常比较庞大，结构比较复杂，如果都写到一个方法里面，非常不便于维护，此时就需要对 reducer 进行拆分成多个子 reducer。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -156,64 +158,182 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Redux-Multi-Reducers" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/05/15/JavaScript-fetch/" class="archive-article-date">
-  	<time datetime="2016-05-15T13:10:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-15</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/15/JavaScript-fetch/">JavaScript 使用 fetch 进行网络请求</a>
+    <h1 class="article-title" itemprop="name">
+      Redux 多个 Reducer 分拆
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2016/10/16/Redux-Multi-Reducers/" class="archive-article-date">
+  	<time datetime="2016-10-16T02:13:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 <strong>Redux</strong> 中，对 <strong>state</strong> 进行计算重新返回的方法通常叫做 <strong>reducer</strong>，如果 <strong>state</strong> 比较简单，只在一个 <strong>reducer</strong> 中也可以清晰的看明白数据处理过程，但 <strong>redux</strong> 通常用来处理复杂的应用程序，<strong>state</strong> 结构通常比较庞大，结构比较复杂，如果都写到一个方法里面，非常不便于维护，此时就需要对 <strong>reducer</strong> 进行拆分成多个子 <strong>reducer</strong>。<br><a id="more"></a></p>
+<h2 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h2><p><strong>redux</strong> 提供的 <strong>combineReducers</strong> 用于将多个 <strong>reducer</strong> 合并成一个 <strong>reducer</strong>，该方法接收一个 <strong>Object</strong> 对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span> &#123;</div><div class="line">	<span class="attr">prop1</span>: reducerProp1,</div><div class="line">	<span class="attr">prop2</span>: reducerProp2,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如上一个 <strong>Object</strong> 表示合并之后得到的 <strong>reducer</strong> 将处理两个属性 <strong>prop1</strong> 和 <strong>prop2</strong>，处理函数分别是 <strong>reducerProp1</strong> 和 <strong>reducerProp2</strong>。</p>
+<h2 id="state"><a href="#state" class="headerlink" title="state"></a>state</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">user</span>: &#123;</div><div class="line">        <span class="attr">name</span>: <span class="string">"Michael Cai"</span>,</div><div class="line">        <span class="attr">age</span>: <span class="number">0</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">work</span>: &#123;</div><div class="line">        <span class="attr">name</span>: <span class="string">"IT"</span>,</div><div class="line">        <span class="attr">years</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>假设有如上一个 <strong>state</strong> 结构，<strong>user</strong> 表示用户，<strong>work</strong> 表示工作，接下来需要做的就是把 <strong>user</strong> 和 <strong>work</strong> 拆分出来放到不同的 <strong>reducer</strong> 中去处理更新 <strong>state</strong>。</p>
+<h2 id="reducer"><a href="#reducer" class="headerlink" title="reducer"></a>reducer</h2><p>分别定义处理 <strong>user</strong> 和 <strong>work</strong> 的 <strong>reducer</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;combineReducers&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">userName</span>(<span class="params">state = <span class="string">''</span>, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (action.type == <span class="string">'USER_SET_NAME'</span>) &#123;</div><div class="line">        <span class="keyword">return</span> action.name;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> state;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">userAge</span>(<span class="params">state = <span class="number">18</span>, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (action.type == <span class="string">'USER_SET_AGE'</span>) &#123;</div><div class="line">        <span class="keyword">return</span> action.age;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> state;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> user = combineReducers(&#123;</div><div class="line">    <span class="attr">name</span>: userName,</div><div class="line">    <span class="attr">age</span>: userAge</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码定义了 <strong>user</strong> 的两个属性的更新处理函数，这两个属性的更新，也把它们给拆分开了，并没有放到一个整体的更新 <strong>user</strong> 对象的方法里面去更新。</p>
+<p>下面是更新 <strong>work</strong> 的流程：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">workName</span>(<span class="params">state = <span class="string">'gwy'</span>, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (action.type == <span class="string">'WORK_SET_NAME'</span>) &#123;</div><div class="line">        <span class="keyword">return</span> action.name;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> state;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">workYears</span>(<span class="params">state = <span class="number">0</span>, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (action.type == <span class="string">'WORK_SET_YEARS'</span>) &#123;</div><div class="line">        <span class="keyword">return</span> action.years;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> state;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> work = combineReducers(&#123;</div><div class="line">    <span class="attr">name</span>: workName,</div><div class="line">    <span class="attr">years</span>: workYears</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>定义好子 <strong>reducer</strong> 后，再次通过 <strong>combineReducers</strong> 方法合并上面定义的两个 <strong>reducer</strong> :</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> reducer = combineReducers(&#123;</div><div class="line">    user,</div><div class="line">    work</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="渲染页面"><a href="#渲染页面" class="headerlink" title="渲染页面"></a>渲染页面</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;createStore&#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</div><div class="line"><span class="keyword">import</span> &#123;reducer&#125; <span class="keyword">from</span> <span class="string">'./reducer.js'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> store = createStore(reducer, default_state);</div><div class="line"></div><div class="line"><span class="keyword">const</span> App = React.createClass(&#123;</div><div class="line"></div><div class="line">    <span class="attr">render</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> &lt;div&gt;</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;button onClick=&#123;()=&gt; &#123;</div><div class="line">                    store.dispatch(&#123;'type': 'USER_SET_NAME', name: 'James'&#125;)</div><div class="line">                &#125;&#125;&gt;SetUserName&lt;/button&gt;</div><div class="line">                &lt;span&gt;&#123;store.getState().user.name&#125;&lt;/span&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;button onClick=&#123;()=&gt; &#123;</div><div class="line">                    store.dispatch(&#123;'type': 'USER_SET_AGE', age: 32&#125;)</div><div class="line">                &#125;&#125;&gt;SetUserAge&lt;/button&gt;</div><div class="line">                &lt;span&gt;&#123;store.getState().user.age&#125;&lt;/span&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;button onClick=&#123;()=&gt; &#123;</div><div class="line">                    store.dispatch(&#123;'type': 'WORK_SET_NAME', name: 'Android'&#125;)</div><div class="line">                &#125;&#125;&gt;SetWorkName&lt;/button&gt;</div><div class="line">                &lt;span&gt;&#123;store.getState().work.name&#125;&lt;/span&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;button onClick=&#123;()=&gt; &#123;</div><div class="line">                    store.dispatch(&#123;'type': 'WORK_SET_YEARS', years: 4&#125;)</div><div class="line">                &#125;&#125;&gt;SetWorkAge&lt;/button&gt;</div><div class="line">                &lt;span&gt;&#123;store.getState().work.years&#125;&lt;/span&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">const</span> render = <span class="function"><span class="params">()</span>=&gt;</span> &#123;</div><div class="line">    ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));</div><div class="line">&#125;;</div><div class="line"></div><div class="line">render();</div><div class="line">store.subscribe(render);</div></pre></td></tr></table></figure>
+<p>应用程序可以分别设置 <strong>work.name</strong>，<strong>work.years</strong>，<strong>user.name</strong>，<strong>user.age</strong>；</p>
+<blockquote>
+<p>createStore() 方法还可以直接传入一个默认的 state；</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> default_state = &#123;</div><div class="line">    <span class="attr">user</span>: &#123;</div><div class="line">        <span class="attr">name</span>: <span class="string">'Michael Cai'</span>,</div><div class="line">        <span class="attr">age</span>: <span class="number">26</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">work</span>: &#123;</div><div class="line">        <span class="attr">name</span>: <span class="string">'gwy'</span>,</div><div class="line">        <span class="attr">years</span>: <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果不传入默认的 <strong>state</strong>，则在 <strong>reducer</strong> 函数定义时，需要定义对应的默认值，就像上面定义的 <strong>workName()</strong>，<strong>userName()</strong> 中 <strong>state</strong> 参数都赋予了默认值；</p>
+</blockquote>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>除了使用 <strong>redux</strong> 提供的 <strong>combineReducers</strong> 之外，也可以自己实现，实际上 <strong>combineReducers</strong> 处理之后的 <strong>reducer</strong> 就像是下面这样的:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> userReducer = <span class="function">(<span class="params">state = &#123;name: <span class="string">''</span>, age: <span class="number">0</span>&#125;, action</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">name</span>: userName(state.name, action),</div><div class="line">        <span class="attr">age</span>: userAge(state.age, action)</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">const</span> workReducer = <span class="function">(<span class="params">state = &#123;name: <span class="string">''</span>, age: <span class="number">0</span>&#125;, action</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">name</span>: workName(state.name, action),</div><div class="line">        <span class="attr">age</span>: workYears(state.age, action)</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">const</span> reducer = <span class="function">(<span class="params">state = &#123;&#125;, action</span>) =&gt;</span> (&#123;</div><div class="line">    <span class="attr">user</span>: userReducer(state.user, action),</div><div class="line">    <span class="attr">work</span>: workReducer(state.work, action)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Fetch</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redux</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2016/10/16/Redux-Multi-Reducers/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/10/16/React+React-Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          React 中使用 React-Redux 入门
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2016/10/15/React+Redux/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React 中使用 Redux 入门</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -236,9 +356,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

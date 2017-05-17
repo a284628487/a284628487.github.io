@@ -165,7 +165,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/16/React+React-Redux/">React 结合 React-Redux 入门</a>
+      <a class="article-title" href="/2016/10/16/React+React-Redux/">React 中使用 React-Redux 入门</a>
     </h1>
   
 
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>React</strong> 是一个前端框架，而 <strong>Redux</strong> 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 <strong>Redux</strong> 中 <strong>store.subscribe</strong> 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 <strong>React</strong> 的优点，而 <strong>React-Redux</strong> 则是专门用于将 <strong>React</strong> 和 <strong>Redux</strong> 结合起来，让我们可以使用 <strong>state</strong> 函数的形式来描述界面，优化应用程序重新渲染；<br>
+        <p><strong>React</strong> 是一个前端框架，而 <strong>Redux</strong> 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 <strong>Redux</strong> 中 <strong>store.subscribe</strong> 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 <strong>React</strong> 的优点，而 <strong>React-Redux</strong> 则是专门用于将 <strong>React</strong> 和 <strong>Redux</strong> 结合起来，让我们可以使用 <strong>state</strong> 函数的形式来描述界面，优化应用程序重新渲染。<br>
         
           <a class="article-more-a" href="/2016/10/16/React+React-Redux/#more">more >></a>
         
@@ -223,6 +223,67 @@
 
 
   
+    <article id="post-Redux-Multi-Reducers" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/16/Redux-Multi-Reducers/">Redux 多个 Reducer 分拆</a>
+    </h1>
+  
+
+        
+        <a href="/2016/10/16/Redux-Multi-Reducers/" class="archive-article-date">
+  	<time datetime="2016-10-16T02:13:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 <strong>Redux</strong> 中，对 <strong>state</strong> 进行计算重新返回的方法通常叫做 <strong>reducer</strong>，如果 <strong>state</strong> 比较简单，只在一个 <strong>reducer</strong> 中也可以清晰的看明白数据处理过程，但 <strong>redux</strong> 通常用来处理复杂的应用程序，<strong>state</strong> 结构通常比较庞大，结构比较复杂，如果都写到一个方法里面，非常不便于维护，此时就需要对 <strong>reducer</strong> 进行拆分成多个子 <strong>reducer</strong>。<br>
+        
+          <a class="article-more-a" href="/2016/10/16/Redux-Multi-Reducers/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/10/16/Redux-Multi-Reducers/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-React+Redux" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -230,7 +291,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/15/React+Redux/">React 技术栈 Redux 入门</a>
+      <a class="article-title" href="/2016/10/15/React+Redux/">React 中使用 Redux 入门</a>
     </h1>
   
 
@@ -743,71 +804,6 @@
 
 
   
-    <article id="post-RxJava-Observable" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/20/RxJava-Observable/">RxJava Observable 数据转换</a>
-    </h1>
-  
-
-        
-        <a href="/2014/08/20/RxJava-Observable/" class="archive-article-date">
-  	<time datetime="2014-08-20T13:37:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>RxJava</strong> 提供了多种请求数据处理，转换的方法，功能强大而且优雅，只有想不到，没有做不到。本篇主要记录使用 <strong>Observable</strong> 对请求数据进行转换处理的方法。<br>
-        
-          <a class="article-more-a" href="/2014/08/20/RxJava-Observable/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">RxJava</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Observable</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2014/08/20/RxJava-Observable/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -912,7 +908,31 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -928,18 +948,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
@@ -948,19 +956,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Soap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -973,10 +973,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Observable</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
             
             <div class="clearfix"></div>

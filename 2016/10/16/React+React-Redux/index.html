@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>React 结合 React-Redux 入门 | 放肆的Coder</title>
+  <title>React 中使用 React-Redux 入门 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="React 是一个前端框架，而 Redux 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 Redux 中 store.subscribe 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 React 的优点，而 React-Redux 则是专门用于将 React 和 Redux 结合起来，让我们可以使用 state 函数的形式来描述界面，优化应用程序重">
 <meta name="keywords" content="React,React-Redux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React 结合 React-Redux 入门">
+<meta property="og:title" content="React 中使用 React-Redux 入门">
 <meta property="og:url" content="http://yoursite.com/2016/10/16/React+React-Redux/index.html">
 <meta property="og:site_name" content="放肆的Coder">
 <meta property="og:description" content="React 是一个前端框架，而 Redux 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 Redux 中 store.subscribe 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 React 的优点，而 React-Redux 则是专门用于将 React 和 Redux 结合起来，让我们可以使用 state 函数的形式来描述界面，优化应用程序重">
-<meta property="og:updated_time" content="2017-05-16T13:21:26.000Z">
+<meta property="og:updated_time" content="2017-05-17T01:41:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React 结合 React-Redux 入门">
+<meta name="twitter:title" content="React 中使用 React-Redux 入门">
 <meta name="twitter:description" content="React 是一个前端框架，而 Redux 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 Redux 中 store.subscribe 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 React 的优点，而 React-Redux 则是专门用于将 React 和 Redux 结合起来，让我们可以使用 state 函数的形式来描述界面，优化应用程序重">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
@@ -165,7 +165,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      React 结合 React-Redux 入门
+      React 中使用 React-Redux 入门
     </h1>
   
 
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>React</strong> 是一个前端框架，而 <strong>Redux</strong> 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 <strong>Redux</strong> 中 <strong>store.subscribe</strong> 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 <strong>React</strong> 的优点，而 <strong>React-Redux</strong> 则是专门用于将 <strong>React</strong> 和 <strong>Redux</strong> 结合起来，让我们可以使用 <strong>state</strong> 函数的形式来描述界面，优化应用程序重新渲染；<br><a id="more"></a></p>
+        <p><strong>React</strong> 是一个前端框架，而 <strong>Redux</strong> 是一种数据处理解决方案，两者之间没有任何直接联系，可以使用 <strong>Redux</strong> 中 <strong>store.subscribe</strong> 函数订阅监听数据改变，然后手动刷新整个应用，但是这样刷新的效率低下，并不能最大化 <strong>React</strong> 的优点，而 <strong>React-Redux</strong> 则是专门用于将 <strong>React</strong> 和 <strong>Redux</strong> 结合起来，让我们可以使用 <strong>state</strong> 函数的形式来描述界面，优化应用程序重新渲染。<br><a id="more"></a></p>
 <p>开始之前需要了解两个概念：<strong>容器组件</strong> 和 <strong>展示组件</strong>。<br><strong>Redux</strong> 的 <strong>React</strong> 绑定库是基于 <strong>容器组件</strong> 和 <strong>展示组件</strong> <strong>分离</strong> 的开发思想。<br>两者的异同：</p>
 <table>
 <thead>
@@ -218,6 +218,26 @@
 </table>
 <p>大部分的组件都应该是 <strong>展示型</strong> 的，一般需要少数的几个容器组件把它们和 <strong>Redux store</strong> 连接起来。</p>
 <p>技术上讲可以直接使用 <strong>store.subscribe()</strong> 来编写容器组件。但不建议这么做因为就无法使用 <strong>React</strong> <strong>Redux</strong> 带来的性能优化。因此不要手写容器组件，都是使用 <strong>React-Redux</strong> 的 <strong>connect()</strong> 方法来生成。</p>
+<p>下面来改写上一节中的计算器，使用 <strong>React-Redux</strong> 来更新计算结果。</p>
+<blockquote>
+<p>state 的结构不变，仍然是一个 int 值表示计算结果；<br>action 不变，共两个 action，加和减；<br>reducer 不变，仍然根据 action 的 type 和 num 做相应的加减运算；</p>
+</blockquote>
+<h2 id="step1-定义展示组件"><a href="#step1-定义展示组件" class="headerlink" title="step1: 定义展示组件"></a>step1: 定义展示组件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> App = React.createClass(&#123;</div><div class="line">    <span class="attr">add</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.props.add(<span class="number">3</span>);</div><div class="line">        <span class="comment">// store.dispatch(increment(3));</span></div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">dec</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.props.dec(<span class="number">2</span>);</div><div class="line">        <span class="comment">// store.dispatch(decrement(2));</span></div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">render</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> &lt;div&gt;</div><div class="line">            &lt;button onClick=&#123;this.add&#125;&gt;ADD&lt;/button&gt;</div><div class="line">            &lt;span style=&#123;&#123;'paddingLeft': '8px', 'paddingRight': '8px'&#125;&#125;&gt;&#123;this.props.state&#125;&lt;/span&gt;</div><div class="line">            &lt;button onClick=&#123;this.dec&#125;&gt;DEC&lt;/button&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</div></pre></td></tr></table></figure>
+<p>和之前的组件定义不同的是，<strong>add</strong> 和 <strong>dec</strong> 方法，不再直接使用 <strong>store</strong> 对象分发 <strong>action</strong>，而是使用 <strong>props</strong> 对象的 <strong>add</strong> 和 <strong>dec</strong> 方法；另外一个不同点是 <strong>span</strong> 中显示的计算结果，也是使用 <strong>props</strong> 对象的 <strong>state</strong> 属性；<strong>props</strong> 的 <strong>add</strong>、<strong>dec</strong> 方法和 <strong>state</strong> 属性在后面定义容器组件时会进行定义；</p>
+<h2 id="step2-定义容器组件"><a href="#step2-定义容器组件" class="headerlink" title="step2: 定义容器组件"></a>step2: 定义容器组件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.js'</span>;</div><div class="line"><span class="keyword">import</span> &#123;increment, decrement&#125; <span class="keyword">from</span> <span class="string">'./action.js'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123;connect&#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state, ownProps</span>) =&gt;</span> (&#123;</div><div class="line">    <span class="attr">state</span>: state</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">const</span> mapDispatchToProps = <span class="function">(<span class="params">dispatch, ownProps</span>) =&gt;</span>(&#123;</div><div class="line">    <span class="attr">add</span>: <span class="function">(<span class="params">num = <span class="number">1</span></span>)=&gt;</span> &#123;</div><div class="line">        dispatch(increment(num));</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">dec</span>: <span class="function">(<span class="params">num = <span class="number">1</span></span>) =&gt;</span> &#123;</div><div class="line">        dispatch(decrement(num));</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">const</span> ContainerApp = connect(mapStateToProps, mapDispatchToProps)(App);</div><div class="line"><span class="built_in">module</span>.exports = ContainerApp;</div></pre></td></tr></table></figure>
+<p>使用 <strong>react-redux</strong> 提供的 <strong>connect</strong> 方法定义容器组件，需要提供3个参数</p>
+<ul>
+<li><strong>mapStateToProps</strong> : 将 <strong>redux</strong> 中的 <strong>state</strong> 转换给展示组件的 <strong>props</strong> 对象，该对象是一个 <strong>function</strong>，两个参数 (<strong>state</strong>, <strong>ownProps</strong>) 分别表示 <strong>redux</strong> 中的 <strong>state</strong> 和 展示组件的 <strong>props</strong> 对象，该方法需要返回一个 <strong>object</strong> 对象，对象的所有属性都会被添加到展示组件的 <strong>props</strong> 对象；</li>
+<li><strong>mapDispatchToProps</strong> : 将 <strong>redux</strong> 中分发 <strong>action</strong> 的行为转换给展示组件的 <strong>props</strong> 对象，该对象是一个 <strong>function</strong>，两个参数 (<strong>dispatch</strong>, <strong>ownProps</strong>) 分别表示 <strong>redux</strong> 中 <strong>store.dispatch(action)</strong> 函数 和 展示组件的 <strong>props</strong> 对象，该方法需要返回一个 <strong>object</strong> 对象，对象的所有属性都会被添加到展示组件的 <strong>props</strong> 对象；</li>
+<li><strong>connect</strong> 将 <strong>mapStateToProps</strong> 和 <strong>mapDispatchToProps</strong> 连接到一起，然后将展示组件传给 <strong>connect</strong> 返回的函数，这个函数返回的组件就是一个容器组件；</li>
+</ul>
+<h3 id="mapStateToProps"><a href="#mapStateToProps" class="headerlink" title="mapStateToProps"></a>mapStateToProps</h3><p>上面的例子中由于 <strong>state</strong> 是计算结果值 <strong>int</strong>，所以直接将 <strong>redux</strong> 中的 <strong>state</strong> 赋值给 展示组件的 <strong>state</strong> 属性；如果是其它 <strong>state</strong> 结构，则根据需要传入相应的 <strong>state</strong> 值，比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> mapStateToProps = <span class="function">(<span class="params">state, ownProps</span>) =&gt;</span> (&#123;</div><div class="line">    <span class="attr">userName</span>: state.userName,</div><div class="line">    <span class="attr">userAge</span>: state.userAge</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>该代码则将 <strong>redux</strong> 中 <strong>state</strong> 对象的 <strong>userName</strong> 和 <strong>userAge</strong> 分离开转换给了展示组件。在展示组件中则使用 <strong>this.props.userName</strong> 和 <strong>this.props.userAge</strong> 来调用；</p>
+<h3 id="mapDispatchToProps"><a href="#mapDispatchToProps" class="headerlink" title="mapDispatchToProps"></a>mapDispatchToProps</h3><p>上面的例子中，定义了两个方法 <strong>add</strong> 和 <strong>dec</strong>，两个方法分别使用 <strong>dispatch</strong> 分发加减操作的 <strong>action</strong>，在展示组件中使用 <strong>this.props.add()</strong> 和 <strong>this.props.dec()</strong> 即可调用 <strong>store</strong> 去分发 <strong>action</strong>；</p>
+<h2 id="step3-渲染页面"><a href="#step3-渲染页面" class="headerlink" title="step3: 渲染页面"></a>step3: 渲染页面</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> &#123;render&#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</div><div class="line"><span class="keyword">import</span> &#123;Provider&#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</div><div class="line"></div><div class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./reducer.js'</span>;</div><div class="line"><span class="keyword">import</span> ContainerApp <span class="keyword">from</span> <span class="string">'./ContainerApp.js'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> store = createStore(reducer);</div><div class="line"></div><div class="line">render(&lt;Provider store=&#123;store&#125;&gt;</div><div class="line">    &lt;ContainerApp/&gt;</div><div class="line">&lt;/Provider&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</div></pre></td></tr></table></figure>
+<p><strong>React-Redux</strong> 提供了一个 <strong>Provider</strong> 组件，把 <strong>createStore()</strong> 创建的 <strong>store</strong> 对象传递给该组件，该 <strong>Provider</strong> 的所有子组件都能获取到 <strong>store</strong> 对象；</p>
+<h2 id="Over"><a href="#Over" class="headerlink" title="Over"></a>Over</h2><p>使用 <strong>connect</strong> 将定义好的 <strong>mapStateToProps</strong>、<strong>mapDispatchToProps</strong> 把展示组件和容器组件连接起来，就不需要我们手动去使用 <strong>store.subscribe()</strong> 来添加监听去处理状态更新了。</p>
 
       
 
@@ -327,8 +347,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2016/10/15/React+Redux/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">React 技术栈 Redux 入门</div>
+    <a href="/2016/10/16/Redux-Multi-Reducers/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redux 多个 Reducer 分拆</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -444,7 +464,31 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,18 +504,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
@@ -480,19 +512,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Soap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -505,10 +529,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Observable</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
             
             <div class="clearfix"></div>
