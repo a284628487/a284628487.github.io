@@ -158,6 +158,132 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Redux-Multi-Reducers" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/16/Redux-Multi-Reducers/">Redux 多个 Reducer 分拆</a>
+    </h1>
+  
+
+        
+        <a href="/2016/10/16/Redux-Multi-Reducers/" class="archive-article-date">
+  	<time datetime="2016-10-16T02:13:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 <strong>Redux</strong> 中，对 <strong>state</strong> 进行计算重新返回的方法通常叫做 <strong>reducer</strong>，如果 <strong>state</strong> 比较简单，只在一个 <strong>reducer</strong> 中也可以清晰的看明白数据处理过程，但 <strong>redux</strong> 通常用来处理复杂的应用程序，<strong>state</strong> 结构通常比较庞大，结构比较复杂，如果都写到一个方法里面，非常不便于维护，此时就需要对 <strong>reducer</strong> 进行拆分成多个子 <strong>reducer</strong>。<br>
+        
+          <a class="article-more-a" href="/2016/10/16/Redux-Multi-Reducers/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/10/16/Redux-Multi-Reducers/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-React+Redux" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/15/React+Redux/">React 中使用 Redux 入门</a>
+    </h1>
+  
+
+        
+        <a href="/2016/10/15/React+Redux/" class="archive-article-date">
+  	<time datetime="2016-10-15T08:33:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Redux</strong> 适合用于前端业务非常复杂，或者需要从多个数据源请求数据等需求。<strong>Redux</strong> 将整个应用所需要用到的数据组织存放在一个叫做 <strong>state</strong> 的对象里面，每次从服务器请求数据或者用户交互使数据发生改变之后，都需要先发送一个 <strong>action</strong>，然后在 <strong>action</strong> 处理函数中更新 <strong>state</strong> 对象。和常规做法不同的是，我们并不需要手动去更新 <strong>UI</strong>，更新 <strong>UI</strong> 的过程由中间件去完成，<strong>state</strong> 对象改变之后，<strong>UI</strong> 会自动更新。<br>
+        
+          <a class="article-more-a" href="/2016/10/15/React+Redux/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Redux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/10/15/React+Redux/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-JavaScript-ES7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -678,121 +804,6 @@
 
 
   
-    <article id="post-OkHttp-Interceptor" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/17/OkHttp-Interceptor/">在 OkHttp 中使用 Interceptor 预处理网络请求</a>
-    </h1>
-  
-
-        
-        <a href="/2014/08/17/OkHttp-Interceptor/" class="archive-article-date">
-  	<time datetime="2014-08-17T07:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>通过定义拦截器 <strong>Interceptor</strong> ，可以在发送请求或接受请求响应时对数据进行预处理和判断。在开发阶段，为了调试方便，通常在请求的时候，可以直接通过 <strong>Log</strong> 打印出请求的一些信息，而对于 <strong>Header</strong> ，<strong>Token</strong> 的统一管理添加，也可以通过 <strong>Interceptor</strong> 来实现。<br>
-        
-          <a class="article-more-a" href="/2014/08/17/OkHttp-Interceptor/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OkHttp3</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Interceptor</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2014/08/17/OkHttp-Interceptor/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-RxJava-Begin" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/17/RxJava-Begin/">RxJava框架介绍</a>
-    </h1>
-  
-
-        
-        <a href="/2014/08/17/RxJava-Begin/" class="archive-article-date">
-  	<time datetime="2014-08-17T06:59:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-08-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>RxJava</strong> 到底是什么？使用 <strong>RxJava</strong> 到底有什么好处呢？其实 <strong>RxJava</strong> 是 <strong>ReactiveX</strong> 使用 <strong>Java</strong> 语言实现的版本。<br>什么是 <strong>ReactiveX</strong> 呢？简单的说，<strong>ReactiveX</strong> 就是 <strong>观察者模式</strong>+<strong>迭代器模式</strong>+<strong>函数式编程</strong>三种模式的结合体。</p>
-        
-          <a class="article-more-a" href="/2014/08/17/RxJava-Begin/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2014/08/17/RxJava-Begin/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -889,6 +900,22 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -897,11 +924,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -917,19 +944,7 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -937,11 +952,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -965,11 +980,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

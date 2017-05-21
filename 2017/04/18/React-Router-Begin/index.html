@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/18/React-Router-Begin/index.html">
 <meta property="og:site_name" content="放肆的Coder">
 <meta property="og:description" content="React-Router 新发布了 4.0 正式版本，此版本和之前的版本相比，有比较大的变动，把之前的版本抛到脑后，来重新看看最新 React-Router 4.0。">
-<meta property="og:updated_time" content="2017-05-19T01:48:01.000Z">
+<meta property="og:updated_time" content="2017-05-21T08:37:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React-Router v4 入门">
 <meta name="twitter:description" content="React-Router 新发布了 4.0 正式版本，此版本和之前的版本相比，有比较大的变动，把之前的版本抛到脑后，来重新看看最新 React-Router 4.0。">
@@ -277,7 +277,7 @@
 <p>通常情况下，只需要给一个字符串当做 <strong>location</strong> ，但是，当需要添加一些 <strong>location</strong> 的状态时，可以对象的形式使用 <strong>location</strong> 。并且如果需要多个 UI ，而这些 UI 取决于历史时，例如弹出框（modal），使用 <strong>location</strong> 对象会有很大帮助。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 通常你只需要这样使用 location</span></div><div class="line">&lt;Link to=<span class="string">"/somewhere"</span>/&gt;</div><div class="line"></div><div class="line"><span class="comment">// 但是你同样可以这么用</span></div><div class="line"><span class="keyword">const</span> location = &#123;</div><div class="line">  <span class="attr">pathname</span>: <span class="string">'/somewhere'</span></div><div class="line">  state: &#123; <span class="attr">fromDashboard</span>: <span class="literal">true</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">&lt;Link to=&#123;location&#125;/&gt;</div><div class="line">&lt;Redirect to=&#123;location&#125;/&gt;</div><div class="line">history.push(location)</div><div class="line">history.replace(location)</div></pre></td></tr></table></figure>
 <p><a href="https://reacttraining.cn/web/api/location" target="_blank" rel="external">location_api</a></p>
-<h2 id="withRouter"><a href="#withRouter" class="headerlink" title="withRouter"></a><a href="https://reacttraining.cn/web/api/withRouter" target="_blank" rel="external">withRouter</a></h2>
+<h2 id="withRouter"><a href="#withRouter" class="headerlink" title="withRouter"></a><a href="https://reacttraining.cn/web/api/withRouter" target="_blank" rel="external">withRouter</a></h2><h2 id="matchPath"><a href="#matchPath" class="headerlink" title="matchPath"></a><a href="https://reacttraining.cn/web/api/matchPath" target="_blank" rel="external">matchPath</a></h2>
       
 
       
@@ -504,6 +504,22 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -512,11 +528,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -532,19 +548,7 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -552,11 +556,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,11 +584,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>
