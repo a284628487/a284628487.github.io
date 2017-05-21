@@ -197,10 +197,10 @@
 <li><strong>children</strong> : 需要渲染的单一组件，即 <strong>Router</strong> 下面只有一个子元素，可以是 <strong>Component</strong>，也可以是一个 <strong>html</strong> 元素;</li>
 </ul>
 <h2 id="BrowserRouter"><a href="#BrowserRouter" class="headerlink" title="BrowserRouter"></a>BrowserRouter</h2><p><strong>BrowserRouter</strong> 使用 <strong>HTML5</strong> 提供的 history API (<strong>pushState</strong>, <strong>replaceState</strong> 和 <strong>popstate</strong> 事件) 来保持 UI 和 URL 的同步。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; BrowserRouter &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line">&lt;BrowserRouter</div><div class="line">  basename=&#123;optionalString&#125;</div><div class="line">  forceRefresh=&#123;optionalBool&#125;</div><div class="line">  getUserConfirmation=&#123;optionalFunc&#125;</div><div class="line">  keyLength=&#123;optionalNumber&#125; &gt;</div><div class="line">  &lt;App /&gt;</div><div class="line">&lt;/BrowserRouter&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; BrowserRouter &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line">&lt;BrowserRouter</div><div class="line">  basename=&#123;optionalString&#125;</div><div class="line">  forceRefresh=&#123;optionalBool&#125;</div><div class="line">  getUserConfirmation=&#123;optionalFunc&#125;</div><div class="line">  keyLength=&#123;optionalNumber&#125; &gt;</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">BrowserRouter</span>&gt;</span></div></pre></td></tr></table></figure>
 <p><strong>BrowserRouter</strong> 有几个重要的属性。</p>
 <h4 id="basename-string"><a href="#basename-string" class="headerlink" title="basename: string"></a>basename: string</h4><p>当前位置的基准 URL。如果你的页面部署在服务器的二级（子）目录，你需要将 <strong>basename</strong> 设置到此子目录。 正确的 URL 格式是前面有一个前导斜杠，但不能有尾部斜杠。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;BrowserRouter basename=<span class="string">"/calendar"</span>&gt;</div><div class="line">	&lt;Link to="/today"/&gt; // 渲染为 &lt;a href="/calendar/today"&gt;</div><div class="line">&lt;/BrowserRouter&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;BrowserRouter basename=<span class="string">"/calendar"</span>&gt;</div><div class="line">	<span class="xml"><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/today"</span>/&gt;</span> // 渲染为 <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/calendar/today"</span>&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">BrowserRouter</span>&gt;</span></div></pre></td></tr></table></figure>
 <h4 id="getUserConfirmation-func"><a href="#getUserConfirmation-func" class="headerlink" title="getUserConfirmation: func"></a>getUserConfirmation: func</h4><p>当导航需要确认时执行的函数，默认使用的是 <strong>window.confirm</strong>。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 使用默认的确认函数</span></div><div class="line"><span class="keyword">const</span> getConfirmation = <span class="function">(<span class="params">message, callback</span>) =&gt;</span> &#123;</div><div class="line">  <span class="keyword">const</span> allowTransition = <span class="built_in">window</span>.confirm(message)</div><div class="line">  callback(allowTransition)</div><div class="line">&#125;</div><div class="line"></div><div class="line">&lt;BrowserRouter getUserConfirmation=&#123;getConfirmation&#125; /&gt;</div></pre></td></tr></table></figure>
 <h4 id="forceRefresh-bool"><a href="#forceRefresh-bool" class="headerlink" title="forceRefresh: bool"></a>forceRefresh: bool</h4><p>当设置为 <strong>true</strong> 时，在导航的过程中整个页面将会刷新。只有当浏览器不支持 HTML5 的 history API 时，才设置为 true。</p>
@@ -211,7 +211,7 @@
 <p>注意： 使用 <strong>hash</strong> 的方式记录导航历史不支持 <strong>location.key</strong> 和 <strong>location.state</strong>。由于该技术仅用于支持传统的浏览器，因此在用于浏览器时可以使用 <strong>BrowserHistory</strong> 代替。</p>
 </blockquote>
 <p><strong>HashRouter</strong> 同样也有 <strong>basename</strong> <strong>getUserConfirmation</strong> 等属性。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;HashRouter basename=<span class="string">"/calendar"</span>&gt;</div><div class="line">	&lt;Link to="/today"/&gt; // renders &lt;a href="#/calendar/today"&gt;</div><div class="line">&lt;/HashRouter&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;HashRouter basename=<span class="string">"/calendar"</span>&gt;</div><div class="line">	<span class="xml"><span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">"/today"</span>/&gt;</span> // renders <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#/calendar/today"</span>&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">HashRouter</span>&gt;</span></div></pre></td></tr></table></figure>
 <h4 id="hashType-string"><a href="#hashType-string" class="headerlink" title="hashType: string"></a>hashType: string</h4><p><strong>window.location.hash</strong> 使用的 <strong>hash</strong> 类型。有如下几种：</p>
 <ul>
 <li>“<strong>slash</strong>“ - 后面跟一个斜杠，例如 #/ 和 #/sunshine/lollipops</li>
@@ -452,22 +452,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -476,11 +460,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
+                <a href="javascript:void(0)" class="js-tag color5">CSS3</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
+                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -496,7 +480,23 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">OkHttp3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Interceptor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -532,11 +532,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">Observable</a>
               </li>
             
             <div class="clearfix"></div>
