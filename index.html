@@ -223,6 +223,71 @@
 
 
   
+    <article id="post-React-Router-Auth" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/22/React-Router-Auth/">React-Router 实现 Auth 权限拦截</a>
+    </h1>
+  
+
+        
+        <a href="/2017/04/22/React-Router-Auth/" class="archive-article-date">
+  	<time datetime="2017-04-22T13:33:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 <strong>React-Router</strong> 实现权限拦截分离。<br>
+        
+          <a class="article-more-a" href="/2017/04/22/React-Router-Auth/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">React-Router</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/04/22/React-Router-Auth/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-React-Router-Route" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -243,67 +308,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Route</strong> 组件主要的作用就是当一个 <strong>location</strong> 匹配路由的 <strong>path</strong> 时，渲染指定的 <strong>UI</strong>。<strong>React-Route</strong> 的核心就是 <strong>Route</strong>。<br><!----></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; BrowserRouter <span class="keyword">as</span> Router, Route &#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span></div><div class="line"></div><div class="line">&lt;Router&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;Route exact path="/" component=&#123;Home&#125;/&gt;</div><div class="line">    &lt;Route path="/news" component=&#123;NewsFeed&#125;/&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/Router&gt;</div></pre></td></tr></table></figure>
-<p>如果应用的地址是 <strong>/</strong>，那么相应的UI会类似这个样子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">Home</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- react-empty: 2 --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>如果应用的地址是 <strong>/news</strong>，那么相应的UI就会成为这个样子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- react-empty: 1 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">NewsFeed</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
-<p><strong>react-empty</strong> 注释演示了 <strong>React</strong> 渲染 <strong>null</strong> 的细节。其实 <strong>Route</strong> 就算是 <strong>null</strong> 也会被渲染，只要地址与路由的路径匹配，组件就会渲染。</p>
-<h2 id="Route-render"><a href="#Route-render" class="headerlink" title="Route#render"></a>Route#render</h2><p>使用 <strong>Route</strong> 有三种渲染内容的方法：</p>
-<ul>
-<li><strong>component</strong></li>
-<li><strong>render</strong></li>
-<li><strong>children</strong></li>
-</ul>
-<p>在不同的情况下每个都特别有用，对于某个 <strong>Route</strong>，只能使用这些 <strong>props</strong> 中的一个，绝大多数的时候会使用 <strong>component</strong>。</p>
-<h3 id="Route-props"><a href="#Route-props" class="headerlink" title="Route props"></a>Route props</h3><p>这三种渲染方法都会获得相同的三个的属性：</p>
-<ul>
-<li><strong>match</strong></li>
-<li><strong>location</strong></li>
-<li><strong>history</strong></li>
-</ul>
-<h3 id="component"><a href="#component" class="headerlink" title="component"></a>component</h3><p>只有在地址匹配的时候 <strong>React</strong> 的组件才会被渲染，<strong>route props</strong> 也会随着一起被渲染。</p>
-<p>如果你使用 <strong>component</strong> 渲染内容的方法而不是使用 <strong>render</strong>，路由会根据指定的组件使用<strong>React.createElement</strong> 来创建一个新的 <strong>React element</strong>。这就意味着如果你提供的是一个内联的函数的话会带来很多意料之外的重新挂载。所以，对于内联渲染，要使用 <strong>render</strong> 属性。</p>
-<h3 id="render-func"><a href="#render-func" class="headerlink" title="render: func"></a>render: func</h3><p><strong>render</strong> 方式对于内联渲染和包装组件却不引起意料之外的重新挂载特别方便。使用 <strong>render</strong> 属性，可以选择传一个在地址匹配时被调用的函数，而不是像使用 <strong>component</strong> 属性那样得到一个新创建的 <strong>React element</strong>。使用 <strong>render</strong> 属性会获得跟使用 <strong>component</strong> 属性一样的 <strong>route props</strong>。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 便捷的行内渲染</span></div><div class="line">&lt;Route path=<span class="string">"/home"</span> render=&#123;() =&gt; <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>&#125;/&gt;</div><div class="line"></div><div class="line"><span class="comment">// 包装/合成</span></div><div class="line"><span class="keyword">const</span> FadingRoute = <span class="function">(<span class="params">&#123; component: Component, ...rest &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Route &#123;...rest&#125; render=&#123;props =&gt; (</div><div class="line">    &lt;FadeIn&gt;</div><div class="line">      &lt;Component &#123;...props&#125;/&gt;</div><div class="line">    &lt;/FadeIn&gt;</div><div class="line">  )&#125;/&gt;</div><div class="line">)</div><div class="line"></div><div class="line">&lt;FadingRoute path="/cool" component=&#123;SomeComponent&#125;/&gt;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>注意: <strong>Route component</strong> 的优先级要比 <strong>Route render</strong> 高，所以不要在同一个 <strong>Route</strong> 中同时使用这两个属性。</p>
-</blockquote>
-<h3 id="children-func"><a href="#children-func" class="headerlink" title="children: func"></a>children: func</h3><p>有时候可能想不管地址是否匹配都渲染一些内容，这种情况可以使用 <strong>children</strong> 属性。它与 <strong>render</strong> 属性的工作方式基本一样，不同的是不管地址匹配与否 <strong>children</strong> 都会被调用。除了在路径不匹配 <strong>URL</strong> 时 <strong>match</strong> 的值为 <strong>null</strong> 之外，<strong>children</strong> 渲染属性会获得与 <strong>component</strong> 和 <strong>render</strong> 一样的 <strong>route props</strong>。这就允许你根据是否匹配路由来动态地调整 <strong>UI</strong>，来看这个例子，如果路由匹配的话就添加一个 <strong>active</strong> 类：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;ul&gt;</div><div class="line">  &lt;ListItemLink to="/somewhere"/&gt;</div><div class="line">  &lt;ListItemLink to="/somewhere-else"/&gt;</div><div class="line">&lt;/ul&gt;</div><div class="line"></div><div class="line">const ListItemLink = (&#123; to, ...rest &#125;) =&gt; (</div><div class="line">  &lt;Route path=&#123;to&#125; children=&#123;(&#123; match &#125;) =&gt; (</div><div class="line">    &lt;li className=&#123;match ? 'active' : ''&#125;&gt;</div><div class="line">      &lt;Link to=&#123;to&#125; &#123;...rest&#125;/&gt;</div><div class="line">    &lt;/li&gt;</div><div class="line">  )&#125;/&gt;</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>甚至可以直接在 children 里面返回一个组件：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> ListItemLink = <span class="function">(<span class="params">&#123; ...rest &#125;</span>) =&gt;</span> (</div><div class="line">    &lt;Route &#123;...rest&#125; children=&#123;(&#123; match &#125;) =&gt; &#123;</div><div class="line">        console.log(match);</div><div class="line">        return &lt;About /&gt;</div><div class="line">    &#125;&#125;/&gt;</div><div class="line">)</div><div class="line">// ...</div><div class="line">&lt;ListItemLink path="/about"/&gt;</div></pre></td></tr></table></figure>
-<p>这种属性对于动画也特别有用:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;Route children=&#123;(&#123; match, ...rest &#125;) =&gt; (</div><div class="line">  &#123;<span class="comment">/* Animate总会被渲染, 所以你可以使用生命周期来使它的子组件出现或者隐藏</span></div><div class="line">  */&#125;</div><div class="line">  &lt;Animate&gt;</div><div class="line">    &#123;match &amp;&amp; <span class="xml"><span class="tag">&lt;<span class="name">Something</span> &#123;<span class="attr">...rest</span>&#125;/&gt;</span>&#125;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Animate</span>&gt;</span></div><div class="line">)&#125;/&gt;</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>Route component</strong> 和 <strong>Route render</strong> 的优先级都比 <strong>Route children</strong> 高，所以在同一个 <strong>Route</strong> 中不要同时使用一个以上的属性.</p>
-</blockquote>
-<h3 id="path-string"><a href="#path-string" class="headerlink" title="path: string"></a>path: string</h3><p>可以是任何 <a href="https://www.npmjs.com/package/path-to-regexp" target="_blank" rel="external">path-to-regexp</a> 能理解的有效 <strong>URL</strong>。</p>
-<blockquote>
-<p>没有 <strong>path</strong> 属性的 <strong>Route</strong> 总是会匹配。</p>
-</blockquote>
-<h3 id="exact-bool"><a href="#exact-bool" class="headerlink" title="exact: bool"></a>exact: bool</h3><p>当值为true时，则要求路径与 <strong>location.pathname</strong> 必须 <strong>完全匹配</strong>。</p>
-<h3 id="strict-bool"><a href="#strict-bool" class="headerlink" title="strict: bool"></a>strict: bool</h3><p>当设为true的时候，有结尾斜线的路径只能匹配有斜线的 <strong>location.pathname</strong>，这个值并不会对 <strong>location.pathname</strong> 中有其他的片段有影响。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Route strict path=<span class="string">"/one/"</span> component=&#123;About&#125;/&gt;</div></pre></td></tr></table></figure>
-<p>路径 <strong>location.pathname</strong> 是否匹配?</p>
-<hr>
-<ul>
-<li>/one/    /one    否</li>
-<li>/one/    /one/    是</li>
-<li>/one/    /one/two    是</li>
-</ul>
-<blockquote>
-<p>警告: <strong>strict</strong> 可以强制 <strong>location.pathname</strong> 不包含结尾的斜线，但是要做到这点必须把 <strong>strict</strong> 和 <strong>exect</strong> 都设置为true。</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Route exact strict path=<span class="string">"/one"</span> component=&#123;About&#125;/&gt;</div></pre></td></tr></table></figure>
-<p>路径 <strong>location.pathname</strong>    是否匹配?</p>
-<ul>
-<li>/one    /one    是</li>
-<li>/one    /one/    否</li>
-<li>/one    /one/two 否</li>
-</ul>
-
+        <p><strong>Route</strong> 组件主要的作用就是当一个 <strong>location</strong> 匹配路由的 <strong>path</strong> 时，渲染指定的 <strong>UI</strong>。<strong>React-Route</strong> 的核心就是 <strong>Route</strong>。<br>
+        
+          <a class="article-more-a" href="/2017/04/21/React-Router-Route/#more">more >></a>
+        
       
 
       
@@ -472,68 +480,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/04/19/React-Router-Router/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-React-Router-Auth" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/18/React-Router-Auth/">React-Router 实现 Auth 权限限拦截</a>
-    </h1>
-  
-
-        
-        <a href="/2017/04/18/React-Router-Auth/" class="archive-article-date">
-  	<time datetime="2017-04-18T13:33:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <a id="more"></a>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">React-Router</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/04/18/React-Router-Auth/">展开全文 >></a>
         </p>
       
 
@@ -985,10 +931,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES7</a>
               </li>
              
@@ -1001,15 +943,15 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1021,15 +963,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
              
               <li class="article-tag-list-item">

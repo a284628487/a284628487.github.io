@@ -6,16 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>React-Router 实现 Auth 权限限拦截 | 放肆的Coder</title>
+  <title>React-Router 实现 Auth 权限拦截 | 放肆的Coder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="React,React-Router">
+  <meta name="description" content="使用 React-Router 实现权限拦截分离。">
+<meta name="keywords" content="React,React-Router">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React-Router 实现 Auth 权限限拦截">
-<meta property="og:url" content="http://yoursite.com/2017/04/18/React-Router-Auth/index.html">
+<meta property="og:title" content="React-Router 实现 Auth 权限拦截">
+<meta property="og:url" content="http://yoursite.com/2017/04/22/React-Router-Auth/index.html">
 <meta property="og:site_name" content="放肆的Coder">
-<meta property="og:updated_time" content="2017-05-19T01:49:10.000Z">
+<meta property="og:description" content="使用 React-Router 实现权限拦截分离。">
+<meta property="og:updated_time" content="2017-05-22T03:23:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React-Router 实现 Auth 权限限拦截">
+<meta name="twitter:title" content="React-Router 实现 Auth 权限拦截">
+<meta name="twitter:description" content="使用 React-Router 实现权限拦截分离。">
   
     <link rel="alternative" href="/atom.xml" title="放肆的Coder" type="application/atom+xml">
   
@@ -162,20 +165,35 @@
         
   
     <h1 class="article-title" itemprop="name">
-      React-Router 实现 Auth 权限限拦截
+      React-Router 实现 Auth 权限拦截
     </h1>
   
 
         
-        <a href="/2017/04/18/React-Router-Auth/" class="archive-article-date">
-  	<time datetime="2017-04-18T13:33:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-18</time>
+        <a href="/2017/04/22/React-Router-Auth/" class="archive-article-date">
+  	<time datetime="2017-04-22T13:33:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <p>使用 <strong>React-Router</strong> 实现权限拦截分离。<br><a id="more"></a><br>假设应用有3个组件，一个显示登录状态的组件，一个公开信息组件，一个私有信息丝丝组件，其中私有信息需要在用户登录之后才能访问。根据此逻辑应用需要一个登录状态组件，一个公开信息组件，一个私有信息组件，分别把它们定义成组件：<strong>AuthPage</strong>，<strong>Login</strong>，<strong>Public</strong>，<strong>Private</strong>。</p>
+<h2 id="Login"><a href="#Login" class="headerlink" title="Login"></a>Login</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fakeAuth = &#123;</div><div class="line">    <span class="attr">isAuthenticated</span>: <span class="literal">false</span>,</div><div class="line">    authenticate(cb) &#123;</div><div class="line">        <span class="keyword">this</span>.isAuthenticated = <span class="literal">true</span></div><div class="line">        setTimeout(cb, <span class="number">1000</span>) <span class="comment">// 模拟异步。</span></div><div class="line">    &#125;,</div><div class="line">    signout(cb) &#123;</div><div class="line">        <span class="keyword">this</span>.isAuthenticated = <span class="literal">false</span></div><div class="line">        setTimeout(cb, <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用 <strong>fakeAuth</strong> 对象来管理用户的登录状态，以及 <strong>登录</strong>、<strong>登出</strong> 操作。</p>
+<blockquote>
+<p>当用户未登录的时候去访问私有信息，应用会让用户先登录，登录成功之后，自动跳转回私有信息页面。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Login</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">constructor</span>(props) &#123;</div><div class="line">        <span class="keyword">super</span>(props);</div><div class="line">        <span class="keyword">this</span>.state = &#123;</div><div class="line">            <span class="attr">redirectToReferrer</span>: <span class="literal">false</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.login = <span class="function"><span class="params">()</span>=&gt;</span> &#123;</div><div class="line">            fakeAuth.authenticate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">this</span>.setState(&#123;<span class="attr">redirectToReferrer</span>: <span class="literal">true</span>&#125;)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    render() &#123;</div><div class="line">    	<span class="comment">// 上一个页面</span></div><div class="line">        <span class="keyword">const</span> &#123;<span class="keyword">from</span>&#125; = <span class="keyword">this</span>.props.location.state || &#123;<span class="attr">from</span>: &#123;<span class="attr">pathname</span>: <span class="string">'/'</span>&#125;&#125;</div><div class="line">        <span class="keyword">const</span> &#123;redirectToReferrer&#125; = <span class="keyword">this</span>.state</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (redirectToReferrer) &#123; <span class="comment">// 登录成功后-&gt;重定向回上一个页面</span></div><div class="line">            <span class="keyword">return</span> (</div><div class="line">                &lt;Redirect to=&#123;from&#125;/&gt;</div><div class="line">            )</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return (</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;p&gt;若想访问 &#123;from.pathname&#125; ，你需要先登录&lt;/p&gt;</div><div class="line">                &lt;button onClick=&#123;this.login&#125;&gt;登录&lt;/button&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="AuthPage"><a href="#AuthPage" class="headerlink" title="AuthPage"></a>AuthPage</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> AuthPage = withRouter(<span class="function">(<span class="params">&#123;history&#125;</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> fakeAuth.isAuthenticated ? </div><div class="line">    (&lt;p&gt;Welcome!</div><div class="line">        &lt;button onClick=&#123;()=&gt;&#123;</div><div class="line">        	fakeAuth.signout(()=&gt;history.push('/'))</div><div class="line">        &#125;&#125;&gt;Signout&lt;/button&gt;</div><div class="line">    &lt;/p&gt;) :</div><div class="line">    (&lt;p&gt;You're not Logined!&lt;/p&gt;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>在登录态组件中，根据用户的登录状态，如果未登录则显示未登录信息，如果已经登录，则显示登录状态，并且用户可以点击登出按钮退出登录。</p>
+<h2 id="Public"><a href="#Public" class="headerlink" title="Public"></a>Public</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Public = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> (&lt;h3&gt;公开的页面&lt;/h3&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Private"><a href="#Private" class="headerlink" title="Private"></a>Private</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Private = <span class="function"><span class="params">()</span> =&gt;</span> &lt;h3&gt;非公开的页面&lt;<span class="regexp">/h3&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> router = (&lt;BrowserRouter&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">        &lt;AuthPage /&gt;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li&gt;&lt;Link to="/public"&gt;public page&lt;/Link&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;Link to="/private"&gt;private page&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">        &lt;Route path="/public" component=&#123;Public&#125;/&gt;</div><div class="line">        &lt;Route path="/login" component=&#123;Login&#125;/&gt;</div><div class="line">        &lt;PrivateRoute path="/private" component=&#123;Private&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/BrowserRouter&gt;)</div></pre></td></tr></table></figure>
+<p>定义好应用程序的 <strong>Router</strong>，Router 中定义了三个路径，<strong>/public</strong>，<strong>/login</strong>，<strong>/private</strong>。其中，对于 <strong>/private</strong> 路径和 <strong>Private</strong> 组件做了一点特殊的处理，使用一个 <strong>PrivateRoute</strong> 来定义该 <strong>Route</strong>。</p>
+<h2 id="PrivateRoute"><a href="#PrivateRoute" class="headerlink" title="PrivateRoute"></a>PrivateRoute</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> PrivateRoute = <span class="function">(<span class="params">&#123;component: Component, ...rest&#125;</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(rest);</div><div class="line">    <span class="comment">// Object &#123;path: "/private"&#125;</span></div><div class="line">    <span class="keyword">return</span> (</div><div class="line">        &lt;Route &#123;...rest&#125; render=&#123;props =&gt; (</div><div class="line">      fakeAuth.isAuthenticated ? </div><div class="line">      (&lt;Component &#123;...props&#125;/&gt;) :</div><div class="line">      (&lt;Redirect to=&#123;&#123;</div><div class="line">          pathname: '/login',</div><div class="line">          state: &#123; from: props.location &#125;</div><div class="line">        &#125;&#125;/&gt;)</div><div class="line">    )&#125;/&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在 <strong>PrivateRoute</strong> 中，如果用户已经登录，则直接渲染该 <strong>Route</strong> 中的 <strong>component</strong> 属性所对应的组件，如果未登录，则使用 <strong>Redirect</strong> 组件转向 <strong>/login</strong> 登录页面。通过这样的处理，在应用程序中，在同一时刻只会是 <strong>登录态</strong> 或者 <strong>未登录态</strong>。</p>
+
       
 
       
@@ -269,7 +287,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/04/18/React-Router-Auth/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/04/22/React-Router-Auth/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -283,18 +301,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/04/19/React-Router-Router/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/05/19/Object-Spread/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          React-Router 中的 Router
+          ES6、ES7 对象展开运算
         
       </div>
     </a>
   
   
-    <a href="/2017/04/18/React-Router-Begin/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">React-Router v4 入门</div>
+    <a href="/2017/04/21/React-Router-Route/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React-Router Route 路由组件</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -414,10 +432,6 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES7</a>
               </li>
              
@@ -430,15 +444,15 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Fetch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -450,15 +464,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Redux</a>
+                <a href="javascript:void(0)" class="js-tag color2">React-Redux</a>
               </li>
              
               <li class="article-tag-list-item">
