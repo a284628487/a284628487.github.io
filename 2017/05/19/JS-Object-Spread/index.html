@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>JavaScript ES7 对象展开运算 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在 ES6、ES7 中提供了多种新的语法，可以更方便的操作一个对象。">
+<meta name="keywords" content="JavaScript,ES6&#x2F;ES7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript ES7 对象展开运算">
+<meta property="og:url" content="http://yoursite.com/2017/05/19/JS-Object-Spread/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="在 ES6、ES7 中提供了多种新的语法，可以更方便的操作一个对象。">
+<meta property="og:updated_time" content="2017-05-23T06:23:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript ES7 对象展开运算">
+<meta name="twitter:description" content="在 ES6、ES7 中提供了多种新的语法，可以更方便的操作一个对象。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="http://img.my.csdn.net/uploads/201705/23/1495520992_8970.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.67px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 18.33px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16.67px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 13.33px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="nullhttp://img.my.csdn.net/uploads/201705/23/1495520992_8970.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-JS-Object-Spread" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/19/JS-Object-Spread/" class="article-date">
+  	<time datetime="2017-05-19T09:32:46.000Z" itemprop="datePublished">2017-05-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript ES7 对象展开运算
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6-ES7/">ES6/ES7</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 <strong>ES6</strong>、<strong>ES7</strong> 中提供了多种新的语法，可以更方便的操作一个对象。<br><a id="more"></a></p>
+<h2 id="属性简洁表示法"><a href="#属性简洁表示法" class="headerlink" title="属性简洁表示法"></a>属性简洁表示法</h2><p>定义对象时直接写入变量和函数，作为对象的属性和方法。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var name = "ccf";</div><div class="line">var age = 26;</div><div class="line"></div><div class="line">var user = &#123;</div><div class="line">    name,</div><div class="line">    age</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// 等同于</div><div class="line">/ *</div><div class="line">var user = &#123;</div><div class="line">	name: name,</div><div class="line">	age: age</div><div class="line">&#125;; */</div><div class="line"></div><div class="line">console.log(user); // &#123; name: 'ccf', age: 26 &#125;</div></pre></td></tr></table></figure>
+<p>除了属性简写，方法也可以简写。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  method() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Hello!"</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="keyword">var</span> o = &#123;</div><div class="line">  <span class="attr">method</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"Hello!"</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>下面是一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> birth = <span class="string">'2000/01/01'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> Person = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'张三'</span>,</div><div class="line">  <span class="comment">// 等同于birth: birth</span></div><div class="line">  birth,</div><div class="line">  <span class="comment">// 等同于hello: function ()...</span></div><div class="line">  hello() &#123; <span class="built_in">console</span>.log(<span class="string">'我的名字是'</span>, <span class="keyword">this</span>.name); &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>几个应用场景:</p>
+<h4 id="CommonJS-模块输出"><a href="#CommonJS-模块输出" class="headerlink" title="CommonJS 模块输出"></a>CommonJS 模块输出</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ms = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getItem</span> (<span class="params">key</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> key <span class="keyword">in</span> ms ? ms[key] : <span class="literal">null</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setItem</span> (<span class="params">key, value</span>) </span>&#123;</div><div class="line">  ms[key] = value;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clear</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  ms = &#123;&#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123; getItem, setItem, clear &#125;;</div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">getItem</span>: getItem,</div><div class="line">  <span class="attr">setItem</span>: setItem,</div><div class="line">  <span class="attr">clear</span>: clear</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="属性赋值器（setter）和取值器（getter）"><a href="#属性赋值器（setter）和取值器（getter）" class="headerlink" title="属性赋值器（setter）和取值器（getter）"></a>属性赋值器（setter）和取值器（getter）</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> cart = &#123;</div><div class="line">  <span class="attr">_wheels</span>: <span class="number">4</span>,</div><div class="line"></div><div class="line">  get wheels () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._wheels;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  set wheels (value) &#123;</div><div class="line">    <span class="keyword">this</span>._wheels = value;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，简洁写法的属性名总是字符串，这会导致一些看上去比较奇怪的结果。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  <span class="class"><span class="keyword">class</span> () </span>&#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 等同于</span></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  <span class="string">'class'</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>上面代码中，<strong>class</strong> 是字符串，所以不会因为它属于关键字，而导致语法解析报错。</p>
+<blockquote>
+<p>如果某个方法的值是一个 <strong>Generator</strong> 函数，前面需要加上星号。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  * m()&#123;</div><div class="line">    <span class="keyword">yield</span> <span class="string">'hello world'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h2 id="属性名表达式"><a href="#属性名表达式" class="headerlink" title="属性名表达式"></a>属性名表达式</h2><h4 id="读取属性"><a href="#读取属性" class="headerlink" title="读取属性"></a>读取属性</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 方法一</span></div><div class="line">obj.foo = <span class="literal">true</span>;</div><div class="line"><span class="comment">// 方法二</span></div><div class="line">obj[<span class="string">'a'</span> + <span class="string">'bc'</span>] = <span class="number">123</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>方法一是直接用 <strong>标识符</strong> 作为属性名。</li>
+<li>方法二是用 <strong>表达式</strong> 作为属性名，这时要将表达式放在方括号之内。</li>
+</ul>
+<h4 id="定义属性"><a href="#定义属性" class="headerlink" title="定义属性"></a>定义属性</h4><blockquote>
+<p>如果使用字面量方式定义对象（使用大括号 <strong>{}</strong> ），在 ES5 中只能使用方法一（标识符）定义属性。</p>
+</blockquote>
+<p><strong>ES6</strong> 允许字面量定义对象时，用方法二（表达式）作为对象的属性名，即把表达式放在方括号内。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> propKey = <span class="string">'foo'</span>;</div><div class="line"><span class="keyword">let</span> obj = &#123;</div><div class="line">  [propKey]: <span class="literal">true</span>,</div><div class="line">  [<span class="string">'a'</span> + <span class="string">'bc'</span>]: <span class="number">123</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>表达式也可以用于定义方法名。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> obj = &#123;</div><div class="line">  [<span class="string">'h'</span> + <span class="string">'ello'</span>]() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'hi'</span>;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">obj.hello() <span class="comment">// hi</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：属性名表达式与简洁表示法，不能同时使用，会报错。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 报错</span></div><div class="line"><span class="keyword">var</span> foo = <span class="string">'bar'</span>;</div><div class="line"><span class="keyword">var</span> bar = <span class="string">'abc'</span>;</div><div class="line"><span class="keyword">var</span> baz = &#123; [foo] &#125;;</div><div class="line"></div><div class="line"><span class="comment">// 正确</span></div><div class="line"><span class="keyword">var</span> foo = <span class="string">'bar'</span>;</div><div class="line"><span class="keyword">var</span> baz = &#123; [foo]: <span class="string">'abc'</span>&#125;;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>属性名表达式如果是一个对象，默认情况下会自动将对象转为字符串<strong>[object Object]</strong>，这一点要特别小心。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> keyA = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</div><div class="line"><span class="keyword">const</span> keyB = &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;;</div><div class="line"></div><div class="line"><span class="keyword">const</span> myObject = &#123;</div><div class="line">  [keyA]: <span class="string">'valueA'</span>,</div><div class="line">  [keyB]: <span class="string">'valueB'</span></div><div class="line">&#125;;</div><div class="line">myObject <span class="comment">// Object &#123;[object Object]: "valueB"&#125;</span></div></pre></td></tr></table></figure>
+<p>上面代码中，[<strong>keyA</strong>]和[<strong>keyB</strong>]得到的都是[<strong>object Object</strong>]，所以[<strong>keyB</strong>]会把[<strong>keyA</strong>]覆盖掉，而 <strong>myObject</strong> 最后只有一个[<strong>object Object</strong>]属性。</p>
+<h2 id="方法的-name-属性"><a href="#方法的-name-属性" class="headerlink" title="方法的 name 属性"></a>方法的 name 属性</h2><p>函数的 <strong>name</strong> 属性，返回函数名。对象方法也是函数，因此也有 <strong>name</strong> 属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> person = &#123;</div><div class="line">  sayName() &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'hello!'</span>);</div><div class="line">  &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">person.sayName.name   <span class="comment">// "sayName"</span></div></pre></td></tr></table></figure>
+<p>如果对象的方法使用了取值函数（getter）和存值函数（setter），则 <strong>name</strong> 属性不是在该方法上面，而是该方法的属性的描述对象的get和set属性上面，返回值是方法名前加上get和set。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> obj = &#123;</div><div class="line">  get foo() &#123;&#125;,</div><div class="line">  set foo(x) &#123;&#125;</div><div class="line">&#125;;</div><div class="line">obj.foo.name <span class="comment">// TypeError: Cannot read property 'name' of undefined</span></div><div class="line"><span class="keyword">const</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(obj, <span class="string">'foo'</span>);</div><div class="line"></div><div class="line">descriptor.get.name <span class="comment">// "get foo"</span></div><div class="line">descriptor.set.name <span class="comment">// "set foo"</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>有两种特殊情况：<strong>bind</strong> 方法创造的函数，<strong>name</strong> 属性返回 <strong>bound</strong> + <strong>原函数的名字</strong>；<strong>Function</strong> 构造函数创造的函数，<strong>name</strong>属性返回<strong>anonymous</strong>。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">(<span class="keyword">new</span> <span class="built_in">Function</span>()).name <span class="comment">// "anonymous"</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> doSomething = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">&#125;;</div><div class="line">doSomething.bind().name <span class="comment">// "bound doSomething"</span></div></pre></td></tr></table></figure>
+<p>如果对象的方法是一个 <strong>Symbol</strong> 值，那么 <strong>name</strong> 属性返回的是这个 <strong>Symbol</strong> 值的描述。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> key1 = <span class="built_in">Symbol</span>(<span class="string">'description'</span>);</div><div class="line"><span class="keyword">const</span> key2 = <span class="built_in">Symbol</span>();</div><div class="line"><span class="keyword">let</span> obj = &#123;</div><div class="line">  [key1]() &#123;&#125;,</div><div class="line">  [key2]() &#123;&#125;,</div><div class="line">&#125;;</div><div class="line">obj[key1].name <span class="comment">// "[description]"</span></div><div class="line">obj[key2].name <span class="comment">// ""</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>key1 对应的 <strong>Symbol</strong> 值有描述，key2 没有。</p>
+</blockquote>
+<h2 id="Object-js"><a href="#Object-js" class="headerlink" title="Object.js()"></a>Object.js()</h2><p><strong>ES5</strong> 比较两个值是否相等，只有两个运算符：相等运算符（<strong>==</strong>）和严格相等运算符（<strong>===</strong>）。它们都有缺点，前者会自动转换数据类型，后者的 <strong>NaN</strong> 不等于自身，以及+0等于-0。<strong>JavaScript</strong> 缺乏一种运算，在所有环境中，只要两个值是一样的，它们就应该相等。</p>
+<p><strong>ES6</strong> 提出 “Same-value equality”（同值相等）算法，用来解决这个问题。<strong>Object.is()</strong> 就是部署这个算法的新方法。它用来比较两个值是否严格相等，与严格比较运算符（<strong>===</strong>）的行为基本一致。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.is(<span class="string">'foo'</span>, <span class="string">'foo'</span>) <span class="comment">// true</span></div><div class="line"><span class="built_in">Object</span>.is(&#123;&#125;, &#123;&#125;) <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<p>不同之处只有两个：一是+0不等于-0，二是NaN等于自身。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+<span class="number">0</span> === <span class="number">-0</span> <span class="comment">//true</span></div><div class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.is(+<span class="number">0</span>, <span class="number">-0</span>) <span class="comment">// false</span></div><div class="line"><span class="built_in">Object</span>.is(<span class="literal">NaN</span>, <span class="literal">NaN</span>) <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>ES5 可以通过下面的代码，部署 <strong>Object.is()</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.defineProperty(<span class="built_in">Object</span>, <span class="string">'is'</span>, &#123;</div><div class="line">  <span class="attr">value</span>: <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (x === y) &#123;</div><div class="line">      <span class="comment">// 针对+0 不等于 -0的情况</span></div><div class="line">      <span class="keyword">return</span> x !== <span class="number">0</span> || <span class="number">1</span> / x === <span class="number">1</span> / y;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 针对NaN的情况</span></div><div class="line">    <span class="keyword">return</span> x !== x &amp;&amp; y !== y;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">configurable</span>: <span class="literal">true</span>,</div><div class="line">  <span class="attr">enumerable</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">writable</span>: <span class="literal">true</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="Object-assign"><a href="#Object-assign" class="headerlink" title="Object.assign()"></a>Object.assign()</h2><p><strong>Object.assign</strong> 方法用于对象的合并，将源对象（<strong>source</strong>）的所有可枚举属性，复制到目标对象（<strong>target</strong>），该方法的第一个参数是目标对象，后面的参数都是源对象。如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性。</p>
+<p>传入的第一个参数有如下几点注意：</p>
+<ul>
+<li>如果只有一个参数，<strong>Object.assign</strong> 会直接返回该参数。</li>
+<li>如果该参数不是对象，则会先转成对象，然后返回。</li>
+<li>由于undefined和null无法转成对象，所以如果它们作为参数，就会报错。</li>
+<li>如果非对象参数出现在源对象的位置（即非首参数），那么处理规则有所不同。首先，这些参数都会转成对象，如果无法转成对象，就会跳过。这意味着，如果undefined和null不在首参数，就不会报错。</li>
+<li>其他类型的值（即数值、字符串和布尔值）不在首参数，也不会报错。但是，除了字符串会以数组形式，拷贝入目标对象，其他值都不会产生效果。</li>
+</ul>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><p><strong>Object.assign</strong> 方法实行的是浅拷贝，而不是深拷贝。也就是说，如果源对象某个属性的值是对象，那么目标对象拷贝得到的是这个对象的引用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;&#125;;</div><div class="line"><span class="keyword">var</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</div><div class="line"></div><div class="line">obj1.a.b = <span class="number">2</span>;</div><div class="line">obj2.a.b <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>源对象 obj1 的a属性的值是一个对象，<strong>Object.assign</strong> 拷贝得到的是这个对象的引用。这个对象的任何变化，都会反映到目标对象上面。</p>
+<p>对于这种嵌套的对象，一旦遇到同名属性，<strong>Object.assign</strong> 的处理方法是替换，而不是添加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var target = &#123; a: &#123; b: &apos;c&apos;, d: &apos;e&apos; &#125; &#125;</div><div class="line">var source = &#123; a: &#123; b: &apos;hello&apos; &#125; &#125;</div><div class="line">Object.assign(target, source) // &#123; a: &#123; b: &apos;hello&apos; &#125; &#125; </div><div class="line">// target对象的a属性被source对象的a属性整个替换掉了，而不会得到&#123; a: &#123; b: &apos;hello&apos;, d: &apos;e&apos; &#125; &#125;的结果。</div></pre></td></tr></table></figure>
+<p>有一些函数库提供 <strong>Object.assign</strong> 的定制版本（比如<strong>Lodash</strong>的<strong>_.defaultsDeep</strong>方法），可以解决浅拷贝的问题，得到深拷贝的合并。</p>
+<blockquote>
+<p>注意，<strong>Object.assign</strong>可以用来处理数组，但是会把数组视为对象。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.assign([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>]) <span class="comment">// [4, 5, 3]</span></div></pre></td></tr></table></figure>
+<p>Object.assign把数组视为属性名为0、1、2的对象，因此源数组的0号属性4覆盖了目标数组的0号属性1。</p>
+<h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3><ul>
+<li>为对象添加属性</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(x, y) &#123;</div><div class="line">    <span class="built_in">Object</span>.assign(<span class="keyword">this</span>, &#123;x, y&#125;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>为对象添加方法</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.assign(SomeClass.prototype, &#123;</div><div class="line">  someMethod(arg1, arg2) &#123;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 使用简洁语法直接将函数放到 &#123;&#125; 中，然后使用 assign 将函数添加给 SomeClass </span></div><div class="line"><span class="comment">// 等同于下面的写法</span></div><div class="line">SomeClass.prototype.someMethod = <span class="function"><span class="keyword">function</span> (<span class="params">arg1, arg2</span>) </span>&#123;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>克隆对象</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">origin</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.assign(&#123;&#125;, origin);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码将原始对象拷贝到一个空对象，就得到了原始对象的克隆。<br>采用这种方法克隆，只能克隆原始对象自身的值，不能克隆它继承的值。如果想要保持继承链，可以采用下面的代码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">origin</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> originProto = <span class="built_in">Object</span>.getPrototypeOf(origin);</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.assign(<span class="built_in">Object</span>.create(originProto), origin);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>合并多个对象</li>
+</ul>
+<p>将多个对象合并到某个对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> merge = <span class="function">(<span class="params">...sources</span>) =&gt;</span> <span class="built_in">Object</span>.assign(&#123;&#125;, ...sources);</div></pre></td></tr></table></figure>
+<ul>
+<li>为属性指定默认值</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> DEFAULTS = &#123;</div><div class="line">  <span class="attr">logLevel</span>: <span class="number">0</span>,</div><div class="line">  <span class="attr">outputFormat</span>: <span class="string">'html'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">processContent</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">  options = <span class="built_in">Object</span>.assign(&#123;&#125;, DEFAULTS, options);</div><div class="line">  <span class="built_in">console</span>.log(options);</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，由于存在浅拷贝的问题，DEFAULTS对象和options对象的所有属性的值，最好都是简单类型，不要指向另一个对象。否则，DEFAULTS对象的该属性很可能不起作用。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> DEFAULTS = &#123;</div><div class="line">  <span class="attr">url</span>: &#123;</div><div class="line">    <span class="attr">host</span>: <span class="string">'example.com'</span>,</div><div class="line">    <span class="attr">port</span>: <span class="number">7070</span></div><div class="line">  &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">processContent(&#123; <span class="attr">url</span>: &#123;<span class="attr">port</span>: <span class="number">8000</span>&#125; &#125;)</div><div class="line"><span class="comment">// &#123;</span></div><div class="line"><span class="comment">//   url: &#123;port: 8000&#125;</span></div><div class="line"><span class="comment">// &#125;</span></div></pre></td></tr></table></figure>
+<p>上面代码的原意是将 url.port 改成8000，url.host不变。实际结果却是options.url覆盖掉DEFAULTS.url，所以url.host就不存在了。</p>
+<p><a href="http://es6.ruanyifeng.com/#docs/object#属性的可枚举性" target="_blank" rel="external">Link</a></p>
+
+      
+    </div>
+    
+      <! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由&nbsp;<b>Michael Cai</b>&nbsp;创作并首发于&nbsp;<b><a href="/index.html" target="_blank" title="Michael Cai">Michael Cai的个人博客</a></b>&nbsp;。</a></p>
+<! -- ，同步推送微信公众号：安卓笔记侠（NiaoTech） -- >
+<p>欢迎各种形式地交流与转载，注明作者及出处即可。</p>
+ 
+<p>本文标题为: <b><a href="/2017/05/19/JS-Object-Spread/" target="_blank" title="JavaScript ES7 对象展开运算">JavaScript ES7 对象展开运算</a></b> </p>
+ 
+<p>本文链接为：<b><a href="/2017/05/19/JS-Object-Spread/" target="_blank" title="JavaScript ES7 对象展开运算">http://yoursite.com/2017/05/19/JS-Object-Spread/</a></b> </p>
+
+<p><img border="1" src="http://ocq7gtgqu.bkt.clouddn.com/NiaoTechNiaoTech_QRcode1.jpg"></p>
+</div>
+<! -- 添加版权信息 -->
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/04/22/React-Router-Auth/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React-Router 实现 Auth 权限拦截</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
