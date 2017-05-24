@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>RxJava中的线程 | Full Stacker</title>
+  <title>React-Router 组件配置 | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Scheduler 是 RxJava 的线程调度器，可以指定代码执行的线程。RxJava 内置了几种线程，我们可以直接使用。">
-<meta name="keywords" content="RxJava,IO">
+  <meta name="description" content="很多程序员喜欢把路由配置集中到一个地方，但路由的配置其实只是普通的数据，在把数据映射到组件上这方面，React 非常强大，Route 其实就是一个普通的组件。">
+<meta name="keywords" content="React,React-Router">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RxJava中的线程">
-<meta property="og:url" content="http://yoursite.com/2014/08/21/RxJava-IO/index.html">
+<meta property="og:title" content="React-Router 组件配置">
+<meta property="og:url" content="http://yoursite.com/2017/04/23/React-Router-Config/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="Scheduler 是 RxJava 的线程调度器，可以指定代码执行的线程。RxJava 内置了几种线程，我们可以直接使用。">
-<meta property="og:updated_time" content="2017-05-15T06:35:34.000Z">
+<meta property="og:description" content="很多程序员喜欢把路由配置集中到一个地方，但路由的配置其实只是普通的数据，在把数据映射到组件上这方面，React 非常强大，Route 其实就是一个普通的组件。">
+<meta property="og:updated_time" content="2017-05-23T12:22:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RxJava中的线程">
-<meta name="twitter:description" content="Scheduler 是 RxJava 的线程调度器，可以指定代码执行的线程。RxJava 内置了几种线程，我们可以直接使用。">
+<meta name="twitter:title" content="React-Router 组件配置">
+<meta name="twitter:description" content="很多程序员喜欢把路由配置集中到一个地方，但路由的配置其实只是普通的数据，在把数据映射到组件上这方面，React 非常强大，Route 其实就是一个普通的组件。">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
   
@@ -191,11 +191,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-RxJava-IO" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-React-Router-Config" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2014/08/21/RxJava-IO/" class="article-date">
-  	<time datetime="2014-08-21T02:27:55.000Z" itemprop="datePublished">2014-08-21</time>
+      <a href="/2017/04/23/React-Router-Config/" class="article-date">
+  	<time datetime="2017-04-23T09:31:19.000Z" itemprop="datePublished">2017-04-23</time>
 </a>
     </div>
   
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      RxJava中的线程
+      React-Router 组件配置
     </h1>
   
 
@@ -217,7 +217,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React-Router/">React-Router</a></li></ul>
 	</div>
 
         
@@ -237,25 +237,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Scheduler</strong> 是 <strong>RxJava</strong> 的线程调度器，可以指定代码执行的线程。<strong>RxJava</strong> 内置了几种线程，我们可以直接使用。<br><a id="more"></a></p>
-<h2 id="Scheduler"><a href="#Scheduler" class="headerlink" title="Scheduler"></a>Scheduler</h2><ul>
-<li><strong>AndroidSchedulers.mainThread()</strong>  Android开发中专用的主线程</li>
-<li><strong>Schedulers.immediate()</strong>  当前线程，即默认Scheduler</li>
-<li><strong>Schedulers.newThread()</strong>  启用新线程，并在新线程执行操作</li>
-<li><strong>Schedulers.io()</strong>  IO线程，（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程。</li>
-<li><strong>Schedulers.computation()</strong>  CPU计算用的线程，内部是一个数目固定为CPU核数的线程池，适合于CPU密集型计算，不能操作文件、数据库和网络。该 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中， 否则 I/O 操作的等待时间会浪费 CPU。</li>
-</ul>
-<blockquote>
-<p>一般的网络请求应该使用io，因为io使用了无限的线程池，而newThread没有线程池维护。</p>
-</blockquote>
-<h2 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable</h2><ul>
-<li>Observable.create()…..subscribeOn(Schedulers.io()) // 创建子线程 </li>
-<li>Observable.just()…..subscribeOn(Schedulers.io()) // 未创建子线程 </li>
-<li>Observable.from()…..subscribeOn(Schedulers.io()) // 未创建子线程</li>
-</ul>
-<blockquote>
-<p>耗时操作需要用.create()方式创建Observable。</p>
-</blockquote>
+        <p>很多程序员喜欢把路由配置集中到一个地方，但路由的配置其实只是普通的数据，在把数据映射到组件上这方面，<strong>React</strong> 非常强大，<strong>Route</strong> 其实就是一个普通的组件。<br><a id="more"></a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> RouteWithSubRoutes = <span class="function">(<span class="params">route</span>) =&gt;</span> (</div><div class="line">    &lt;Route path=&#123;route.path&#125; render=&#123;props =&gt; (</div><div class="line">    // 把 routes 向下传递来达到嵌套。route.component 将得到 routes 属性。</div><div class="line">    &lt;route.component &#123;...props&#125; routes=&#123;route.routes&#125;/&gt;</div><div class="line">  )&#125;/&gt;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>把 <strong>Route</strong> 组件像这样包一层，然后在需要使用 <strong>Route</strong> 的地方使用 <strong>RouteWithSubRoutes</strong> 子路由可以加到任意路由组件上。</p>
+<h2 id="定义组件"><a href="#定义组件" class="headerlink" title="定义组件"></a>定义组件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const Redbull = () =&gt; &lt;h2&gt;红牛&lt;/h2&gt;</div><div class="line"></div><div class="line">const Snacks = (&#123;routes&#125;) =&gt; (</div><div class="line">    &lt;div&gt;</div><div class="line">        &lt;h2&gt;小吃&lt;/h2&gt;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li&gt;&lt;Link to="/snacks/spicy"&gt;辣条&lt;/Link&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;Link to="/snacks/chips"&gt;薯片&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line"></div><div class="line">        &#123;routes.map((route, i) =&gt; (</div><div class="line">            &lt;RouteWithSubRoutes key=&#123;i&#125; &#123;...route&#125;/&gt;</div><div class="line">        ))&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const Spicy = () =&gt; &lt;h3&gt;辣条&lt;/h3&gt;</div><div class="line">const Chips = () =&gt; &lt;h3&gt;薯片&lt;/h3&gt;</div></pre></td></tr></table></figure>
+<h2 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> routes = [</div><div class="line">    &#123;</div><div class="line">        <span class="attr">path</span>: <span class="string">'/redbull'</span>,</div><div class="line">        <span class="attr">component</span>: Redbull</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">        <span class="attr">path</span>: <span class="string">'/snacks'</span>,</div><div class="line">        <span class="attr">component</span>: Snacks,</div><div class="line">        <span class="attr">routes</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">path</span>: <span class="string">'/snacks/spicy'</span>,</div><div class="line">                <span class="attr">component</span>: Spicy</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="attr">path</span>: <span class="string">'/snacks/chips'</span>,</div><div class="line">                <span class="attr">component</span>: Chips</div><div class="line">            &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>上面的路由配置定义了 4 个组件及其路径信息，其中组件 <strong>Snacks</strong> 下面还有两个子组件 <strong>Spicy</strong> 和 <strong>Chips</strong>。</p>
+<h2 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li&gt;&lt;Link to="/snacks"&gt;小吃&lt;/Link&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;Link to="/redbull"&gt;红牛&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line"></div><div class="line">        &#123;routes.map((route, i) =&gt; (</div><div class="line">            &lt;RouteWithSubRoutes key=&#123;i&#125; &#123;...route&#125;/&gt;</div><div class="line">        ))&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/Router&gt;</div></pre></td></tr></table></figure>
+<h2 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h2><p><strong>routes</strong> 数组中定义了两个一级组件 <strong>Redbull</strong> 和 <strong>Snacks</strong>，使用 <strong>RouteWithSubRoutes</strong> 实际上就是把这两个组件给定义了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;Route path=<span class="string">'/redbull'</span> render=&#123;(props)=&gt;&#123;</div><div class="line">	<span class="keyword">return</span> &lt;Redbull &#123;...props&#125;/&gt;</div><div class="line">&#125;&#125;/&gt;</div><div class="line">&lt;Route path='/snacks' render=&#123;(props)=&gt;&#123;</div><div class="line">	return &lt;Snacks &#123;...props&#125; routes=&#123;routes.routes&#125;/&gt;</div><div class="line">&#125;&#125;/&gt;</div></pre></td></tr></table></figure>
+<p>同时该组件中又使用了 <strong>routes</strong> 属性来定义子组件。</p>
 
       
     </div>
@@ -266,9 +257,9 @@
 <! -- ，同步推送微信公众号：安卓笔记侠（NiaoTech） -- >
 <p>欢迎各种形式地交流与转载，注明作者及出处即可。</p>
  
-<p>本文标题为: <b><a href="/2014/08/21/RxJava-IO/" target="_blank" title="RxJava中的线程">RxJava中的线程</a></b> </p>
+<p>本文标题为: <b><a href="/2017/04/23/React-Router-Config/" target="_blank" title="React-Router 组件配置">React-Router 组件配置</a></b> </p>
  
-<p>本文链接为：<b><a href="/2014/08/21/RxJava-IO/" target="_blank" title="RxJava中的线程">http://yoursite.com/2014/08/21/RxJava-IO/</a></b> </p>
+<p>本文链接为：<b><a href="/2017/04/23/React-Router-Config/" target="_blank" title="React-Router 组件配置">http://yoursite.com/2017/04/23/React-Router-Config/</a></b> </p>
 
 <p><img border="1" src="http://ocq7gtgqu.bkt.clouddn.com/NiaoTechNiaoTech_QRcode1.jpg"></p>
 </div>
@@ -280,18 +271,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/05/16/JS-Promise/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/04/24/React-Router-Animation/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          JavaScript Promise 异步流程控制
+          React-Router Animation 动画
         
       </div>
     </a>
   
   
-    <a href="/2014/08/20/RxJava-Observable/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">RxJava Observable 数据转换</div>
+    <a href="/2017/04/23/React-Router-Gallery/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React-Router 渲染多个组件</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

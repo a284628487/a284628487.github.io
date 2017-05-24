@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>React Animation 动画 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在 React 中，组件切换、加载都可以添加上相应的动画，怎么去添加动画呢？该在什么地方添加呢？这些都不需要我们考虑，使用 react-addons-css-transition-group 可以快速的为组件加载和切换添加动画。">
+<meta name="keywords" content="React,Animation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Animation 动画">
+<meta property="og:url" content="http://yoursite.com/2016/05/24/React-Animation/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="在 React 中，组件切换、加载都可以添加上相应的动画，怎么去添加动画呢？该在什么地方添加呢？这些都不需要我们考虑，使用 react-addons-css-transition-group 可以快速的为组件加载和切换添加动画。">
+<meta property="og:updated_time" content="2017-05-24T02:57:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Animation 动画">
+<meta name="twitter:description" content="在 React 中，组件切换、加载都可以添加上相应的动画，怎么去添加动画呢？该在什么地方添加呢？这些都不需要我们考虑，使用 react-addons-css-transition-group 可以快速的为组件加载和切换添加动画。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="http://img.my.csdn.net/uploads/201705/23/1495520992_8970.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.67px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.67px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.67px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 18.33px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 13.33px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="nullhttp://img.my.csdn.net/uploads/201705/23/1495520992_8970.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-React-Animation" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/24/React-Animation/" class="article-date">
+  	<time datetime="2016-05-24T01:32:00.000Z" itemprop="datePublished">2016-05-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React Animation 动画
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Animation/">Animation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 <strong>React</strong> 中，组件切换、加载都可以添加上相应的动画，怎么去添加动画呢？该在什么地方添加呢？这些都不需要我们考虑，使用 <strong>react-addons-css-transition-group</strong> 可以快速的为组件加载和切换添加动画。<br><a id="more"></a></p>
+<h2 id="ReactCSSTransitionGroup"><a href="#ReactCSSTransitionGroup" class="headerlink" title="ReactCSSTransitionGroup"></a>ReactCSSTransitionGroup</h2><p><strong>ReactCSSTransitionGroup</strong> 是官方提供的动画实现方案，它有同个重要的属性，用于配置动画。</p>
+<ul>
+<li><strong>className: string</strong> - 动画根组件的根布局样式名。</li>
+<li><strong>transitionName: string</strong> - 动画样式名，对应的动画样式需要在 <strong>css</strong> 文件中进行定义。</li>
+<li><strong>transitionAppear: bool</strong> - 组件第一次加载的时候是否显示动画，默认值 false 没有动画。</li>
+<li><strong>transitionEnterTimeout: int</strong> - 组件 <strong>enter</strong> 时动画超时时长，也就是动画最大时间。</li>
+<li><strong>transitionLeaveTimeout: int</strong> - 同上，不同的是指定的是 <strong>leave</strong> 的时长。</li>
+<li><strong>transitionAppearTimeout: int</strong> - 同上。</li>
+</ul>
+<h3 id="transitionName"><a href="#transitionName" class="headerlink" title="transitionName"></a>transitionName</h3><p>重点说一下 <strong>transitionName</strong> ，该样式名指定的样式，需要在 <strong>css</strong> 文件中定义多个相应的样式。<br>比如说指定的 <strong>transitionName</strong> 为 <strong>example</strong>，则需要定义命令如下的几个样式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">.example-enter &#123; <span class="comment">/* enter begin **/</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">.example-enter.example-enter-active &#123; <span class="comment">/* enter finish **/</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">.example-leave &#123; <span class="comment">/* leave begin **/</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">.example-leave.example-leave-active &#123; <span class="comment">/* leave finish **/</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">.example-appear&#123; <span class="comment">/* appear begin **/</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">.example-appear.example-appear-active &#123; <span class="comment">/* appear begin **/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也就是需要定义 <strong>enter</strong> / <strong>leave</strong> 初始、结束时的样式。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></div><div class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></div><div class="line"><span class="keyword">import</span> ReactCSSTransitionGroup <span class="keyword">from</span> <span class="string">'react-addons-css-transition-group'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> INTERVAL = <span class="number">2000</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> AnimateDemo = React.createClass(&#123;</div><div class="line">    <span class="attr">getInitialState</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;<span class="attr">current</span>: <span class="number">0</span>&#125;;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">componentDidMount</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.interval = setInterval(<span class="keyword">this</span>.tick, INTERVAL);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">componentWillUnmount</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        clearInterval(<span class="keyword">this</span>.interval);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">tick</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">current</span>: <span class="keyword">this</span>.state.current + <span class="number">1</span>&#125;);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">render</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> children = [];</div><div class="line">        <span class="keyword">var</span> pos = <span class="number">0</span>;</div><div class="line">        <span class="keyword">var</span> colors = [<span class="string">'red'</span>, <span class="string">'gray'</span>, <span class="string">'blue'</span>];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="keyword">this</span>.state.current; i &lt; <span class="keyword">this</span>.state.current + colors.length; i++) &#123;</div><div class="line">            <span class="keyword">var</span> style = &#123;</div><div class="line">                <span class="attr">left</span>: pos * <span class="number">128</span>,</div><div class="line">                <span class="attr">background</span>: colors[i % colors.length]</div><div class="line">            &#125;;</div><div class="line">            pos++;</div><div class="line">            children.push(&lt;div key=&#123;i&#125; className="animateItem" style=&#123;style&#125;&gt;&#123;i&#125;&lt;/div&gt;);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            &lt;ReactCSSTransitionGroup</div><div class="line">                className="animateExample"</div><div class="line">                transitionEnterTimeout=&#123;1500&#125;</div><div class="line">                transitionLeaveTimeout=&#123;1500&#125;</div><div class="line">                transitionName="example"&gt;</div><div class="line">                &#123;children&#125;</div><div class="line">            &lt;/ReactCSSTransitionGroup&gt;</div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">ReactDOM.render(&lt;AnimateDemo/&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</div></pre></td></tr></table></figure>
+<p>在这个组件中，当添加一个元素到 <strong>ReactCSSTransitionGroup</strong> 中时，这个元素将会自动添加上 <strong>example-enter</strong> 和 <strong>example-enter-active</strong> 样式。</p>
+<h3 id="定义样式："><a href="#定义样式：" class="headerlink" title="定义样式："></a>定义样式：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.example-enter</span>,</div><div class="line"><span class="selector-class">.example-leave</span> &#123;</div><div class="line">    <span class="attribute">-webkit-transition</span>: all <span class="number">2s</span>;</div><div class="line">    <span class="attribute">transition</span>: all <span class="number">2s</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.example-enter</span> &#123; <span class="comment">/* begin **/</span></div><div class="line">    <span class="attribute">opacity</span>: <span class="number">0.01</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">128px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.example-enter</span><span class="selector-class">.example-enter-active</span> &#123; <span class="comment">/* finish **/</span></div><div class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.example-leave</span> &#123;</div><div class="line">    <span class="attribute">opacity</span>: <span class="number">1</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.example-leave</span><span class="selector-class">.example-leave-active</span> &#123;</div><div class="line">    <span class="attribute">opacity</span>: <span class="number">0.01</span>;</div><div class="line">    <span class="attribute">margin-left</span>: -<span class="number">128px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.animateExample</span> &#123;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">height</span>: <span class="number">128px</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">width</span>: <span class="number">384px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.animateItem</span> &#123;</div><div class="line">    <span class="attribute">color</span>: white;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">36px</span>;</div><div class="line">    <span class="attribute">font-weight</span>: bold;</div><div class="line">    <span class="attribute">height</span>: <span class="number">128px</span>;</div><div class="line">    <span class="attribute">line-height</span>: <span class="number">128px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">    <span class="attribute">-webkit-transition</span>: all <span class="number">1s</span>; <span class="comment">/* <span class="doctag">TODO:</span> make this a move animation */</span></div><div class="line">    <span class="attribute">transition</span>: all <span class="number">1s</span>; <span class="comment">/* <span class="doctag">TODO:</span> make this a move animation */</span></div><div class="line">    <span class="attribute">width</span>: <span class="number">128px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>动画时间在 <strong>css</strong> 样式表中和 <strong>render</strong> 方法中，都必须指定，时间用来告诉 <strong>React</strong> 什么时候去移除 <strong>animation</strong> 样式以及什么时候从 <strong>DOM</strong> 中移除元素。</p>
+<blockquote>
+<p>注意: 必须给 <strong>ReactCSSTransitionGroup</strong> 中的每一个 <strong>child</strong> 设置一个 <strong>key</strong> 属性，即使只渲染一个 <strong>element</strong>！<br>组件第一次加载的时候，执行的动画是 <strong>appear</strong>，之后再有 <strong>element</strong> 动态添加到<strong>ReactCSSTransitionGroup</strong>，将会执行 <strong>enter</strong> 动画，而不会是 <strong>appear</strong> 动画；<br><strong>transitionEnter</strong> 和 <strong>transitionLeave</strong> 默认值是true，所以如果不把它们指定为<strong>false</strong> 的话得指定 <strong>transitionEnterTimeout</strong> 和 <strong>transitionLeaveTimeout</strong>。</p>
+</blockquote>
+<h2 id="自定义-classes"><a href="#自定义-classes" class="headerlink" title="自定义 classes"></a>自定义 classes</h2><p>除了通过 <strong>transitionName</strong> 指定样式，还可以指定每一步的动画样式，其中，<strong>active</strong> 样式名可以不用指定。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">// ...</div><div class="line">&lt;ReactCSSTransitionGroup</div><div class="line">  transitionName=&#123; &#123;</div><div class="line">    enter: 'enter',</div><div class="line">    enterActive: 'enterActive',</div><div class="line">    leave: 'leave',</div><div class="line">    leaveActive: 'leaveActive',</div><div class="line">    appear: 'appear',</div><div class="line">    appearActive: 'appearActive'</div><div class="line">  &#125; &#125;&gt;</div><div class="line">  &#123;item&#125;</div><div class="line">&lt;/ReactCSSTransitionGroup&gt;</div><div class="line"></div><div class="line">&lt;ReactCSSTransitionGroup</div><div class="line">  transitionName=&#123; &#123;</div><div class="line">    enter: 'enter',</div><div class="line">    leave: 'leave',</div><div class="line">    appear: 'appear'</div><div class="line">  &#125; &#125;&gt;</div><div class="line">  &#123;item2&#125;</div><div class="line">&lt;/ReactCSSTransitionGroup&gt;</div><div class="line">// ...</div></pre></td></tr></table></figure>
+<h2 id="Animating-One-or-Zero-Items"><a href="#Animating-One-or-Zero-Items" class="headerlink" title="Animating One or Zero Items"></a>Animating One or Zero Items</h2><p>上面所实现的动画，都是整个 <strong>Group</strong> 中的元素都将被设置动画，实际上还可以指定只需要某一/零个元素执行动画；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> ReactCSSTransitionGroup <span class="keyword">from</span> <span class="string">'react-addons-css-transition-group'</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ImageCarousel</span>(<span class="params">props</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;ReactCSSTransitionGroup</div><div class="line">        transitionName="carousel"</div><div class="line">        transitionEnterTimeout=&#123;300&#125;</div><div class="line">        transitionLeaveTimeout=&#123;300&#125;&gt;</div><div class="line">        &lt;img src=&#123;props.imageSrc&#125; key=&#123;props.imageSrc&#125; /&gt;</div><div class="line">      &lt;/ReactCSSTransitionGroup&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Animation-Group-Must-Be-Mounted-To-Work"><a href="#Animation-Group-Must-Be-Mounted-To-Work" class="headerlink" title="Animation Group Must Be Mounted To Work"></a>Animation Group Must Be Mounted To Work</h2><p>为了给 <strong>child</strong> 添加动画属性，<strong>ReactCSSTransitionGroup</strong> 必须已经被加载到 <strong>DOM</strong> 中，或者将 <strong>transitionAppear</strong> 设置成 <strong>true</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">  <span class="keyword">const</span> items = <span class="keyword">this</span>.state.items.map(<span class="function">(<span class="params">item, i</span>) =&gt;</span> (</div><div class="line">    &lt;div key=&#123;item&#125; onClick=&#123;() =&gt; this.handleRemove(i)&#125;&gt;</div><div class="line">      &lt;ReactCSSTransitionGroup transitionName="example"&gt;</div><div class="line">        &#123;item&#125;</div><div class="line">      &lt;/ReactCSSTransitionGroup&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  ));</div><div class="line"></div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;button onClick=&#123;this.handleAdd&#125;&gt;Add Item&lt;/button&gt;</div><div class="line">      &#123;items&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面这个例子将不会起作用，因为 <strong>ReactCSSTransitionGroup</strong> 被加载到新的 <strong>div</strong> 中，而不是已经加载好的元素当中，且没有设置 <strong>transitionAppear</strong> 为 false。</p>
+<h2 id="Disabling-Animations"><a href="#Disabling-Animations" class="headerlink" title="Disabling Animations"></a>Disabling Animations</h2><p>还可以禁止掉 <strong>enter</strong> 或者是 <strong>leave</strong> 动画，比如希望有 <strong>enter</strong> 动画而不想要 <strong>leave</strong> 动画，但是 <strong>ReactCSSTransitionGroup</strong> 需要等待动画完成后才从dom中 <strong>remove</strong> 元素，此时可以通过设置 <strong>transitionEnter={false}</strong> 或者 <strong>transitionLeave={false}</strong> 来禁止相应的动画；</p>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>在 <strong>ReactCSSTransitionGroup</strong> 中，没有动画完成的监听，所以如果想要获取到动画的执行进度并且添加其它操作是不可行的，如果确实有需要，可以使用 <strong><a href="https://facebook.github.io/react/docs/animation.html#low-level-api-reacttransitiongroup" target="_blank" rel="external">ReactTransitionGroup</a></strong>。</p>
+<ul>
+<li><a href="https://facebook.github.io/react/docs/animation.html" target="_blank" rel="external">animation</a></li>
+<li><a href="https://facebook.github.io/react/docs/animation.html#low-level-api-reacttransitiongroup" target="_blank" rel="external">reacttransitiongroup</a></li>
+</ul>
+
+      
+    </div>
+    
+      <! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由&nbsp;<b>Michael Cai</b>&nbsp;创作并首发于&nbsp;<b><a href="/index.html" target="_blank" title="Michael Cai">Michael Cai的个人博客</a></b>&nbsp;。</a></p>
+<! -- ，同步推送微信公众号：安卓笔记侠（NiaoTech） -- >
+<p>欢迎各种形式地交流与转载，注明作者及出处即可。</p>
+ 
+<p>本文标题为: <b><a href="/2016/05/24/React-Animation/" target="_blank" title="React Animation 动画">React Animation 动画</a></b> </p>
+ 
+<p>本文链接为：<b><a href="/2016/05/24/React-Animation/" target="_blank" title="React Animation 动画">http://yoursite.com/2016/05/24/React-Animation/</a></b> </p>
+
+<p><img border="1" src="http://ocq7gtgqu.bkt.clouddn.com/NiaoTechNiaoTech_QRcode1.jpg"></p>
+</div>
+<! -- 添加版权信息 -->
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/15/React+Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          React 中使用 Redux 入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/17/JS-async+await/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript ES7 中的 async 和 await</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>React-Router 渲染多个组件 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用 Route 配置的一个组件，当在浏览器中访问某一地址时，默认只会渲染该地址对应的组件，可能是在一个地方，也可能是多个地方(如果对该 Route 配置了多次)，不仅如此，在同一地址下，我们也可以使用一些 ‘手段’ 渲染两个不同 location 下的组件。">
+<meta name="keywords" content="React,React-Router">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React-Router 渲染多个组件">
+<meta property="og:url" content="http://yoursite.com/2017/04/23/React-Router-Gallery/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="使用 Route 配置的一个组件，当在浏览器中访问某一地址时，默认只会渲染该地址对应的组件，可能是在一个地方，也可能是多个地方(如果对该 Route 配置了多次)，不仅如此，在同一地址下，我们也可以使用一些 ‘手段’ 渲染两个不同 location 下的组件。">
+<meta property="og:updated_time" content="2017-05-23T09:20:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React-Router 渲染多个组件">
+<meta name="twitter:description" content="使用 Route 配置的一个组件，当在浏览器中访问某一地址时，默认只会渲染该地址对应的组件，可能是在一个地方，也可能是多个地方(如果对该 Route 配置了多次)，不仅如此，在同一地址下，我们也可以使用一些 ‘手段’ 渲染两个不同 location 下的组件。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="http://img.my.csdn.net/uploads/201705/23/1495520992_8970.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.67px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.67px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.67px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 18.33px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 13.33px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="nullhttp://img.my.csdn.net/uploads/201705/23/1495520992_8970.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-React-Router-Gallery" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/23/React-Router-Gallery/" class="article-date">
+  	<time datetime="2017-04-23T08:02:33.000Z" itemprop="datePublished">2017-04-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React-Router 渲染多个组件
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React-Router/">React-Router</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 <strong>Route</strong> 配置的一个组件，当在浏览器中访问某一地址时，默认只会渲染该地址对应的组件，可能是在一个地方，也可能是多个地方(如果对该 <strong>Route</strong> 配置了多次)，不仅如此，在同一地址下，我们也可以使用一些 ‘手段’ 渲染两个不同 <strong>location</strong> 下的组件。<br><a id="more"></a></p>
+<p><strong>Switch</strong> 组件会渲染 <strong>children</strong> 中的第一个匹配路径的组件，它还有一个 <strong>location</strong> 属性，该属性是可以动态改变的，利用这一特性，可以在某一地址下，把 <strong>Switch</strong> 组件的 <strong>location</strong> 属性手动改变以达到同一路径渲染多个不同组件的目的。比如有的情况下，需要弹出 <strong>Modal</strong> 对话框，而原来的组件保持不变，仍然渲染在页面中，这种情况下就适合使用 <strong>Switch</strong> 组件动态改变 <strong>location</strong> 来实现。</p>
+<p>假定有这样一个场景，点击图片列表页面中的小图查看大图，大图使用 <strong>Modal</strong> 弹出的样式，在大图显示的时候，为了不使图片其它空白地方无填充内容，所以大图弹出的时候，使用半透明色使原有页面仍然可见。</p>
+<h2 id="定义样式"><a href="#定义样式" class="headerlink" title="定义样式"></a>定义样式</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> styles = &#123;&#125;</div><div class="line"></div><div class="line">styles.modal_root = &#123;</div><div class="line">    <span class="attr">position</span>: <span class="string">'absolute'</span>,</div><div class="line">    <span class="attr">top</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">left</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">bottom</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">right</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">background</span>: <span class="string">'rgba(0, 0, 0, 0.15)'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">styles.modal_panel = &#123;</div><div class="line">    <span class="attr">position</span>: <span class="string">'absolute'</span>,</div><div class="line">    <span class="attr">background</span>: <span class="string">'#fff'</span>,</div><div class="line">    <span class="attr">top</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">left</span>: <span class="string">'10%'</span>,</div><div class="line">    <span class="attr">right</span>: <span class="string">'10%'</span>,</div><div class="line">    <span class="attr">bottom</span>: <span class="number">0</span>,</div><div class="line">    <span class="attr">border</span>: <span class="string">'2px solid #444'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面定义了两个样式：</p>
+<ul>
+<li><strong>modal_root</strong> : 弹出框布局样式</li>
+<li><strong>modal_panel</strong> : 嵌套在弹出框中显示大图的布局样式</li>
+</ul>
+<h2 id="定义-Modal-弹出框"><a href="#定义-Modal-弹出框" class="headerlink" title="定义 Modal 弹出框"></a>定义 Modal 弹出框</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> IMAGES = [</div><div class="line">    &#123;<span class="attr">id</span>: <span class="number">0</span>, <span class="attr">title</span>: <span class="string">'深兰花紫'</span>, <span class="attr">color</span>: <span class="string">'DarkOrchid'</span>&#125;,</div><div class="line">    &#123;<span class="attr">id</span>: <span class="number">1</span>, <span class="attr">title</span>: <span class="string">'石灰绿'</span>, <span class="attr">color</span>: <span class="string">'LimeGreen'</span>&#125;,</div><div class="line">    &#123;<span class="attr">id</span>: <span class="number">2</span>, <span class="attr">title</span>: <span class="string">'番茄色'</span>, <span class="attr">color</span>: <span class="string">'Tomato'</span>&#125;,</div><div class="line">    &#123;<span class="attr">id</span>: <span class="number">3</span>, <span class="attr">title</span>: <span class="string">'#七八九'</span>, <span class="attr">color</span>: <span class="string">'#789'</span>&#125;,</div><div class="line">    &#123;<span class="attr">id</span>: <span class="number">4</span>, <span class="attr">title</span>: <span class="string">'赤红色'</span>, <span class="attr">color</span>: <span class="string">'Crimson'</span>&#125;</div><div class="line">]</div><div class="line"></div><div class="line"><span class="keyword">const</span> Modal = <span class="function">(<span class="params">&#123;match, history&#125;</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> image = IMAGES[<span class="built_in">parseInt</span>(match.params.id, <span class="number">10</span>)]</div><div class="line">    <span class="keyword">if</span> (!image) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">const</span> back = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</div><div class="line">        e.stopPropagation()</div><div class="line">        history.goBack()</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">        &lt;div onClick=&#123;back&#125; style=&#123;styles.modal_root&#125;&gt;</div><div class="line">            &lt;div className='modal' style=&#123;styles.modal_panel&#125;&gt;</div><div class="line">                &lt;h1&gt;&#123;image.title&#125;&lt;/h1&gt;</div><div class="line">                &lt;Image color=&#123;image.color&#125;/&gt;</div><div class="line">                &lt;button type='button' onClick=&#123;back&#125;&gt;关闭&lt;/button&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    )</div><div class="line">&#125;</div><div class="line"></div><div class="line">const Image = (&#123;color&#125;) =&gt;</div><div class="line">    &lt;div style=&#123;&#123;</div><div class="line">    width: '100%',</div><div class="line">    height: '80%',</div><div class="line">    background: color</div><div class="line">  &#125;&#125;/&gt;</div></pre></td></tr></table></figure>
+<p>全部图片使用 <strong>IMAGES</strong> 来存储，在 <strong>Modal</strong> 弹出的时候，根据 <strong>match.params.id</strong> 在 <strong>IMAGES</strong> 数组中查找当前需要显示大图的 <strong>IMAGE</strong>。每个 <strong>IMAGE</strong> 有 <strong>title</strong> 和 <strong>color</strong> 属性，使用 <strong>Image</strong> 组件来显示(背影颜色)图片。点击根布局或者关闭按钮，可以关闭 <strong>Modal</strong>。</p>
+<h2 id="定义图片列表"><a href="#定义图片列表" class="headerlink" title="定义图片列表"></a>定义图片列表</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Gallery = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">        &lt;div&gt;</div><div class="line">            &#123;IMAGES.map(i =&gt; (</div><div class="line">                &lt;Link key=&#123;i.id&#125; to=&#123;&#123;pathname: `/img/$&#123;i.id&#125;`, state: &#123; modal: true &#125;&#125;&#125;&gt;</div><div class="line">                    &lt;Thumbnail color=&#123;i.color&#125;/&gt;&lt;p&gt;&#123;i.title&#125;&lt;/p&gt;</div><div class="line">                &lt;/Link&gt;</div><div class="line">            ))&#125;</div><div class="line">        &lt;/div&gt;</div><div class="line">    )</div><div class="line">&#125;</div><div class="line"></div><div class="line">const Thumbnail = (&#123;color&#125;) =&gt;</div><div class="line">    &lt;div style=&#123;&#123;</div><div class="line">    width: 50,</div><div class="line">    height: 50,</div><div class="line">    background: color</div><div class="line">  &#125;&#125;/&gt;</div></pre></td></tr></table></figure>
+<p>使用一个 50 <em> 50 大小的 <strong>div</strong> 表示小图，以及图片颜色。使用 <strong>Link</strong> 指定小图被点击之后的跳转 <strong>location</strong>。其中 <strong>pathname</strong> 传递了图片的 <strong>id</strong> ，<strong>state</strong> 表示是否是 <em>*Modal</em></em> 弹出。</p>
+<h2 id="定义应用程序组件"><a href="#定义应用程序组件" class="headerlink" title="定义应用程序组件"></a>定义应用程序组件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">GalleryComponent</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(props) &#123;</div><div class="line">        <span class="keyword">super</span>(props)</div><div class="line">        <span class="keyword">this</span>.previousLocation = <span class="keyword">this</span>.props.location</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    componentWillUpdate(nextProps) &#123;</div><div class="line">        <span class="keyword">const</span> &#123;location&#125; = <span class="keyword">this</span>.props;</div><div class="line">        <span class="comment">// 非 POP 就把 this.props.location 赋值给 previousLocation。</span></div><div class="line">        <span class="keyword">if</span> (nextProps.history.action !== <span class="string">'POP'</span>) &#123;</div><div class="line">            <span class="keyword">this</span>.previousLocation = <span class="keyword">this</span>.props.location</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    render() &#123;</div><div class="line">        <span class="keyword">const</span> &#123;location&#125; = <span class="keyword">this</span>.props</div><div class="line">        <span class="keyword">const</span> isModal = !!(</div><div class="line">            location.state &amp;&amp;</div><div class="line">            location.state.modal &amp;&amp;</div><div class="line">            <span class="keyword">this</span>.previousLocation !== location <span class="comment">// 不是首次渲染。</span></div><div class="line">        )</div><div class="line">        <span class="keyword">return</span> (</div><div class="line">            &lt;div&gt;</div><div class="line">                &lt;Switch location=&#123;isModal? this.previousLocation: location&#125;&gt;</div><div class="line">                    &lt;Route exact path='/' component=&#123;Gallery&#125;/&gt;</div><div class="line">                &lt;/Switch&gt;</div><div class="line">                &#123;isModal ? &lt;Route path='/img/:id' component=&#123;Modal&#125;/&gt; : null&#125;</div><div class="line">            &lt;/div&gt;</div><div class="line">        )</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var router = (</div><div class="line">&lt;Router&gt;</div><div class="line">	&lt;Route component=&#123;GalleryComponent&#125;/&gt;</div><div class="line">&lt;/Router&gt;</div><div class="line">);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在 <strong>componentWillUpdate</strong> 方法中，如果 <strong>action</strong> 不为 <strong>POP</strong> (不为 <strong>POP</strong> 就是 <strong>PUSH</strong>)，就把当前的地址给保存到 <strong>this.previousLocation</strong>。然后在 <strong>render</strong> 方法中，如果是 <strong>isModal</strong> 弹出的话，则把 <strong>Switch</strong> 的 <strong>location</strong> 指定成 <strong>this.previousLocation</strong>，则 <strong>Switch</strong> 中的 <strong>Route</strong> 将被渲染，同时在外部一并渲染 <strong>Modal</strong> 组件。</p>
+</blockquote>
+<p>整个流程如下：</p>
+<p>一开始路径是 <strong>localhost:8888/</strong> ，此时渲染的是 <strong>Gallery</strong> 组件，点击 <strong>Gallery</strong> 组件中的某一个图片，<strong>componentWillUpdate</strong> 方法被调用，此时 <strong>this.props.location.pathname</strong> 为 <strong>/</strong>，将该值保存到 <strong>this.previousLocation</strong>，<strong>render</strong> 方法被调用，此时 <strong>isModal</strong> 为 true，则 <strong>Switch</strong> 组件的 <strong>location</strong> 为 <strong>/</strong>，这个路径正好匹配 <strong>Gallery</strong>，同时 <strong>Modal</strong> 也会被渲染。</p>
+
+      
+    </div>
+    
+      <! -- 添加版权信息 -->
+<div class="article-footer-copyright">
+<p>本文由&nbsp;<b>Michael Cai</b>&nbsp;创作并首发于&nbsp;<b><a href="/index.html" target="_blank" title="Michael Cai">Michael Cai的个人博客</a></b>&nbsp;。</a></p>
+<! -- ，同步推送微信公众号：安卓笔记侠（NiaoTech） -- >
+<p>欢迎各种形式地交流与转载，注明作者及出处即可。</p>
+ 
+<p>本文标题为: <b><a href="/2017/04/23/React-Router-Gallery/" target="_blank" title="React-Router 渲染多个组件">React-Router 渲染多个组件</a></b> </p>
+ 
+<p>本文链接为：<b><a href="/2017/04/23/React-Router-Gallery/" target="_blank" title="React-Router 渲染多个组件">http://yoursite.com/2017/04/23/React-Router-Gallery/</a></b> </p>
+
+<p><img border="1" src="http://ocq7gtgqu.bkt.clouddn.com/NiaoTechNiaoTech_QRcode1.jpg"></p>
+</div>
+<! -- 添加版权信息 -->
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/23/React-Router-Config/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          React-Router 组件配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/22/React-Router-Auth/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React-Router 实现 Auth 权限拦截</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
