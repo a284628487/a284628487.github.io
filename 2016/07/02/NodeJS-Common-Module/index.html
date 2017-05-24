@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS 基础模块 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Node.js 是运行在服务器端的 JavaScript 环境，服务器程序和浏览器程序相比，最大的特点是没有浏览器的安全限制了，而且，服务器程序必须能接收网络请求，读写文件，处理二进制内容，所以， Node.js 内置的常用模块就是为了实现基本的服务器功能。这些模块在浏览器环境中是无法被执行的，因为它们的底层代码是用 C/C++ 在 Node.js 运行环境中实现的。">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS 基础模块">
+<meta property="og:url" content="http://yoursite.com/2016/07/02/NodeJS-Common-Module/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Node.js 是运行在服务器端的 JavaScript 环境，服务器程序和浏览器程序相比，最大的特点是没有浏览器的安全限制了，而且，服务器程序必须能接收网络请求，读写文件，处理二进制内容，所以， Node.js 内置的常用模块就是为了实现基本的服务器功能。这些模块在浏览器环境中是无法被执行的，因为它们的底层代码是用 C/C++ 在 Node.js 运行环境中实现的。">
+<meta property="og:updated_time" content="2017-05-24T07:29:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS 基础模块">
+<meta name="twitter:description" content="Node.js 是运行在服务器端的 JavaScript 环境，服务器程序和浏览器程序相比，最大的特点是没有浏览器的安全限制了，而且，服务器程序必须能接收网络请求，读写文件，处理二进制内容，所以， Node.js 内置的常用模块就是为了实现基本的服务器功能。这些模块在浏览器环境中是无法被执行的，因为它们的底层代码是用 C/C++ 在 Node.js 运行环境中实现的。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.67px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/NodeJS/" style="font-size: 13.33px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.67px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.67px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 18.33px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 13.33px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-Common-Module" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/02/NodeJS-Common-Module/" class="article-date">
+  	<time datetime="2016-07-02T07:05:53.000Z" itemprop="datePublished">2016-07-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS 基础模块
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Node.js</strong> 是运行在服务器端的 <strong>JavaScript</strong> 环境，服务器程序和浏览器程序相比，最大的特点是没有浏览器的安全限制了，而且，服务器程序必须能接收网络请求，读写文件，处理二进制内容，所以， <strong>Node.js</strong> 内置的常用模块就是为了实现基本的服务器功能。这些模块在浏览器环境中是无法被执行的，因为它们的底层代码是用 <strong>C/C++</strong> 在 <strong>Node.js</strong> 运行环境中实现的。<br><a id="more"></a></p>
+<h2 id="global"><a href="#global" class="headerlink" title="global"></a>global</h2><p><strong>JavaScript</strong> 有且仅有一个全局对象，在浏览器中，叫 <strong>window</strong> 对象。而在 <strong>Node.js</strong> 环境中，也有唯一的全局对象，但不叫 <strong>window</strong> ，而叫 <strong>global</strong> ，这个对象的属性和方法也和浏览器环境的 <strong>window</strong> 不同。进入 <strong>Node.js</strong> 交互环境，可以直接输入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt; global.console</div><div class="line">Console &#123;</div><div class="line">  <span class="attr">log</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">info</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">warn</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">error</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">dir</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">time</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">timeEnd</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">trace</span>: [<span class="built_in">Function</span>: bound trace],</div><div class="line">  <span class="attr">assert</span>: [<span class="built_in">Function</span>: bound ],</div><div class="line">  <span class="attr">Console</span>: [<span class="built_in">Function</span>: Console] &#125;</div></pre></td></tr></table></figure>
+<h2 id="process"><a href="#process" class="headerlink" title="process"></a>process</h2><p><strong>process</strong> 也是 <strong>Node.js</strong> 提供的一个对象，它代表当前 <strong>Node.js</strong> 进程。通过 <strong>process</strong> 对象可以拿到许多有用信息：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; process === global.process;</div><div class="line"><span class="literal">true</span></div><div class="line">&gt; process.version;</div><div class="line"><span class="string">'v5.2.0'</span></div><div class="line">&gt; process.platform;</div><div class="line"><span class="string">'darwin'</span></div><div class="line">&gt; process.arch;</div><div class="line"><span class="string">'x64'</span></div><div class="line">&gt; process.cwd(); <span class="comment">// 返回当前工作目录</span></div><div class="line"><span class="string">'/Users/a284628487'</span></div><div class="line">&gt; process.chdir(<span class="string">'/private/tmp'</span>); <span class="comment">// 切换当前工作目录</span></div><div class="line"><span class="literal">undefined</span></div><div class="line">&gt; process.cwd();</div><div class="line"><span class="string">'/private/tmp'</span></div></pre></td></tr></table></figure>
+<p><strong>JavaScript</strong> 程序是由事件驱动执行的单线程模型，<strong>Node.js</strong> 也不例外。<strong>Node.js</strong> 不断执行响应事件的 <strong>JavaScript</strong> 函数，直到没有任何响应事件的函数可以执行时，<strong>Node.js</strong> 就退出了。如果想要在下一次事件响应中执行代码，可以调用 <strong>process.nextTick()</strong> ：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// process.nextTick()将在下一轮事件循环中调用:</span></div><div class="line">process.nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'nextTick callback!'</span>);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'nextTick was set!'</span>);</div></pre></td></tr></table></figure>
+<p>用 <strong>Node</strong> 执行上面的代码打印输出是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nextTick was set!</div><div class="line">nextTick callback!</div></pre></td></tr></table></figure>
+<p>说明传入 <strong>process.nextTick()</strong> 的函数不是立刻执行，而是要等到下一次事件循环。</p>
+<p><strong>Node.js</strong> 进程本身的事件是由 <strong>process</strong> 对象来处理。如果我们响应 <strong>exit</strong> 事件，就可以在程序即将退出时执行某个回调函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 程序即将退出时的回调函数:</span></div><div class="line">process.on(<span class="string">'exit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">code</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'about to exit with code: '</span> + code);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="判断JavaScript执行环境"><a href="#判断JavaScript执行环境" class="headerlink" title="判断JavaScript执行环境"></a>判断JavaScript执行环境</h2><p>有很多 <strong>JavaScript</strong> 代码既能在浏览器中执行，也能在 <strong>Node</strong> 环境执行，但有些时候，程序本身需要判断自己到底是在什么环境下执行的，常用的方式就是根据浏览器和 <strong>Node</strong> 环境提供的全局变量名称来判断：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span>(<span class="built_in">window</span>) === <span class="string">'undefined'</span>) &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'node.js'</span>);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'browser'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="全局对象与全局变量"><a href="#全局对象与全局变量" class="headerlink" title="全局对象与全局变量"></a>全局对象与全局变量</h2><p><strong>global</strong> 最根本的作用是作为全局变量的宿主。按照 <strong>ECMAScript</strong> 的定义，满足以下条件的变量是全局变量：</p>
+<ul>
+<li>在最外层定义的变量；</li>
+<li>全局对象的属性；</li>
+<li>隐式定义的变量（未定义直接赋值的变量）。</li>
+</ul>
+<p>当定义一个全局变量时，这个变量同时也会成为全局对象的属性，反之亦然。需要注意的是，在 <strong>Node.js</strong> 中不可能在最外层定义变量，因为所有用户代码都是属于当前模块的，而模块本身不是最外层上下文。</p>
+<blockquote>
+<p>注意：永远使用 var 定义变量以避免引入全局变量，因为全局变量会污染命名空间，提高代码的耦合风险。</p>
+</blockquote>
+<h2 id="filename"><a href="#filename" class="headerlink" title="__filename"></a>__filename</h2><p><strong>__filename</strong> 表示当前正在执行的脚本的文件名。它将输出文件所在位置的绝对路径，且和命令行参数所指定的文件名不一定相同。如果在模块中，返回的值是模块文件的路径。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 输出全局变量 __filename 的值</span></div><div class="line"><span class="built_in">console</span>.log( __filename ); <span class="comment">// 输出main.js的路径</span></div></pre></td></tr></table></figure>
+<h2 id="dirname"><a href="#dirname" class="headerlink" title="__dirname"></a>__dirname</h2><p><strong>__dirname</strong> 表示当前执行脚本所在的目录。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 输出全局变量 __dirname 的值</span></div><div class="line"><span class="built_in">console</span>.log( __dirname );</div></pre></td></tr></table></figure>
+<h2 id="clearTimeout-t"><a href="#clearTimeout-t" class="headerlink" title="clearTimeout(t)"></a>clearTimeout(t)</h2><p><strong>clearTimeout(t)</strong> 全局函数用于停止一个之前通过 <strong>setTimeout()</strong> 创建的定时器。 参数 t 是通过 <strong>setTimeout()</strong> 函数创建的计算器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">printHello</span>(<span class="params"></span>)</span>&#123;</div><div class="line">   <span class="built_in">console</span>.log( <span class="string">"Hello, World!"</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 两秒后执行以上函数</span></div><div class="line"><span class="keyword">var</span> t = setTimeout(printHello, <span class="number">2000</span>);</div><div class="line"><span class="comment">// 清除定时器</span></div><div class="line">clearTimeout(t);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>类似的还有 <strong>setInterval(cb, ms)</strong> 和 <strong>clearInterval(t)</strong> 。</p>
+</blockquote>
+<h2 id="console"><a href="#console" class="headerlink" title="console"></a>console</h2><ul>
+<li>console.log([data][, …])</li>
+</ul>
+<blockquote>
+<p>向标准输出流打印字符并以换行符结束。该方法接收若干 个参数，如果只有一个参数，则输出这个参数的字符串形式。如果有多个参数，则 以类似于C 语言 printf() 命令的格式输出。</p>
+</blockquote>
+<ul>
+<li>console.info([data][, …])</li>
+</ul>
+<blockquote>
+<p>P该命令的作用是返回信息性消息，这个命令与console.log差别并不大，除了在chrome中只会输出文字外，其余的会显示一个蓝色的惊叹号。</p>
+</blockquote>
+<ul>
+<li>console.error([data][, …])</li>
+</ul>
+<blockquote>
+<p>输出错误消息的。控制台在出现错误时会显示是红色的叉子。</p>
+</blockquote>
+<ul>
+<li>console.warn([data][, …])</li>
+</ul>
+<blockquote>
+<p>输出警告消息。控制台出现有黄色的惊叹号。</p>
+</blockquote>
+<ul>
+<li>console.dir(obj[, options])</li>
+</ul>
+<blockquote>
+<p>用来对一个对象进行检查（inspect），并以易于阅读和打印的格式显示。</p>
+</blockquote>
+<ul>
+<li>console.time(label)</li>
+</ul>
+<blockquote>
+<p>输出时间，表示计时开始。</p>
+</blockquote>
+<ul>
+<li>console.timeEnd(label)</li>
+</ul>
+<blockquote>
+<p>结束时间，表示计时结束。</p>
+</blockquote>
+<ul>
+<li>console.trace(message[, …])</li>
+</ul>
+<blockquote>
+<p>当前执行的代码在堆栈中的调用路径，这个测试函数运行很有帮助，只要给想测试的函数里面加入 console.trace 就行了。</p>
+</blockquote>
+<ul>
+<li>console.assert(value[, message][, …])</li>
+</ul>
+<blockquote>
+<p>用于判断某个表达式或变量是否为真，接手两个参数，第一个参数是表达式，第二个参数是字符串。只有当第一个参数为false，才会输出第二个参数，否则不会有任何结果。</p>
+</blockquote>
+<h2 id="process-1"><a href="#process-1" class="headerlink" title="process"></a>process</h2><p><strong>process</strong> 是一个全局变量，即 <strong>global</strong> 对象的属性。它用于描述当前 <strong>Node.js</strong> 进程状态的对象，提供了一个与操作系统的简单接口。</p>
+<ul>
+<li>exit</li>
+</ul>
+<blockquote>
+<p>当进程准备退出时触发。</p>
+</blockquote>
+<ul>
+<li>beforeExit</li>
+</ul>
+<blockquote>
+<p>当 node 清空事件循环，并且没有其他安排时触发这个事件。通常来说，当没有进程安排时 node 退出，但是 ‘beforeExit’ 的监听器可以异步调用，这样 node 就会继续执行。</p>
+</blockquote>
+<ul>
+<li>uncaughtException</li>
+</ul>
+<blockquote>
+<p>当一个异常冒泡回到事件循环，触发这个事件。如果给异常添加了监视器，默认的操作（打印堆栈跟踪信息并退出）就不会发生。</p>
+</blockquote>
+<ul>
+<li>Signal 事件</li>
+</ul>
+<blockquote>
+<p>当进程接收到信号时就触发。信号列表详见标准的 POSIX 信号名，如 SIGINT、SIGUSR1 等。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">process.on(<span class="string">'exit'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">code</span>) </span>&#123;</div><div class="line">  <span class="comment">// 以下代码永远不会执行</span></div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"该代码不会执行"</span>);</div><div class="line">  &#125;, <span class="number">0</span>);</div><div class="line">  </div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'退出码为:'</span>, code);</div><div class="line">&#125;);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"程序执行结束"</span>);</div></pre></td></tr></table></figure>
+<p><a href="http://www.runoob.com/nodejs/nodejs-global-object.html" target="_blank" rel="external">更多</a></p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/03/NodeJS-Module-Principle/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          NodeJS Module 模块实现原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/01/NodeJS-Begin/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS 入门</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

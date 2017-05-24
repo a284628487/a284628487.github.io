@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS Module 模块实现原理 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当我们编写 JavaScript 代码时，我们可以申明全局变量：var s = &amp;#39;global&amp;#39;; 在浏览器中，大量使用全局变量不好。如果你在 a.js 中使用了全局变量 s ，那么，在 b.js 中也使用全局变量 s，将造成冲突， b.js 中对 s 赋值会改变 a.js 的运行逻辑。也就是说，JavaScript 语言本身并没有一种模块机制来保证不同模块可以使用相同的变量名。">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS Module 模块实现原理">
+<meta property="og:url" content="http://yoursite.com/2016/07/03/NodeJS-Module-Principle/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="当我们编写 JavaScript 代码时，我们可以申明全局变量：var s = &amp;#39;global&amp;#39;; 在浏览器中，大量使用全局变量不好。如果你在 a.js 中使用了全局变量 s ，那么，在 b.js 中也使用全局变量 s，将造成冲突， b.js 中对 s 赋值会改变 a.js 的运行逻辑。也就是说，JavaScript 语言本身并没有一种模块机制来保证不同模块可以使用相同的变量名。">
+<meta property="og:updated_time" content="2017-05-24T08:06:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS Module 模块实现原理">
+<meta name="twitter:description" content="当我们编写 JavaScript 代码时，我们可以申明全局变量：var s = &amp;#39;global&amp;#39;; 在浏览器中，大量使用全局变量不好。如果你在 a.js 中使用了全局变量 s ，那么，在 b.js 中也使用全局变量 s，将造成冲突， b.js 中对 s 赋值会改变 a.js 的运行逻辑。也就是说，JavaScript 语言本身并没有一种模块机制来保证不同模块可以使用相同的变量名。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.67px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/NodeJS/" style="font-size: 13.33px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.67px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.67px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 18.33px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 13.33px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-Module-Principle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/03/NodeJS-Module-Principle/" class="article-date">
+  	<time datetime="2016-07-03T07:31:55.000Z" itemprop="datePublished">2016-07-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS Module 模块实现原理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当我们编写 <strong>JavaScript</strong> 代码时，我们可以申明全局变量：<code>var s = &#39;global&#39;;</code> 在浏览器中，大量使用全局变量不好。如果你在 <strong>a.js</strong> 中使用了全局变量 <strong>s</strong> ，那么，在 <strong>b.js</strong> 中也使用全局变量 <strong>s</strong>，将造成冲突， <strong>b.js</strong> 中对 <strong>s</strong> 赋值会改变 <strong>a.js</strong> 的运行逻辑。<br>也就是说，<strong>JavaScript</strong> 语言本身并没有一种模块机制来保证不同模块可以使用相同的变量名。</p>
+<p><strong>JavaScript</strong> 中实现“模块”这个功能，并不需要语法层面的支持。 <strong>Node.js</strong> 并不会增加任何 <strong>JavaScript</strong> 语法。实现“模块”功能的奥妙就在于 <strong>JavaScript</strong> 是一种函数式编程语言，它支持闭包。如果我们把一段 <strong>JavaScript</strong> 代码用一个函数包装起来，这段代码的所有“全局”变量就变成了函数内部的局部变量。</p>
+<a id="more"></a>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> s = <span class="string">'Hello'</span>;</div><div class="line"><span class="keyword">var</span> name = <span class="string">'world'</span>;</div><div class="line"><span class="built_in">console</span>.log(s + <span class="string">' '</span> + name + <span class="string">'!'</span>);</div></pre></td></tr></table></figure>
+<p><strong>Node.js</strong> 加载了 <strong>hello.js</strong> 后，它可以把代码包装一下，变成这样执行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// 读取的hello.js代码:</span></div><div class="line">    <span class="keyword">var</span> s = <span class="string">'Hello'</span>;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">'world'</span>;</div><div class="line">    <span class="built_in">console</span>.log(s + <span class="string">' '</span> + name + <span class="string">'!'</span>);</div><div class="line">    <span class="comment">// hello.js代码结束</span></div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>这样一来，原来的全局变量 <strong>s</strong> 现在变成了匿名函数内部的局部变量。如果 <strong>Node.js</strong> 继续加载其他模块，这些模块中定义的“全局”变量<strong>s</strong>也互不干扰。所以 <strong>Node.js</strong> 利用 <strong>JavaScript</strong> 的函数式编程的特性，实现了模块的隔离。</p>
+<h2 id="module-exports-原理"><a href="#module-exports-原理" class="headerlink" title="module.exports 原理"></a>module.exports 原理</h2><h4 id="Node-先准备一个对象-module"><a href="#Node-先准备一个对象-module" class="headerlink" title="Node 先准备一个对象 module"></a>Node 先准备一个对象 module</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 准备module对象:</span></div><div class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</div><div class="line">    <span class="attr">id</span>: <span class="string">'greet'</span>, <span class="comment">// 模块名</span></div><div class="line">    exports: &#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 加载函数</span></div><div class="line"><span class="keyword">var</span> load = <span class="function"><span class="keyword">function</span> (<span class="params">module</span>) </span>&#123;</div><div class="line">    <span class="comment">// greet.js代码:</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Hello, '</span> + name + <span class="string">'!'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">module</span>.exports = greet;</div><div class="line">    <span class="comment">// greet.js代码结束</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">var</span> exported = load(<span class="built_in">module</span>);</div><div class="line"></div><div class="line"><span class="comment">// 保存module</span></div><div class="line">save(<span class="built_in">module</span>, exported);</div></pre></td></tr></table></figure>
+<p>可见，变量 <strong>module</strong> 是 <strong>Node</strong> 在加载 <strong>js</strong> 文件前准备的一个变量，并将其传入加载函数，我们在 <strong>greet.js</strong> 中可以直接使用变量 <strong>module</strong> 原因就在于它实际上是函数的一个参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = greet;</div></pre></td></tr></table></figure>
+<p>通过把参数 <strong>module</strong> 传递给 <strong>load()</strong> 函数，<strong>greet.js</strong> 就顺利地把一个变量传递给了 <strong>Node</strong> 执行环境，<strong>Node</strong> 会把 <strong>module</strong> 变量保存到某个地方。</p>
+<p>由于 <strong>Node</strong> 保存了所有导入的 <strong>module</strong> ，当我们用 <strong>require()</strong> 获取 <strong>module</strong> 时， <strong>Node</strong> 找到对应的 <strong>module</strong> ，把这个 <strong>module</strong> 的 <strong>exports</strong> 变量返回，这样，另一个模块就顺利拿到了模块的输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> greet = <span class="built_in">require</span>(<span class="string">'./greet'</span>);</div></pre></td></tr></table></figure>
+<p>以上是 <strong>Node</strong> 实现 <strong>JavaScript</strong> 模块的一个简单的原理。</p>
+<h2 id="module-exports-vs-exports"><a href="#module-exports-vs-exports" class="headerlink" title="module.exports vs exports"></a>module.exports vs exports</h2><p>在 <strong>Node</strong> 环境中，有两种方法可以在一个模块中输出变量：</p>
+<h3 id="module-exports"><a href="#module-exports" class="headerlink" title="module.exports"></a>module.exports</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello, world!'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello, '</span> + name + <span class="string">'!'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    <span class="attr">hello</span>: hello,</div><div class="line">    <span class="attr">greet</span>: greet</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="exports"><a href="#exports" class="headerlink" title="exports"></a>exports</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello, world!'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'Hello, '</span> + name + <span class="string">'!'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">exports.hello = hello;</div><div class="line">exports.greet = greet;</div></pre></td></tr></table></figure>
+<p>但是不可以直接对 <strong>exports</strong> 赋值：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 代码可以执行，但是模块并没有输出任何变量:</span></div><div class="line">exports = &#123;</div><div class="line">    <span class="attr">hello</span>: hello,</div><div class="line">    <span class="attr">greet</span>: greet</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>结合<strong>Node</strong> 的加载机制来分析原因：</p>
+<ul>
+<li>首先，<strong>Node</strong> 会把整个待加载的 <strong>hello.js</strong> 文件放入一个包装函数 <strong>load()</strong> 中执行。在执行这个 <strong>load()</strong> 函数前，<strong>Node</strong> 准备好了 <strong>module</strong> 变量</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> <span class="built_in">module</span> = &#123;</div><div class="line">    <span class="attr">id</span>: <span class="string">'hello'</span>,</div><div class="line">    <span class="attr">exports</span>: &#123;&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>load()</strong> 函数最终返回的是 <strong>module.exports</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> load = <span class="function"><span class="keyword">function</span> (<span class="params">exports, module</span>) </span>&#123;</div><div class="line">    <span class="comment">// hello.js的文件内容</span></div><div class="line">    ...</div><div class="line">    <span class="comment">// load函数返回:</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">module</span>.exports;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> exported = load(<span class="built_in">module</span>.exports, <span class="built_in">module</span>);</div></pre></td></tr></table></figure>
+<p>也就是说，默认情况下， <strong>Node</strong> 准备的 <strong>exports</strong> 变量和 <strong>module.exports</strong> 变量实际上是同一个变量，并且初始化为空对象<strong>{}</strong>，于是，我们可以写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">exports.foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span>; &#125;;</div><div class="line">exports.bar = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'bar'</span>; &#125;;</div><div class="line"></div><div class="line"><span class="comment">// 或者</span></div><div class="line"><span class="built_in">module</span>.exports.foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span>; &#125;;</div><div class="line"><span class="built_in">module</span>.exports.bar = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'bar'</span>; &#125;;</div></pre></td></tr></table></figure>
+<p>也就是说， <strong>Node</strong> 默认准备了一个空对象 <strong>{}</strong> ，这样你可以直接往里面加东西。</p>
+<blockquote>
+<p>如果我们要输出的是一个函数或数组，那么，只能给 <strong>module.exports</strong> 赋值：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span>; &#125;;</div></pre></td></tr></table></figure>
+<p>给 <strong>exports</strong> 赋值是无效的，因为赋值后，<strong>module.exports</strong> 仍然是空对象{}。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
+<li>如果要输出一个键值对象 <strong>{}</strong>，可以利用 <strong>exports</strong> 这个已存在的空对象 <strong>{}</strong> ，并继续在上面添加新的键值；</li>
+<li>如果要输出一个函数或数组，必须直接对 <strong>module.exports</strong> 对象赋值。</li>
+</ul>
+<p>所以我们可以得出结论：直接对 <strong>module.exports</strong> 赋值，可以应对任何情况：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">    <span class="attr">foo</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span>; &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span>; &#125;;</div></pre></td></tr></table></figure>
+<p>最终，我们强烈建议使用 <strong>module.exports = xxx</strong> 的方式来输出模块变量，这样，你只需要记忆一种方法。</p>
+<blockquote>
+<p>模块是 <strong>Node.js</strong> 应用程序的基本组成部分，文件和模块是一一对应的。换言之，一个 <strong>Node.js</strong> 文件就是一个模块，这个文件可能是 <strong>JavaScript</strong> 代码、 <strong>JSON</strong> 或者编译过的 <strong>C/C++</strong> 扩展。</p>
+</blockquote>
+<p><strong>Node.js</strong> 提供了 <strong>exports</strong> 和 <strong>require</strong> 两个对象，其中 <strong>exports</strong> 是模块公开的接口， <strong>require</strong> 用于从外部获取一个模块的接口，即所获取模块的 <strong>exports</strong> 对象。</p>
+<h2 id="require-查找策略"><a href="#require-查找策略" class="headerlink" title="require 查找策略"></a>require 查找策略</h2><p><strong>Node.js</strong> 的 <strong>require</strong> 方法中的文件查找策略如下：</p>
+<p><strong>Node.js</strong> 中存在4类模块（原生模块和3种文件模块），尽管 <strong>require</strong> 方法极其简单，但是内部的加载却是十分复杂的，其加载优先级也各自不同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. require -&gt; 是否在文件模块缓存区中 </div><div class="line">1.1 是 -&gt; 返回exports</div><div class="line">1.2 否 -&gt; 2是否原生模块</div><div class="line">2.1 是 -&gt; 是否在原生模块缓存区中 </div><div class="line">2.1.1 是 -&gt; 返回exports</div><div class="line">2.1.2 否 -&gt; 加载原生模块 -&gt; 缓存原生模块 -&gt; 返回exports</div><div class="line">2.2 否 -&gt; 查找文件模块 -&gt; 根据扩展名转入文件模块 -&gt; 缓存文件模块 -&gt; 返回exports</div></pre></td></tr></table></figure>
+<ul>
+<li>从文件模块缓存中加载</li>
+</ul>
+<p>尽管原生模块与文件模块的优先级不同，但是都不会优先于从文件模块的缓存中加载已经存在的模块。</p>
+<ul>
+<li>从原生模块加载</li>
+</ul>
+<p>原生模块的优先级仅次于文件模块缓存的优先级。<strong>require</strong> 方法在解析文件名之后，优先检查模块是否在原生模块列表中。以 <strong>http</strong> 模块为例，尽管在目录下存在一个 <code>http/http.js/http.node/http.json</code> 文件，<strong>require(“http”)</strong>都不会从这些文件中加载，而是从原生模块中加载。<br>原生模块也有一个缓存区，同样也是优先从缓存区加载。如果缓存区没有被加载过，则调用原生模块的加载方式进行加载和执行。</p>
+<ul>
+<li>从文件加载</li>
+</ul>
+<p>当文件模块缓存中不存在，而且不是原生模块的时候， <strong>Node.js</strong> 会解析 <strong>require</strong> 方法传入的参数，并从文件系统中加载实际的文件。</p>
+<p><strong>require</strong> 方法接受以下几种参数的传递：</p>
+<ul>
+<li>http、fs、path等，原生模块。</li>
+<li>./mod或../mod，相对路径的文件模块。</li>
+<li>/pathtomodule/mod，绝对路径的文件模块。</li>
+<li>mod，非原生模块的文件模块。</li>
+</ul>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/15/React+Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          React 中使用 Redux 入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/02/NodeJS-Common-Module/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS 基础模块</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
