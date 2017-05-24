@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS Buffer | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。但在处理像 TCP 流或文件流时，必须使用到二进制数据。因此在 Node.js 中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS Buffer">
+<meta property="og:url" content="http://yoursite.com/2016/07/03/NodeJS-Buffer/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。但在处理像 TCP 流或文件流时，必须使用到二进制数据。因此在 Node.js 中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。">
+<meta property="og:updated_time" content="2017-05-24T13:16:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS Buffer">
+<meta name="twitter:description" content="JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。但在处理像 TCP 流或文件流时，必须使用到二进制数据。因此在 Node.js 中，定义了一个 Buffer 类，该类用来创建一个专门存放二进制数据的缓存区。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.67px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/NodeJS/" style="font-size: 15px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.67px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.67px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 18.33px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 13.33px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 15px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-Buffer" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/03/NodeJS-Buffer/" class="article-date">
+  	<time datetime="2016-07-03T09:30:41.000Z" itemprop="datePublished">2016-07-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS Buffer
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>JavaScript</strong> 语言自身只有字符串数据类型，没有二进制数据类型。但在处理像 <strong>TCP</strong> 流或文件流时，必须使用到二进制数据。因此在 <strong>Node.js</strong> 中，定义了一个 <strong>Buffer</strong> 类，该类用来创建一个专门存放二进制数据的缓存区。<br><a id="more"></a></p>
+<h2 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="number">10</span>); </div><div class="line"><span class="comment">// 创建长度为 10 字节的 Buffer 实例</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>]);</div><div class="line"><span class="comment">// 通过给定的数组创建 Buffer 实例</span></div><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">"www.runoob.com"</span>, <span class="string">"utf-8"</span>); </div><div class="line"><span class="comment">// 通过一个字符串来创建 Buffer 实例</span></div></pre></td></tr></table></figure>
+<p><strong>utf-8</strong> 是默认的编码方式，此外它同样支持以下编码：”<strong>ascii</strong>“, “<strong>utf8</strong>“, “<strong>utf16le</strong>“, “<strong>ucs2</strong>“, “<strong>base64</strong>“ 和 “<strong>hex</strong>“。</p>
+<h2 id="写入缓冲区"><a href="#写入缓冲区" class="headerlink" title="写入缓冲区"></a>写入缓冲区</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>string</strong> : 写入缓冲区的字符串。</li>
+<li><strong>offset</strong> : 缓冲区开始写入的索引值，默认为 0 。</li>
+<li><strong>length</strong> : 写入的字节数，默认为 buffer.length</li>
+<li><strong>encoding</strong> : 使用的编码。默认为 ‘utf8’ 。</li>
+</ul>
+<p>返回值: 返回实际写入的大小。如果 <strong>buffer</strong> 空间不足， 则只会写入部分字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="number">256</span>);</div><div class="line"><span class="keyword">var</span> len = buf.write(<span class="string">"www.runoob.com"</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"写入字节数 : "</span>+  len);</div></pre></td></tr></table></figure>
+<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div></pre></td></tr></table></figure>
+<ul>
+<li>encoding : 使用的编码。默认为 ‘utf8’ 。</li>
+<li>start : 指定开始读取的索引位置，默认为 0。</li>
+<li>end : 结束位置，默认为缓冲区的末尾。</li>
+</ul>
+<p>返回值: 解码缓冲区数据并使用指定的编码返回字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="number">26</span>);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">26</span> ; i++) &#123;</div><div class="line">  buf[i] = i + <span class="number">97</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log( buf.toString(<span class="string">'ascii'</span>));       <span class="comment">// 输出: abcdefghijklmnopqrstuvwxyz</span></div><div class="line"><span class="built_in">console</span>.log( buf.toString(<span class="string">'ascii'</span>, <span class="number">0</span>, <span class="number">5</span>));   <span class="comment">// 输出: abcde</span></div><div class="line"><span class="built_in">console</span>.log( buf.toString(<span class="string">'utf8'</span>, <span class="number">0</span>, <span class="number">5</span>));    <span class="comment">// 输出: abcde</span></div><div class="line"><span class="built_in">console</span>.log( buf.toString(<span class="literal">undefined</span>, <span class="number">0</span>, <span class="number">5</span>)); <span class="comment">// 使用 'utf8' 编码, 并输出: abcde</span></div></pre></td></tr></table></figure>
+<h2 id="转换为-JSON-对象"><a href="#转换为-JSON-对象" class="headerlink" title="转换为 JSON 对象"></a>转换为 JSON 对象</h2><p>使用 <strong>toJSON()</strong> 可以将 <strong>buffer</strong> 对象转换成 <strong>json</strong> 对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">'www.runoob.com'</span>);</div><div class="line"><span class="keyword">var</span> json = buf.toJSON(buf);</div><div class="line"><span class="built_in">console</span>.log(json);</div></pre></td></tr></table></figure>
+<h2 id="缓冲区合并"><a href="#缓冲区合并" class="headerlink" title="缓冲区合并"></a>缓冲区合并</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength])</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>list</strong> : 用于合并的 Buffer 对象数组列表。</li>
+<li><strong>totalLength</strong> : 指定合并后 Buffer 对象的总长度。</li>
+</ul>
+<p>返回值：返回一个多个成员合并的新 <strong>Buffer</strong> 对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buffer1 = <span class="keyword">new</span> Buffer(<span class="string">'Welcome '</span>);</div><div class="line"><span class="keyword">var</span> buffer2 = <span class="keyword">new</span> Buffer(<span class="string">'Michael Cai'</span>);</div><div class="line"><span class="keyword">var</span> buffer3 = Buffer.concat([buffer1, buffer2]);</div><div class="line"><span class="built_in">console</span>.log(buffer3.toString()); <span class="comment">// Welcome Michael Cai</span></div></pre></td></tr></table></figure>
+<h2 id="缓冲区比较"><a href="#缓冲区比较" class="headerlink" title="缓冲区比较"></a>缓冲区比较</h2><p>通过 <strong>compare()</strong> 还可以将两个缓冲区对象进行比较。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buffer1 = <span class="keyword">new</span> Buffer(<span class="string">'ABC'</span>);</div><div class="line"><span class="keyword">var</span> buffer2 = <span class="keyword">new</span> Buffer(<span class="string">'ABCD'</span>);</div><div class="line"><span class="keyword">var</span> result = buffer1.compare(buffer2); <span class="comment">// result = -1</span></div></pre></td></tr></table></figure>
+<p>由于 <strong>ABC</strong> 小于 <strong>ABCD</strong> ，所以返回结果是 -1。</p>
+<h2 id="拷贝缓冲区"><a href="#拷贝缓冲区" class="headerlink" title="拷贝缓冲区"></a>拷贝缓冲区</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.copy(targetBuffer[, targetStart[, sourceStart[, sourceEnd]]])</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>targetBuffer</strong> - 要拷贝的 Buffer 对象。</li>
+<li><strong>targetStart</strong> - 数字, 可选, 默认: 0</li>
+<li><strong>sourceStart</strong> - 数字, 可选, 默认: 0</li>
+<li><strong>sourceEnd</strong> - 数字, 可选, 默认: buffer.length</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buffer1 = <span class="keyword">new</span> Buffer(<span class="string">'ABC'</span>);</div><div class="line"><span class="comment">// 拷贝一个缓冲区</span></div><div class="line"><span class="keyword">var</span> buffer2 = <span class="keyword">new</span> Buffer(<span class="number">3</span>);</div><div class="line">buffer1.copy(buffer2);</div><div class="line"><span class="built_in">console</span>.log(buffer2.toString()); <span class="comment">// ABC</span></div></pre></td></tr></table></figure>
+<h2 id="缓冲区裁剪"><a href="#缓冲区裁剪" class="headerlink" title="缓冲区裁剪"></a>缓冲区裁剪</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.slice([start[, end]])</div></pre></td></tr></table></figure>
+<ul>
+<li>start - 数字, 可选, 默认: 0</li>
+<li>end - 数字, 可选, 默认: buffer.length</li>
+<li>返回值 - 返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 <strong>start</strong> 到 <strong>end</strong> 的位置剪切。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buffer1 = <span class="keyword">new</span> Buffer(<span class="string">'runoob'</span>);</div><div class="line"><span class="comment">// 剪切缓冲区</span></div><div class="line"><span class="keyword">var</span> buffer2 = buffer1.slice(<span class="number">0</span>, <span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(buffer2.toString()); <span class="comment">// ru</span></div><div class="line"></div><div class="line">buffer1[<span class="number">0</span>] = <span class="number">113</span>;</div><div class="line"><span class="built_in">console</span>.log(buffer2.toString()); <span class="comment">// qu</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>在调用 <strong>slice()</strong> 之后，如果改变了原缓冲区中在 <strong>start-end</strong> 之前的内容，则 <strong>slice()</strong> 方法返回的值也随着改变。</p>
+</blockquote>
+<h2 id="缓冲区长度"><a href="#缓冲区长度" class="headerlink" title="缓冲区长度"></a>缓冲区长度</h2><p><strong>length</strong> 属性返回 <strong>Buffer</strong> 对象所占据的内存长度。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buffer = <span class="keyword">new</span> Buffer(<span class="string">'www.runoob.com'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"buffer length: "</span> + buffer.length);</div></pre></td></tr></table></figure>
+<h2 id="方法参考"><a href="#方法参考" class="headerlink" title="方法参考"></a>方法参考</h2><ul>
+<li>new Buffer(size) </li>
+</ul>
+<blockquote>
+<p>分配一个新的 size 大小单位为8位字节的 buffer。 注意, size 必须小于 kMaxLength，否则，将会抛出异常 RangeError。</p>
+<ul>
+<li>new Buffer(buffer) </li>
+</ul>
+<p>拷贝参数 buffer 的数据到 Buffer 实例。</p>
+</blockquote>
+<ul>
+<li>new Buffer(str[, encoding])</li>
+</ul>
+<blockquote>
+<p>分配一个新的 buffer ，其中包含着传入的 str 字符串。 encoding 编码方式默认为 ‘utf8’。</p>
+</blockquote>
+<ul>
+<li>buf.length</li>
+</ul>
+<blockquote>
+<p>返回这个 buffer 的 bytes 数。注意这未必是 buffer 里面内容的大小。length 是 buffer 对象所分配的内存数，它不会随着这个 buffer 对象内容的改变而改变。</p>
+</blockquote>
+<ul>
+<li>buf.write(string[, offset[, length]][, encoding])</li>
+</ul>
+<blockquote>
+<p>根据参数 offset 偏移量和指定的 encoding 编码方式，将参数 string 数据写入buffer。 offset 偏移量默认值是 0, encoding 编码方式默认是 utf8。 length 长度是将要写入的字符串的 bytes 大小。 返回 number 类型，表示写入了多少 8 位字节流。如果 buffer 没有足够的空间来放整个 string，它将只会只写入部分字符串。 length 默认是 buffer.length - offset。 这个方法不会出现写入部分字符。</p>
+</blockquote>
+<ul>
+<li>buf.writeUIntLE(value, offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>将value 写入到 buffer 里， 它由offset 和 byteLength 决定，支持 48 位计算，例如：<br>var b = new Buffer(6);<br>b.writeUIntBE(0x1234567890ab, 0, 6);<br>// <buffer 12="" 34="" 56="" 78="" 90="" ab=""> noAssert 值为 true 时，不再验证 value 和 offset 的有效性。 默认是 false。</buffer></p>
+</blockquote>
+<ul>
+<li>buf.writeUIntBE(value, offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>将value 写入到 buffer 里， 它由offset 和 byteLength 决定，支持 48 位计算。noAssert 值为 true 时，不再验证 value 和 offset 的有效性。 默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeIntLE(value, offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>将value 写入到 buffer 里， 它由offset 和 byteLength 决定，支持 48 位计算。noAssert 值为 true 时，不再验证 value 和 offset 的有效性。 默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeIntBE(value, offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>将value 写入到 buffer 里， 它由offset 和 byteLength 决定，支持 48 位计算。noAssert 值为 true 时，不再验证 value 和 offset 的有效性。 默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readUIntLE(offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>支持读取 48 位以下的数字。noAssert 值为 true 时， offset 不再验证是否超过 buffer 的长度，默认为 false。</p>
+</blockquote>
+<ul>
+<li>buf.readUIntBE(offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>支持读取 48 位以下的数字。noAssert 值为 true 时， offset 不再验证是否超过 buffer 的长度，默认为 false。</p>
+</blockquote>
+<ul>
+<li>buf.readIntLE(offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>支持读取 48 位以下的数字。noAssert 值为 true 时， offset 不再验证是否超过 buffer 的长度，默认为 false。</p>
+</blockquote>
+<ul>
+<li>buf.readIntBE(offset, byteLength[, noAssert])</li>
+</ul>
+<blockquote>
+<p>支持读取 48 位以下的数字。noAssert 值为 true 时， offset 不再验证是否超过 buffer 的长度，默认为 false。</p>
+</blockquote>
+<ul>
+<li>buf.toString([encoding[, start[, end]]])</li>
+</ul>
+<blockquote>
+<p>根据 encoding 参数（默认是 ‘utf8’）返回一个解码过的 string 类型。还会根据传入的参数 start (默认是 0) 和 end (默认是 buffer.length)作为取值范围。</p>
+</blockquote>
+<ul>
+<li>buf.toJSON()</li>
+</ul>
+<blockquote>
+<p>将 Buffer 实例转换为 JSON 对象。</p>
+</blockquote>
+<ul>
+<li>buf[index]</li>
+</ul>
+<blockquote>
+<p>获取或设置指定的字节。返回值代表一个字节，所以返回值的合法范围是十六进制0x00到0xFF 或者十进制0至 255。</p>
+</blockquote>
+<ul>
+<li>buf.equals(otherBuffer)</li>
+</ul>
+<blockquote>
+<p>比较两个缓冲区是否相等，如果是返回 true，否则返回 false。</p>
+</blockquote>
+<ul>
+<li>buf.compare(otherBuffer)</li>
+</ul>
+<blockquote>
+<p>比较两个 Buffer 对象，返回一个数字，表示 buf 在 otherBuffer 之前，之后或相同。</p>
+</blockquote>
+<ul>
+<li>buf.copy(targetBuffer[, targetStart[, sourceStart[, sourceEnd]]])</li>
+</ul>
+<blockquote>
+<p>buffer 拷贝，源和目标可以相同。 targetStart 目标开始偏移和 sourceStart 源开始偏移默认都是 0。 sourceEnd 源结束位置偏移默认是源的长度 buffer.length 。</p>
+</blockquote>
+<ul>
+<li>buf.slice([start[, end]])</li>
+</ul>
+<blockquote>
+<p>剪切 Buffer 对象，根据 start(默认是 0 ) 和 end (默认是 buffer.length ) 偏移和裁剪了索引。 负的索引是从 buffer 尾部开始计算的。</p>
+</blockquote>
+<ul>
+<li>buf.readUInt8(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，读取一个有符号 8 位整数。若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 如果这样 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readUInt16LE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用特殊的 endian 字节序格式读取一个有符号 16 位整数。若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出 buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readUInt16BE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用特殊的 endian 字节序格式读取一个有符号 16 位整数。若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出 buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readUInt32LE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian 字节序格式读取一个有符号 32 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readUInt32BE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian 字节序格式读取一个有符号 32 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readInt8(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，读取一个 signed 8 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出 buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readInt16LE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用特殊的 endian 格式读取一个 signed 16 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出 buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readInt16BE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用特殊的 endian 格式读取一个 signed 16 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出 buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readInt32LE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian 字节序格式读取一个 signed 32 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readInt32BE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian 字节序格式读取一个 signed 32 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readFloatLE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian 字节序格式读取一个 32 位浮点数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readFloatBE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian 字节序格式读取一个 32 位浮点数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readDoubleLE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian字节序格式读取一个 64 位double。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.readDoubleBE(offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据指定的偏移量，使用指定的 endian字节序格式读取一个 64 位double。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 offset 可能会超出buffer 的末尾。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeUInt8(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量将 value 写入 buffer。注意：value 必须是一个合法的有符号 8 位整数。 若参数 noAssert 为 true 将不会验证 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeUInt16LE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个合法的有符号 16 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出buffer的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeUInt16BE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个合法的有符号 16 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出buffer的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeUInt32LE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入buffer。注意：value 必须是一个合法的有符号 32 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着value 可能过大，或者offset可能会超出buffer的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeUInt32BE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入buffer。注意：value 必须是一个合法的有符号 32 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着value 可能过大，或者offset可能会超出buffer的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li><p>buf.writeInt8(value, offset[, noAssert])</p>
+</li>
+<li><p>buf.writeInt16LE(value, offset[, noAssert])</p>
+</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个合法的 signed 16 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false 。</p>
+</blockquote>
+<ul>
+<li>buf.writeInt16BE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个合法的 signed 16 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false 。</p>
+</blockquote>
+<ul>
+<li>buf.writeInt32LE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个合法的 signed 32 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeInt32BE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个合法的 signed 32 位整数。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeFloatLE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer 。注意：当 value 不是一个 32 位浮点数类型的值时，结果将是不确定的。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeFloatBE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer 。注意：当 value 不是一个 32 位浮点数类型的值时，结果将是不确定的。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value可能过大，或者 offset 可能会超出 buffer 的末尾从而造成 value 被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeDoubleLE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个有效的 64 位double 类型的值。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成value被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.writeDoubleBE(value, offset[, noAssert])</li>
+</ul>
+<blockquote>
+<p>根据传入的 offset 偏移量和指定的 endian 格式将 value 写入 buffer。注意：value 必须是一个有效的 64 位double 类型的值。 若参数 noAssert 为 true 将不会验证 value 和 offset 偏移量参数。 这意味着 value 可能过大，或者 offset 可能会超出 buffer 的末尾从而造成value被丢弃。 除非你对这个参数非常有把握，否则尽量不要使用。默认是 false。</p>
+</blockquote>
+<ul>
+<li>buf.fill(value[, offset][, end])</li>
+</ul>
+<blockquote>
+<p>使用指定的 value 来填充这个 buffer。如果没有指定 offset (默认是 0) 并且 end (默认是 buffer.length) ，将会填充整个buffer。</p>
+</blockquote>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/15/React+Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          React 中使用 Redux 入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/03/NodeJS-Module-Principle/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS Module 模块原理</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
