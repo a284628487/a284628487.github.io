@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS Stream | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="stream 是 Node.js 提供的一个仅在服务区端可用的模块，目的是支持“流”这种数据结构。Stream 是一个抽象接口，Node 中有很多对象实现了这个接口。例如，对 http 服务器发起请求的 request 对象就是一个 Stream，险些之外还有 stdout（标准输出）。">
+<meta name="keywords" content="NodeJS,IO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS Stream">
+<meta property="og:url" content="http://yoursite.com/2016/07/04/NodeJS-Stream/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="stream 是 Node.js 提供的一个仅在服务区端可用的模块，目的是支持“流”这种数据结构。Stream 是一个抽象接口，Node 中有很多对象实现了这个接口。例如，对 http 服务器发起请求的 request 对象就是一个 Stream，险些之外还有 stdout（标准输出）。">
+<meta property="og:updated_time" content="2017-05-25T03:25:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS Stream">
+<meta name="twitter:description" content="stream 是 Node.js 提供的一个仅在服务区端可用的模块，目的是支持“流”这种数据结构。Stream 是一个抽象接口，Node 中有很多对象实现了这个接口。例如，对 http 服务器发起请求的 request 对象就是一个 Stream，险些之外还有 stdout（标准输出）。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.43px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 14.29px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 12.86px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 14.29px;">JavaScript</a> <a href="/tags/NodeJS/" style="font-size: 18.57px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.43px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.71px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.14px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.86px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-Stream" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/04/NodeJS-Stream/" class="article-date">
+  	<time datetime="2016-07-04T03:12:03.000Z" itemprop="datePublished">2016-07-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS Stream
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>stream</strong> 是 <strong>Node.js</strong> 提供的一个仅在服务区端可用的模块，目的是支持“流”这种数据结构。<strong>Stream</strong> 是一个抽象接口，<strong>Node</strong> 中有很多对象实现了这个接口。例如，对 <strong>http</strong> 服务器发起请求的 <strong>request</strong> 对象就是一个 <strong>Stream</strong>，险些之外还有 <strong>stdout</strong>（标准输出）。<br><a id="more"></a></p>
+<p>流是一种抽象的数据结构。我们可以把数据看成是数据流，比如你敲键盘的时候，就可以把每个字符依次连起来，看成字符流。这个流是从键盘输入到应用程序，实际上它还对应着一个名字：标准输入流（stdin）。如果应用程序把字符一个一个输出到显示器上，这也可以看成是一个流，这个流也有名字：标准输出流（stdout）。</p>
+<blockquote>
+<p>流的特点是数据是有序的，而且必须依次读取，或者依次写入，不能像 <strong>Array</strong> 那样随机定位。</p>
+</blockquote>
+<p><strong>Stream</strong> 有四种流类型：</p>
+<ul>
+<li>Readable : 可读操作。</li>
+<li>Writable : 可写操作。</li>
+<li>Duplex : 可读可写操作。</li>
+<li>Transform : 操作被写入数据，然后读出结果。</li>
+</ul>
+<p>所有的 <strong>Stream</strong> 对象都是 <strong>EventEmitter</strong> 的实例。常用的事件有：</p>
+<ul>
+<li>data : 当有数据可读时触发。</li>
+<li>end : 没有更多的数据可读时触发。</li>
+<li>error : 在接收和写入过程中发生错误时触发。</li>
+<li>finish : 所有数据已被写入到底层系统时触发。</li>
+</ul>
+<h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> data = <span class="string">''</span>;</div><div class="line"></div><div class="line"><span class="comment">// 打开一个流:</span></div><div class="line"><span class="keyword">var</span> rs = fs.createReadStream(<span class="string">'sample.txt'</span>, <span class="string">'utf-8'</span>);</div><div class="line"></div><div class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'DATA:'</span>)</div><div class="line">    <span class="built_in">console</span>.log(chunk);</div><div class="line">    data += chunk;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'END'</span>);</div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">rs.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'ERROR: '</span> + err);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意的是 <strong>data</strong> 事件可能会有多次，每次传递的 <strong>chunk</strong> 是流的一部分数据。</p>
+</blockquote>
+<h2 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h2><p>要以流的形式写入文件，只需要不断调用 <strong>write()</strong> 方法，最后以 <strong>end()</strong> 结束：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="comment">// 创建写入流，写入到文件output1.txt</span></div><div class="line"><span class="keyword">var</span> ws1 = fs.createWriteStream(<span class="string">'output1.txt'</span>, <span class="string">'utf-8'</span>);</div><div class="line">ws1.write(<span class="string">'使用Stream写入文本数据...\n'</span>);</div><div class="line">ws1.write(<span class="string">'END.'</span>);</div><div class="line">ws1.end(); <span class="comment">// 标记文件末尾</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> ws2 = fs.createWriteStream(<span class="string">'output2.txt'</span>);</div><div class="line">ws2.write(<span class="keyword">new</span> Buffer(<span class="string">'使用Stream写入二进制数据...\n'</span>, <span class="string">'utf-8'</span>));</div><div class="line">ws2.write(<span class="keyword">new</span> Buffer(<span class="string">'END.'</span>, <span class="string">'utf-8'</span>));</div><div class="line">ws2.end();</div><div class="line"></div><div class="line"><span class="comment">// 绑定事件</span></div><div class="line">ws1.on(<span class="string">'finish'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;)</div><div class="line">ws1.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>所有可以读取数据的流都继承自 <strong>stream.Readable</strong>，所有可以写入的流都继承自 <strong>stream.Writable</strong>。</p>
+</blockquote>
+<h2 id="pipe-管道流"><a href="#pipe-管道流" class="headerlink" title="pipe 管道流"></a>pipe 管道流</h2><p>通常用于从一个流中获取数据并将数据传递到另外一个流中。一个 <strong>Readable</strong> 流和一个 <strong>Writable</strong> 流串起来后，所有的数据自动从 <strong>Readable</strong> 流进入 <strong>Writable</strong> 流，这种操作叫 <strong>pipe</strong>。在 <strong>Node.js</strong> 中，<strong>Readable</strong> 流有一个 <strong>pipe()</strong> 方法，就是用来干这件事的。</p>
+<p>可以使用 <strong>pipe()</strong> 把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了，所以，这实际上是一个复制文件的程序：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> rs = fs.createReadStream(<span class="string">'sample.txt'</span>);</div><div class="line"><span class="keyword">var</span> ws = fs.createWriteStream(<span class="string">'copied.txt'</span>);</div><div class="line"></div><div class="line">rs.pipe(ws);</div></pre></td></tr></table></figure>
+<p>默认情况下，当 <strong>Readable</strong> 流的数据读取完毕，<strong>end</strong> 事件触发后，将自动关闭 <strong>Writable</strong> 流。如果我们不希望自动关闭 <strong>Writable</strong> 流，需要传入参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">readable.pipe(writable, &#123; <span class="attr">end</span>: <span class="literal">false</span> &#125;);</div></pre></td></tr></table></figure>
+<h2 id="链式流"><a href="#链式流" class="headerlink" title="链式流"></a>链式流</h2><p>链式是通过连接输出流到另外一个流并创建多个流操作链的机制。链式流一般用于管道操作。接下来就用管道和链式来压缩和解压文件。</p>
+<p>创建<strong>compress.js</strong>文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</div><div class="line"><span class="keyword">var</span> zlib = <span class="built_in">require</span>(<span class="string">'zlib'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 压缩 input.txt 文件为 input.txt.gz</span></div><div class="line">fs.createReadStream(<span class="string">'input.txt'</span>)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(fs.createWriteStream(<span class="string">'input.txt.gz'</span>));</div><div class="line">  </div><div class="line"><span class="built_in">console</span>.log(<span class="string">"文件压缩完成。"</span>);</div></pre></td></tr></table></figure>
+<p>执行完以上操作后，我们可以看到当前目录下生成了 <strong>input.txt</strong> 的压缩文件 <strong>input.txt.gz</strong>。</p>
+<p>解压该文件，创建 <strong>decompress.js</strong> 文件，代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</div><div class="line"><span class="keyword">var</span> zlib = <span class="built_in">require</span>(<span class="string">'zlib'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 解压 input.txt.gz 文件为 input.txt</span></div><div class="line">fs.createReadStream(<span class="string">'input.txt.gz'</span>)</div><div class="line">  .pipe(zlib.createGunzip())</div><div class="line">  .pipe(fs.createWriteStream(<span class="string">'input.txt'</span>));</div><div class="line">  </div><div class="line"><span class="built_in">console</span>.log(<span class="string">"文件解压完成。"</span>);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/04/NodeJS-File/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          NodeJS 文件读写
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/03/NodeJS-Buffer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS Buffer</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
