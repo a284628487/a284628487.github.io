@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS MySQL 数据库开发 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用 NodeJS 开发，必不可少的肯定会涉及到数据存储，此篇就以 MySQL 为例来看数据库存取业务的开发。在使用 MySQL 之前，需要先安装 MySQL 驱动。 1npm install mysql --save">
+<meta name="keywords" content="NodeJS,MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS MySQL 数据库开发">
+<meta property="og:url" content="http://yoursite.com/2016/07/07/NodeJS-MySQL/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="使用 NodeJS 开发，必不可少的肯定会涉及到数据存储，此篇就以 MySQL 为例来看数据库存取业务的开发。在使用 MySQL 之前，需要先安装 MySQL 驱动。 1npm install mysql --save">
+<meta property="og:updated_time" content="2017-05-25T10:01:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS MySQL 数据库开发">
+<meta name="twitter:description" content="使用 NodeJS 开发，必不可少的肯定会涉及到数据存储，此篇就以 MySQL 为例来看数据库存取业务的开发。在使用 MySQL 之前，需要先安装 MySQL 驱动。 1npm install mysql --save">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.43px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 14.29px;">ES6/ES7</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 12.86px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 14.29px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 18.57px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.43px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.71px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.14px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.86px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-MySQL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/07/NodeJS-MySQL/" class="article-date">
+  	<time datetime="2016-07-07T09:48:08.000Z" itemprop="datePublished">2016-07-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS MySQL 数据库开发
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 <strong>NodeJS</strong> 开发，必不可少的肯定会涉及到数据存储，此篇就以 <strong>MySQL</strong> 为例来看数据库存取业务的开发。在使用 <strong>MySQL</strong> 之前，需要先安装 <strong>MySQL</strong> 驱动。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mysql --save</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mysql = <span class="built_in">require</span>(<span class="string">'mysql'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> conn = mysql.createConnection(&#123;</div><div class="line">	<span class="attr">host</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">	<span class="attr">user</span>: <span class="string">'root'</span>,</div><div class="line">	<span class="attr">password</span>: <span class="string">'111111'</span>,</div><div class="line">	<span class="attr">database</span>: <span class="string">'mydb'</span>,</div><div class="line">	<span class="attr">port</span>: <span class="number">3306</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line">conn.connect();</div><div class="line"><span class="comment">// 查询</span></div><div class="line">conn.query(<span class="string">'select * from User'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, result</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(result);</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 关闭数据库连接 -&gt; 不是直接关闭，而是在所有query完成之后再关闭</span></div><div class="line">conn.end();</div><div class="line"><span class="comment">// 关闭数据库连接 -&gt; 直接关闭连接</span></div><div class="line"><span class="comment">// conn.destory();</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 <code>conn.query</code> 方法查询数据，<code>query</code> 方法同样也可以进行 <strong>新增</strong>、<strong>删除</strong>、<strong>更新</strong> 操作，从回调函数的第二个参数中可以获取到对应的执行结果。</p>
+</blockquote>
+<h2 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//新增</span></div><div class="line">conn.query(<span class="string">'insert into user (username,password) ...'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, result</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="built_in">console</span>.log(result); <span class="comment">// result.insertId -&gt; 获取新插入的数据的自增id</span></div><div class="line">&#125;)</div><div class="line"> </div><div class="line"><span class="comment">//删除</span></div><div class="line">conn.query(<span class="string">'delete from user where username="wupeigui"'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, result</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">    <span class="built_in">console</span>.log(result);</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 更新 </span></div><div class="line">conn.query(<span class="string">'update user set id="1" where username="huxiaona"'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,result</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123;<span class="keyword">throw</span> err&#125;;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"修改数据成功"</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>删除和更新，可以通过 <strong>result.affectedRows</strong> 来获取受影响的行数；</p>
+</blockquote>
+<h2 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> connParams = &#123;</div><div class="line">	<span class="attr">host</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">	<span class="attr">user</span>: <span class="string">'root'</span>,</div><div class="line">	<span class="attr">password</span>: <span class="string">'111111'</span>,</div><div class="line">	<span class="attr">database</span>: <span class="string">'mydb'</span>,</div><div class="line">	<span class="attr">port</span>: <span class="number">3306</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> pool = mysql.createPool(connParams);</div><div class="line"><span class="comment">// 直接使用pool进行查询</span></div><div class="line">pool.query(<span class="string">'select * from User'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err, rs, fields</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(rs);</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 共享一个连接</span></div><div class="line">pool.getConnection(<span class="function"><span class="keyword">function</span>(<span class="params">err, conn</span>)</span>&#123;</div><div class="line">	conn.query(<span class="string">'select * from User'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, rs</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(rs);</div><div class="line">		conn.release();</div><div class="line">	&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="连接池配置选项"><a href="#连接池配置选项" class="headerlink" title="连接池配置选项"></a>连接池配置选项</h2><p><strong>createConnection</strong> 方法还可以传入一些其它选项参数。</p>
+<ul>
+<li><strong>waitForConnections</strong>: 当连接池没有连接或超出最大限制时，设置为true且会把连接放入队列，设置为false会返回error</li>
+<li><strong>connectionLimit</strong>: 连接数限制，默认：10</li>
+<li><strong>queueLimit</strong>: 最大连接请求队列限制，设置为0表示不限制，默认：0</li>
+</ul>
+<h3 id="连接释放"><a href="#连接释放" class="headerlink" title="连接释放"></a>连接释放</h3><p>调用<code>connection.release()</code>方法，会把连接放回连接池，等待其它使用者使用!</p>
+<h3 id="连接错误处理"><a href="#连接错误处理" class="headerlink" title="连接错误处理"></a>连接错误处理</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> conn = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleError</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> connParams = &#123;</div><div class="line">		<span class="attr">host</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">		<span class="attr">user</span>: <span class="string">'root'</span>,</div><div class="line">		<span class="attr">password</span>: <span class="string">'1111110'</span>,</div><div class="line">		<span class="attr">database</span>: <span class="string">'mydb'</span>,</div><div class="line">		<span class="attr">port</span>: <span class="number">3306</span></div><div class="line">	&#125;;</div><div class="line">	conn = mysql.createConnection(connParams);</div><div class="line">	conn.connect(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">		<span class="comment">// 1</span></div><div class="line">		<span class="keyword">if</span>(err)&#123; </div><div class="line">			<span class="comment">// err.code === 'ER_ACCESS_DENIED_ERROR' -&gt; 密码错误</span></div><div class="line">			<span class="built_in">console</span>.log(err);</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">	conn.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'db error'</span>);</div><div class="line">		<span class="comment">// 如果是连接断开，自动重新连接</span></div><div class="line">        <span class="keyword">if</span> (err.code === <span class="string">'PROTOCOL_CONNECTION_LOST'</span>) &#123;</div><div class="line">            handleError();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">        	<span class="comment">// err.code === 'ECONNRESET' -&gt; mysql 进程死掉</span></div><div class="line">            <span class="keyword">throw</span> err;</div><div class="line">        &#125;</div><div class="line">	&#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">handleError();</div></pre></td></tr></table></figure>
+<p>上面的代码可以处理 <strong>登录密码错误</strong>，<strong>数据库宕机</strong>，<strong>连接超时</strong>。</p>
+<ul>
+<li>登录密码错误</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ER_ACCESS_DENIED_ERROR</div></pre></td></tr></table></figure>
+<ul>
+<li>数据库宕机</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ECONNRESET</div></pre></td></tr></table></figure>
+<ul>
+<li>连接超时/断开</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PROTOCOL_CONNECTION_LOST</div></pre></td></tr></table></figure>
+<p>使用 <strong>root</strong> 账户修改 <strong>MySQL</strong> 的 <strong>wait_timeout</strong> 参数，设为10秒；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">~ mysql -u root -p</div><div class="line">mysql&gt; show variables like <span class="string">'wait_timeout'</span>;</div><div class="line">+---------------+-------+</div><div class="line">| Variable_name | Value |</div><div class="line">+---------------+-------+</div><div class="line">| wait_timeout  | 28800 |</div><div class="line">+---------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; <span class="built_in">set</span> global wait_timeout=10;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'wait_timeout'</span>;</div><div class="line">+---------------+-------+</div><div class="line">| Variable_name | Value |</div><div class="line">+---------------+-------+</div><div class="line">| wait_timeout  | 10    |</div><div class="line">+---------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
+<p>添加测试代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">query</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>());</div><div class="line">    <span class="keyword">var</span> sql = <span class="string">"show variables like 'wait_timeout'"</span>;</div><div class="line">    conn.query(sql, <span class="function"><span class="keyword">function</span> (<span class="params">err, res</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(res);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">setInterval(query, <span class="number">15</span>*<span class="number">1000</span>);</div></pre></td></tr></table></figure>
+<h2 id="MySQL-连接池超时测试"><a href="#MySQL-连接池超时测试" class="headerlink" title="MySQL 连接池超时测试"></a>MySQL 连接池超时测试</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> selectSQL =<span class="string">"show variables like 'wait_timeout'"</span>;</div><div class="line"></div><div class="line">pool.getConnection(<span class="function"><span class="keyword">function</span> (<span class="params">err, conn</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="built_in">console</span>.log(<span class="string">"POOL ==&gt; "</span> + err);</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">query</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        conn.query(selectSQL, <span class="function"><span class="keyword">function</span> (<span class="params">err, res</span>) </span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>());</div><div class="line">            <span class="built_in">console</span>.log(res);</div><div class="line">            conn.release();</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    setInterval(query, <span class="number">12</span> * <span class="number">1000</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">connection.beginTransaction(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (err) &#123; <span class="keyword">throw</span> err; &#125; </div><div class="line"></div><div class="line">	connection.query(<span class="string">'INSERT INTO posts SET title=?'</span>, title, <span class="function"><span class="keyword">function</span>(<span class="params">err, result</span>) </span>&#123; </div><div class="line">		<span class="keyword">if</span> (err) &#123;  </div><div class="line">			 connection.rollback(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </div><div class="line">				 <span class="keyword">throw</span> err; </div><div class="line">			&#125;); </div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">var</span> log = <span class="string">'Post '</span> + result.insertId + <span class="string">' added'</span>; </div><div class="line"></div><div class="line">		connection.query(<span class="string">'INSERT INTO log SET data=?'</span>, log, <span class="function"><span class="keyword">function</span>(<span class="params">err, result</span>) </span>&#123; </div><div class="line">			<span class="keyword">if</span> (err) &#123;  </div><div class="line">				connection.rollback(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </div><div class="line">					<span class="keyword">throw</span> err; </div><div class="line">				&#125;); </div><div class="line">			&#125;</div><div class="line">			connection.commit(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123; </div><div class="line">			<span class="keyword">if</span> (err) &#123;  </div><div class="line">				connection.rollback(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; </div><div class="line">		    		<span class="keyword">throw</span> err; </div><div class="line">				&#125;); </div><div class="line">			&#125; </div><div class="line">			<span class="built_in">console</span>.log(<span class="string">'success!'</span>); </div><div class="line">			&#125;); </div><div class="line">		&#125;); </div><div class="line">	&#125;); </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h2><h4 id="字符串转义"><a href="#字符串转义" class="headerlink" title="字符串转义"></a>字符串转义</h4><p>在使用客户端输入的值来组装查询语句时，需要对这些值进行正确的转义，以避免遭受 <strong>SQL注入</strong> 攻击。可以使用 <strong>escape()</strong> 方法来对这些值进行转义:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sql = <span class="string">'select * from User where id = '</span> + conn.escape(<span class="string">"27 or id = 28"</span>);</div><div class="line"><span class="built_in">console</span>.log(sql);</div><div class="line">conn.query(sql, <span class="function"><span class="keyword">function</span>(<span class="params">err, resulst</span>)</span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(resulst);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>还可以在SQL语句中将要转义的值用问号 <strong>?</strong> 来代替，再在调用 <strong>query()</strong> 方法时传入这些待转义的值:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">conn.query(<span class="string">'select * from User where id=? or id=?'</span>, [<span class="number">27</span>, <span class="number">28</span>], <span class="function"><span class="keyword">function</span>(<span class="params">err, rs</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(rs);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="标识符转义"><a href="#标识符转义" class="headerlink" title="标识符转义"></a>标识符转义</h4><p>与字符串值的转义类似，标识符的转义可以使用 <strong>escapeId()</strong> 方法来实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sorter = <span class="string">'date'</span>;</div><div class="line"><span class="keyword">var</span> query = <span class="string">'SELECT * FROM posts ORDER BY '</span> + mysql.escapeId(sorter);</div><div class="line"><span class="built_in">console</span>.log(query); <span class="comment">// SELECT * FROM posts ORDER BY `date`</span></div><div class="line"><span class="comment">// or</span></div><div class="line"><span class="keyword">var</span> sorter = <span class="string">'date'</span>;</div><div class="line"><span class="keyword">var</span> query = <span class="string">'SELECT * FROM posts ORDER BY '</span> + mysql.escapeId(<span class="string">'posts.'</span> + sorter);</div><div class="line"><span class="built_in">console</span>.log(query); <span class="comment">// SELECT * FROM posts ORDER BY `posts`.`date`</span></div></pre></td></tr></table></figure>
+<p>也可以在 <strong>SQL</strong> 语句中使用两个问号 <strong>??</strong> 来表示要转义的标识符：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> userId = <span class="number">1</span>;</div><div class="line"><span class="keyword">var</span> columns = [<span class="string">'username'</span>, <span class="string">'email'</span>];</div><div class="line"><span class="keyword">var</span> query = connection.query(<span class="string">'SELECT ?? FROM ?? WHERE id = ?'</span>, [columns, <span class="string">'users'</span>, userId], <span class="function"><span class="keyword">function</span>(<span class="params">err, results</span>) </span>&#123;&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(query.sql); <span class="comment">// SELECT `username`, `email` FROM `users` WHERE id = 1</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/15/React+Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          React 中使用 Redux 入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/06/NodeJS-Util/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS util 工具</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
