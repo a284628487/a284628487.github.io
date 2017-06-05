@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS 使用 EventProxy 和 Async 控制并发 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在 NodeJS 中，使用 EventProxy 或者 Async 可以控制代码的执行流程。">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS 使用 EventProxy 和 Async 控制并发">
+<meta property="og:url" content="http://yoursite.com/2016/07/11/NodeJS-EventProxy-Async/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="在 NodeJS 中，使用 EventProxy 或者 Async 可以控制代码的执行流程。">
+<meta property="og:updated_time" content="2017-05-28T08:11:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS 使用 EventProxy 和 Async 控制并发">
+<meta name="twitter:description" content="在 NodeJS 中，使用 EventProxy 或者 Async 可以控制代码的执行流程。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.25px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 13.75px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 12.5px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.25px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 11.25px;">Promise</a> <a href="/tags/React/" style="font-size: 18.75px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.25px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.5px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.5px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.75px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-EventProxy-Async" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/11/NodeJS-EventProxy-Async/" class="article-date">
+  	<time datetime="2016-07-11T07:59:47.000Z" itemprop="datePublished">2016-07-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS 使用 EventProxy 和 Async 控制并发
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 <strong>NodeJS</strong> 中，使用 <strong>EventProxy</strong> 或者 <strong>Async</strong> 可以控制代码的执行流程。<br><a id="more"></a></p>
+<h2 id="EventProxy"><a href="#EventProxy" class="headerlink" title="EventProxy"></a>EventProxy</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> EventProxy = <span class="built_in">require</span>(<span class="string">"eventproxy"</span>);</div><div class="line"><span class="keyword">var</span> ep = <span class="keyword">new</span> EventProxy();</div><div class="line"></div><div class="line"><span class="comment">// 1 all</span></div><div class="line">ep.all([<span class="string">"read1"</span>, <span class="string">"read2"</span>], <span class="function"><span class="keyword">function</span> (<span class="params">txt1, txt2</span>) </span>&#123;</div><div class="line">	<span class="comment">// body...</span></div><div class="line">	<span class="built_in">console</span>.log(txt1);</div><div class="line">	<span class="built_in">console</span>.log(txt2);</div><div class="line">&#125;);</div><div class="line">ep.emit(<span class="string">'read2'</span>, <span class="string">"abc"</span>);</div><div class="line">ep.emit(<span class="string">'read1'</span>, <span class="string">"xyz"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 2 after</span></div><div class="line">ep.after(<span class="string">'read'</span>, <span class="number">2</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="comment">// body...</span></div><div class="line">	<span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">ep.emit(<span class="string">'read'</span>, <span class="string">"abc"</span>);</div><div class="line">ep.emit(<span class="string">'read'</span>, <span class="string">"xyz"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 3 fail</span></div><div class="line">ep.fail(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(err);</div><div class="line">&#125;);</div><div class="line">ep.emit(<span class="string">'error'</span>, <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error-----'</span>));</div><div class="line"></div><div class="line"><span class="comment">// 4 throw</span></div><div class="line">ep.fail(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(err);</div><div class="line">&#125;);</div><div class="line">ep.throw(<span class="string">'error'</span>, <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'error-----'</span>));</div><div class="line"></div><div class="line"><span class="comment">// 5 done </span></div><div class="line">ep.after(<span class="string">'read'</span>, <span class="number">1</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="comment">// body...</span></div><div class="line">	<span class="built_in">console</span>.log(data);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line">fs.readFile(<span class="string">'sql.js'</span>, <span class="string">'utf-8'</span>, ep.done(<span class="string">'read'</span>, <span class="function"><span class="keyword">function</span> <span class="title">cb</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">	<span class="comment">// body...</span></div><div class="line">	<span class="keyword">return</span> data + <span class="string">"----done"</span>;</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<h2 id="async"><a href="#async" class="headerlink" title="async"></a>async</h2><p><strong>async</strong> 的 <code>mapLimit(arr, limit, iterator, callback)</code> 接口就是用来控制并发数量的。另外，还有个常用的控制并发连接数的接口是 <code>queue(worker, concurrency)</code>，可以去 <code>https://github.com/caolan/async#queueworker-concurrency</code> 看看说明。</p>
+<h4 id="什么时候用-eventproxy，什么时候使用-async？"><a href="#什么时候用-eventproxy，什么时候使用-async？" class="headerlink" title="什么时候用 eventproxy，什么时候使用 async？"></a>什么时候用 <code>eventproxy</code>，什么时候使用 <code>async</code>？</h4><blockquote>
+<p>当需要去多个数据源获取数据然后进行(一般是小于10个)汇总的时候，用 <code>eventproxy</code> 方便；当需要用到队列，需要控制并发数，或者需要方便的使用函数式编程时，使用 <code>async</code>，大部分场景是前者。除了可以在 NodeJS 上运行外，其还可以在浏览器端运行。</p>
+</blockquote>
+<h3 id="mapLimit"><a href="#mapLimit" class="headerlink" title="mapLimit"></a>mapLimit</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> concurrencyCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetchUrl</span>(<span class="params">url, callback</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> delay = <span class="built_in">parseInt</span>((<span class="built_in">Math</span>.random() * <span class="number">10000000</span>) % <span class="number">1000</span>);</div><div class="line">	concurrencyCount++;</div><div class="line">	<span class="built_in">console</span>.log(concurrencyCount, url, delay);</div><div class="line">	setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		concurrencyCount--;</div><div class="line">		callback(<span class="literal">null</span>, url, <span class="string">'content'</span>);</div><div class="line">	&#125;, delay);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> urls = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++)&#123;</div><div class="line">	urls.push(<span class="string">'http://xlxl_'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> <span class="keyword">async</span> = <span class="built_in">require</span>(<span class="string">'async'</span>);</div><div class="line"><span class="keyword">async</span>.mapLimit(urls, <span class="number">5</span>, <span class="function"><span class="keyword">function</span>(<span class="params">url, callback</span>)</span>&#123;</div><div class="line">	fetchUrl(url, callback);</div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">err, urls_</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">'over'</span>);</div><div class="line">	<span class="comment">// console.log(err, urls_);</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li>构造一个 <code>fetchUrl</code> 方法获取网页内容</li>
+<li>生成需要爬取的地址列表</li>
+<li>使用 <code>async.mapLimit</code> 并发获取爬取网页</li>
+</ul>
+<h3 id="series-串行"><a href="#series-串行" class="headerlink" title="series 串行"></a>series 串行</h3><p><code>async.series()</code> 来依次执行一组函数，第一个参数是一个函数数组，每个函 数接受一个参数作为其回调函数，在该函数执行完成时调用回调函数即可。第二个参数作为该组函数执行完成后的回调函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> <span class="keyword">async</span> = <span class="built_in">require</span>(<span class="string">'async'</span>);</div><div class="line"></div><div class="line"><span class="keyword">async</span>.series([</div><div class="line">	<span class="function"><span class="keyword">function</span>(<span class="params">done</span>)</span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="number">1</span>);</div><div class="line">		done();</div><div class="line">	&#125;,</div><div class="line">	<span class="function"><span class="keyword">function</span>(<span class="params">done</span>)</span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="number">2</span>);</div><div class="line">		done();</div><div class="line">	&#125;</div><div class="line">	], <span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'over'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 输出结果</span></div><div class="line"></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line">over</div></pre></td></tr></table></figure>
+<p>如果在执行某一个函数的过程中出错了，可以在执行回调函数 <code>done()</code>的时候，将错误信息作为回调函数的第一个参数传入并执行 <code>done(err)</code>，程序将会跳过函数数组中剩余的部分而直接执行最终的回调函数。</p>
+<h3 id="parallel-并行"><a href="#parallel-并行" class="headerlink" title="parallel 并行"></a>parallel 并行</h3><p>如果要并行的执行一组函数，我们只需要使用<code>async.parallel()</code>即可，使用方法同<code>async.series()</code>一样。</p>
+<h3 id="each"><a href="#each" class="headerlink" title="each"></a>each</h3><p>原始遍历</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(item);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>假如 <code>forEach()</code> 的回调函数内部要执行的是一些异步操作，而我们又需要等待遍历操作完成后再执行其他的操作，可以使用 <code>async.each()</code> 来实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</div><div class="line"><span class="keyword">async</span>.each(arr, <span class="function"><span class="keyword">function</span> (<span class="params">item, done</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 通过 setTimeout 来模拟一个异步任务</span></div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(item);</div><div class="line">    done();</div><div class="line">  &#125;, <span class="built_in">Math</span>.random() * <span class="number">1000</span>);</div><div class="line"></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'完成'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="eachSeries-串行遍历"><a href="#eachSeries-串行遍历" class="headerlink" title="eachSeries 串行遍历"></a>eachSeries 串行遍历</h3><p>如果要让这些异步任务串行执行，可以使用 <code>async.eachSeries()</code> 来实现。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">async</span>.eachSeries(articleList, <span class="function"><span class="keyword">function</span> (<span class="params">article, next</span>) </span>&#123;</div><div class="line">    <span class="comment">// 读取文章内容</span></div><div class="line">    readArticleDetail(article.url, <span class="function"><span class="keyword">function</span> (<span class="params">err, detail</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (err) <span class="built_in">console</span>.error(err.stack);</div><div class="line">      <span class="comment">// 直接显示</span></div><div class="line">      <span class="built_in">console</span>.log(detail);</div><div class="line">      <span class="comment">// 调用 next() 来返回</span></div><div class="line">      next();</div><div class="line">    &#125;);</div><div class="line">  &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="comment">// 当遍历完 articleList 后，执行此回调函数</span></div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> <span class="built_in">console</span>.error(err.stack);</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'完成'</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/caolan/async" target="_blank" rel="external">async</a><br><a href="https://github.com/alsotang/async_demo" target="_blank" rel="external">asyncdemo</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对应于数组的 <code>map</code>、<code>filter</code>、<code>reduce</code> 等方法，<code>async</code> 模块也提供了相应工具函数。关于 <code>async</code> 模块的详细使用方法可以访问该模块的主页来获取：<a href="https://npmjs.org/package/async" target="_blank" rel="external">https://npmjs.org/package/async</a></p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/13/NodeJS-ejs/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          NodeJS 使用 ejs 模拟引擎渲染网页
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/10/NodeJS-Promise-Callback/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS-Promise-Callback</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

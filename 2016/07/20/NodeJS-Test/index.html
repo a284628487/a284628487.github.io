@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS 测试框架 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Node.js 常用测试框架 mocha, should, istanbul">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS 测试框架">
+<meta property="og:url" content="http://yoursite.com/2016/07/20/NodeJS-Test/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Node.js 常用测试框架 mocha, should, istanbul">
+<meta property="og:updated_time" content="2017-06-05T02:39:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS 测试框架">
+<meta name="twitter:description" content="Node.js 常用测试框架 mocha, should, istanbul">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.25px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 13.75px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 12.5px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.25px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 11.25px;">Promise</a> <a href="/tags/React/" style="font-size: 18.75px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.25px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.5px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.5px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.75px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-Test" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/20/NodeJS-Test/" class="article-date">
+  	<time datetime="2016-07-20T02:35:16.000Z" itemprop="datePublished">2016-07-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS 测试框架
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Node.js</strong> 常用测试框架 <strong>mocha</strong>, <strong>should</strong>, <strong>istanbul</strong><br><a id="more"></a></p>
+<h3 id="Point"><a href="#Point" class="headerlink" title="Point"></a>Point</h3><ul>
+<li>学习使用测试框架 <a href="http://mochajs.org/" target="_blank" rel="external">mocha</a></li>
+<li>学习使用断言库 <a href="https://github.com/tj/should.js" target="_blank" rel="external">should</a></li>
+<li>学习使用测试率覆盖工具 <a href="https://github.com/gotwarlost/istanbul" target="_blank" rel="external">istanbul</a></li>
+<li>简单 Makefile 的编写 <a href="http://blog.csdn.net/haoel/article/details/2886" target="_blank" rel="external">http://blog.csdn.net/haoel/article/details/2886</a></li>
+</ul>
+<h3 id="begin"><a href="#begin" class="headerlink" title="begin"></a>begin</h3><p>定义 <strong>fibonacci</strong> 函数，此函数的定义为 <strong>int fibonacci(int n)</strong></p>
+<ul>
+<li>当 n === 0 时，返回 0；n === 1时，返回 1;</li>
+<li>n &gt; 1 时，返回 fibonacci(n) === fibonacci(n-1) + fibonacci(n-2)，如 fibonacci(10) === 55;</li>
+<li>n 不可大于10，否则抛错，因为 Node.js 的计算性能没那么强。</li>
+<li>n 也不可小于 0，否则抛错，因为没意义。</li>
+<li>n 不为数字时，抛错。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fibonacci = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span>(n === <span class="number">0</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(n === <span class="number">1</span>)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> fibonacci(n<span class="number">-1</span>) + fibonacci(n<span class="number">-2</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="built_in">require</span>.main === <span class="built_in">module</span>) &#123;</div><div class="line">	<span class="comment">// 如果是直接执行 test.js，则进入此处</span></div><div class="line">	<span class="comment">// 如果 test.js 被其他文件 require，则此处不会执行。</span></div><div class="line">	<span class="keyword">var</span> v = <span class="built_in">Number</span>(process.argv[<span class="number">2</span>]);</div><div class="line">	<span class="built_in">console</span>.log(fibonacci(v));</div><div class="line">&#125;</div><div class="line"></div><div class="line">exports.fibonacci = fibonacci;</div></pre></td></tr></table></figure>
+<p>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node fibonacci.js 10 // 结果为55</div></pre></td></tr></table></figure>
+<h3 id="测试驱动开发"><a href="#测试驱动开发" class="headerlink" title="测试驱动开发"></a>测试驱动开发</h3><p>在 <code>fibonacci.js</code> 同级目录下添加 <code>/test/fibonacci.test.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> main = <span class="built_in">require</span>(<span class="string">'../main'</span>);</div><div class="line"><span class="keyword">var</span> should = <span class="built_in">require</span>(<span class="string">'should'</span>);</div><div class="line"></div><div class="line">describe(<span class="string">'test/main.test.js'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	it(<span class="string">'should equal 55 when n === 10'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">		main.fibonacci(<span class="number">10</span>).should.equal(<span class="number">55</span>);</div><div class="line">	&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>安装全局的 <code>mocha</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install mocha -g</div></pre></td></tr></table></figure>
+<p><code>-g</code>与 非<code>-g</code>的区别，就是安装位置的区别，<code>g</code>是<code>global</code>的意思。如果不加的话，则<code>mocha</code>安装 在项目目录下面；如果加了，则这个<code>mocha</code>是安装在全局的，如果<code>mocha</code>有可执行命令的话，那么这个命令也会自动加入到你系统 <code>$PATH</code>中的某个地方。</p>
+<p>执行测试:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ mocha</div></pre></td></tr></table></figure>
+<h3 id="describe-amp-it"><a href="#describe-amp-it" class="headerlink" title="describe &amp; it"></a>describe &amp; it</h3><p><code>describe</code> 中的字符串，用来描述你要测的主体是什么；<code>it</code>当中，描述具体的<code>case</code>内容。</p>
+<p>引入的<code>should</code>模块，是个断言库。在<code>Node.js</code>中，使用<code>mocha</code>和<code>should</code>在协作完成断言测试。<br><code>should</code>在<code>js</code>的Object “基类”上注入了一个<code>#should</code>属性，这个属性中，又有着许许多多的属性可以被访问。<br>比如测试一个数是不是大于3，则是<code>(5).should.above(3)；</code>测试一个字符串是否有着特定前缀：<code>&#39;foobar&#39;.should.startWith(&#39;foo&#39;);</code>。<code>should.js API</code>在：<a href="https://github.com/tj/should.js" target="_blank" rel="external">https://github.com/tj/should.js</a><br>还有另外一个断言库 <a href="https://github.com/LearnBoost/expect.js/" target="_blank" rel="external">expect</a></p>
+<ul>
+<li>新增一个<code>case</code>内容</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">it(<span class="string">'should throw when n isn\'t Number'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">	(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">		fibonacci.fibonacci(<span class="string">'呵呵'</span>);</div><div class="line">	&#125;).should.throw(<span class="string">'n should be a Number'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>再次运行的时候，该<code>case</code>未跑通；</p>
+<ul>
+<li>更新 <code>fibonacci</code> 实现</li>
+</ul>
+<p>添加对参数的判断</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> n !== <span class="string">'number'</span>) &#123;</div><div class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'n should be a Number'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再跑一次<code>$ mocha</code>就过了。这就是测试驱动开发：先把要达到的目的都描述清楚，然后让现有的程序跑不过 case，再修补程序，让 case 通过。</p>
+<h3 id="测试覆盖率"><a href="#测试覆盖率" class="headerlink" title="测试覆盖率"></a>测试覆盖率</h3><ul>
+<li><p>安装<code>istanbul : $ npm i istanbul -g</code></p>
+</li>
+<li><p>执行<code>$ istanbul cover _mocha</code></p>
+</li>
+</ul>
+<p>这会比直接使用<code>mocha</code>多了覆盖率的输出!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">=============================== Coverage summary ===============================</div><div class="line">Statements   : 83.33% ( 10/12 )</div><div class="line">Branches     : 87.5% ( 7/8 )</div><div class="line">Functions    : 100% ( 1/1 )</div><div class="line">Lines        : 83.33% ( 10/12 )</div></pre></td></tr></table></figure></p>
+<ul>
+<li>查看测试详情</li>
+</ul>
+<p>打开 <code>/coverage/lcov-report/index.html</code>文件查看；</p>
+<h3 id="over"><a href="#over" class="headerlink" title="over"></a>over</h3><p><code>mocha</code>和<code>istanbul</code>的结合是相当无缝的，只要<code>mocha</code>跑得动，那么<code>istanbul</code>就接得进来。</p>
+<ul>
+<li>mocha 和 istanbul 版本依赖问题</li>
+</ul>
+<p>假设你有一个项目A，用到了 mocha 的 version 3，其他人有个项目B，用到了 mocha 的 version 10，那么如果你 npm i mocha -g 装的是 version 3 的话，你用 $ mocha 是不兼容B项目的。因为 mocha 版本改变之后，很可能语法也变了。</p>
+<p>这时，跑测试用例的正确方法，应该是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm i mocha --save-dev，装个 mocha 到项目目录中去</div><div class="line">$ ./node_modules/.bin/mocha，用刚才安装的这个特定版本的 mocha，来跑项目的测试代码。</div><div class="line">./node_modules/.bin 这个目录下放着我们所有依赖自带的那些可执行文件。</div></pre></td></tr></table></figure></p>
+<p>每次输入这个很麻烦，所以我们要引入<code>Makefile</code>，让<code>Makefile</code>帮我们记住复杂的配置。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">test:</div><div class="line">  ./node_modules/.bin/mocha</div><div class="line"></div><div class="line">cov test-cov:</div><div class="line">  ./node_modules/.bin/istanbul cover _mocha</div><div class="line"></div><div class="line">.PHONY: test cov test-cov</div></pre></td></tr></table></figure>
+<p>这时，我们只需要调用<code>make test</code>或者<code>make cov</code>，就可以跑我们相应的测试了。<br>关于<a href="http://blog.csdn.net/haoel/article/details/2886" target="_blank" rel="external">Makefile</a></p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/23/NodeJS-Other/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          NodeJS-Other
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/18/NodeJS-Static-File/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS 静态文件服务器</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
