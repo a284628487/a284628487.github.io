@@ -4,19 +4,16 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Retrofit2中的常用Annotation | Full Stacker</title>
+  <title>NodeJS-RESTful-Api | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
-<meta name="keywords" content="Retrofit2,Annotation">
+  <meta name="keywords" content="NodeJS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Retrofit2中的常用Annotation">
-<meta property="og:url" content="http://yoursite.com/2016/05/07/Retrofit-Annotation/index.html">
+<meta property="og:title" content="NodeJS-RESTful-Api">
+<meta property="og:url" content="http://yoursite.com/2016/07/08/NodeJS-RESTful-Api/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
-<meta property="og:updated_time" content="2017-05-15T06:36:30.000Z">
+<meta property="og:updated_time" content="2017-05-27T01:41:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Retrofit2中的常用Annotation">
-<meta name="twitter:description" content="Retrofit2 中的常用 Annotation，这些 Annotation，可以让我们快速的配置一个请求 URL，包括请求地址，请求方式，请求参数等。">
+<meta name="twitter:title" content="NodeJS-RESTful-Api">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
   
@@ -191,11 +188,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Retrofit-Annotation" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-NodeJS-RESTful-Api" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/07/Retrofit-Annotation/" class="article-date">
-  	<time datetime="2016-05-07T01:32:03.000Z" itemprop="datePublished">2016-05-07</time>
+      <a href="/2016/07/08/NodeJS-RESTful-Api/" class="article-date">
+  	<time datetime="2016-07-07T23:20:42.000Z" itemprop="datePublished">2016-07-08</time>
 </a>
     </div>
   
@@ -208,7 +205,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Retrofit2中的常用Annotation
+      NodeJS-RESTful-Api
     </h1>
   
 
@@ -217,7 +214,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Annotation/">Annotation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
 	</div>
 
         
@@ -237,27 +234,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Retrofit2</strong> 中的常用 <strong>Annotation</strong>，这些 <strong>Annotation</strong>，可以让我们快速的配置一个请求 <strong>URL</strong>，包括请求地址，请求方式，请求参数等。<br><a id="more"></a></p>
-<h2 id="Annotation"><a href="#Annotation" class="headerlink" title="Annotation"></a>Annotation</h2><p>所有的请求都需要一个请求方法注解，<strong>Retrofit2</strong> 定义了5种请求方式 <strong>GET</strong>, <strong>POST</strong>, <strong>PUT</strong>, <strong>DELETE</strong>, and <strong>HEAD</strong> 。</p>
-<h3 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"/user/&#123;uid&#125;"</span>)</div><div class="line"><span class="function">Call&lt;User&gt; <span class="title">getUser</span><span class="params">(@Path(<span class="string">"uid"</span>)</span> String uid)</span>;</div></pre></td></tr></table></figure>
-<p><strong>Path</strong> 表示请求路径中 <strong>uid</strong> 部分是动态替换的，比如 <strong>getUser(“10001”)</strong> 和 <strong>getUser(“10002”)</strong> 分别是获取 <strong>uid</strong> 为 10001 和 10002 的两个用户的信息。</p>
-<h3 id="QueryMap"><a href="#QueryMap" class="headerlink" title="QueryMap"></a>QueryMap</h3><p>有的情况下，有很多个查询参数，为了避免冗长的方法定义，可以使用 <strong>@QueryMap</strong> 来将所有的请求参数放到 <strong>Map</strong> 中。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(ServiceName + <span class="string">"users"</span>)</div><div class="line"><span class="function">Observable&lt;User&gt; <span class="title">users</span><span class="params">(@QueryMap Map&lt;String, String&gt; filters)</span></span>;</div></pre></td></tr></table></figure>
-<p>上面的接口定义表示通过 <strong>Map</strong> 中定义好的键值对，去请求相关的用户列表。</p>
-<blockquote>
-<p><strong>QueryMap</strong> 用于指定 <strong>GET</strong> 请求的参数集，相对应的，<strong>FieldMap</strong> 则用于指定 <strong>POST</strong> 请求的参数集；</p>
-</blockquote>
-<h3 id="Headers-amp-Header"><a href="#Headers-amp-Header" class="headerlink" title="Headers &amp; Header"></a>Headers &amp; Header</h3><ul>
-<li>Headers 用于在请求中预设一些 Header;</li>
-<li>Header 用于在请求方法中动态的传入 Header;</li>
-</ul>
-<p>多个 <strong>Header</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Headers</span>(&#123;</div><div class="line">    <span class="string">"Accept: application/vnd.github.v3.full+json"</span>,</div><div class="line">    <span class="string">"User-Agent: Ubuntu 12.04"</span></div><div class="line">&#125;)</div><div class="line"><span class="meta">@GET</span>(<span class="string">"/user/&#123;uid&#125;"</span>)</div><div class="line"><span class="function">User <span class="title">getUser</span><span class="params">(@Path(<span class="string">"uid"</span>)</span> String uid)</span>;</div></pre></td></tr></table></figure>
-<p>单个 <strong>Header</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Headers(&quot;Cache-Control: max-age=640000&quot;)</div><div class="line">@GET(&quot;/user/&#123;uid&#125;&quot;)</div><div class="line">User getUser(@Path(&quot;uid&quot;) String uid);</div></pre></td></tr></table></figure>
-<p>动态传入 <strong>Header</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GET</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">getUser</span><span class="params">(@Header(<span class="string">"Authorization"</span>)</span> String authorization, @<span class="title">Path</span><span class="params">(<span class="string">"uid"</span>)</span> String uid)</span></div></pre></td></tr></table></figure>
-<p>接口定义中的 <strong>Header</strong> ，在 <strong>Interceptor</strong> 里面，可以通过 <strong>request.header(“key”)</strong> 获取到所定义的 <strong>header</strong> 值；</p>
+        <a id="more"></a>
 
       
     </div>
@@ -270,18 +247,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/05/09/Retrofit-Soap-UserDefine-Converter/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/07/08/NodeJS-Express/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          使用Retrofit提交Soap请求以及自定义Converter解析数据
+          NodeJS 服务器框架 Express
         
       </div>
     </a>
   
   
-    <a href="/2016/05/06/Android-Retrofit/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android中用Retrofit2进行网络请求</div>
+    <a href="/2016/07/07/NodeJS-MySQL/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS MySQL 数据库开发</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

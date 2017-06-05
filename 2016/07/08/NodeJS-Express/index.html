@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NodeJS 服务器框架 Express | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Express 是一个简洁而灵活的 node.js Web 应用框架, 提供了一系列强大特性可以快速创建各种 Web 应用和 HTTP 工具。使用 Express 可以快速地搭建一个完整功能的网站。">
+<meta name="keywords" content="NodeJS,Express">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS 服务器框架 Express">
+<meta property="og:url" content="http://yoursite.com/2016/07/08/NodeJS-Express/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Express 是一个简洁而灵活的 node.js Web 应用框架, 提供了一系列强大特性可以快速创建各种 Web 应用和 HTTP 工具。使用 Express 可以快速地搭建一个完整功能的网站。">
+<meta property="og:updated_time" content="2017-05-26T23:19:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS 服务器框架 Express">
+<meta name="twitter:description" content="Express 是一个简洁而灵活的 node.js Web 应用框架, 提供了一系列强大特性可以快速创建各种 Web 应用和 HTTP 工具。使用 Express 可以快速地搭建一个完整功能的网站。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>A propos</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Animation/" style="font-size: 11.43px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/ES6-ES7/" style="font-size: 14.29px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.43px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/IO/" style="font-size: 12.86px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 14.29px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 18.57px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.43px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.71px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.14px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.86px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 14.29px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-NodeJS-Express" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/08/NodeJS-Express/" class="article-date">
+  	<time datetime="2016-07-08T12:12:58.000Z" itemprop="datePublished">2016-07-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NodeJS 服务器框架 Express
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Express/">Express</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Express</strong> 是一个简洁而灵活的 <strong>node.js Web</strong> 应用框架, 提供了一系列强大特性可以快速创建各种 <strong>Web</strong> 应用和 <strong>HTTP</strong> 工具。使用 <strong>Express</strong> 可以快速地搭建一个完整功能的网站。<br><a id="more"></a><br><strong>Express</strong> 框架核心特性：</p>
+<ul>
+<li>可以设置中间件来响应 <strong>HTTP</strong> 请求。</li>
+<li>定义了路由表用于执行不同的 <strong>HTTP</strong> 请求动作。</li>
+<li>可以通过向模板传递参数来动态渲染 <strong>HTML</strong> 页面。</li>
+</ul>
+<h2 id="安装-Express"><a href="#安装-Express" class="headerlink" title="安装 Express"></a>安装 Express</h2><p>安装 <strong>Express</strong> 并将其保存到依赖列表中:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install express --save</div></pre></td></tr></table></figure>
+<p>以下几个重要的模块是需要与 <strong>express</strong> 框架一起安装的：</p>
+<ul>
+<li><strong>body-parser</strong> : node.js 中间件，用于处理 JSON, Raw, Text 和 URL 编码的 POST 提交数据。</li>
+<li><strong>cookie-parser</strong> : 这就是一个解析 <strong>Cookie</strong> 的工具。通过 <strong>req.cookies</strong> 可以取到传过来的 <strong>cookie</strong>，并把它们转成对象。</li>
+<li><strong>multer</strong> : node.js 中间件，用于处理 <strong>enctype=”multipart/form-data”</strong>（设置表单的 <strong>MIME</strong> 编码）的表单数据。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ npm install body-parser --save</div><div class="line">$ npm install cookie-parser --save</div><div class="line">$ npm install multer --save</div></pre></td></tr></table></figure>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>下面的实例中我们引入了 <strong>express</strong> 模块，并在客户端发起请求后，响应 “Hello World” 字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   res.send(<span class="string">'Hello World'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">8081</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> host = server.address().address</div><div class="line">  <span class="keyword">var</span> port = server.address().port</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"应用实例，访问地址为 http://%s:%s"</span>, host, port)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Express</strong> 应用使用回调函数的参数 <strong>request</strong> 和 <strong>response</strong> 对象来处理请求和响应的数据。</p>
+</blockquote>
+<h3 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h3><p><strong>request</strong> 对象表示 <strong>HTTP</strong> 请求，包含了请求查询字符串，参数，内容，HTTP头部等属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">req.app：当callback为外部文件时，用req.app访问express的实例</div><div class="line">req.baseUrl：获取路由当前安装的URL路径</div><div class="line">req.body / req.cookies：获得「请求主体」/ Cookies</div><div class="line">req.fresh / req.stale：判断请求是否还「新鲜」</div><div class="line">req.hostname / req.ip：获取主机名和IP地址</div><div class="line">req.originalUrl：获取原始请求URL</div><div class="line">req.params：获取路由的parameters</div><div class="line">req.path：获取请求路径</div><div class="line">req.protocol：获取协议类型</div><div class="line">req.query：获取URL的查询参数串</div><div class="line">req.route：获取当前匹配的路由</div><div class="line">req.subdomains：获取子域名</div><div class="line">req.accpets（）：检查请求的Accept头的请求类型</div><div class="line">req.acceptsCharsets / req.acceptsEncodings / req.acceptsLanguages</div><div class="line">req.get（）：获取指定的HTTP请求头</div><div class="line">req.is（）：判断请求头Content-Type的MIME类型</div></pre></td></tr></table></figure>
+<h3 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h3><p><strong>response</strong> 对象表示 <strong>HTTP</strong> 响应，即在接收到请求时向客户端发送的 <strong>HTTP</strong> 响应数据。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">res.app：同req.app一样</div><div class="line">res.append（）：追加指定HTTP头</div><div class="line">res.set（）在res.append（）后将重置之前设置的头</div><div class="line">res.cookie(name，value [，option]）：设置Cookie</div><div class="line">opition: domain / expires / httpOnly / maxAge / path / secure / signed</div><div class="line">res.clearCookie（）：清除Cookie</div><div class="line">res.download（）：传送指定路径的文件</div><div class="line">res.get（）：返回指定的HTTP头</div><div class="line">res.json（）：传送<span class="built_in">JSON</span>响应</div><div class="line">res.jsonp（）：传送JSONP响应</div><div class="line">res.location（）：只设置响应的Location HTTP头，不设置状态码或者close response</div><div class="line">res.redirect（）：设置响应的Location HTTP头，并且设置状态码<span class="number">302</span></div><div class="line">res.send（）：传送HTTP响应</div><div class="line">res.sendFile（path [，options] [，fn]）：传送指定路径的文件 -会自动根据文件extension设定Content-Type</div><div class="line">res.set（）：设置HTTP头，传入object可以一次设置多个头</div><div class="line">res.status（）：设置HTTP状态码</div><div class="line">res.type（）：设置Content-Type的MIME类型</div></pre></td></tr></table></figure>
+<h2 id="Route-路由"><a href="#Route-路由" class="headerlink" title="Route 路由"></a>Route 路由</h2><p>路由决定了由谁(指定脚本)去响应客户端请求。在 <strong>HTTP</strong> 请求中，我们可以通过路由提取出请求的 <strong>URL</strong> 以及 <strong>GET/POST</strong> 参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"></div><div class="line"><span class="comment">//  主页输出 "Hello World"</span></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(<span class="string">"主页 GET 请求"</span>);</div><div class="line">   res.send(<span class="string">'Hello GET'</span>);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//  POST 请求</span></div><div class="line">app.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(<span class="string">"主页 POST 请求"</span>);</div><div class="line">   res.send(<span class="string">'Hello POST'</span>);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//  /del_user 页面响应</span></div><div class="line">app.delete(<span class="string">'/del_user'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(<span class="string">"/del_user 响应 DELETE 请求"</span>);</div><div class="line">   res.send(<span class="string">'删除页面'</span>);</div><div class="line">&#125;)</div><div class="line"><span class="comment">//  /list_user 页面 GET 请求</span></div><div class="line">app.get(<span class="string">'/list_user'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   <span class="built_in">console</span>.log(<span class="string">"/list_user GET 请求"</span>);</div><div class="line">   res.send(<span class="string">'用户列表页面'</span>);</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 对页面 abcd, abxcd, ab123cd, 等响应 GET 请求</span></div><div class="line">app.get(<span class="string">'/ab*cd'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;   </div><div class="line">   <span class="built_in">console</span>.log(<span class="string">"/ab*cd GET 请求"</span>);</div><div class="line">   res.send(<span class="string">'正则匹配'</span>);</div><div class="line">&#125;)</div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">8081</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> host = server.address().address</div><div class="line">  <span class="keyword">var</span> port = server.address().port</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"应用实例，访问地址为 http://%s:%s"</span>, host, port)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h2><p><strong>Express</strong> 提供了内置的中间件 <strong>express.static</strong> 来设置静态文件如：图片，CSS, JavaScript 等。你可以使用 <strong>express.static</strong> 中间件来设置静态文件路径。例如，如果将图片，CSS, JavaScript 文件放在 <strong>public</strong> 目录下，可以这么写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(express.static(<span class="string">'public'</span>));</div></pre></td></tr></table></figure>
+<p>修改下 “Hello Word” 应用添加处理静态文件的功能。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="comment">//</span></div><div class="line">app.use(express.static(<span class="string">'public'</span>));</div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   res.send(<span class="string">'Hello World'</span>);</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">8081</span>);</div></pre></td></tr></table></figure>
+<p>在 <strong>public</strong> 文件夹中添加一张图片’logo.png’，就可以在浏览器中通过 <code>http://127.0.0.1:8081/logo.png</code> 来访问了。</p>
+<h2 id="GET-请求"><a href="#GET-请求" class="headerlink" title="GET 请求"></a>GET 请求</h2><p>实例演示了在表单中通过 <strong>GET</strong> 方法提交两个参数，可以使用 <strong>server.js</strong> 文件内的 <strong>process_get</strong> 路由器来处理输入：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://127.0.0.1:8081/process_get"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></div><div class="line">		First Name: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"first_name"</span>&gt;</span>  <span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">		Last Name: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"last_name"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line">app.use(express.static(<span class="string">'public'</span>));</div><div class="line"></div><div class="line">app.get(<span class="string">'/index.html'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   res.sendFile(__dirname + <span class="string">"/"</span> + <span class="string">"index.html"</span> );</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.get(<span class="string">'/process_get'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">   <span class="comment">// 输出 JSON 格式</span></div><div class="line">   response = &#123;</div><div class="line">       <span class="attr">first_name</span>:req.query.first_name,</div><div class="line">       <span class="attr">last_name</span>:req.query.last_name</div><div class="line">   &#125;;</div><div class="line">   <span class="built_in">console</span>.log(response);</div><div class="line">   res.end(<span class="built_in">JSON</span>.stringify(response));</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = app.listen(<span class="number">8081</span>)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>请求参数获取使用 <strong>req.query.paramName</strong> 获取。</p>
+</blockquote>
+<h2 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a>POST 请求</h2><p>使用 <strong>body-parser</strong> 可以解析出 POST 请求传递的参数，将上例中 <strong>form</strong> 表单请求方式改为 <strong>post</strong>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://127.0.0.1:8081/process_post"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line">// ------------------------------</div><div class="line">var bodyParser = require(&apos;body-parser&apos;);</div><div class="line">// 创建 application/x-www-form-urlencoded 编码解析</div><div class="line">var urlencodedParser = bodyParser.urlencoded(&#123; extended: false &#125;)</div><div class="line">// ------------------------------</div><div class="line"></div><div class="line">app.use(express.static(&apos;public&apos;));</div><div class="line"></div><div class="line">app.get(&apos;/index.htm&apos;, function (req, res) &#123;</div><div class="line">   res.sendFile( __dirname + &quot;/&quot; + &quot;index.htm&quot; );</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.post(&apos;/process_post&apos;, urlencodedParser, function (req, res) &#123;</div><div class="line">   // 输出 JSON 格式</div><div class="line">   response = &#123;</div><div class="line">       first_name:req.body.first_name,</div><div class="line">       last_name:req.body.last_name</div><div class="line">   &#125;;</div><div class="line">   console.log(response);</div><div class="line">   res.end(JSON.stringify(response));</div><div class="line">&#125;)</div><div class="line"></div><div class="line">var server = app.listen(8081);</div></pre></td></tr></table></figure>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><p>使用 <strong>POST</strong> 方法，表单 <strong>enctype</strong> 属性设置为 <strong>multipart/form-data</strong>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/file_upload"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"image"</span> <span class="attr">size</span>=<span class="string">"50"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"上传文件"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line">var fs = require(&quot;fs&quot;);</div><div class="line"></div><div class="line">var bodyParser = require(&apos;body-parser&apos;);</div><div class="line">var multer  = require(&apos;multer&apos;);</div><div class="line"></div><div class="line">app.use(express.static(&apos;public&apos;));</div><div class="line">app.use(bodyParser.urlencoded(&#123; extended: false &#125;));</div><div class="line">app.use(multer(&#123; dest: &apos;/tmp/&apos;&#125;).array(&apos;image&apos;));</div><div class="line"></div><div class="line">app.get(&apos;/index.htm&apos;, function (req, res) &#123;</div><div class="line">   res.sendFile( __dirname + &quot;/&quot; + &quot;index.htm&quot; );</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.post(&apos;/file_upload&apos;, function (req, res) &#123;</div><div class="line">   console.log(req.files[0]);  // 上传的文件信息</div><div class="line">   var des_file = __dirname + &quot;/&quot; + req.files[0].originalname;</div><div class="line">   fs.readFile(req.files[0].path, function (err, data) &#123;</div><div class="line">        fs.writeFile(des_file, data, function (err) &#123;</div><div class="line">         if (err)&#123;</div><div class="line">              console.log( err );</div><div class="line">         &#125; else &#123;</div><div class="line">               response = &#123;</div><div class="line">                   message:&apos;File uploaded successfully&apos;, </div><div class="line">                   filename:req.files[0].originalname</div><div class="line">              &#125;;</div><div class="line">          &#125;</div><div class="line">          console.log( response );</div><div class="line">          res.end( JSON.stringify( response ) );</div><div class="line">       &#125;);</div><div class="line">   &#125;);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">var server = app.listen(8081);</div></pre></td></tr></table></figure>
+<h2 id="Cookie-管理"><a href="#Cookie-管理" class="headerlink" title="Cookie 管理"></a>Cookie 管理</h2><p>使用 <strong>cookie-parser</strong> 我们可以处理请求传递的 <strong>cookie</strong> 信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</div><div class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line">app.use(cookieParser());</div><div class="line"></div><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"Cookies: "</span>, req.cookies)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(<span class="number">8081</span>);</div></pre></td></tr></table></figure>
+<h2 id="url-参数"><a href="#url-参数" class="headerlink" title="url 参数"></a>url 参数</h2><blockquote>
+<p><strong>params</strong> 只能获取 <strong>express</strong> 路由传递的参数，</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// name占位符</span></div><div class="line">app.get(<span class="string">'/api/:name/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, resp</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> name = req.params.name; <span class="comment">// 获取name参数</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>除了硬编码占位符之外，还可以使用正则路由:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">app.get(<span class="string">'/file/*'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, resp</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> param = req.params[<span class="number">0</span>];</div><div class="line">  <span class="comment">// localhost:3000/file/javascripts/jquery.js -&gt; javascripts/jquery.js</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果没在路由器设置参数， 则 <strong>req.params</strong> 获得的值为空对象{}</p>
+</blockquote>
+<h3 id="query"><a href="#query" class="headerlink" title="query"></a>query</h3><p>直接获取地址栏传递的参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = req.query.name;</div></pre></td></tr></table></figure>
+<h3 id="body"><a href="#body" class="headerlink" title="body"></a>body</h3><p><strong>body</strong> 属性主要用于 <strong>post</strong> 请求时传递参数使用；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'express'</span>)();</div><div class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</div><div class="line"><span class="keyword">var</span> multer = <span class="built_in">require</span>(<span class="string">'multer'</span>); </div><div class="line"></div><div class="line">app.use(bodyParser.json());</div><div class="line"><span class="comment">// for parsing application/json</span></div><div class="line"></div><div class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</div><div class="line"><span class="comment">// for parsing application/x-www-form-urlencoded</span></div><div class="line"></div><div class="line">app.use(multer());</div><div class="line"><span class="comment">// for parsing multipart/form-data</span></div><div class="line"></div><div class="line">app.post(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(req.body);</div><div class="line">  res.json(req.body);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="router"><a href="#router" class="headerlink" title="router"></a>router</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line"><span class="keyword">var</span> router = express.Router();</div><div class="line">app.use(router);</div><div class="line"></div><div class="line">router.route(<span class="string">'/add'</span>).get(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> userObj = &#123;&#125;;</div><div class="line">  userObj = &#123;</div><div class="line">    <span class="attr">name</span>: req.body.name,</div><div class="line">    <span class="attr">age</span>: req.body.age</div><div class="line">  &#125;;</div><div class="line">  <span class="built_in">console</span>.log(userObj);  <span class="comment">// &#123;name:'a284628487',age:'25'&#125;</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-- bin</div><div class="line">  -- www</div><div class="line">-- node_modules</div><div class="line">-- public</div><div class="line">  -- images</div><div class="line">  -- javascripts</div><div class="line">  -- stylesheets</div><div class="line">-- routes</div><div class="line">  -- index.js</div><div class="line">-- views</div><div class="line">  -- index.ejs</div><div class="line">-- app.js</div><div class="line">-- package.json</div></pre></td></tr></table></figure>
+<h3 id="bin-www"><a href="#bin-www" class="headerlink" title="bin/www"></a>bin/www</h3><p><strong>bin</strong> 目录下的 <strong>www</strong> 文件即是创建 <strong>http</strong> 服务器的文件，该文件主要内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> app = <span class="built_in">require</span>(<span class="string">'../app'</span>); <span class="comment">// 加载外部的app.js文件</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(app); <span class="comment">// 创建server</span></div><div class="line">server.listen(port); <span class="comment">// 启动监听</span></div><div class="line">server.on(<span class="string">'error'</span>, onError); <span class="comment">// 指定error处理函数</span></div><div class="line">server.on(<span class="string">'listening'</span>, onListening); <span class="comment">// 启动成功回调</span></div></pre></td></tr></table></figure>
+<h3 id="public"><a href="#public" class="headerlink" title="public"></a>public</h3><p>存放静态资源的文件夹,通常包括 <strong>images</strong>, <strong>javascripts</strong>, <strong>stylesheets</strong>;</p>
+<h3 id="routes"><a href="#routes" class="headerlink" title="routes"></a>routes</h3><p>路由模块,每一个 <strong>js</strong> 通常就是一个模块,比如 <strong>user.js</strong> 表示 <strong>user</strong> 模块 <strong>order.js</strong> 表示 <strong>order</strong> 模块;</p>
+<h3 id="views"><a href="#views" class="headerlink" title="views"></a>views</h3><p>页面模板引擎,可使用不同的模块,比如 <strong>ejs</strong>, <strong>jade</strong>;</p>
+<h3 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h3><p>程序初始化配置文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> favicon = <span class="built_in">require</span>(<span class="string">'serve-favicon'</span>);</div><div class="line"><span class="keyword">var</span> logger = <span class="built_in">require</span>(<span class="string">'morgan'</span>);</div><div class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">'cookie-parser'</span>);</div><div class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</div><div class="line"><span class="comment">// 上面的都是通常一个express项目需要用到的模块</span></div><div class="line"><span class="keyword">var</span> routes = <span class="built_in">require</span>(<span class="string">'./routes/index'</span>); <span class="comment">// 加载routes/index模块</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> app = express(); <span class="comment">// 创建一个express app</span></div><div class="line"></div><div class="line"><span class="comment">// 指定view引擎文件目录</span></div><div class="line">app.set(<span class="string">'views'</span>, path.join(__dirname, <span class="string">'views'</span>));</div><div class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'ejs'</span>); <span class="comment">// 指定view渲染引擎为ejs</span></div><div class="line"></div><div class="line">app.use(logger(<span class="string">'dev'</span>));</div><div class="line">app.use(bodyParser.json());</div><div class="line">app.use(bodyParser.urlencoded(&#123;<span class="attr">extended</span>: <span class="literal">false</span>&#125;));</div><div class="line">app.use(cookieParser()); <span class="comment">// 指定cookieParser</span></div><div class="line">app.use(express.static(path.join(__dirname, <span class="string">'public'</span>))); <span class="comment">// 指定静态文件资源目录</span></div><div class="line"></div><div class="line">app.use(<span class="string">'/'</span>, routes); <span class="comment">// 将 routes 绑定到路径 '/' 上</span></div><div class="line">app.use(<span class="string">'/test'</span>, routes_test);</div><div class="line"></div><div class="line"><span class="comment">// 404错误处理函数,如果用户访问的路径没在routes和routes_test的定义当中,则会回调到该函数</span></div><div class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> err = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Not Found'</span>);</div><div class="line">    err.status = <span class="number">404</span>;</div><div class="line">    next(err); <span class="comment">// 调用next将请求将由下一个函数处理</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// development error handler will print stacktrace</span></div><div class="line"><span class="keyword">if</span> (app.get(<span class="string">'env'</span>) === <span class="string">'development'</span>) &#123;</div><div class="line">    app.use(<span class="function"><span class="keyword">function</span> (<span class="params">err, req, res, next</span>) </span>&#123;</div><div class="line">        res.status(err.status || <span class="number">500</span>);</div><div class="line">        res.render(<span class="string">'error'</span>, &#123;</div><div class="line">            <span class="attr">message</span>: err.message,</div><div class="line">            <span class="attr">error</span>: err</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// production error handler no stacktraces leaked to user</span></div><div class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">err, req, res, next</span>) </span>&#123;</div><div class="line">    res.status(err.status || <span class="number">500</span>);</div><div class="line">    res.render(<span class="string">'error'</span>, &#123;</div><div class="line">        <span class="attr">message</span>: err.message,</div><div class="line">        <span class="attr">error</span>: &#123;&#125;</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = app;</div></pre></td></tr></table></figure>
+<h3 id="app-locals"><a href="#app-locals" class="headerlink" title="app.locals"></a>app.locals</h3><p><strong>locals</strong> 是 <strong>app</strong> 的一个成员变量,可以用于存放一些公共的变量或者是配置;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">app.locals.version = <span class="number">1.0</span>f;</div><div class="line"></div><div class="line">&#123; <span class="attr">settings</span>:</div><div class="line">   &#123; <span class="string">'x-powered-by'</span>: <span class="literal">true</span>,</div><div class="line">     <span class="attr">etag</span>: <span class="string">'weak'</span>,</div><div class="line">     <span class="string">'etag fn'</span>: [<span class="built_in">Function</span>: wetag],</div><div class="line">     <span class="attr">env</span>: <span class="string">'development'</span>,</div><div class="line">     <span class="string">'query parser'</span>: <span class="string">'extended'</span>,</div><div class="line">     <span class="string">'query parser fn'</span>: [<span class="built_in">Function</span>: parseExtendedQueryString],</div><div class="line">     <span class="string">'subdomain offset'</span>: <span class="number">2</span>,</div><div class="line">     <span class="string">'trust proxy'</span>: <span class="literal">false</span>,</div><div class="line">     <span class="string">'trust proxy fn'</span>: [<span class="built_in">Function</span>: trustNone],</div><div class="line">     <span class="attr">view</span>: [<span class="built_in">Function</span>: View],</div><div class="line">     <span class="attr">views</span>: <span class="string">'/Users/ccfyyn/WebstormProjects/ExpressEjs/views'</span>,</div><div class="line">     <span class="string">'jsonp callback name'</span>: <span class="string">'callback'</span>,</div><div class="line">     <span class="string">'view engine'</span>: <span class="string">'ejs'</span></div><div class="line">   &#125;,</div><div class="line">  <span class="attr">version</span>: <span class="number">1.0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>locals</strong> 变量可以直接在 <strong>views</strong> 模板中使用; 比如下边是在 <strong>ejs</strong> 模板中使用:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;% <span class="keyword">if</span>(version) &#123; %&gt;</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">version</span> %&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+<h3 id="app-use"><a href="#app-use" class="headerlink" title="app.use"></a>app.use</h3><p><strong>app.use</strong> 将一个路径指定到指定的处理函数或 <strong>router</strong> 路由; 如果未指定路径则表示所有请求都将先通过该 <strong>use</strong> 传递的回调函数或者是 router;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 所有请求都将先通过该回调函数, 然后next将请求交给下一个处理函数;</span></div><div class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req, resp, next</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (req.query.name) &#123;</div><div class="line">        app.locals.cname = req.query.name;</div><div class="line">    &#125;</div><div class="line">    next();</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(<span class="string">'/'</span>, routes);</div><div class="line">app.use(<span class="string">'/users'</span>, users);</div><div class="line">app.use(<span class="string">'/hw'</span>, hw);</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>app.use</strong> 根据绑定的顺序从前往后执行,如果前面已经有函数处理并响应了该请求,则后面的函数不再执行;</p>
+</blockquote>
+<p><strong>app.all</strong> 则是将与指定正则表达式匹配的所有路径的处理都绑定到对应的处理函数中;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkCookie</span>(<span class="params">req, resp</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (req.cookies[<span class="string">"uid"</span>] || req.query.uid) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        resp.send(<span class="string">"&#123;\"error\":-1, \"data\":\"请先登录\"&#125;"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">app.all(<span class="string">'/*'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, resp, next</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'filter---'</span>);</div><div class="line">    <span class="keyword">if</span> (checkCookie(req, resp)) next();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h2 id="router-1"><a href="#router-1" class="headerlink" title="router"></a>router</h2><p><strong>express</strong> 中的 <strong>Router</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</div><div class="line"><span class="keyword">var</span> router = express.Router();</div></pre></td></tr></table></figure>
+<h3 id="router-get"><a href="#router-get" class="headerlink" title="router.get()"></a>router.get()</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">router.get(<span class="string">'/list'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, resp</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> arr = req.query.name || [];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span>(arr) === <span class="string">'string'</span>) &#123;</div><div class="line">        arr = [arr];</div><div class="line">    &#125;</div><div class="line">    resp.render(<span class="string">'ejs_list'</span>, &#123;</div><div class="line">        <span class="attr">names</span>: arr,</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="router-route"><a href="#router-route" class="headerlink" title="router.route()"></a>router.route()</h3><p>给一个路径指定多个不同的方法:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">router.route(<span class="string">"/"</span>)</div><div class="line">    .post(<span class="function"><span class="keyword">function</span> (<span class="params">req, resp</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> name = req.body.name || <span class="string">"admin"</span>;</div><div class="line">        <span class="keyword">var</span> age = req.body.age || <span class="string">"25"</span>;</div><div class="line">        resp.send(<span class="built_in">JSON</span>.stringify(&#123;</div><div class="line">            <span class="attr">method</span>: <span class="string">"post"</span>,</div><div class="line">            <span class="attr">name</span>: name,</div><div class="line">            <span class="attr">age</span>: age,</div><div class="line">        &#125;));</div><div class="line">    &#125;)</div><div class="line">    .delete(<span class="function"><span class="keyword">function</span> (<span class="params">req, resp</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> name = req.body.name || <span class="string">"admin"</span>;</div><div class="line">        <span class="keyword">var</span> age = req.body.age || <span class="string">"25"</span>;</div><div class="line">        resp.send(<span class="built_in">JSON</span>.stringify(&#123;</div><div class="line">            <span class="attr">method</span>: <span class="string">"delete"</span>,</div><div class="line">            <span class="attr">name</span>: name,</div><div class="line">            <span class="attr">age</span>: age,</div><div class="line">        &#125;));</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
+<h2 id="RESETful-api"><a href="#RESETful-api" class="headerlink" title="RESETful api"></a>RESETful api</h2><p>db.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mysql = <span class="built_in">require</span>(<span class="string">'mysql'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> sqlOptions = &#123;</div><div class="line">    <span class="attr">host</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">    <span class="attr">user</span>: <span class="string">'root'</span>,</div><div class="line">    <span class="attr">password</span>: <span class="string">'111111'</span>,</div><div class="line">    <span class="attr">database</span>: <span class="string">'mydb'</span>,</div><div class="line">    <span class="attr">port</span>: <span class="number">3306</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> pool = mysql.createPool(sqlOptions);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">query</span>(<span class="params">sql, callback</span>) </span>&#123;</div><div class="line">    pool.getConnection(<span class="function"><span class="keyword">function</span> (<span class="params">err, conn</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (err) &#123;</div><div class="line">            callback(err, <span class="literal">null</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            conn.query(sql, <span class="function"><span class="keyword">function</span> (<span class="params">err, result</span>) </span>&#123;</div><div class="line">                callback(err, result);</div><div class="line">                conn.release();</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports.query = query;</div></pre></td></tr></table></figure>
+<p>user.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> db = <span class="built_in">require</span>(<span class="string">'./db'</span>);</div><div class="line"><span class="keyword">var</span> router = express.Router();</div><div class="line"></div><div class="line"><span class="comment">// 重定向,将请求重定向到指定路径</span></div><div class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, resp, next</span>) </span>&#123;</div><div class="line">    resp.redirect(<span class="string">'/users/pageIndex/1/pageSize/20'</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">router.get(<span class="string">"/pageIndex/:pageIndex/pageSize/:pageSize"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, resp</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> pageIndex = req.params[<span class="string">"pageIndex"</span>];</div><div class="line">    <span class="keyword">var</span> pageSize = req.params[<span class="string">"pageSize"</span>];</div><div class="line">    db.query(<span class="string">'select * from User limit '</span> + pageSize + <span class="string">" offset "</span> + (pageIndex - <span class="number">1</span>) * pageSize, <span class="function"><span class="keyword">function</span> (<span class="params">err, result</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (err) &#123;</div><div class="line">            resp.end(<span class="built_in">JSON</span>.stringify(err));</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            resp.render(<span class="string">'ejs_userlist'</span>, &#123;</div><div class="line">                <span class="attr">users</span>: result,</div><div class="line">                <span class="attr">pageIndex</span>: pageIndex,</div><div class="line">                <span class="attr">pageSize</span>: pageSize,</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">router.get(<span class="string">"/edit/:userId"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, resp</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> editUserId = req.params[<span class="string">"userId"</span>];</div><div class="line">    resp.end(editUserId);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">router.get(<span class="string">"/del/:userId"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, resp</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> delUserId = req.params[<span class="string">"userId"</span>];</div><div class="line">    resp.end(delUserId);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = router;</div></pre></td></tr></table></figure>
+<p><a href="http://www.expressjs.com.cn/4x/api.html" target="_blank" rel="external">更多</a></p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/08/NodeJS-Express-Router/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          NodeJS Express Router 中间件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/08/NodeJS-RESTful-Api/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS-RESTful-Api</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
