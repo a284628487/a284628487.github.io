@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android ImageView 源码解读 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android ImageView 源码解读，通过分析ImageView设置图片的流程，查看ImageView是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。">
+<meta name="keywords" content="Android,Android源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ImageView 源码解读">
+<meta property="og:url" content="http://yoursite.com/2017/08/07/Android-ImageView/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Android ImageView 源码解读，通过分析ImageView设置图片的流程，查看ImageView是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。">
+<meta property="og:updated_time" content="2017-11-18T13:57:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android ImageView 源码解读">
+<meta name="twitter:description" content="Android ImageView 源码解读，通过分析ImageView设置图片的流程，查看ImageView是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 12.5px;">Android</a> <a href="/tags/Android源码/" style="font-size: 10px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11.25px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12.5px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 16.25px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.25px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 11.25px;">Promise</a> <a href="/tags/React/" style="font-size: 18.75px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.25px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.5px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.5px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.75px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-ImageView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/07/Android-ImageView/" class="article-date">
+  	<time datetime="2017-08-07T08:24:39.000Z" itemprop="datePublished">2017-08-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android ImageView 源码解读
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Android</strong> <strong>ImageView</strong> 源码解读，通过分析<strong>ImageView</strong>设置图片的流程，查看<strong>ImageView</strong>是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。</p>
+<a id="more"></a>
+<h2 id="setImageResource"><a href="#setImageResource" class="headerlink" title="setImageResource"></a>setImageResource</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * This does Bitmap reading and decoding on the UI</div><div class="line"> * thread, which can cause a latency hiccup.  If that's a concern,</div><div class="line"> * consider using &#123;<span class="doctag">@link</span> #setImageDrawable(android.graphics.drawable.Drawable)&#125; or</div><div class="line"> * &#123;<span class="doctag">@link</span> #setImageBitmap(android.graphics.Bitmap)&#125; and</div><div class="line"> * &#123;<span class="doctag">@link</span> android.graphics.BitmapFactory&#125; instead.&lt;/p&gt;</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImageResource</span><span class="params">(@DrawableRes <span class="keyword">int</span> resId)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> oldWidth = mDrawableWidth;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> oldHeight = mDrawableHeight;</div><div class="line"></div><div class="line">    updateDrawable(<span class="keyword">null</span>); <span class="comment">// 清空原来的 Drawable</span></div><div class="line">    mResource = resId; <span class="comment">// 保存 resourceId</span></div><div class="line">    mUri = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    resolveUri(); <span class="comment">// 重新加载 Drawable</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (oldWidth != mDrawableWidth || oldHeight != mDrawableHeight) &#123;</div><div class="line">        requestLayout();</div><div class="line">    &#125;</div><div class="line">    invalidate();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>google</strong>的注释已经说了，通过设置 <strong>resId</strong>，图片的解码过程是在UI线程进行的，所以，如果图片比较大的话，考虑到性能的问题，可以使用<strong>setImageDrawable</strong>或者<strong>setImageBitmap</strong>代替。</p>
+</blockquote>
+<h2 id="resolveUri"><a href="#resolveUri" class="headerlink" title="resolveUri"></a>resolveUri</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resolveUri</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="comment">// ...</span></div><div class="line">    Drawable d = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (mResource != <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            d = mContext.getDrawable(mResource); <span class="comment">// 使用 Context 加载 Drawable</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            Log.w(LOG_TAG, <span class="string">"Unable to find resource: "</span> + mResource, e);</div><div class="line">            mUri = <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mUri != <span class="keyword">null</span>) &#123;</div><div class="line">        d = getDrawableFromUri(mUri);</div><div class="line">        <span class="keyword">if</span> (d == <span class="keyword">null</span>) &#123;</div><div class="line">            Log.w(LOG_TAG, <span class="string">"resolveUri failed on bad bitmap uri: "</span> + mUri);</div><div class="line">            mUri = <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    updateDrawable(d); <span class="comment">// 更新 Drawable</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="getDrawable"><a href="#getDrawable" class="headerlink" title="getDrawable"></a>getDrawable</h2><p>mContext.getDrawable 通过 Resources.getDrawable，最终会调用到ResourcesImpl.loadDrawable，真正的去加载图片，在加载图片的时候，会先判断是否是系统资源id，以及颜色值图片，如果不是，则加载图片文件，先从缓存中查看有没有该资源id对应的图片，如果没有，才真正的去加载图片文件，加载完成后系统会把该图片文件缓存起来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// Resources.java</span></div><div class="line"><span class="function"><span class="keyword">public</span> Drawable <span class="title">getDrawable</span><span class="params">(@DrawableRes <span class="keyword">int</span> id, @Nullable Theme theme)</span></span></div><div class="line">        <span class="keyword">throws</span> NotFoundException &#123;</div><div class="line">    <span class="keyword">final</span> TypedValue value = obtainTempTypedValue();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">final</span> ResourcesImpl impl = mResourcesImpl;</div><div class="line">        impl.getValue(id, value, <span class="keyword">true</span>);</div><div class="line">        <span class="keyword">return</span> impl.loadDrawable(<span class="keyword">this</span>, value, id, theme, <span class="keyword">true</span>);</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        releaseTempTypedValue(value);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// ResourcesImpl.java</span></div><div class="line"><span class="meta">@Nullable</span></div><div class="line"><span class="function">Drawable <span class="title">loadDrawable</span><span class="params">(Resources wrapper, TypedValue value, <span class="keyword">int</span> id, Resources.Theme theme,</span></span></div><div class="line">        <span class="keyword">boolean</span> useCache) <span class="keyword">throws</span> NotFoundException &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">if</span> (TRACE_FOR_PRELOAD) &#123;</div><div class="line">            <span class="comment">// Log only framework resources # 系统资源文件</span></div><div class="line">            <span class="keyword">if</span> ((id &gt;&gt;&gt; <span class="number">24</span>) == <span class="number">0x1</span>) &#123;</div><div class="line">                <span class="keyword">final</span> String name = getResourceName(id);</div><div class="line">                <span class="keyword">if</span> (name != <span class="keyword">null</span>) &#123;</div><div class="line">                    Log.d(<span class="string">"PreloadDrawable"</span>, name);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isColorDrawable;</div><div class="line">        <span class="keyword">final</span> DrawableCache caches; <span class="comment">// 缓存集合</span></div><div class="line">        <span class="keyword">final</span> <span class="keyword">long</span> key;</div><div class="line">        <span class="keyword">if</span> (value.type &gt;= TypedValue.TYPE_FIRST_COLOR_INT</div><div class="line">                &amp;&amp; value.type &lt;= TypedValue.TYPE_LAST_COLOR_INT) &#123; <span class="comment">// 使用 颜色值的Drawable</span></div><div class="line">            isColorDrawable = <span class="keyword">true</span>;</div><div class="line">            caches = mColorDrawableCache;</div><div class="line">            key = value.data;</div><div class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 图片Drawable</span></div><div class="line">            isColorDrawable = <span class="keyword">false</span>;</div><div class="line">            caches = mDrawableCache;</div><div class="line">            key = (((<span class="keyword">long</span>) value.assetCookie) &lt;&lt; <span class="number">32</span>) | value.data;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 如果有缓存的话，从缓存中拿出 Drawable直接返回</span></div><div class="line">        <span class="keyword">if</span> (!mPreloading &amp;&amp; useCache) &#123; </div><div class="line">            <span class="keyword">final</span> Drawable cachedDrawable = caches.getInstance(key, wrapper, theme);</div><div class="line">            <span class="keyword">if</span> (cachedDrawable != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> cachedDrawable;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Next, check preloaded drawables. Preloaded drawables may contain</span></div><div class="line">        <span class="comment">// unresolved theme attributes.</span></div><div class="line">        <span class="keyword">final</span> Drawable.ConstantState cs;</div><div class="line">        <span class="keyword">if</span> (isColorDrawable) &#123;</div><div class="line">            cs = sPreloadedColorDrawables.get(key);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            cs = sPreloadedDrawables[mConfiguration.getLayoutDirection()].get(key);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Drawable dr;</div><div class="line">        <span class="keyword">if</span> (cs != <span class="keyword">null</span>) &#123;</div><div class="line">            dr = cs.newDrawable(wrapper);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isColorDrawable) &#123;</div><div class="line">            dr = <span class="keyword">new</span> ColorDrawable(value.data);</div><div class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 根据资源id获取图片</span></div><div class="line">            dr = loadDrawableForCookie(wrapper, value, id, <span class="keyword">null</span>); </div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// applyTheme</span></div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> canApplyTheme = dr != <span class="keyword">null</span> &amp;&amp; dr.canApplyTheme();</div><div class="line">        <span class="keyword">if</span> (canApplyTheme &amp;&amp; theme != <span class="keyword">null</span>) &#123;</div><div class="line">            dr = dr.mutate();</div><div class="line">            dr.applyTheme(theme);</div><div class="line">            dr.clearMutated();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (dr != <span class="keyword">null</span> &amp;&amp; useCache) &#123;</div><div class="line">            dr.setChangingConfigurations(value.changingConfigurations);</div><div class="line">            <span class="comment">// 缓存加载出来的图片</span></div><div class="line">            cacheDrawable(value, isColorDrawable, caches, theme, canApplyTheme, key, dr); </div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> dr;</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="loadDrawableForCookie"><a href="#loadDrawableForCookie" class="headerlink" title="loadDrawableForCookie"></a>loadDrawableForCookie</h2><p>加载图片文件，该流程会根据是否是xml文件，进行不同的加载操作，例如我们使用xml定义的drawable，加载图片文件的时候，判断是否是 .9 文件，分别返回 <strong>NinePatchDrawable</strong> 和 <strong>BitmapDrawable</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Drawable <span class="title">loadDrawableForCookie</span><span class="params">(Resources wrapper, TypedValue value, <span class="keyword">int</span> id,</span></span></div><div class="line">        Resources.Theme theme) &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    <span class="keyword">final</span> Drawable dr;</div><div class="line"></div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_RESOURCES, file);</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">if</span> (file.endsWith(<span class="string">".xml"</span>)) &#123;</div><div class="line">            <span class="keyword">final</span> XmlResourceParser rp = loadXmlResourceParser(</div><div class="line">                    file, id, value.assetCookie, <span class="string">"drawable"</span>);</div><div class="line">            dr = Drawable.createFromXml(wrapper, rp, theme);</div><div class="line">            rp.close();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">final</span> InputStream is = mAssets.openNonAsset(</div><div class="line">                    value.assetCookie, file, AssetManager.ACCESS_STREAMING);</div><div class="line">            dr = Drawable.createFromResourceStream(wrapper, value, is, file, <span class="keyword">null</span>);</div><div class="line">            is.close();</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    &#125;</div><div class="line">    Trace.traceEnd(Trace.TRACE_TAG_RESOURCES);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> dr;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Drawable <span class="title">createFromResourceStream</span><span class="params">(Resources res, TypedValue value,</span></span></div><div class="line">        InputStream is, String srcName, BitmapFactory.Options opts) &#123;</div><div class="line">    <span class="comment">// ..</span></div><div class="line">    Rect pad = <span class="keyword">new</span> Rect();</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (opts == <span class="keyword">null</span>) opts = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">    opts.inScreenDensity = Drawable.resolveDensity(res, <span class="number">0</span>);</div><div class="line">    Bitmap  bm = BitmapFactory.decodeResourceStream(res, value, is, pad, opts);</div><div class="line">    <span class="keyword">if</span> (bm != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">byte</span>[] np = bm.getNinePatchChunk();</div><div class="line">        <span class="keyword">if</span> (np == <span class="keyword">null</span> || !NinePatch.isNinePatchChunk(np)) &#123;</div><div class="line">            np = <span class="keyword">null</span>;</div><div class="line">            pad = <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Rect opticalInsets = <span class="keyword">new</span> Rect();</div><div class="line">        bm.getOpticalInsets(opticalInsets);</div><div class="line">        <span class="keyword">return</span> drawableFromBitmap(res, bm, np, pad, opticalInsets, srcName);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Drawable <span class="title">drawableFromBitmap</span><span class="params">(Resources res, Bitmap bm, <span class="keyword">byte</span>[] np,</span></span></div><div class="line">        Rect pad, Rect layoutBounds, String srcName) &#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (np != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> NinePatchDrawable(res, bm, np, pad, layoutBounds, srcName);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BitmapDrawable(res, bm);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="setImageBitmap"><a href="#setImageBitmap" class="headerlink" title="setImageBitmap"></a>setImageBitmap</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@android</span>.view.<span class="function">RemotableViewMethod</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImageBitmap</span><span class="params">(Bitmap bm)</span> &#123;</div><div class="line">    mDrawable = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span> (mRecycleableBitmapDrawable == <span class="keyword">null</span>) &#123;</div><div class="line">        mRecycleableBitmapDrawable = <span class="keyword">new</span> BitmapDrawable(mContext.getResources(), bm);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        mRecycleableBitmapDrawable.setBitmap(bm);</div><div class="line">    &#125;</div><div class="line">    setImageDrawable(mRecycleableBitmapDrawable);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="updateDrawable"><a href="#updateDrawable" class="headerlink" title="updateDrawable"></a>updateDrawable</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateDrawable</span><span class="params">(Drawable d)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (d != mRecycleableBitmapDrawable &amp;&amp; mRecycleableBitmapDrawable != <span class="keyword">null</span>) &#123;</div><div class="line">        mRecycleableBitmapDrawable.setBitmap(<span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">boolean</span> sameDrawable = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (mDrawable != <span class="keyword">null</span>) &#123;</div><div class="line">        sameDrawable = mDrawable == d;</div><div class="line">        mDrawable.setCallback(<span class="keyword">null</span>);</div><div class="line">        unscheduleDrawable(mDrawable);</div><div class="line">        <span class="keyword">if</span> (!sCompatDrawableVisibilityDispatch &amp;&amp; !sameDrawable &amp;&amp; isAttachedToWindow()) &#123;</div><div class="line">            mDrawable.setVisible(<span class="keyword">false</span>, <span class="keyword">false</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    mDrawable = d;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (d != <span class="keyword">null</span>) &#123;</div><div class="line">        d.setCallback(<span class="keyword">this</span>); <span class="comment">// 将 drawable 的 callback 对象设置为 ImageView本身</span></div><div class="line">        d.setLayoutDirection(getLayoutDirection());</div><div class="line">        <span class="keyword">if</span> (d.isStateful()) &#123;</div><div class="line">            d.setState(getDrawableState());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!sameDrawable || sCompatDrawableVisibilityDispatch) &#123;</div><div class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> visible = sCompatDrawableVisibilityDispatch</div><div class="line">                    ? getVisibility() == VISIBLE</div><div class="line">                    : isAttachedToWindow() &amp;&amp; getWindowVisibility() == VISIBLE &amp;&amp; isShown();</div><div class="line">            d.setVisible(visible, <span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">        d.setLevel(mLevel);</div><div class="line">        mDrawableWidth = d.getIntrinsicWidth();</div><div class="line">        mDrawableHeight = d.getIntrinsicHeight();</div><div class="line">        applyImageTint();</div><div class="line">        applyColorMod();</div><div class="line"></div><div class="line">        configureBounds();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        mDrawableWidth = mDrawableHeight = -<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的是 <strong>d.setCallback</strong> ，该方法将Drawable 的 callback 设置为 ImageView本身，所以，使用 Drawable的时候需要注意，不能在 Activity或Fragment定义静态的drawable，一旦一个静态的drawable设置给了一个ImageView，则drawalbe一直持有ImageView对象，ImageView对象持有Activity或Fragment所属的Activity对象，就造成该Activity不能正确被回收。</p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/06/web_q&a/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Html 面试问题与解答?</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
