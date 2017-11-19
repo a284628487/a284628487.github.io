@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android Settings 应用加载流程(一) | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android Settings 应用加载流程(一)">
+<meta name="keywords" content="Android,Android源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Settings 应用加载流程(一)">
+<meta property="og:url" content="http://yoursite.com/2017/07/05/Android-Settings/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Android Settings 应用加载流程(一)">
+<meta property="og:updated_time" content="2017-11-19T06:56:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Settings 应用加载流程(一)">
+<meta name="twitter:description" content="Android Settings 应用加载流程(一)">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11.25px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11.25px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 15px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.25px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12.5px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 16.25px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.25px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 11.25px;">Promise</a> <a href="/tags/React/" style="font-size: 18.75px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.25px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.5px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.5px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.75px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-Settings" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/07/05/Android-Settings/" class="article-date">
+  	<time datetime="2017-07-05T06:29:12.000Z" itemprop="datePublished">2017-07-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Settings 应用加载流程(一)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Settings 应用加载流程(一)</p>
+<a id="more"></a>
+<h2 id="AndroidMainfest-xml-文件中找到入口文件，分析启动流程。"><a href="#AndroidMainfest-xml-文件中找到入口文件，分析启动流程。" class="headerlink" title="AndroidMainfest.xml 文件中找到入口文件，分析启动流程。"></a>AndroidMainfest.xml 文件中找到入口文件，分析启动流程。</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">application</span></span></div><div class="line">    <span class="attr">android:allowBackup</span>=<span class="string">"false"</span></div><div class="line">    <span class="attr">android:hardwareAccelerated</span>=<span class="string">"true"</span></div><div class="line">    <span class="attr">android:requiredForAllUsers</span>=<span class="string">"true"</span></div><div class="line">    <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></div><div class="line">    <span class="attr">android:taskAffinity</span>=<span class="string">""</span></div><div class="line">    <span class="attr">android:theme</span>=<span class="string">"@style/Theme.Settings"</span></div><div class="line">    <span class="attr">android:usesCleartextTraffic</span>=<span class="string">"true"</span> &gt;</div><div class="line">    <span class="comment">&lt;!-- Settings --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">        <span class="attr">android:name</span>=<span class="string">"Settings"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/settings_label_launcher"</span></div><div class="line">        <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></div><div class="line">        <span class="attr">android:taskAffinity</span>=<span class="string">"com.android.settings"</span> &gt;</div><div class="line">        <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">"1"</span> &gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.settings.SETTINGS"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">            <span class="attr">android:name</span>=<span class="string">"com.android.settings.PRIMARY_PROFILE_CONTROLLED"</span></div><div class="line">            <span class="attr">android:value</span>=<span class="string">"true"</span> /&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Alias for launcher activity only, as this belongs to each profile. --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">activity-alias</span></span></div><div class="line">        <span class="attr">android:name</span>=<span class="string">"Settings"</span></div><div class="line">        <span class="attr">android:label</span>=<span class="string">"@string/settings_label_launcher"</span></div><div class="line">        <span class="attr">android:launchMode</span>=<span class="string">"singleTask"</span></div><div class="line">        <span class="attr">android:targetActivity</span>=<span class="string">"Settings"</span></div><div class="line">        <span class="attr">android:taskAffinity</span>=<span class="string">"com.android.settings"</span> &gt;</div><div class="line">        <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">activity-alias</span>&gt;</span></div><div class="line">// ...</div><div class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Settings应用的入口为 Settings.java 要分析 Settings 应用，就需要从 Settings.java 入手。</p>
+<h2 id="Settings-java"><a href="#Settings-java" class="headerlink" title="Settings.java"></a>Settings.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Settings</span> <span class="keyword">extends</span> <span class="title">SettingsActivity</span> </span>&#123;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    * Settings subclasses for launching independently.</div><div class="line">    */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BluetoothSettingsActivity</span> <span class="keyword">extends</span> <span class="title">SettingsActivity</span> </span>&#123; <span class="comment">/* empty */</span> &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">WirelessSettingsActivity</span> <span class="keyword">extends</span> <span class="title">SettingsActivity</span> </span>&#123; <span class="comment">/* empty */</span> &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SimSettingsActivity</span> <span class="keyword">extends</span> <span class="title">SettingsActivity</span> </span>&#123; <span class="comment">/* empty */</span> &#125;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Settings.java 中并没有具体的实现代码，而是定义了很多内部类，这些内部类和 Settings 一样都继承自 SettingsActivity。<br>Settings.java 中定义的内部类在 manifest.xml 文件中，也可以看到它的定义：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span></span></div><div class="line">    <span class="attr">android:name</span>=<span class="string">"Settings$BluetoothSettingsActivity"</span></div><div class="line">    <span class="attr">android:label</span>=<span class="string">"@string/bluetooth_settings_title"</span></div><div class="line">    <span class="attr">android:taskAffinity</span>=<span class="string">""</span> &gt;</div><div class="line">    <span class="tag">&lt;<span class="name">intent-filter</span> <span class="attr">android:priority</span>=<span class="string">"1"</span> &gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.settings.BLUETOOTH_SETTINGS"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.VOICE_LAUNCH"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"com.android.settings.SHORTCUT"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">        <span class="attr">android:name</span>=<span class="string">"com.android.settings.FRAGMENT_CLASS"</span></div><div class="line">        <span class="attr">android:value</span>=<span class="string">"com.android.settings.bluetooth.BluetoothSettings"</span> /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">meta-data</span></span></div><div class="line">        <span class="attr">android:name</span>=<span class="string">"com.android.settings.TOP_LEVEL_HEADER_ID"</span></div><div class="line">        <span class="attr">android:resource</span>=<span class="string">"@id/bluetooth_settings"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Settings.java 中内部类的定义甚至没有一行代码实现，其实它的实现逻辑就是根据在 manifest.xml 中配置在 activity 节点中的 meta-data 为 <strong>com.android.settings.FRAGMENT_CLASS</strong> 的值去加载对应的 fragment 。<br>SettingsActivity 只是一个模板类，具体的UI以及业务流程都是在 Fragment 去完成了；</p>
+<h2 id="SettingsActivity-java"><a href="#SettingsActivity-java" class="headerlink" title="SettingsActivity.java"></a>SettingsActivity.java</h2><h3 id="onCreate"><a href="#onCreate" class="headerlink" title="onCreate"></a>onCreate</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedState)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onCreate(savedState);</div><div class="line">    <span class="comment">// Should happen before any call to getIntent()</span></div><div class="line">    getMetaData();</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    <span class="keyword">final</span> Intent inteng = getIntent();</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="getMetaData"><a href="#getMetaData" class="headerlink" title="getMetaData"></a>getMetaData</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getMetaData</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        ActivityInfo ai = getPackageManager().getActivityInfo(getComponentName(),</div><div class="line">                PackageManager.GET_META_DATA);</div><div class="line">        <span class="keyword">if</span> (ai == <span class="keyword">null</span> || ai.metaData == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line">        mFragmentClass = ai.metaData.getString(META_DATA_KEY_FRAGMENT_CLASS);</div><div class="line">    &#125; <span class="keyword">catch</span> (NameNotFoundException nnfe) &#123;</div><div class="line">        <span class="comment">// No recovery</span></div><div class="line">        Log.d(LOG_TAG, <span class="string">"Cannot get Metadata for: "</span> + getComponentName().toString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在该方法中去获取配置在 manifest.xml 中的  <strong>META_DATA_KEY_FRAGMENT_CLASS</strong> (“com.android.settings.FRAGMENT_CLASS”) 。</p>
+<h3 id="getIntent"><a href="#getIntent" class="headerlink" title="getIntent"></a>getIntent</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Intent <span class="title">getIntent</span><span class="params">()</span> </span>&#123;</div><div class="line">    Intent superIntent = <span class="keyword">super</span>.getIntent();</div><div class="line">    String startingFragment = getStartingFragmentClass(superIntent);</div><div class="line">    <span class="comment">// This is called from super.onCreate, isMultiPane() is not yet reliable</span></div><div class="line">    <span class="keyword">if</span> (startingFragment != <span class="keyword">null</span>) &#123; <span class="comment">// Fragment 名称不为空</span></div><div class="line">        Intent modIntent = <span class="keyword">new</span> Intent(superIntent);</div><div class="line">        modIntent.putExtra(EXTRA_SHOW_FRAGMENT, startingFragment); <span class="comment">// 设置 Fragment 类名</span></div><div class="line">        Bundle args = superIntent.getExtras();</div><div class="line">        <span class="keyword">if</span> (args != <span class="keyword">null</span>) &#123;</div><div class="line">            args = <span class="keyword">new</span> Bundle(args);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            args = <span class="keyword">new</span> Bundle();</div><div class="line">        &#125;</div><div class="line">        args.putParcelable(<span class="string">"intent"</span>, superIntent);</div><div class="line">        modIntent.putExtra(EXTRA_SHOW_FRAGMENT_ARGUMENTS, args); <span class="comment">// 保存参数</span></div><div class="line">        <span class="keyword">return</span> modIntent;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> superIntent;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getStartingFragmentClass</span><span class="params">(Intent intent)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mFragmentClass != <span class="keyword">null</span>) <span class="keyword">return</span> mFragmentClass; </div><div class="line">    <span class="comment">// 如果 mFragmentClass 不为空，立即返回，也就是上面所说的在 manifest.xml 中配置了 META_DATA_KEY_FRAGMENT_CLASS 值的Activity</span></div><div class="line">    String intentClass = intent.getComponent().getClassName();</div><div class="line">    <span class="keyword">if</span> (intentClass.equals(getClass().getName())) <span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// Settings Activity</span></div><div class="line">    <span class="keyword">if</span> (<span class="string">"com.android.settings.ManageApplications"</span>.equals(intentClass)</div><div class="line">            || <span class="string">"com.android.settings.RunningServices"</span>.equals(intentClass)</div><div class="line">            || <span class="string">"com.android.settings.applications.StorageUse"</span>.equals(intentClass)) &#123;</div><div class="line">        <span class="comment">// Old names of manage apps.</span></div><div class="line">        intentClass = com.android.settings.applications.ManageApplications.class.getName();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> intentClass;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>getIntent() 默认的行为被重写了，通过 getStartingFragmentClass() 方法获取需要加载的 Fragment 名称，如果是 Settings 入口页面，则返回 null；<br>如果 getStartingFragmentClass 中获取到的 FragmentClass 不为空，则重新创建一个新的 Intent 对象返回，并且额外添加了 <strong>EXTRA_SHOW_FRAGMENT_ARGUMENTS</strong> 和 <strong>EXTRA_SHOW_FRAGMENT</strong> 参数；</p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/06/web_q&a/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Html 面试问题与解答?
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/19/JS-Object-Spread/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript ES7 对象展开运算</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
