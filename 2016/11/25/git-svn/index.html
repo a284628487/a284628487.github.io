@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Git/SVN 实用命令 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Git / SVN 实用命令">
+<meta name="keywords" content="Git&#x2F;SVN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git&#x2F;SVN 实用命令">
+<meta property="og:url" content="http://yoursite.com/2016/11/25/git-svn/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Git / SVN 实用命令">
+<meta property="og:updated_time" content="2017-11-25T12:50:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git&#x2F;SVN 实用命令">
+<meta name="twitter:description" content="Git / SVN 实用命令">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Android/" style="font-size: 15.56px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11.11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11.11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14.44px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12.22px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.11px;">OkHttp3</a> <a href="/tags/Promise/" style="font-size: 11.11px;">Promise</a> <a href="/tags/React/" style="font-size: 18.89px;">React</a> <a href="/tags/React-Redux/" style="font-size: 16.67px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 17.78px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.22px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.33px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-git-svn" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/25/git-svn/" class="article-date">
+  	<time datetime="2016-11-25T12:00:28.000Z" itemprop="datePublished">2016-11-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git/SVN 实用命令
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git-SVN/">Git/SVN</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Git</strong> / <strong>SVN</strong> 实用命令<br><a id="more"></a></p>
+<h2 id="git-fork-代码提交-更新"><a href="#git-fork-代码提交-更新" class="headerlink" title="git fork 代码提交/更新"></a>git fork 代码提交/更新</h2><ul>
+<li>主分支 <strong>EMAP/app.git</strong></li>
+<li>从分支 <strong>ccf/app.git</strong></li>
+</ul>
+<ol>
+<li><p>从主分支拉取代码<br><code>git pull EMAP/app master</code></p>
+</li>
+<li><p>提交到从分支本地仓库<br><code>git commit -m -a &quot;备注&quot;</code></p>
+</li>
+<li><p>更新到从分支远程仓库<br><code>git push</code></p>
+</li>
+</ol>
+<h2 id="git-远程信息"><a href="#git-远程信息" class="headerlink" title="git 远程信息"></a>git 远程信息</h2><ol>
+<li><p>添加新的 <strong>remote</strong> 信息<br><code>git remote add master EMAP/app2.git</code></p>
+</li>
+<li><p>获取远程分支信息<br><code>git fetch EMAP/app2.git</code></p>
+</li>
+<li><p>新建分支并切换到新的分支<br><code>git checkout -b new_branch</code></p>
+</li>
+<li><p>为 <strong>new_branch</strong> 添加远程地址<br><code>git remote add new_branch EMAP/app3.git</code></p>
+<blockquote>
+<p>必须要添加分支信息!</p>
+</blockquote>
+</li>
+<li><p>添加新分支(需要有提交信息)<br><code>git branch abc</code></p>
+</li>
+<li><p>合并 <strong>a_branch</strong> 到当前分支<br><code>git merge a_branch -m &quot;&quot;</code></p>
+</li>
+<li><p>删除分支<br><code>git branch -d b_branch</code></p>
+</li>
+</ol>
+<h2 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a>git tag</h2><p><strong>tag</strong>：标签，可以针对某一时间点的版本做标记，常用于版本发布。</p>
+<h3 id="列出标签"><a href="#列出标签" class="headerlink" title="列出标签"></a>列出标签</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git tag <span class="comment"># 在控制台打印出当前仓库的所有标签</span></div><div class="line">$ git tag <span class="_">-l</span> ‘v0.1.*’ <span class="comment"># 搜索符合模式的标签</span></div></pre></td></tr></table></figure>
+<h3 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h3><p><strong>git</strong> 标签分为两种类型：轻量标签和附注标签。轻量标签是指向提交对象的引用，附注标签则是仓库中的一个独立对象。建议使用附注标签。</p>
+<h4 id="创建轻量标签"><a href="#创建轻量标签" class="headerlink" title="创建轻量标签"></a>创建轻量标签</h4><p><code>$ git tag v0.1.2-light</code></p>
+<p>创建轻量标签不需要传递参数，直接指定标签名称即可。</p>
+<h4 id="创建附注标签"><a href="#创建附注标签" class="headerlink" title="创建附注标签"></a>创建附注标签</h4><p><code>$ git tag -a v0.1.2 -m “0.1.2版本”</code></p>
+<p>创建附注标签时，参数a即annotated的缩写，指定标签类型，后附标签名。参数m指定标签说明，说明信息会保存在标签对象中。</p>
+<h3 id="切换标签"><a href="#切换标签" class="headerlink" title="切换标签"></a>切换标签</h3><p>与切换分支命令相同，用 <code>git checkout [tagname]</code>，<br>此时会指向 <strong>tagname</strong> 标签对应的代码状态，但现在处于一个空的分支上。</p>
+<h3 id="查看标签信息"><a href="#查看标签信息" class="headerlink" title="查看标签信息"></a>查看标签信息</h3><p><code>$ git show v0.1.2</code></p>
+<h3 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h3><p><code>$ git tag -d v0.1.2 # 删除标签</code></p>
+<h3 id="补打标签"><a href="#补打标签" class="headerlink" title="补打标签"></a>补打标签</h3><p><code>$ git tag -a v0.1.1 546cafe7790f5055c8839f9f6ddce6e09bb62810</code></p>
+<p>打标签不必要在 <strong>head</strong> 之上，也可在之前的版本上打，这需要你知道某个提交对象的 <strong>commitId</strong></p>
+<h3 id="标签发布"><a href="#标签发布" class="headerlink" title="标签发布"></a>标签发布</h3><p><strong>git push</strong> 不会将标签对象提交到git服务器，我们需要进行显式的操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git push origin v0.1.2 <span class="comment"># 将v0.1.2标签提交到git服务器</span></div><div class="line">$ git push origin –tags <span class="comment"># 将本地所有标签一次性提交到git服务器</span></div></pre></td></tr></table></figure>
+<p><a href="https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE" target="_blank" rel="external">参考</a></p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/21/Android-Style-Theme/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android 主题和样式设置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/25/System-Win-Linux/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux/Windows 实用命令及工具</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span id="busuanzi_container_site_pv">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
