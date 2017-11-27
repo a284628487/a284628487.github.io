@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/11/25/git-svn/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="Git / SVN 实用命令">
-<meta property="og:updated_time" content="2017-11-25T12:50:36.000Z">
+<meta property="og:updated_time" content="2017-11-26T01:11:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git&#x2F;SVN 实用命令">
 <meta name="twitter:description" content="Git / SVN 实用命令">
@@ -238,6 +238,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>Git</strong> / <strong>SVN</strong> 实用命令<br><a id="more"></a></p>
+<h2 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h2><p><code>$ git log -p -2</code><br><strong>-p</strong> 选项展开显示每次提交的内容差异，用 <strong>-2</strong> 则仅显示最近的两次更新。</p>
+<p><code>git diff HEAD tt.txt</code><br>查看当前文件被修改过的内容(相比于上一次提交)</p>
+<p><code>$ git log --stat</code><br><strong>–stat</strong>，仅显示简要的增改行数统计。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git commit -m <span class="string">'initial commit'</span></div><div class="line">$ git add forgotten_file</div><div class="line">$ git commit --amend</div></pre></td></tr></table></figure>
+<p>上面的三条命令最终只是产生一个提交，第二个提交命令修正了第一个的提交内容。</p>
 <h2 id="git-fork-代码提交-更新"><a href="#git-fork-代码提交-更新" class="headerlink" title="git fork 代码提交/更新"></a>git fork 代码提交/更新</h2><ul>
 <li>主分支 <strong>EMAP/app.git</strong></li>
 <li>从分支 <strong>ccf/app.git</strong></li>
