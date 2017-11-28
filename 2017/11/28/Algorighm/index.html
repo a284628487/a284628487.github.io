@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="常用的几种查找、排序算法。">
 <meta property="og:image" content="http://yoursite.com/assets/imgSite/block_search.png">
-<meta property="og:updated_time" content="2017-11-28T14:23:49.000Z">
+<meta property="og:updated_time" content="2017-11-28T23:13:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用查找、排序算法 Java">
 <meta name="twitter:description" content="常用的几种查找、排序算法。">
@@ -240,15 +240,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>常用的几种查找、排序算法。<br><a id="more"></a></p>
-<h2 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h2><h3 id="1-顺序查找"><a href="#1-顺序查找" class="headerlink" title="1. 顺序查找"></a>1. 顺序查找</h3><p>顺序查找是最简单的查找算法，平均时间复杂度O(n)；</p>
-<h3 id="2-二分查找"><a href="#2-二分查找" class="headerlink" title="2. 二分查找"></a>2. 二分查找</h3><p>二分查找又称折半查找，它是一种效率较高的查找方法。</p>
-<p>二分查找要求:</p>
+<h2 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h2><h3 id="1-顺序查找"><a href="#1-顺序查找" class="headerlink" title="1. 顺序查找"></a>1. <strong>顺序查找</strong></h3><p>顺序查找是最简单的查找算法，平均时间复杂度O(n)；</p>
+<h3 id="2-二分查找"><a href="#2-二分查找" class="headerlink" title="2. 二分查找"></a>2. <strong>二分查找</strong></h3><p>二分查找又称折半查找，它是一种效率较高的查找方法。二分查找有两个要求:</p>
 <ul>
 <li>1.必须采用顺序存储结构</li>
 <li>2.必须按关键字大小有序排列。 </li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">	<span class="keyword">int</span> start = <span class="number">0</span>;</div><div class="line">	<span class="keyword">int</span> end = arr.length - <span class="number">1</span>;</div><div class="line">	<span class="keyword">while</span> (start &lt;= end) &#123;</div><div class="line">		<span class="keyword">int</span> middle = (start + end) / <span class="number">2</span>;</div><div class="line">		<span class="keyword">if</span> (k == arr[middle]) &#123;</div><div class="line">			<span class="keyword">return</span> middle;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (k &gt; arr[middle]) &#123;</div><div class="line">			start = middle + <span class="number">1</span>;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			end = middle - <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-分块查找"><a href="#3-分块查找" class="headerlink" title="3.分块查找"></a>3.分块查找</h3><p>有时候，可能会遇到这样的表：整个表中的元素未必有序，但若划分为若干块后，每一块中的所有元素均小于（或大于）其后面块中的所有元素。我们称这种为分块有序。<br>分块查找是折半查找和顺序查找的一种改进方法，分块查找由于只要求索引表是有序的，对块内节点没有排序要求，因此特别适合于节点动态变化的情况。</p>
+<p>二分查找时间复杂度为 O(logn)</p>
+<h3 id="3-分块查找"><a href="#3-分块查找" class="headerlink" title="3. 分块查找"></a>3. <strong>分块查找</strong></h3><p>有时候，可能会遇到这样的表：整个表中的元素未必有序，但若划分为若干块后，每一块中的所有元素均小于（或大于）其后面块中的所有元素。我们称这种为分块有序。<br>分块查找是折半查找和顺序查找的一种改进方法，分块查找由于只要求索引表是有序的，对块内节点没有排序要求，因此特别适合于节点动态变化的情况。</p>
 <p>建立一个索引表，索引表中为每一块都设置–索引项，每一个索引项都包含两个内容：</p>
 <ul>
 <li>该块的起始地址</li>
@@ -262,7 +262,100 @@
 </ul>
 <p>算法分析:</p>
 <p>这种带索引表的分块有序表查找的时间性能取决于两步查找时间之和：第一步可以采用简单顺序查找和折半查找之一进行。第二步只能采用简单顺序查找，但由于子表的长度较原表的长度小。因此，其时间性能介于顺序查找和折半查找之间。</p>
+<h3 id="4-哈希查找"><a href="#4-哈希查找" class="headerlink" title="4. 哈希查找"></a>4. <strong>哈希查找</strong></h3><p><strong>哈希查找</strong>是通过计算数据元素的存储地址进行查找的一种方法。以空间换时间，时间复杂度为O(1)。哈希查找的本质是先将数据映射成它的哈希值，然后通过哈希值来进行查找操作。哈希查找的核心是构造一个哈希函数，它将原来直观、整洁的数据映射为看上去似乎是随机的一些整数。</p>
+<p>哈希查找的操作步骤：</p>
+<ul>
+<li>用给定的哈希函数构造哈希表；</li>
+<li>根据选择的冲突处理方法解决地址冲突；</li>
+<li>在哈希表的基础上执行哈希查找。</li>
+</ul>
+<p>建立哈希表操作步骤：</p>
+<ul>
+<li>step1: 取数据元素的关键字key，计算其哈希函数值（地址）。若该地址对应的存储空间还没有被占用，则将该元素存入，否则执行step2解决冲突。</li>
+<li>step2 根据选择的冲突处理方法，计算关键字key的下一个存储地址。若下一个存储地址仍被占用，则继续执行step2，直到找到能用的存储地址为止。</li>
+</ul>
+<p>哈希查找操作步骤：</p>
+<ul>
+<li>step1 对给定k值，计算哈希地址 Di=H（k）；若HST为空，则查找失败；若HST=k，则查找成功；否则，执行step2（处理冲突）。</li>
+<li>step2 重复计算处理冲突的下一个存储地址 Dk=R（Dk-1），直到HST[Dk]为空，或HST[Dk]=k为止。若HST[Dk]=K，则查找成功，否则查找失败。</li>
+</ul>
+<p>常用的计算哈希值的方法：</p>
+<ul>
+<li><ol>
+<li>”直接定址法“。<br>key=value+C；这个“C”是常量。Value+C其实就是一个简单的哈希函数。</li>
+</ol>
+</li>
+<li><ol>
+<li>“除法取余法”。<br>key=value%C;解释同上。</li>
+</ol>
+</li>
+<li><ol>
+<li>“数字分析法”。<br>比如有一组value1=112233，value2=112633，value3=119033，<br>针对这样的数我们分析数中间两个数比较波动，其他数不变。那么我们取key的值就可以是key1=22,key2=26,key3=90。</li>
+</ol>
+</li>
+<li><ol>
+<li>“折叠法”。</li>
+</ol>
+</li>
+<li><ol>
+<li>“平方取中法”。</li>
+</ol>
+</li>
+</ul>
+<p>影响哈希查找效率的一个重要因素是哈希函数本身。当两个不同的数据元素的哈希值相同时，就会发生冲突。为减少发生冲突的可能性，哈希函数应该将数据尽可能分散地映射到哈希表的每一个表项中。<br>解决冲突的方法有以下两种：</p>
+<ul>
+<li><ol>
+<li>开放地址法　　<br>如果两个数据元素的哈希值相同，则在哈希表中为后插入的数据元素另外选择一个表项。当查找哈希表时，如果没有在第一个对应的哈希表项中找到符合查找要求的数据元素，程序就会继续往后查找，直到找到一个符合查找要求的数据元素，或者遇到一个空的表项。　　</li>
+</ol>
+</li>
+<li><ol>
+<li>链地址法<br>将哈希值相同的数据元素存放在一个链表中，在查找哈希表的过程中，当查找到这个链表时，必须采用线性查找方法。</li>
+</ol>
+</li>
+</ul>
+<p>下面是一个示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashSearch</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">        <span class="comment">//“除法取余法”  </span></div><div class="line">        <span class="keyword">int</span> hashLength = <span class="number">13</span>;  </div><div class="line">  </div><div class="line">        <span class="keyword">int</span> [] array  = &#123; <span class="number">13</span>, <span class="number">29</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">26</span>, <span class="number">30</span>, <span class="number">38</span> &#125;;  </div><div class="line">  </div><div class="line">        <span class="comment">//哈希表长度  </span></div><div class="line">        <span class="keyword">int</span>[] hash = <span class="keyword">new</span> <span class="keyword">int</span>[hashLength];  </div><div class="line">        <span class="comment">//创建hash  </span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++)  </div><div class="line">        &#123;  </div><div class="line">            insertHash(hash, hashLength, array[i]);  </div><div class="line">        &#125;  </div><div class="line">          </div><div class="line">        <span class="keyword">int</span> result = searchHash(hash,hashLength, <span class="number">29</span>);  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (result != -<span class="number">1</span>)  </div><div class="line">            System.out.println(<span class="string">"已经在数组中找到，索引位置为："</span> + result);  </div><div class="line">        <span class="keyword">else</span>  </div><div class="line">            System.out.println(<span class="string">"没有此原始"</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/**** </span></div><div class="line">     * Hash表检索数据 </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">searchHash</span><span class="params">(<span class="keyword">int</span>[] hash, <span class="keyword">int</span> hashLength, <span class="keyword">int</span> key)</span> </span>&#123;  </div><div class="line">        <span class="comment">// 哈希函数  </span></div><div class="line">        <span class="keyword">int</span> hashAddress = key % hashLength;  </div><div class="line">  </div><div class="line">        <span class="comment">// 指定hashAdrress对应值存在但不是关键值，则用开放寻址法解决  </span></div><div class="line">        <span class="keyword">while</span> (hash[hashAddress] != <span class="number">0</span> &amp;&amp; hash[hashAddress] != key) &#123;  </div><div class="line">            hashAddress = (++hashAddress) % hashLength;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="comment">// 查找到了开放单元，表示查找失败  </span></div><div class="line">        <span class="keyword">if</span> (hash[hashAddress] == <span class="number">0</span>)  </div><div class="line">            <span class="keyword">return</span> -<span class="number">1</span>;  </div><div class="line">        <span class="keyword">return</span> hashAddress;  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/*** </span></div><div class="line">     * 数据插入Hash表 </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertHash</span><span class="params">(<span class="keyword">int</span>[] hash, <span class="keyword">int</span> hashLength, <span class="keyword">int</span> data)</span> </span>&#123;  </div><div class="line">        <span class="comment">// 哈希函数  </span></div><div class="line">        <span class="keyword">int</span> hashAddress = data % hashLength;  </div><div class="line">  </div><div class="line">        <span class="comment">// 如果key存在，则说明已经被别人占用，此时必须解决冲突  </span></div><div class="line">        <span class="keyword">while</span> (hash[hashAddress] != <span class="number">0</span>) &#123;  </div><div class="line">            <span class="comment">// 用开放寻址法找到  </span></div><div class="line">            hashAddress = (++hashAddress) % hashLength;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="comment">// 将data存入字典中  </span></div><div class="line">        hash[hashAddress] = data;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>参考：<a href="http://blog.csdn.net/qq_21688757/article/details/53861896" target="_blank" rel="external">Link</a></p>
+<h3 id="5-二叉树查找"><a href="#5-二叉树查找" class="headerlink" title="5. 二叉树查找"></a>5. <strong>二叉树查找</strong></h3><p>二叉查找树是先对待查找的数据进行生成树，确保树的左分支的值小于右分支的值，查找的时候逐个和每个节点的父节点比较大小，查找最适合的范围。 这个算法的查找效率很高，但是如果使用这种查找方法要首先创建树。<br>先创建二叉排序树：</p>
+<ul>
+<li><ol>
+<li>若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值；</li>
+</ol>
+</li>
+<li><ol>
+<li>若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值；</li>
+</ol>
+</li>
+<li><ol>
+<li>任意节点的左、右子树也分别为二叉查找树；</li>
+</ol>
+</li>
+</ul>
+<p>在二叉查找树b中查找x的原理为：</p>
+<ul>
+<li><ol>
+<li>若b是空树，则搜索失败，否则：</li>
+</ol>
+</li>
+<li><ol>
+<li>若x等于b的根节点的数据域之值，则查找成功；否则：</li>
+</ol>
+</li>
+<li><ol>
+<li>若x小于b的根节点的数据域之值，则搜索左子树；否则：</li>
+</ol>
+</li>
+<li><ol>
+<li>查找右子树。</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>除顺序查找处，查找算法的思路都差不多，先对数据按某种方法进行排序，然后使用相应的规则查找。</p>
+</blockquote>
+<p>算法与数据结构 <a href="http://www.cnblogs.com/butyoux/tag/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="_blank" rel="external">http://www.cnblogs.com/butyoux/tag/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a></p>
 <p><a href="http://www.jianshu.com/p/8c915179fd02" target="_blank" rel="external">http://www.jianshu.com/p/8c915179fd02</a></p>
+<p>红黑数，2-3数<br><a href="http://www.cnblogs.com/maybe2030/p/4715035.html#_label4" target="_blank" rel="external">http://www.cnblogs.com/maybe2030/p/4715035.html#_label4</a></p>
 
       
     </div>
