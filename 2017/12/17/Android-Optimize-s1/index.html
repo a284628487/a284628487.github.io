@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2016/11 | Full Stacker</title>
+  <title>Android 性能优化总结一 | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Full Stacker">
-<meta property="og:url" content="http://yoursite.com/archives/2016/11/index.html">
+  <meta name="description" content="Android 性能优化工具及代码代码">
+<meta name="keywords" content="Android,Optimize">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 性能优化总结一">
+<meta property="og:url" content="http://yoursite.com/2017/12/17/Android-Optimize-s1/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="start">
+<meta property="og:description" content="Android 性能优化工具及代码代码">
+<meta property="og:updated_time" content="2017-12-17T10:32:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Full Stacker">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="Android 性能优化总结一">
+<meta name="twitter:description" content="Android 性能优化工具及代码代码">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
   
@@ -189,84 +191,136 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-Android-Optimize-s1" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/25/git-svn/" class="archive-article-date">
-  	<time datetime="2016-11-25T12:00:28.000Z" itemprop="datePublished">11月 25</time>
+    <div class="article-meta">
+      <a href="/2017/12/17/Android-Optimize-s1/" class="article-date">
+  	<time datetime="2017-12-17T09:44:58.000Z" itemprop="datePublished">2017-12-17</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/25/git-svn/">Git/SVN 实用命令</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 性能优化总结一
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git-SVN/">Git/SVN</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Optimize/">Optimize</a></li></ul>
 	</div>
 
-          
+        
 
-        </div>
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
         <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+      </div>
+      
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/25/System-Win-Linux/" class="archive-article-date">
-  	<time datetime="2016-11-25T01:44:44.000Z" itemprop="datePublished">11月 25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/25/System-Win-Linux/">Linux/Windows 实用命令及工具</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Android</strong> 性能优化工具及代码代码</p>
+<a id="more"></a>
+<h2 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h2><ol>
+<li><strong>Overdraw</strong>: 避免过渡绘制，打开开发者模式<code>Show GPU Overdraw</code>进行观察；</li>
+<li><strong>Frame Rate</strong>/<strong>Refresh Rate</strong>: 屏幕一秒刷新次数为60次，操作时间需要小于 60ms，打开开发者模式<code>Profile GPU Rendering</code>(GPU呈现模式分析)；</li>
+<li><strong>layout</strong>: 改变View的属性，可能导致整个HierarcyView的重绘，所以需要减少layout层次，减少Overdraw；</li>
+<li><strong>onDraw</strong>: 自定义View，使用<code>clipRect</code>，<code>quickReject</code>(删除不在屏幕上的元素)，避免绘制在屏幕之外的内容，避免在onDraw中进行对象创建，比如Rect，Paint；</li>
+<li><strong>Memory Churn</strong>: 瞬间产生大量对象，严重占用Young Generation内存，达到阀值剩余空间不足，导致GC，严重的情况下甚至会引起Old/Permanent Generatation的内存回收；</li>
+<li><strong>GC</strong>: Android优化了jvm，分为三级内存Yonug/Old/Permanent，使用<code>Memory Monitor</code>来查看内存占用情况，使用<code>AllocationTracker</code>查看具体是哪些对象；</li>
+<li><strong>Memory Leaks</strong>: 内存泄漏，handler，异步处理，内部类；</li>
+<li><strong>Battery</strong>: 每次网络请求都会保持无线信号一段时间，所以需要减少请求频次，Wifi比无线信息省电，可以针对不同的场景做不同的请求时间控制，使用<code>WakeLock</code>，<code>JobScheduler</code>唤醒设备，发起请求的瞬间，接收到数据的瞬间，耗电量都会增加，所以需要考虑数据压缩(数据量大耗电量大)，捆绑请求；</li>
+<li><strong>Anim</strong>: Bitmap旋转繁重，谨慎使用；</li>
+<li><strong>For</strong>: <code>for index</code>效率更高，其次是<code>for sample</code>，<code>Iterator</code>，比较int数值类型比比较float数值类型效率更高；</li>
+<li><strong>Lint</strong>: Ayalysis -&gt; Inspect Code</li>
+<li><strong>Alpha</strong>: 设置alpha，将增加页面渲染次数；</li>
+<li><strong>StrictMode</strong>: 开发都选项中打开严格模式，如果页面有隐藏的隐患则屏幕变红；</li>
+<li><strong>OOM</strong>: 尽量使用小图片，或者是.jpeg，图片在加载的时候需要连续的一块内存区域，所以图片过大可能导致分配连续的内存区域失败，加载Bitmap的时候，可以给<strong>Options</strong>指定<strong>inBitmap</strong>属性，这样在加载新图片的时候，新图片将可能会直接复用上一张图片的内存区域，而不是直接重新申请内存；</li>
+<li><strong>Battery Analysis</strong>: 使用<strong>BatteryHistorian</strong>分析耗电量，<code>adb shell dumpsys battery &gt; xx.txt</code>；</li>
+</ol>
+<h2 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h2><ol>
+<li><strong>ArrayMap</strong>: <code>HashMap</code>占内存，改用<code>ArrayMap</code>；</li>
+<li><strong>Boxing</strong>: 避免自动装箱，Map/List中使用基本数据类型Bool、Int，可以使用SparseBoolArray、SparseInt/LongArray；</li>
+<li><strong>Enum</strong>: 枚举占内存，少使用；</li>
+<li><strong>onLowMemory/onTrimMemory</strong>: 内存告警，此时清理内存，添加缓存；</li>
+<li><strong>Location</strong>: 如果两次请求位置时位置未改变，增加取点时间间隔；</li>
+<li><strong>Network</strong>: 网络硬件激活后，持续保持几十秒，直到没有新的网络请求时才停止，避免轮循，数据无更新时，延长请求间隔；</li>
+<li><strong>Prefetching</strong>: 3G 1-5M</li>
+<li><strong>Service</strong>: 使用IntentService，它是一个后台线程；</li>
+<li><strong>Proguard</strong>: Proguard工具可以移除类中未使用到的java code；</li>
+<li><strong>build.grade</strong>: 配置<code>shrinkResource</code>，<code>minifEnabled</code>排除未引用的资源，未使用的java代码，减小apk；</li>
+<li><strong>Serializable</strong>: 序列化，使用Gson等高效的工具库，传统序列化低效，耗内存，xml布局文件在编译阶段转换成更复杂的格式，具有更高效的执行性能；</li>
+<li><strong>CPU</strong>: 系统会动态调整cpu频率，延长电量，使用<code>systrace</code>导出cpu使用信息；</li>
+<li><strong>HandlerThread</strong>: 给线程设置优先级(-20, 24)，cpu会根据优先级进行调度优化，值越小，优先级越高；</li>
+<li><strong>VectorDrawable</strong>: 只需要一个文件，不需要很多图片；</li>
+<li><strong>Launch Time</strong>: 加载时间，入口加载时间，优化布局，延迟加载非必要组件，真正使用到的时候再加载；</li>
+</ol>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/System/">System</a></li></ul>
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/02/Android-Optimize-sum2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 性能优化系列二</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+
+
 
 </div>
       <footer id="footer">
@@ -301,8 +355,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
