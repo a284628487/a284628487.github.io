@@ -41,7 +41,7 @@ var bszCaller, bszTag;
     bszs: ["site_pv", "page_pv", "site_uv"], texts: function (a) {
         this.bszs.map(function (b, i) {
             var c = document.getElementById("busuanzi_value_" + b);
-            var n = parseInt(a[b]) + (i == 0 ? 716845 : (i == 1) ? 101 : 41360);
+            var n = parseInt(a[b]) + (i == 0 ? 716845 : (i == 1) ? 1001 : 41360);
             c && (c.innerHTML = n)
         })
     }, hides: function () {
