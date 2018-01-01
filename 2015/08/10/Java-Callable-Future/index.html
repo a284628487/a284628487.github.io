@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Java 线程中的Callable和Future | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java 线程中两个非常有用的并发控制类，Callable用来产生结果，Future用来获取结果；">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 线程中的Callable和Future">
+<meta property="og:url" content="http://yoursite.com/2015/08/10/Java-Callable-Future/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Java 线程中两个非常有用的并发控制类，Callable用来产生结果，Future用来获取结果；">
+<meta property="og:updated_time" content="2018-01-01T13:28:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 线程中的Callable和Future">
+<meta name="twitter:description" content="Java 线程中两个非常有用的并发控制类，Callable用来产生结果，Future用来获取结果；">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11.11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17.78px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11.11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11.11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14.44px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12.22px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 15.56px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15.56px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14.44px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11.11px;">Promise</a> <a href="/tags/React/" style="font-size: 18.89px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.56px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16.67px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.22px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.33px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Java-Callable-Future" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/10/Java-Callable-Future/" class="article-date">
+  	<time datetime="2015-08-10T12:57:33.000Z" itemprop="datePublished">2015-08-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java 线程中的Callable和Future
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java 线程中两个非常有用的并发控制类，<strong>Callable</strong>用来产生结果，<strong>Future</strong>用来获取结果；<br><a id="more"></a></p>
+<h2 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h2><p><strong>Callable</strong> 接口类似于<strong>Runnable</strong>，但是<strong>Runnable</strong>不会返回结果，并且无法抛出返回结果的异常，而<strong>Callable</strong>功能更强大一些，被线程执行后，可以返回值，这个返回值可以被<strong>Future</strong>拿到，也就是说，<strong>Future</strong>可以拿到异步执行任务的返回值；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * A task that returns a result and may throw an exception.</div><div class="line"> * Implementors define a single method with no arguments called</div><div class="line"> * &#123;<span class="doctag">@code</span> call&#125;.</div><div class="line"> *</div><div class="line"> * &lt;p&gt;The &#123;<span class="doctag">@code</span> Callable&#125; interface is similar to &#123;<span class="doctag">@link</span></div><div class="line"> * java.lang.Runnable&#125;, in that both are designed for classes whose</div><div class="line"> * instances are potentially executed by another thread.  A</div><div class="line"> * &#123;<span class="doctag">@code</span> Runnable&#125;, however, does not return a result and cannot</div><div class="line"> * throw a checked exception.</div><div class="line"> * </div><div class="line">public interface Callable&lt;V&gt; &#123;</div><div class="line">    /**</div><div class="line">     * Computes a result, or throws an exception if unable to do so.</div><div class="line">     */</div><div class="line">    <span class="function">V <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h2><p><strong>Future</strong> 用于获取异步操作的结果，提供了同个方法:</p>
+<ol>
+<li>判断操作是否完成 isDone();</li>
+<li>获取操作结果 get();</li>
+<li>取消操作 cancel();</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * A &#123;<span class="doctag">@code</span> Future&#125; represents the result of an asynchronous</div><div class="line"> * computation. Methods are provided to check if the computation is</div><div class="line"> * complete, to wait for its completion, and to retrieve the result of</div><div class="line"> * the computation. Additional methods are provided to</div><div class="line"> * determine if the task completed normally or was cancelled. Once a</div><div class="line"> * computation has completed, the computation cannot be cancelled.</div><div class="line"> * If you would like to use a &#123;<span class="doctag">@code</span> Future&#125; for the sake</div><div class="line"> * of cancellability but not provide a usable result, you can</div><div class="line"> * declare types of the form &#123;<span class="doctag">@code</span> Future&lt;?&gt;&#125; and</div><div class="line"> * return &#123;<span class="doctag">@code</span> null&#125; as a result of the underlying task.</div><div class="line"> *</div><div class="line">public interface Future&lt;V&gt; &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * Attempts to cancel execution of this task.  This attempt will</div><div class="line">     * fail if the task has already completed, has already been cancelled,</div><div class="line">     * or could not be cancelled for some other reason. If successful,</div><div class="line">     * and this task has not started when &#123;<span class="doctag">@code</span> cancel&#125; is called,</div><div class="line">     * this task should never run.  If the task has already started,</div><div class="line">     * then the &#123;<span class="doctag">@code</span> mayInterruptIfRunning&#125; parameter determines</div><div class="line">     * whether the thread executing this task should be interrupted in</div><div class="line">     * an attempt to stop the task.</div><div class="line">     *</div><div class="line">     * &lt;p&gt;After this method returns, &#123;<span class="doctag">@link</span> #isDone&#125; &#123;<span class="doctag">@link</span> #isCancelled&#125;</div><div class="line">     * will always return &#123;<span class="doctag">@code</span> true&#125; if this method returned &#123;<span class="doctag">@code</span> true&#125;.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> mayInterruptIfRunning &#123;<span class="doctag">@code</span> true&#125; if the thread executing this</div><div class="line">     * task should be interrupted; otherwise, in-progress tasks are allowed</div><div class="line">     * to complete</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">boolean</span> mayInterruptIfRunning)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Waits if necessary for the computation to complete, and then</div><div class="line">     * retrieves its result.</div><div class="line">     */</div><div class="line">    <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException</span>;</div><div class="line"></div><div class="line">    <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></div><div class="line">        <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h2><p><strong>FutureTask</strong>实现了两个接口，<strong>Runnable</strong>和<strong>Future</strong>，所以它既可以作为<strong>Runnable</strong>被线程执行，又可以作为<strong>Future</strong>得到<strong>Callable</strong>的返回值；<br>假设有一个很耗时的返回值需要计算，并且这个返回值不是立刻需要的话，那么就可以使用这个组合，用另一个线程去计算返回值，而当前线程在使用这个返回值之前可以做其它的操作，等到需要这个返回值时，再通过Future获取返回值。</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
+<li>直接使用Thread</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ObjCallable c0 = <span class="keyword">new</span> ObjCallable(<span class="string">"abc-Thread"</span>);</div><div class="line">FutureTask&lt;Obj&gt; ftask = <span class="keyword">new</span> FutureTask&lt;Obj&gt;(c0);</div><div class="line"><span class="keyword">new</span> Thread(ftask).start();</div><div class="line">print(<span class="string">"ftask#get() &gt; "</span> + ftask.get().name);</div></pre></td></tr></table></figure>
+<ul>
+<li>使用FutureTask</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ObjCallable c0 = <span class="keyword">new</span> ObjCallable(<span class="string">"abc-FutureTask"</span>);</div><div class="line">FutureTask&lt;Obj&gt; ftask2 = <span class="keyword">new</span> FutureTask&lt;Obj&gt;(c0);</div><div class="line">executor.submit(ftask2);</div><div class="line">print(<span class="string">"ftask2#get() &gt; "</span> + ftask2.get().name);</div></pre></td></tr></table></figure>
+<ul>
+<li>使用ExecutorService</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">ExecutorService es = Executors.newCachedThreadPool();</div><div class="line">    </div><div class="line">ObjCallable c1 = <span class="keyword">new</span> ObjCallable(<span class="string">"abc"</span>);</div><div class="line">print(System.currentTimeMillis() + <span class="string">" - f1-Begin"</span>);</div><div class="line">Future&lt;Obj&gt; f1 = es.submit(c1);</div><div class="line"><span class="comment">// <span class="doctag">TODO:</span> do something special</span></div><div class="line">Obj f1o = f1.get();</div><div class="line">print(<span class="string">"f1#get() &gt; "</span> + f1o.name);</div><div class="line"></div><div class="line">print(System.currentTimeMillis() + <span class="string">" - fTask1-Begin"</span>);</div><div class="line">c1.name = <span class="string">"abcd"</span>;</div><div class="line">FutureTask&lt;Obj&gt; fTask1 = (FutureTask&lt;Obj&gt;) es.submit(c1);</div><div class="line"><span class="comment">// <span class="doctag">TODO:</span> do something special</span></div><div class="line">Obj fTaskO = fTask1.get();</div><div class="line">print(<span class="string">"fTask1#get() &gt; "</span> + fTaskO.name);</div><div class="line"></div><div class="line"><span class="comment">// submit Runnable</span></div><div class="line">FutureTask&lt;Obj&gt; fRunnable = (FutureTask&lt;Obj&gt;) es.submit(<span class="keyword">new</span> TR(), fTaskO);</div><div class="line"><span class="keyword">while</span> (!fRunnable.isDone()) &#123;</div><div class="line">    Thread.sleep(<span class="number">200</span>);</div><div class="line">    print(<span class="string">"wait...."</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    Obj o = fRunnable.get();</div><div class="line">    print(<span class="string">"fRunnable#get() &gt; "</span> + o.name);</div><div class="line">&#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">&#125;</div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// Loop-get</span></div><div class="line">List&lt;Future&lt;Obj&gt;&gt; futureTasks = <span class="keyword">new</span> ArrayList&lt;Future&lt;Obj&gt;&gt;(<span class="number">6</span>);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">    Future&lt;Obj&gt; future = es.submit(<span class="keyword">new</span> ObjCallable(<span class="string">"peo-"</span> + (i + <span class="number">1</span>)));</div><div class="line">    futureTasks.add(future);</div><div class="line">&#125;</div><div class="line"><span class="comment">//</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; futureTasks.size(); i++) &#123;</div><div class="line">    Future&lt;Obj&gt; future = futureTasks.get(i);</div><div class="line">    Obj o = future.get();</div><div class="line">    print(o.name);</div><div class="line">    <span class="keyword">assert</span> o.name.equals(<span class="string">"peo-"</span> + (i + <span class="number">1</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line">CompletionService&lt;Obj&gt; completionService = <span class="keyword">new</span> ExecutorCompletionService&lt;Obj&gt;(es);</div><div class="line"><span class="comment">// 1.CompletionService.take 会获取并清除已经完成Task的结果，如果当前没有已经完成Task时，会阻塞。</span></div><div class="line"><span class="comment">// 2.创建一个Future类型的集合，用Executor提交的任务返回值添加到集合中，最后遍历集合取出数据，这种方法是按照Future加入的顺序。</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">    completionService.submit(<span class="keyword">new</span> ObjCallable(<span class="string">"peo-"</span> + (i + <span class="number">1</span>)));</div><div class="line">&#125;</div><div class="line">Future&lt;Obj&gt; temp = <span class="keyword">null</span>;</div><div class="line"><span class="comment">// 提交到CompletionService中的Future是按照完成的顺序排列的;</span></div><div class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line"><span class="keyword">while</span> (i &lt; <span class="number">5</span> &amp;&amp; (temp = completionService.take()) != <span class="keyword">null</span>) &#123;</div><div class="line">    Obj o = temp.get();</div><div class="line">    print(<span class="string">"completionService#take = "</span> + o.name + <span class="string">" - "</span> + i++);</div><div class="line">&#125;</div><div class="line"><span class="comment">//</span></div><div class="line">es.shutdown();</div></pre></td></tr></table></figure>
+<h3 id="ObjCallable"><a href="#ObjCallable" class="headerlink" title="ObjCallable"></a>ObjCallable</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TR</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Thread.sleep(<span class="number">1000</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        print(<span class="string">"TR-end"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Obj();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjCallable</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Obj</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObjCallable</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Obj <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Obj o = <span class="keyword">new</span> Obj();</div><div class="line">        o.name = <span class="keyword">this</span>.name;</div><div class="line">        Thread.sleep(random.nextInt(<span class="number">800</span>));</div><div class="line">        <span class="keyword">return</span> o;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/06/Android-Retrofit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android中用Retrofit2进行网络请求
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/07/Java-Threadpool/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java ThreadPool 线程池</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
