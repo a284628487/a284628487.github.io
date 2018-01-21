@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Java 线程同步方法 | Full Stacker</title>
+  <title>Java 线程同步 | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 线程同步方法">
+<meta property="og:title" content="Java 线程同步">
 <meta property="og:url" content="http://yoursite.com/2015/07/30/Java-Thread-sync/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。">
-<meta property="og:updated_time" content="2018-01-01T13:29:02.000Z">
+<meta property="og:updated_time" content="2018-01-21T00:19:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 线程同步方法">
+<meta name="twitter:title" content="Java 线程同步">
 <meta name="twitter:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
@@ -86,7 +86,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java 线程同步方法
+      Java 线程同步
     </h1>
   
 
@@ -247,10 +247,10 @@
 <li><strong>有序性</strong>: 多个线程执行时，CPU对线程的调度是随机的，我们不知道当前程序被执行到哪步就切换到了下一个线程，一个最经典的例子就是银行汇款问题，一个银行账户存款100，这时一个人从该账户取10元，同时另一个人向该账户汇10元，那么余额应该还是100。那么此时可能发生这种情况，A线程负责取款，B线程负责汇款，A从主内存读到100，B从主内存读到100，A执行减10操作，并将数据刷新到主内存，这时主内存数据100-10=90，而B内存执行加10操作，并将数据刷新到主内存，最后主内存数据100+10=110，我们要保证A线程和B线程有序执行，先取款后汇款或者先汇款后取款，此为有序性。</li>
 </ul>
 <h2 id="同步方法"><a href="#同步方法" class="headerlink" title="同步方法"></a>同步方法</h2><p>使用<strong>synchronized</strong>关键字修饰的方法</p>
-<p>Java的每个对象都有一个内置锁，当调用<strong>synchronized</strong>修饰的非方法时，需要先获得内置锁，否则线程就处于阻塞状态。内置锁会保护整个方法，方法执行完成之后线程释放该内置锁。所以，同一时刻，对象的synchronized方法只能有一个处于执行状态。</p>
+<p>Java的每个对象都有一个内置锁，当调用<strong>synchronized</strong>修饰的方法时，需要先获得内置锁，否则线程就处于阻塞状态。内置锁会保护整个方法，方法执行完成之后线程释放该内置锁。所以，同一时刻，对象的synchronized方法只能有一个处于执行状态。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">modify</span><span class="params">()</span></span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
-<p>synchronized 关键字也可以修饰静态方法，需要一个用于整个类对象的锁，该对象就是XXX.class；</p>
+<p>synchronized 关键字也可以修饰静态方法，此时获取的是整个类对象的锁，XXX.class；</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;&#125;</div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">synchronized</span>(XXX.class)&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="同步代码块"><a href="#同步代码块" class="headerlink" title="同步代码块"></a>同步代码块</h2><p>由<strong>synchronized</strong>关键字修饰的语句块，被该关键字修饰的语句块会自动被加上锁，从而实现同步，此时的锁就是 synchronized 后面所锁定的对象的内置锁；</p>
@@ -258,7 +258,7 @@
 <blockquote>
 <p>同步是一种高开销的操作，因此应该尽量减少同步的内容，通常没有必要同步整个方法，使用<strong>synchronized</strong>代码块同步关键代码即可。</p>
 </blockquote>
-<h2 id="锁对象"><a href="#锁对象" class="headerlink" title="锁对象"></a>锁对象</h2><p>每个锁对象(JLS中叫monitor)都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个线程被唤醒(notify)后，才会进入到就绪队列，等待CPU的调度，反之，当一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。当第一个线程执行输出方法时，获得同步锁，执行输出方法，恰好此时第二个线程也要执行输出方法，但发现同步锁没有被释放，第二个线程就会进入就绪队列，等待锁被释放。</p>
+<h3 id="锁对象"><a href="#锁对象" class="headerlink" title="锁对象"></a>锁对象</h3><p>每个锁对象(JLS中叫monitor)都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个线程被唤醒(notify)后，才会进入到就绪队列，等待CPU的调度，反之，当一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。当第一个线程执行输出方法时，获得同步锁，执行输出方法，恰好此时第二个线程也要执行输出方法，但发现同步锁没有被释放，第二个线程就会进入就绪队列，等待锁被释放。</p>
 <ol>
 <li>获得同步锁；</li>
 <li>清空工作内存；</li>
@@ -306,7 +306,7 @@
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Java 中的 wait 和 notify
+          Java Object 对象的 wait 和 notify
         
       </div>
     </a>
