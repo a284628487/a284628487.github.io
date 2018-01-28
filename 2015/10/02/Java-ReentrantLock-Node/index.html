@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Java ReentrantLock 中的 Node 节点 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java ReentrantLock 中的 Node 节点，等待队列中的单个节点对象；">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java ReentrantLock 中的 Node 节点">
+<meta property="og:url" content="http://yoursite.com/2015/10/02/Java-ReentrantLock-Node/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Java ReentrantLock 中的 Node 节点，等待队列中的单个节点对象；">
+<meta property="og:updated_time" content="2018-01-28T13:55:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java ReentrantLock 中的 Node 节点">
+<meta name="twitter:description" content="Java ReentrantLock 中的 Node 节点，等待队列中的单个节点对象；">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Java-ReentrantLock-Node" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/02/Java-ReentrantLock-Node/" class="article-date">
+  	<time datetime="2015-10-01T23:26:46.000Z" itemprop="datePublished">2015-10-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java ReentrantLock 中的 Node 节点
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Java</strong> <strong>ReentrantLock</strong> 中的 <strong>Node</strong> 节点，等待队列中的单个节点对象；<br><a id="more"></a> </p>
+<h2 id="Node-java"><a href="#Node-java" class="headerlink" title="Node.java"></a><strong>Node.java</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 等待队列中的单个节点对象，每个节点都有status字段，用于表示线程是否应该block；</span></div><div class="line"> * 一个节点被signal唤醒，当它的前一个节点release的时候。</div><div class="line"> * A node is signalled when its predecessor releases.</div><div class="line"> * 队列里面的每一个节点都作为一个等待线程的monitor(监视器)， </div><div class="line"> * status属性并不保证线程是否获取到锁，如果线程是queue中的第一个则会尝试获取锁</div><div class="line"> * 但是是第一个线程并不保证能一定能获取锁，仅仅是给予竞争获取锁的权利。</div><div class="line"> * 所以当前released的竞争线程可能需要重新wait。</div><div class="line"> * enqueue: 将节点设置为tail</div><div class="line"> * dequeue: 重新设置head节点</div><div class="line"> * &lt;pre&gt;</div><div class="line"> *      +------+  prev +-----+       +-----+</div><div class="line"> * head |      | &lt;---- |     | &lt;---- |     |  tail</div><div class="line"> *      +------+       +-----+       +-----+</div><div class="line"> * &lt;/pre&gt;</div><div class="line"> * 往队列中插入一个节点只需要操作tail节点，同样的，出列只需要操作head节点。</div><div class="line"> * dequeuing involves(涉及) only updating the "head".</div><div class="line"> * 然而，设置头节点的时候，要复杂些，因为需要找到合适的继任者，因为head的下一节点</div><div class="line"> * 可能已经cancel因为timeout或者interrupt。</div><div class="line"> * </div><div class="line"> * We also use "next" links to implement blocking mechanics.</div><div class="line"> * The thread id for each node is kept in its own node, so a</div><div class="line"> * predecessor signals the next node to wake up by traversing</div><div class="line"> * next link to determine which thread it is.</div><div class="line"> * 我们还使用“next”链接来实现阻塞机制。每个节点的线程ID保存在自己的节点中，</div><div class="line"> * 所以一个前任通过下一个链接来通知下一个节点唤醒它，以确定它是哪个线程</div><div class="line"> * </div><div class="line"> * CLH queues need a dummy header node to get started. But</div><div class="line"> * we don't create them on construction, because it would be wasted</div><div class="line"> * effort if there is never contention. Instead, the node</div><div class="line"> * is constructed and head and tail pointers are set upon first</div><div class="line"> * contention.</div><div class="line"> * 队列需要一个假的head节点，但是我们不会在构造器中创建它们，因为可能从来不会有</div><div class="line"> * 争夺发生，取而代之的是，head和tail节点会在第一次争夺资源的时候被实例化</div><div class="line"> *</div><div class="line"> * Threads waiting on Conditions use the same nodes, but</div><div class="line"> * use an additional link. Conditions only need to link nodes</div><div class="line"> * in simple (non-concurrent) linked queues because they are</div><div class="line"> * only accessed when exclusively held.  Upon await, a node is</div><div class="line"> * inserted into a condition queue.  Upon signal, the node is</div><div class="line"> * transferred to the main queue.  A special value of status</div><div class="line"> * field is used to mark which queue a node is on.</div><div class="line"> * </div><div class="line"> * 等待条件的线程使用相同的节点，但使用另一个链接。条件只需要链接简单（非并发）</div><div class="line"> * 链接队列中的节点，因为只有在独占时才访问它们。在等待之后，将插入一个节点到条件队列中。</div><div class="line"> * 收到释放信号后，节点被转移到主队列。用一个特殊的status值来表示node在哪一个队列中。</div><div class="line"> */</div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</div><div class="line">    <span class="comment">/** 表示shared mode的常量node节点 */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node SHARED = <span class="keyword">new</span> Node();</div><div class="line">    <span class="comment">/** 表示独享模式的常量节点 */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Node EXCLUSIVE = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** waitStatus value to indicate thread has cancelled */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED =  <span class="number">1</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/** waitStatus value to indicate successor's thread needs unparking */</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIGNAL    = -<span class="number">1</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/** waitStatus value to indicate thread is waiting on condition</span></div><div class="line">     * 用于Conditoin的waitStatus状态</div><div class="line">     */</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONDITION = -<span class="number">2</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * waitStatus value to indicate the next acquireShared should</div><div class="line">     * unconditionally propagate(传播)</div><div class="line">     */</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PROPAGATE = -<span class="number">3</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Status field, taking on only the values:</div><div class="line">     *   SIGNAL:     The successor of this node is (or will soon be)</div><div class="line">     *               blocked (via park), so the current node must</div><div class="line">     *               unpark its successor when it releases or</div><div class="line">     *               cancels. To avoid races, acquire methods must</div><div class="line">     *               first indicate they need a signal,</div><div class="line">     *               then retry the atomic acquire, and then,</div><div class="line">     *               on failure, block.</div><div class="line">     *               node的继承者已经(或者即将成为)block，所以当前节点必须unpark</div><div class="line">     *               自己的继任者当它release或者cancel的时候，为了避免竞争，</div><div class="line">     *               acquire方法必须先设置waitStatus为SINGAL，然后再次acquire，</div><div class="line">     *               最后，如果失败了，则block线程；</div><div class="line">     *               </div><div class="line">     *   CANCELLED:  This node is cancelled due to timeout or interrupt.</div><div class="line">     *               Nodes never leave this state. In particular,</div><div class="line">     *               a thread with cancelled node never again blocks.</div><div class="line">     *               节点被取消(由于timeout或者interrupt)，被取消的线程，</div><div class="line">     *               不会再次block；</div><div class="line">     *               </div><div class="line">     *   CONDITION:  This node is currently on a condition queue.</div><div class="line">     *               It will not be used as a sync queue node</div><div class="line">     *               until transferred, at which time the status</div><div class="line">     *               will be set to 0. (Use of this value here has</div><div class="line">     *               nothing to do with the other uses of the</div><div class="line">     *               field, but simplifies mechanics.)</div><div class="line">     *               表明node在condition队列中，节点不会被当作同步节点直到节点</div><div class="line">     *               被transferred，此时，waitStatus将被置为0</div><div class="line">     *               </div><div class="line">     *   PROPAGATE:  A releaseShared should be propagated to other</div><div class="line">     *               nodes. This is set (for head node only) in</div><div class="line">     *               doReleaseShared to ensure propagation</div><div class="line">     *               continues, even if other operations have</div><div class="line">     *               since intervened(加入).</div><div class="line">     *               表示releaseShared应该被传播到其它节点，在doReleaseShared</div><div class="line">     *               方法中被设置(只能是设置给head节点)</div><div class="line">     *               </div><div class="line">     *   0:          None of the above</div><div class="line">     *   </div><div class="line">     * 非负的值，表示节点不需要等待signal</div><div class="line">     * Non-negative values mean that a node doesn't need to</div><div class="line">     * signal. So, most code doesn't need to check for particular</div><div class="line">     * values, just for sign.</div><div class="line">     *</div><div class="line">     * The field is initialized to 0 for normal sync nodes;</div><div class="line">     * CONDITION for condition nodes. It is modified using CAS</div><div class="line">     * (or when possible, unconditional volatile writes).</div><div class="line">     */</div><div class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> waitStatus;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 链接到前一个Node节点，在入列的时候被赋值，或者出列的时候，当前一个节点已经</div><div class="line">     * 被取消了，继续向前查找未取消的节点，直到head节点(head节点是不会取消的，</div><div class="line">     * 会一直存在)</div><div class="line">     * 只有在成功acquire的时候，节点才会成为head节点;</div><div class="line">     * A node becomes head only as a result of successful acquire.</div><div class="line">     * 已经取消掉的线程，永远不会acquire成功;</div><div class="line">     */</div><div class="line">    <span class="keyword">volatile</span> Node prev;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 指向前一个节点，当前节点的thread在unpark(release)的时候，需要用到</div><div class="line">     * Link to the successor node that the current node/thread</div><div class="line">     * unparks upon release. 入列的时候指定, 当处理取已经取消的前任节点时</div><div class="line">     * 会自动调整，当出列的时候，清空next节点。入列操作不会指定节点的next属性</div><div class="line">     * 直到节点真正被添加。所以next为空并不一定意味节点是队列中的最后一个节点</div><div class="line">     * The enq operation does not assign next field of a predecessor </div><div class="line">     * until after attachment,so seeing a null next field does not </div><div class="line">     * necessarily mean that node is at end of queue. </div><div class="line">     * 然而，如果next属性为空，我们可以扫描tail节点的prev属性</div><div class="line">     * However, if a next field appears to be null, we can scan prev's </div><div class="line">     * from the tail to double-check. </div><div class="line">     * cancelled的节点的next属性被设置为指向节点本身，而不是指向null.</div><div class="line">     */</div><div class="line">    <span class="keyword">volatile</span> Node next;</div><div class="line"></div><div class="line">    <span class="comment">/** 添加该节点的Thread，构造函数中被初始化，使用完之后清空 */</span></div><div class="line">    <span class="keyword">volatile</span> Thread thread;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 指导向下一个等待Condition状态的节点，或者是特定的SHARED.</div><div class="line">     * Link to next node waiting on condition, or the special value SHARED.</div><div class="line">     * 因为condition队列仅在独享模式使用，所以我们只需要一个简单的队列把节点串起来。</div><div class="line">     * 因为conditions只能是独享模式下使用，所以我们定义一个特殊的值来表示。</div><div class="line">     */</div><div class="line">    Node nextWaiter;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isShared</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> nextWaiter == SHARED;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回前一个节点</div><div class="line">     * <span class="doctag">@return</span> the predecessor of this node</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">final</span> Node <span class="title">predecessor</span><span class="params">()</span> <span class="keyword">throws</span> NullPointerException </span>&#123;</div><div class="line">        Node p = prev;</div><div class="line">        <span class="keyword">if</span> (p == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> p;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Node() &#123;    <span class="comment">// Used to establish(建立) initial head or SHARED marker</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// addWaiter中使用，node为当前节点的nextWaiter</span></div><div class="line">    Node(Thread thread, Node mode) &#123; <span class="comment">// Used by addWaiter</span></div><div class="line">        <span class="keyword">this</span>.nextWaiter = mode;</div><div class="line">        <span class="keyword">this</span>.thread = thread;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 在Conditon中使用，直接指定当前的waitStatus</span></div><div class="line">    Node(Thread thread, <span class="keyword">int</span> waitStatus) &#123; <span class="comment">// Used by Condition</span></div><div class="line">        <span class="keyword">this</span>.waitStatus = waitStatus;</div><div class="line">        <span class="keyword">this</span>.thread = thread;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/10/02/Java-ReentrantLock/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java ReentrantLock 多线程同步锁
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/10/Java-Callable-Future/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java 线程中的Callable和Future</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

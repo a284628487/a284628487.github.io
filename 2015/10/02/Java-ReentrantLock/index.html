@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Java ReentrantLock 多线程同步锁 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Java 锁对象 ReentrantLock，加锁、解锁流程；">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java ReentrantLock 多线程同步锁">
+<meta property="og:url" content="http://yoursite.com/2015/10/02/Java-ReentrantLock/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Java 锁对象 ReentrantLock，加锁、解锁流程；">
+<meta property="og:updated_time" content="2018-01-28T14:08:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java ReentrantLock 多线程同步锁">
+<meta name="twitter:description" content="Java 锁对象 ReentrantLock，加锁、解锁流程；">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Java-ReentrantLock" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/02/Java-ReentrantLock/" class="article-date">
+  	<time datetime="2015-10-02T11:39:13.000Z" itemprop="datePublished">2015-10-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java ReentrantLock 多线程同步锁
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Java</strong> 锁对象 <strong>ReentrantLock</strong>，加锁、解锁流程；</p>
+<a id="more"></a>
+<p>/**</p>
+<ul>
+<li>具有和隐式监视器锁{synchronized}方法和语句基本相同的可重入互斥锁，但我们可以扩展该锁。</li>
+<li>锁对象被最后一个lock成功但未unlock的对象所占有，在线程中调用lock，如果锁对象未被其它线程</li>
+<li>所占有，并且成功的获取到了锁，lock方法会立即返回。</li>
+<li>如果当前线程已经获取到了该锁对象，lock方法也会立即返回。</li>
+<li>This can be checked using methods isHeldByCurrentThread or getHoldCount.<br>*</li>
+<li>构造函数接收参数fairness，表示是否公平锁，如果设置为true，则在线程间争夺锁时，</li>
+<li>等待时间最长的那个锁将获取到锁对象，否则，锁对象不对谁获取到锁做任何的优先级顺序， </li>
+<li>公平锁 vs 非公平锁：有许多个线程的情况下，使用公平锁会导致吞吐量比较低，而非公平锁则相反，</li>
+<li>但是公平锁在获取锁和保证缺乏饥饿的时间上有较小的差异。</li>
+<li>记注：公平锁不保证公平的线程调度！！！that fairness of locks does not guarantee</li>
+<li>fairness of thread scheduling. </li>
+<li><ol>
+<li>Thus, one of many threads using afair lock may obtain it multiple times </li>
+</ol>
+</li>
+<li>in succession while other active threads are not progressing and not</li>
+<li>currently holding the lock.</li>
+<li><ol>
+<li>Also note that the untimed {@link #tryLock()} method does not</li>
+</ol>
+</li>
+<li>honor the fairness setting. It will succeed if the lock</li>
+<li>is available even if other threads are waiting.</li>
+<li>/</li>
+</ul>
+<h2 id="ReentrantLock-java"><a href="#ReentrantLock-java" class="headerlink" title="ReentrantLock.java"></a><strong>ReentrantLock.java</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantLock</span> <span class="keyword">implements</span> <span class="title">Lock</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="comment">/** Synchronizer providing all implementation mechanics */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Sync sync;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * synchronization control 基类，有公平和非公平两个子类，Uses AQS state to</div><div class="line">     * represent the number of holds on the lock.</div><div class="line">     */</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line">         * Performs &#123;<span class="doctag">@link</span> Lock#lock&#125;. The main reason for subclassing</div><div class="line">         * is to allow fast path for nonfair version.</div><div class="line">         */</div><div class="line">        <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">        <span class="comment">// 非公平的acquire</span></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">            <span class="keyword">int</span> c = getState();</div><div class="line">            <span class="comment">// 如果state为0，则cas操作state为1;</span></div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123; </div><div class="line">                <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                    setExclusiveOwnerThread(current);</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 如果当前线程是当前获取到独享该锁对象的线程，则增加state;</span></div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">                <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">                <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">                setState(nextc);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// acquire失败，返回结果false;</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="comment">// 尝试解锁，如果state为0表示该锁已经被线程释放，此时设置exclusiveThread为null</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">            <span class="keyword">int</span> c = getState() - releases;</div><div class="line">            <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">            <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">                free = <span class="keyword">true</span>;</div><div class="line">                setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            setState(c);</div><div class="line">            <span class="keyword">return</span> free;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isHeldExclusively</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> getExclusiveOwnerThread() == Thread.currentThread();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> ConditionObject <span class="title">newCondition</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ConditionObject();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> Thread <span class="title">getOwner</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> getState() == <span class="number">0</span> ? <span class="keyword">null</span> : getExclusiveOwnerThread();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getHoldCount</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> isHeldExclusively() ? getState() : <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isLocked</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> getState() != <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="NonfainSync-amp-FairSync"><a href="#NonfainSync-amp-FairSync" class="headerlink" title="NonfainSync &amp; FairSync"></a>NonfainSync &amp; FairSync</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NonfairSync</span> <span class="keyword">extends</span> <span class="title">Sync</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">7316153563782823691L</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Try immediate barge, backing up to normal acquire on failure.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, <span class="number">1</span>))</div><div class="line">            setExclusiveOwnerThread(Thread.currentThread());</div><div class="line">        <span class="keyword">else</span></div><div class="line">            acquire(<span class="number">1</span>); <span class="comment">// </span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> nonfairTryAcquire(acquires);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 公平锁</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FairSync</span> <span class="keyword">extends</span> <span class="title">Sync</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span> </span>&#123;</div><div class="line">        acquire(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Fair version of tryAcquire. Don't grant(授予) access unless</div><div class="line">     * recursive(循环) call or no waiters or is first.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> Thread current = Thread.currentThread();</div><div class="line">        <span class="keyword">int</span> c = getState();</div><div class="line">        <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">        	  <span class="comment">// 相比于nonfairTryAcquire，多了hasQueuedPredecessors的判断</span></div><div class="line">        	  <span class="comment">// (如果不包含decessor &amp;&amp; ...)</span></div><div class="line">            <span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</div><div class="line">                compareAndSetState(<span class="number">0</span>, acquires)) &#123;</div><div class="line">                setExclusiveOwnerThread(current);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</div><div class="line">            <span class="keyword">int</span> nextc = c + acquires;</div><div class="line">            <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>)</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</div><div class="line">            setState(nextc);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>NonfairSync</strong> 和 <strong>FairSync</strong> 都继承自 <strong>Sync</strong>。</p>
+</blockquote>
+<h2 id="AbstractQueuedSynchronizer-java"><a href="#AbstractQueuedSynchronizer-java" class="headerlink" title="AbstractQueuedSynchronizer.java"></a><strong>AbstractQueuedSynchronizer.java</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 提供一个依赖FIFO队列实现的阻塞锁和同步器框架，该类依赖一个atomicInteger的state来表示</div><div class="line"> * 状态，子类必须定义方法来改变state，并且定义state所表示的不同状态，当acquired和</div><div class="line"> * released的时候。</div><div class="line"> * </div><div class="line"></div><div class="line">public abstract class AbstractQueuedSynchronizer</div><div class="line">    extends AbstractOwnableSynchronizer</div><div class="line">    implements java.io.Serializable &#123;</div><div class="line">    </div><div class="line">    /* 等待队列的头节点, 只能通过setHead来修改. 如果head不为空，它的waitStatus</div><div class="line">     * 得需要保证不为CANCELLED</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node head;</div><div class="line"></div><div class="line">    <span class="comment">/* 等待队列的尾节点，只有通过enq添加节点的时候才能修改</span></div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">volatile</span> Node tail;</div><div class="line"></div><div class="line">    <span class="comment">// 同步状态</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getState</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">        state = newState;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 修改state，如果成功，返回true</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetState</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> U.compareAndSwapInt(<span class="keyword">this</span>, STATE, expect, update);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 插入节点到queue，如果队列为空的话，先初始化队列。</div><div class="line">     * <span class="doctag">@param</span> node the node to insert</div><div class="line">     * <span class="doctag">@return</span> 返回节点的上一任节点</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">enq</span><span class="params">(Node node)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            Node oldTail = tail;</div><div class="line">            <span class="keyword">if</span> (oldTail != <span class="keyword">null</span>) &#123;</div><div class="line">                U.putObject(node, Node.PREV, oldTail);</div><div class="line">                <span class="keyword">if</span> (compareAndSetTail(oldTail, node)) &#123;</div><div class="line">                    oldTail.next = node;</div><div class="line">                    <span class="keyword">return</span> oldTail;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                initializeSyncQueue();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新节点并添加到队列中，并返回新的节点；</div><div class="line">     * <span class="doctag">@param</span> mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">addWaiter</span><span class="params">(Node mode)</span> </span>&#123;</div><div class="line">        Node node = <span class="keyword">new</span> Node(mode);</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            Node oldTail = tail;</div><div class="line">            <span class="keyword">if</span> (oldTail != <span class="keyword">null</span>) &#123;</div><div class="line">            	   <span class="comment">// 设置node的前一个节点为oldTail</span></div><div class="line">                U.putObject(node, Node.PREV, oldTail);</div><div class="line">                <span class="comment">// 将新建的node设置为新的tail</span></div><div class="line">                <span class="keyword">if</span> (compareAndSetTail(oldTail, node)) &#123;</div><div class="line">                    oldTail.next = node;</div><div class="line">                    <span class="keyword">return</span> node;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                initializeSyncQueue();</div><div class="line">                <span class="comment">// 如果队列为空，则初始化队列，此时head和tail相同；</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* 设置头节点，所以会出列，清空队列；Called only by acquire methods.</span></div><div class="line">     * @param node the node</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setHead</span><span class="params">(Node node)</span> </span>&#123;</div><div class="line">        head = node;</div><div class="line">        node.thread = <span class="keyword">null</span>;</div><div class="line">        node.prev = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">		<span class="comment">// tryAcquire，如果失败，则添加一个Node到Waiter链中</span></div><div class="line">	    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp; acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">	        selfInterrupt();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * Acquires in exclusive uninterruptible mode for thread already in</div><div class="line">	 * queue. 用于Condition的等待方法和acquire方法.</div><div class="line">	 *</div><div class="line">	 * <span class="doctag">@param</span> node the node</div><div class="line">	 * <span class="doctag">@param</span> arg the acquire argument</div><div class="line">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if interrupted while waiting</div><div class="line">	 */</div><div class="line">	<span class="comment">// @ReservedStackAccess</span></div><div class="line">	<span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">acquireQueued</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">	    <span class="keyword">try</span> &#123;</div><div class="line">	        <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</div><div class="line">	        <span class="keyword">for</span> (;;) &#123;</div><div class="line">	            <span class="comment">// 获取node的前一个节点;</span></div><div class="line">	            <span class="keyword">final</span> Node p = node.predecessor();</div><div class="line">	            <span class="comment">// 如果前一个节点是head，则再次尝试tryAqcuire，</span></div><div class="line">	            <span class="comment">// 如果成功，则将head设置成为新的node；</span></div><div class="line">	            <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123;</div><div class="line">	                setHead(node);</div><div class="line">	                p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></div><div class="line">	                <span class="keyword">return</span> interrupted;</div><div class="line">	            &#125;</div><div class="line">	            </div><div class="line">	            <span class="comment">// Checks and updates status for a node that failed to acquire.</span></div><div class="line">	            <span class="comment">// 此方法被执行两次，p的初始waitStatus为0，</span></div><div class="line">	            <span class="comment">// shouldParkAfterFailedAcquire先将waitStatus设置为-1，表示节点</span></div><div class="line">	            <span class="comment">// 处于SIGNAL状态，需要等待release信号来进行释放(此时线程还未park)</span></div><div class="line">	            <span class="comment">// 所以该循环会再次执行，shouldParkAfterFailedAcquire返回true后，</span></div><div class="line">	            <span class="comment">// 将调用parkAndCheckInterrupt将线程park；</span></div><div class="line">	            </div><div class="line">	            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) </div><div class="line">	            	&amp;&amp; parkAndCheckInterrupt())</div><div class="line">	                interrupted = <span class="keyword">true</span>;</div><div class="line">	        &#125;</div><div class="line">	    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">	        cancelAcquire(node);</div><div class="line">	        <span class="keyword">throw</span> t;</div><div class="line">	    &#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/** 检察并更新节点在acquire锁失败之后，线程是否应该挂起，如果返回true表示线程应该被挂起。</span></div><div class="line">	 * 这是所有的acquire锁的循环中主要的信号控制方法。</div><div class="line">	 * 方法的两个参数，要求pred是node节点的前一个节点.Requires pred == node.prev.</div><div class="line">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if thread should block</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">shouldParkAfterFailedAcquire</span><span class="params">(Node pred, Node node)</span> </span>&#123;</div><div class="line">	    <span class="keyword">int</span> ws = pred.waitStatus;</div><div class="line">	    <span class="comment">// waitStatus是SIGNAL，表示在等待release信号</span></div><div class="line">	    <span class="keyword">if</span> (ws == Node.SIGNAL)</div><div class="line">	        <span class="comment">// 节点已经设置了SIGNAL(-1)状态，处于等待release信号中，可以安全的挂起。</span></div><div class="line">	        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	    <span class="keyword">if</span> (ws &gt; <span class="number">0</span>) &#123;</div><div class="line">	        <span class="comment">/* 上一个节点被取消了，寻找上一个未取消掉的Node节点，</span></div><div class="line">	         * 并将参数中的node节点作为寻找到的节点的next节点；</div><div class="line">	         * /</div><div class="line">	        do &#123;</div><div class="line">	            node.prev = pred = pred.prev;</div><div class="line">	        &#125; while (pred.waitStatus &gt; 0);</div><div class="line">	        pred.next = node;</div><div class="line">	    &#125; else &#123;</div><div class="line">	        /* waitStatus必须是0或者PROPAGATE(-2)，表示需要一个信号，但又还未暂停；</div><div class="line">	         * 调用者需要在park之前重新调用该方法以确保不能acquire；</div><div class="line">	         * 见&#123;acquireQueued&#125;方法中的循环；*/</div><div class="line">	        pred.compareAndSetWaitStatus(ws, Node.SIGNAL);</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * Convenience method to park and then check if interrupted.</div><div class="line">	 * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if interrupted</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">parkAndCheckInterrupt</span><span class="params">()</span> </span>&#123;</div><div class="line">	    LockSupport.park(<span class="keyword">this</span>);</div><div class="line">	    <span class="keyword">return</span> Thread.interrupted();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 唤醒node的successor，如果存在的情况下</div><div class="line">     * <span class="doctag">@param</span> node the node</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span> </span>&#123;</div><div class="line">        <span class="comment">/*</span></div><div class="line">         * If status is negative (i.e., possibly needing signal) try</div><div class="line">         * to clear in anticipation of signalling.  It is OK if this</div><div class="line">         * fails or if status is changed by waiting thread.</div><div class="line">         */</div><div class="line">        <span class="keyword">int</span> ws = node.waitStatus; <span class="comment">// ws一开始通常是-1</span></div><div class="line">        <span class="keyword">if</span> (ws &lt; <span class="number">0</span>)</div><div class="line">            node.compareAndSetWaitStatus(ws, <span class="number">0</span>);</div><div class="line"></div><div class="line">        <span class="comment">/*</span></div><div class="line">         * Thread to unpark is held in successor, which is normally</div><div class="line">         * just the next node.  But if cancelled or apparently null,</div><div class="line">         * traverse backwards from tail to find the actual</div><div class="line">         * non-cancelled successor.</div><div class="line">         */</div><div class="line">        Node s = node.next;</div><div class="line">        <span class="comment">// 如果node.next为空，或者next的waitStatus大于0，则从后向前查找。</span></div><div class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</div><div class="line">            s = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">for</span> (Node p = tail; p != node &amp;&amp; p != <span class="keyword">null</span>; p = p.prev)</div><div class="line">                <span class="keyword">if</span> (p.waitStatus &lt;= <span class="number">0</span>)</div><div class="line">                    s = p;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (s != <span class="keyword">null</span>)</div><div class="line">            LockSupport.unpark(s.thread);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">	<span class="function">AQS</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> &#123;</div><div class="line">		<span class="comment">// tryAcquire，如果失败，则添加一个Node到Waiter链中</span></div><div class="line">	    <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp; acquireQueued(addWaiter(Node.EXCLUSIVE), arg))</div><div class="line">	        selfInterrupt();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// unlock	</span></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * Releases in exclusive mode.  Implemented by unblocking one or</div><div class="line">	 * more threads if &#123;<span class="doctag">@link</span> #tryRelease&#125; returns true.</div><div class="line">	 * This method can be used to implement method &#123;<span class="doctag">@link</span> Lock#unlock&#125;</div><div class="line">	 */</div><div class="line">	<span class="comment">/// @ReservedStackAccess</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</div><div class="line">	    <span class="comment">// 如果release成功</span></div><div class="line">	    <span class="keyword">if</span> (tryRelease(arg)) &#123;</div><div class="line">	        Node h = head;</div><div class="line">	        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</div><div class="line">	            unparkSuccessor(h);</div><div class="line">	        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	    &#125;</div><div class="line">	    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// </span></div><div class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</div><div class="line">	    <span class="keyword">int</span> c = getState() - releases;</div><div class="line">	    <span class="keyword">if</span> (Thread.currentThread() != getExclusiveOwnerThread())</div><div class="line">	        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</div><div class="line">	    <span class="keyword">boolean</span> free = <span class="keyword">false</span>;</div><div class="line">	    <span class="comment">// 如果状态已经是0了，则release成功。</span></div><div class="line">	    <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</div><div class="line">	        free = <span class="keyword">true</span>;</div><div class="line">	        setExclusiveOwnerThread(<span class="keyword">null</span>);</div><div class="line">	    &#125;</div><div class="line">	    setState(c);</div><div class="line">	    <span class="keyword">return</span> free;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">    Thread t1 = <span class="keyword">new</span> Thread(<span class="string">"A"</span>) &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            print(<span class="string">"t1-pre"</span>);</div><div class="line">            lock.lock();</div><div class="line">            lock.lock();</div><div class="line">            printThread(lock);</div><div class="line">            <span class="comment">// holderCount = 2，因为上面调用了两次lock()方法；</span></div><div class="line">            print(<span class="string">"HoldCount = "</span> + lock.getHoldCount());</div><div class="line">            print(<span class="string">"t1"</span>);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                Thread.sleep(<span class="number">3000</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            print(<span class="string">"t1 - end"</span>);</div><div class="line">            lock.unlock();</div><div class="line">            lock.unlock();</div><div class="line">            print(<span class="string">"t1 - end2"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    t1.start();</div><div class="line"></div><div class="line">    Thread t2 = <span class="keyword">new</span> Thread(<span class="string">"B"</span>) &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            print(<span class="string">"t2-pre"</span>);</div><div class="line">            lock.lock();</div><div class="line">            printThread(lock);</div><div class="line">            print(<span class="string">"HoldCount = "</span> + lock.getHoldCount()); <span class="comment">// holderCount = 1</span></div><div class="line">            print(<span class="string">"t2"</span>);</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                Thread.sleep(<span class="number">2000</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            print(<span class="string">"t2 - end"</span>);</div><div class="line">            lock.unlock();</div><div class="line">            print(<span class="string">"t2 - end2"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    t2.start();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printThread</span><span class="params">(ReentrantLock lock)</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        Field sync = lock.getClass().getDeclaredField(<span class="string">"sync"</span>);</div><div class="line">        sync.setAccessible(<span class="keyword">true</span>);</div><div class="line">        Object o = sync.get(lock);</div><div class="line">        print(<span class="string">"lock.sync = "</span> + o);</div><div class="line">        Field f = AbstractOwnableSynchronizer.class.</div><div class="line">        	getDeclaredField(<span class="string">"exclusiveOwnerThread"</span>);</div><div class="line">        f.setAccessible(<span class="keyword">true</span>);</div><div class="line">        Object o2 = f.get(o);</div><div class="line">        print(<span class="string">"lock.sync.exclusiveOwnerThread = "</span> + o2);</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">t1-pre</div><div class="line">t2-pre</div><div class="line">lock.sync = java.util.concurrent.locks.ReentrantLock$NonfairSync@<span class="number">758916e9</span>[State = <span class="number">2</span>, nonempty queue]</div><div class="line">lock.sync.exclusiveOwnerThread = Thread[A,<span class="number">5</span>,main]</div><div class="line">HoldCount = <span class="number">2</span></div><div class="line">t1</div><div class="line">t1 - end</div><div class="line">t1 - end2</div><div class="line">lock.sync = java.util.concurrent.locks.ReentrantLock$NonfairSync@<span class="number">758916e9</span>[State = <span class="number">1</span>, empty queue]</div><div class="line">lock.sync.exclusiveOwnerThread = Thread[B,<span class="number">5</span>,main]</div><div class="line">HoldCount = <span class="number">1</span></div><div class="line">t2</div><div class="line">t2 - end</div><div class="line">t2 - end2</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/12/07/Java-Unsafe/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java Unsafe 类解读
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/10/02/Java-ReentrantLock-Node/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java ReentrantLock 中的 Node 节点</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
