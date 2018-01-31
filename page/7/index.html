@@ -84,7 +84,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -191,6 +191,67 @@
 
       <div class="body-wrap">
   
+    <article id="post-Java-ReentrantLock" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/02/Java-ReentrantLock/" class="article-date">
+  	<time datetime="2015-10-02T11:39:13.000Z" itemprop="datePublished">2015-10-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/02/Java-ReentrantLock/">Java ReentrantLock 多线程同步锁</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Java</strong> 锁对象 <strong>ReentrantLock</strong>，用于处理线程同步，和<strong>synchronized</strong>方法或者代码块类似，获取到锁对象的线程，将独享代码块，其它线程不能访问；<br><strong>ReentrantLock</strong>实现了<strong>Lock</strong>接口(提供了<strong>lock</strong>，<strong>unlock</strong>，<strong>newCondition</strong>等方法)，实际是真正处理加锁，释放锁的是它的内部类<strong>Sync</strong>，而<strong>Sync</strong>又继承自 <strong>AbstractQueuedSynchronizer</strong>；</p>
+      
+    </div>
+    
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/10/02/Java-ReentrantLock/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Java-ReentrantLock-Node" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -208,7 +269,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/02/Java-ReentrantLock-Node/">Java ReentrantLock 中的 Node 节点</a>
+      <a class="article-title" href="/2015/10/02/Java-ReentrantLock-Node/">Java AbstractQueuedSynchronizer 中的 Node 节点</a>
     </h1>
   
 
@@ -217,7 +278,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Java</strong> <strong>ReentrantLock</strong> 中的 <strong>Node</strong> 节点，等待队列中的单个节点对象；<br>
+        <p><strong>AbstractQueuedSynchronizer</strong> 中的 <strong>Node</strong> 节点，等待队列中的单个节点对象；<br>
       
     </div>
     
@@ -722,67 +783,6 @@
       
         <p class="article-more-link">
           <a  href="/2015/01/28/Algorighm/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-RxJava-IO" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2014/08/21/RxJava-IO/" class="article-date">
-  	<time datetime="2014-08-21T02:27:55.000Z" itemprop="datePublished">2014-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/21/RxJava-IO/">RxJava中的线程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Scheduler</strong> 是 <strong>RxJava</strong> 的线程调度器，可以指定代码执行的线程。<strong>RxJava</strong> 内置了几种线程，我们可以直接使用。<br>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2014/08/21/RxJava-IO/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

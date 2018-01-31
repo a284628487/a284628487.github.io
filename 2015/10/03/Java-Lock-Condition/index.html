@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Java Condition 线程间通信 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Lock常用于处理线程同步，解决并发操作，然而，Lock也可以用来实现线程间通信。但是，Lock并不能直接进行线程通信，而是要借助Condition。根据Condition接口的定义，Condition提供了await、signal、signalAll等几个方法，分别对标Object对象的wait、notify、notifyAll方法。Object对象的wait等方法，需要使用在synchroni">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Condition 线程间通信">
+<meta property="og:url" content="http://yoursite.com/2015/10/03/Java-Lock-Condition/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Lock常用于处理线程同步，解决并发操作，然而，Lock也可以用来实现线程间通信。但是，Lock并不能直接进行线程通信，而是要借助Condition。根据Condition接口的定义，Condition提供了await、signal、signalAll等几个方法，分别对标Object对象的wait、notify、notifyAll方法。Object对象的wait等方法，需要使用在synchroni">
+<meta property="og:updated_time" content="2018-01-31T23:08:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Condition 线程间通信">
+<meta name="twitter:description" content="Lock常用于处理线程同步，解决并发操作，然而，Lock也可以用来实现线程间通信。但是，Lock并不能直接进行线程通信，而是要借助Condition。根据Condition接口的定义，Condition提供了await、signal、signalAll等几个方法，分别对标Object对象的wait、notify、notifyAll方法。Object对象的wait等方法，需要使用在synchroni">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Java-Lock-Condition" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/03/Java-Lock-Condition/" class="article-date">
+  	<time datetime="2015-10-03T11:57:38.000Z" itemprop="datePublished">2015-10-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java Condition 线程间通信
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Lock</strong>常用于处理线程同步，解决并发操作，然而，<strong>Lock</strong>也可以用来实现线程间通信。但是，<strong>Lock</strong>并不能直接进行线程通信，而是要借助<strong>Condition</strong>。<br>根据<strong>Condition</strong>接口的定义，<strong>Condition</strong>提供了<strong>await</strong>、<strong>signal</strong>、<strong>signalAll</strong>等几个方法，分别对标<strong>Object</strong>对象的<strong>wait</strong>、<strong>notify</strong>、<strong>notifyAll</strong>方法。<br><strong>Object</strong>对象的<strong>wait</strong>等方法，需要使用在<strong>synchronized</strong>方法或者代码块中，也即在调用这些方法前，需要获取到锁对象；同样，<strong>Condition</strong>对象的<strong>await</strong>等方法，也是首先需要获取到锁，只是获取锁的方式有所不同，使用的是<strong>Lock</strong>锁。</p>
+<a id="more"></a>
+<h2 id="Condition-java"><a href="#Condition-java" class="headerlink" title="Condition.java"></a><strong>Condition.java</strong></h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">* Condition提供了使一个线程挂起，直到在某些条件满足的情况下被其它线程唤起的方法。  </div><div class="line">* Conditions provide a means for one thread to suspend execution until</div><div class="line">* notified by another thread that some state condition may now be true.</div><div class="line">* The key property that waiting for a condition provides</div><div class="line">* is that it &lt;em&gt;atomically&lt;/em&gt; releases the associated lock and</div><div class="line">* suspends the current thread, just like &#123;@code Object.wait&#125;.</div><div class="line">*</div><div class="line">* 假设有这样一个缓冲区buffer，支持put和take操作，如果buffer为空，则take操作的线程将被</div><div class="line">* 挂起，如果buffer已满，则put操作的线程也将被挂起。</div><div class="line">* 我们希望把处于等待状态中的put和take线程，分开存储到不同的wait-sets，这样我们就可以做</div><div class="line">* 一些优化，当条件满足时，只notify一个线程。</div><div class="line">* We would like to keep waiting &#123;@code put&#125; threads and &#123;@code take&#125;</div><div class="line">* threads in separate wait-sets so that we can use the optimization of</div><div class="line">* only notifying a single thread at a time when items or spaces become</div><div class="line">* available in the buffer. This can be achieved using two</div><div class="line">* &#123;@link Condition&#125; instances.</div><div class="line"></div><div class="line">* class BoundedBuffer &#123;</div><div class="line">*   final Lock lock = new ReentrantLock();</div><div class="line">*   final Condition notFull  = lock.newCondition(); // 缓冲区未满</div><div class="line">*   final Condition notEmpty = lock.newCondition(); // 缓冲区不为空</div><div class="line">*</div><div class="line">*   final Object[] items = new Object[100];</div><div class="line">*   int putptr, takeptr, count;</div><div class="line">*</div><div class="line">*   public void put(Object x) throws InterruptedException &#123;</div><div class="line">*     lock.lock();</div><div class="line">*     try &#123;</div><div class="line">*       while (count == items.length)</div><div class="line">*         notFull.await();</div><div class="line">*       items[putptr] = x;</div><div class="line">*       if (++putptr == items.length) putptr = 0;</div><div class="line">*       ++count;</div><div class="line">*       notEmpty.signal();</div><div class="line">*     &#125; finally &#123;</div><div class="line">*       lock.unlock();</div><div class="line">*     &#125;</div><div class="line">*   &#125;</div><div class="line">*</div><div class="line">*   public Object take() throws InterruptedException &#123;</div><div class="line">*     lock.lock();</div><div class="line">*     try &#123;</div><div class="line">*       while (count == 0)</div><div class="line">*         notEmpty.await();</div><div class="line">*       Object x = items[takeptr];</div><div class="line">*       if (++takeptr == items.length) takeptr = 0;</div><div class="line">*       --count;</div><div class="line">*       notFull.signal();</div><div class="line">*       return x;</div><div class="line">*     &#125; finally &#123;</div><div class="line">*       lock.unlock();</div><div class="line">*     &#125;</div><div class="line">*   &#125;</div><div class="line">* &#125;</div><div class="line">* </div><div class="line">* 和Object#monitor不同的是，Condition可以保证进入等待状态线程集合的被唤醒顺序，</div><div class="line">*</div><div class="line">public interface Condition &#123;</div><div class="line"></div><div class="line">   /** 使当前线程进入休眠状态直到被唤醒或者线程被interrupt</div><div class="line">    *</div><div class="line">    * await之后lock锁对象自动释放，当前线程将不再获取线程调度资源，直到以下4种情况发生</div><div class="line">    * 1. 其它线程调用signal，并且当前线程被选中为被唤醒的线程;</div><div class="line">    * 2. 其它线程调用signalAll;</div><div class="line">    * 3. 其它线程interrupt了当前线程;</div><div class="line">    * 4. spurious(虚假的) wakeup occurs;</div><div class="line">    * </div><div class="line">    * 在所以的情形下，在该方法返回前，当前线程必须重新获取lock锁对象！</div><div class="line">    * In all cases, before this method can return the current thread must</div><div class="line">    * re-acquire the lock associated with this condition. When the</div><div class="line">    * thread returns it is &lt;em&gt;guaranteed&lt;/em&gt; to hold this lock.</div><div class="line">    * </div><div class="line">    * &lt;p&gt;An implementation can favor responding to an interrupt over normal</div><div class="line">    * method return in response to a signal. In that case the implementation</div><div class="line">    * must ensure that the signal is redirected to another waiting thread, if</div><div class="line">    * there is one.</div><div class="line">    */</div><div class="line">   void await() throws InterruptedException;</div><div class="line">   </div><div class="line">   void awaitUninterruptibly();</div><div class="line">   long awaitNanos(long nanosTimeout) throws InterruptedException;</div><div class="line">   boolean await(long time, TimeUnit unit) throws InterruptedException;</div><div class="line">   boolean awaitUntil(Date deadline) throws InterruptedException;</div><div class="line">   void signal();</div><div class="line">   void signalAll();</div></pre></td></tr></table></figure>
+<h2 id="AbstractQueuedSynchronizer-ConditionObject-java"><a href="#AbstractQueuedSynchronizer-ConditionObject-java" class="headerlink" title="AbstractQueuedSynchronizer#ConditionObject.java"></a><strong>AbstractQueuedSynchronizer#ConditionObject.java</strong></h2><p>执行流程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">Thread0: t0BeforeLock...</div><div class="line">Thread0: compareAndSetState: <span class="number">1</span> - <span class="keyword">true</span></div><div class="line">Thread0: t0AfterLock...</div><div class="line">Thread0: await...</div><div class="line">Thread0: release: <span class="number">1</span></div><div class="line">Thread0: setState: <span class="number">0</span></div><div class="line">Thread0: await&gt;&gt;savedState: <span class="number">1</span></div><div class="line">Thread0: await&gt;&gt;node.waitStatus: -<span class="number">2</span></div><div class="line">Thread0: isOnSyncQueue = -<span class="number">2</span></div><div class="line"></div><div class="line">Thread1: t1BeforeLock...</div><div class="line">Thread1: compareAndSetState: <span class="number">1</span> - <span class="keyword">true</span></div><div class="line">Thread1: t1AfterLock...</div><div class="line">Thread1: doSignal&gt;&gt;first.waitStatus: -<span class="number">2</span></div><div class="line">Thread1: compareAndSetWaitStatus: <span class="number">0</span></div><div class="line">Thread1: enq</div><div class="line">Thread1: transferForsignal&gt;&gt;p.waitStatus: <span class="number">0</span></div><div class="line">Thread1: compareAndSetWaitStatus: -<span class="number">1</span></div><div class="line">Thread1: t1BeforeUnlock...</div><div class="line">Thread1: release: <span class="number">1</span></div><div class="line">Thread1: setState: <span class="number">0</span></div><div class="line">Thread1: unparkSuccessor&gt;&gt;node.waitStatus: -<span class="number">1</span></div><div class="line">Thread1: compareAndSetWaitStatus: <span class="number">0</span></div><div class="line">Thread1: s: $node@<span class="number">814013</span></div><div class="line">Thread1: t1AfterUnlock...</div><div class="line"></div><div class="line">Thread0: checkInterruptWhileWaiting</div><div class="line">Thread0: isOnSyncQueue = <span class="number">0</span></div><div class="line">Thread0: compareAndSetState: <span class="number">1</span> - <span class="keyword">true</span></div><div class="line">Thread0: t0BeforeUnLock...</div><div class="line">Thread0: release: <span class="number">1</span></div><div class="line">Thread0: setState: <span class="number">0</span></div><div class="line">Thread0: t0AfterUnLock...</div></pre></td></tr></table></figure>
+<p>obj.notify和obj.notifyAll()却是默认唤醒非当前线程</p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/12/07/Java-Unsafe/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java Unsafe 类解读
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/10/02/Java-ReentrantLock/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java ReentrantLock 多线程同步锁</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
