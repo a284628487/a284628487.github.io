@@ -117,7 +117,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
 					</div>
 				</section>
 				
@@ -190,6 +190,67 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-Java-Lock-Condition" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/03/Java-Lock-Condition/" class="article-date">
+  	<time datetime="2015-10-03T11:57:38.000Z" itemprop="datePublished">2015-10-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/03/Java-Lock-Condition/">Java Condition 线程间通信</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Lock</strong>常用于处理线程同步，解决并发操作，然而，<strong>Lock</strong>也可以用来实现线程间通信。但是，<strong>Lock</strong>并不能直接进行线程通信，而是要借助<strong>Condition</strong>。<br>根据<strong>Condition</strong>接口的定义，<strong>Condition</strong>提供了<strong>await</strong>、<strong>signal</strong>、<strong>signalAll</strong>等几个方法，分别对标<strong>Object</strong>对象的<strong>wait</strong>、<strong>notify</strong>、<strong>notifyAll</strong>方法。<br><strong>Object</strong>对象的<strong>wait</strong>等方法，需要使用在<strong>synchronized</strong>方法或者代码块中，也即在调用这些方法前，需要获取到锁对象；同样，<strong>Condition</strong>对象的<strong>await</strong>等方法，也是首先需要获取到锁，只是获取锁的方式有所不同，使用的是<strong>Lock</strong>锁。</p>
+      
+    </div>
+    
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/10/03/Java-Lock-Condition/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-Java-ReentrantLock" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -679,11 +740,11 @@
 
 
   
-    <article id="post-Algorighm-sort" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Java-Heap-Stack" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/02/02/Algorighm-sort/" class="article-date">
-  	<time datetime="2015-02-02T12:43:00.000Z" itemprop="datePublished">2015-02-02</time>
+      <a href="/2015/02/04/Java-Heap-Stack/" class="article-date">
+  	<time datetime="2015-02-03T23:21:54.000Z" itemprop="datePublished">2015-02-04</time>
 </a>
     </div>
   
@@ -696,7 +757,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/02/Algorighm-sort/">常用排序算法</a>
+      <a class="article-title" href="/2015/02/04/Java-Heap-Stack/">Java 堆(Heap) 栈(Stack)</a>
     </h1>
   
 
@@ -705,7 +766,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>常用的排序算法：冒泡排序，快速排序，选择排序，插入排序。<br>
+        <p>栈(stack)与堆(heap)都是Java用来在Ram中存放数据的地方。与C++不同的是，Java自动管理栈和堆，程序员不能直接地设置栈或堆。<br>两者的区别比较:</p>
+<ul>
+<li><strong>栈</strong>: 存取速度比堆要快，仅次于直接位于CPU中的寄存器。但缺点是存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。另外，栈数据还是可以共享的。</li>
+<li><strong>堆</strong>: 可以动态地分配内存大小，生存期也不必事先告诉编译器，Java的垃圾收集器会自动收走这些不再使用的数据。但缺点是由于要在运行时动态分配内存，存取速度较慢。 </li>
+</ul>
       
     </div>
     
@@ -714,75 +779,14 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorighm/">Algorighm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 	</div>
 
       
 
       
         <p class="article-more-link">
-          <a  href="/2015/02/02/Algorighm-sort/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Algorighm" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/01/28/Algorighm/" class="article-date">
-  	<time datetime="2015-01-28T12:56:59.000Z" itemprop="datePublished">2015-01-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/28/Algorighm/">常用查找算法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>常用的查找算法: 顺序查找，二分查找，分块查找，哈希查找，二叉树查找。<br>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorighm/">Algorighm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/01/28/Algorighm/#more">more >></a>
+          <a  href="/2015/02/04/Java-Heap-Stack/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

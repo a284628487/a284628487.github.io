@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Java 堆(Heap) 栈(Stack) | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="栈(stack)与堆(heap)都是Java用来在Ram中存放数据的地方。与C++不同的是，Java自动管理栈和堆，程序员不能直接地设置栈或堆。两者的区别比较:  栈: 存取速度比堆要快，仅次于直接位于CPU中的寄存器。但缺点是存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。另外，栈数据还是可以共享的。 堆: 可以动态地分配内存大小，生存期也不必事先告诉编译器，Java的垃圾收集器会自动收走这">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 堆(Heap) 栈(Stack)">
+<meta property="og:url" content="http://yoursite.com/2015/02/04/Java-Heap-Stack/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="栈(stack)与堆(heap)都是Java用来在Ram中存放数据的地方。与C++不同的是，Java自动管理栈和堆，程序员不能直接地设置栈或堆。两者的区别比较:  栈: 存取速度比堆要快，仅次于直接位于CPU中的寄存器。但缺点是存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。另外，栈数据还是可以共享的。 堆: 可以动态地分配内存大小，生存期也不必事先告诉编译器，Java的垃圾收集器会自动收走这">
+<meta property="og:updated_time" content="2018-02-04T00:41:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 堆(Heap) 栈(Stack)">
+<meta name="twitter:description" content="栈(stack)与堆(heap)都是Java用来在Ram中存放数据的地方。与C++不同的是，Java自动管理栈和堆，程序员不能直接地设置栈或堆。两者的区别比较:  栈: 存取速度比堆要快，仅次于直接位于CPU中的寄存器。但缺点是存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。另外，栈数据还是可以共享的。 堆: 可以动态地分配内存大小，生存期也不必事先告诉编译器，Java的垃圾收集器会自动收走这">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Java-Heap-Stack" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/02/04/Java-Heap-Stack/" class="article-date">
+  	<time datetime="2015-02-03T23:21:54.000Z" itemprop="datePublished">2015-02-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java 堆(Heap) 栈(Stack)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>栈(stack)与堆(heap)都是Java用来在Ram中存放数据的地方。与C++不同的是，Java自动管理栈和堆，程序员不能直接地设置栈或堆。<br>两者的区别比较:</p>
+<ul>
+<li><strong>栈</strong>: 存取速度比堆要快，仅次于直接位于CPU中的寄存器。但缺点是存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。另外，栈数据还是可以共享的。</li>
+<li><strong>堆</strong>: 可以动态地分配内存大小，生存期也不必事先告诉编译器，Java的垃圾收集器会自动收走这些不再使用的数据。但缺点是由于要在运行时动态分配内存，存取速度较慢。 </li>
+</ul>
+<a id="more"></a>
+<h2 id="Java数据类型"><a href="#Java数据类型" class="headerlink" title="Java数据类型"></a>Java数据类型</h2><h4 id="基本数据类型-primitive-types"><a href="#基本数据类型-primitive-types" class="headerlink" title="基本数据类型(primitive types):"></a>基本数据类型(primitive types):</h4><p>int, short, long, byte, float, double, boolean, char(注意，并没有String的基本类型); 这种类型的定义是通过诸如<code>int a = 3; long b = 255L;</code>的形式来定义的，称为自动变量。<br>值得注意的是，自动变量存的是字面值，不是类的实例，即不是类的引用，并没有类的存在。如<code>int a = 3;</code>，这里的a是一个指向int类型的引用，指向3这个字面值。这些字面值的数据，由于大小可知，生存期可知(这些字面值固定定义在某个程序块里面，程序块退出后，字段值就消失了)，出于追求速度的原因，就存在于栈中。另外，栈有一个很重要的特殊性，就是存在栈中的数据可以共享。假设我们同时定义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = <span class="number">3</span>; </div><div class="line"><span class="keyword">int</span> b = <span class="number">3</span>;</div></pre></td></tr></table></figure></p>
+<p>编译器先处理<code>int a = 3</code>；首先它会在栈中创建一个变量为a的引用，然后查找有没有字面值为3的地址，没找到，就开辟一个存放3这个字面值的地址，然后将a指向3的地址。接着处理<code>int b = 3；</code>在创建完b的引用变量后，由于在栈中已经有3这个字面值，便将b直接指向3的地址。这样，就出现了a与b同时均指向3的情况。 </p>
+<p>特别注意的是，这种字面值的引用与类对象的引用不同。假定两个类对象的引用同时指向一个对象，如果一个对象引用变量修改了这个对象的内部状态，那么另一个对象引用变量也即刻反映出这个变化。相反，通过字面值的引用来修改其值，不会导致另一个指向此字面值的引用的值也跟着改变的情况。如上例，我们定义完 a与b的值后，再令a=4；那么，b不会等于4，还是等于3。在编译器内部，遇到a=4；时，它就会重新搜索栈中是否有4的字面值，如果没有，重新开辟地址存放4的值；如果已经有了，则直接将a指向这个地址。因此a值的改变不会影响到b的值。 </p>
+<h4 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h4><p>自定义class，通过new创建的对象，包括包装类数据，如Integer, String, Double等将相应的基本数据类型包装起来的类。这些类数据全部存在于堆中，Java用new()语句来显示地告诉编译器，在运行时才根据需要动态创建，因此比较灵活，但缺点是要占用更多的时间。</p>
+<p>String是一个特殊的包装类数据。即可以用<code>String str = new String(&quot;abc&quot;);</code>的形式来创建，也可以用<code>String str = &quot;abc&quot;；</code>的形式来创建(作为对比，在JDK 5.0之前，你从未见过Integer i = 3;的表达式，因为类与字面值是不能通用的，除了String。而在JDK 5.0中，这种表达式是可以的！因为编译器在后台进行<code>Integer i = new Integer(3)</code>的转换)。前者是规范的类的创建过程，即在Java中，一切都是对象，而对象是类的实例，全部通过new()的形式来创建。</p>
+<p>关于<code>String str = &quot;abc&quot;</code>的内部工作。Java内部将此语句转化为以下几个步骤： </p>
+<ol>
+<li>先定义一个名为str的对String类的对象引用变量：String str； </li>
+<li>在栈中查找有没有存放值为”abc”的地址，如果没有，则开辟一个存放字面值为”abc”的地址；</li>
+<li>接着创建一个新的String类的对象o，并将o的字符串值指向这个地址，而且在栈中这个地址旁边记下这个引用的对象o。如果已经有了值为”abc”的地址，则查找对象o，并返回o的地址。 </li>
+<li>将str指向对象o的地址。 </li>
+</ol>
+<p>值得注意的是，一般String类中字符串值都是直接存值的。但像<code>String str = &quot;abc&quot;；</code>这种场合下，其字符串值却是保存了一个指向存在栈中数据的引用！ </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">String abc2 = <span class="string">"abc"</span>;</div><div class="line">String abc3 = <span class="string">"abc"</span>;</div><div class="line">System.out.println(abc3 == abc2); <span class="comment">// true @1</span></div><div class="line">abc2 = <span class="string">"cba"</span>;</div><div class="line">System.out.println(abc3 == abc2); <span class="comment">// false @2</span></div><div class="line"></div><div class="line">String abc = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</div><div class="line">System.out.println(abc == abc3); <span class="comment">// false @3</span></div></pre></td></tr></table></figure>
+<p><code>str1.equals(str2)；</code>的方式将比较两个字符串的值是否相等。而<code>==</code>号，根据JDK的说明，只有在两个引用都指向了同一个对象时才返回真值。</p>
+<blockquote>
+<p>JVM创建了两个引用abc2和abc3，但只创建了一个对象，而且两个引用都指向了同一个对象。 </p>
+<p>赋值的变化导致了类对象引用的变化，abc2指向了另外一个新对象！而abc3仍旧指向原来的对象。当我们将abc2的值改为”cba”时，JVM发现在栈中没有存放该值的地址，便开辟了这个地址，并创建了一个新的对象，其字符串的值指向这个地址。 </p>
+<p>只要是用new()来新建对象的，都会在堆中创建，而且其字符串是单独存值的，即使与栈中的数据相同，也不会与栈中的数据共享。 </p>
+</blockquote>
+<p>事实上，String类被设计成为不可改变(immutable)的类。如果要改变其值，JVM在运行时根据新值重新创建一个新对象，然后将这个对象的地址返回给原来类的引用。数据类型包装类的值不可修改。不仅仅是String类的值不可修改，所有的数据类型包装类都不能更改其内部的值。 </p>
+<h2 id="数据存放区域"><a href="#数据存放区域" class="headerlink" title="数据存放区域"></a>数据存放区域</h2><ul>
+<li><p>栈(stack): 通常用于保存函数中的参数，局部变量。在java中，所有基本类型和引用类型都在栈中存储，栈中数据的生存空间一般在当前scopes内(就是由{…}括起来的区域)。</p>
+</li>
+<li><p>堆(heap): 是一个可动态申请的内存空间(其记录空闲内存空间的链表由操作系统维护)。C中的malloc语句所产生的内存空间就在堆中。在java中所有使用<code>new xxx()</code>构造出来的对象都在堆中存储，当垃圾回收器检测到某对象未被引用，则自动销毁该对象。</p>
+</li>
+</ul>
+<p>在JAVA中，有六个不同的地方可以存储数据： </p>
+<h4 id="寄存器（register）"><a href="#寄存器（register）" class="headerlink" title="寄存器（register）"></a>寄存器（register）</h4><p>这是最快的存储区，因为它位于不同于其他存储区的地方：处理器内部。但是寄存器的数量极其有限，所以寄存器由编译器根据需求进行分配。你不能直接控制，也不能在程序中感觉到寄存器存在的任何迹象。 </p>
+<h4 id="栈（stack）"><a href="#栈（stack）" class="headerlink" title="栈（stack）"></a>栈（stack）</h4><p>位于通用RAM中，但通过它的“堆栈指针”可以从处理器哪里获得支持。堆栈指针若向下移动，则分配新的内存；若向上移动，则释放那些内存。这是一种快速有效的分配存储方法，仅次于寄存器。创建程序时候，JAVA编译器必须知道存储在堆栈内所有数据的确切大小和生命周期，因为它必须生成相应的代码，以便上下移动堆栈指针。这一约束限制了程序的灵活性，所以虽然某些JAVA数据存储在堆栈中——特别是对象引用，但是JAVA对象不存储其中。 </p>
+<h4 id="堆（heap）"><a href="#堆（heap）" class="headerlink" title="堆（heap）"></a>堆（heap）</h4><p>一种通用性的内存池（也存在于RAM中），用于存放所有的JAVA对象。堆不同于堆栈的好处是：编译器不需要知道要从堆里分配多少存储区域，也不必知道存储的数据在堆里存活多长时间。因此，在堆里分配存储有很大的灵活性。当你需要创建一个对象的时候，只需要new写一行简单的代码，当执行这行代码时，会自动在堆里进行存储分配。当然，为这种灵活性必须要付出相应的代码。用堆进行存储分配比用堆栈进行存储存储需要更多的时间。</p>
+<h4 id="静态存储（static-storage）"><a href="#静态存储（static-storage）" class="headerlink" title="静态存储（static storage）"></a>静态存储（static storage）</h4><p>这里的“静态”是指“在固定的位置”。静态存储里存放程序运行时一直存在的数据。你可用关键字static来标识一个对象的特定元素是静态的，但JAVA对象本身从来不会存放在静态存储空间里。 </p>
+<h4 id="常量存储（constant-storage）"><a href="#常量存储（constant-storage）" class="headerlink" title="常量存储（constant storage）"></a>常量存储（constant storage）</h4><p>常量值通常直接存放在程序代码内部，这样做是安全的，因为它们永远不会被改变。有时，在嵌入式系统中，常量本身会和其他部分分割离开，所以在这种情况下，可以选择将其放在ROM中 </p>
+<h4 id="非RAM存储"><a href="#非RAM存储" class="headerlink" title="非RAM存储"></a>非RAM存储</h4><p>如果数据完全存活于程序之外，那么它可以不受程序的任何控制，在程序没有运行时也可以存在。 </p>
+<h4 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h4><p>就速度来说，有如下关系：<br>寄存器 &lt; 堆栈 &lt; 堆 &lt; 其他</p>
+<ul>
+<li>堆: 堆是heap，是所谓的动态内存，其中的内存在不需要时可以回收，以分配给新的内存请求，其内存中的数据是无序的，即先分配的和随后分配的内存并没有什么必然的位置关系，释放时也可以没有先后顺序。</li>
+<li>栈: 就是STACK。实际上是只有一个出入口的队列，即后进先出（First In Last Out），先分配的内存必定后释放。一般由系统自动分配，存放存放函数的参数值，局部变量等，自动清除。 </li>
+</ul>
+<p>还有，堆是全局的，栈是每个函数进入的时候分一小块，函数返回的时候就释放了，静态和全局变量，new 得到的变量，都放在堆中，局部变量放在栈中，所以函数返回，局部变量就全没了。<br>实际应用中，堆栈多用来存储方法的调用。而对则用于对象的存储。 </p>
+<p>最主要的区别就是栈内存用来存储局部变量和方法调用。<br>而堆内存用来存储Java中的对象。无论是成员变量，局部变量，还是类变量，它们指向的对象都存储在堆内存中。</p>
+<p>如果栈内存没有可用的空间存储方法调用和局部变量，JVM会抛出java.lang.StackOverFlowError。<br>而如果是堆内存没有可用的空间存储生成的对象，JVM会抛出java.lang.OutOfMemoryError。</p>
+<p><a href="https://droidyue.com/blog/2014/12/07/differences-between-stack-and-heap-in-java/" target="_blank" rel="external">Java中的堆和栈的区别</a></p>
+<p>栈区: 每个线程包含一个栈区，栈中只保存基础数据类型和<strong>自定义对象的引用</strong>(<strong>不是对象</strong>)，对象都存放在堆区中，每个栈中的数据(原始类型和对象引用)都是私有的，其他栈不能访问。</p>
+<p>堆区: 存储的全部是对象实例，每个对象都包含一个与之对应的class的信息(class信息存放在方法区)。jvm只有一个堆区(heap)被所有线程共享，<strong>堆中不存放基本类型和对象引用</strong>，只存放对象本身，几乎所有的<strong>对象实例和数组都在堆中分配</strong>。</p>
+<p>方法区: 又叫静态区，跟堆一样，被所有的线程共享。它用于存储已经被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。</p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/16/Java-Collection-Map/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java 中的 Collection 和 Map 对比
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/02/02/Algorighm-sort/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">常用排序算法</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
