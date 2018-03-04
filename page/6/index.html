@@ -84,7 +84,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -190,6 +190,128 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-NodeJS-Module-Principle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/03/NodeJS-Module-Principle/" class="article-date">
+  	<time datetime="2016-07-03T07:31:55.000Z" itemprop="datePublished">2016-07-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/03/NodeJS-Module-Principle/">NodeJS Module 模块原理</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>JavaScript</strong> 中实现“模块”这个功能，并不需要语法层面的支持。 <strong>Node.js</strong> 并不会增加任何 <strong>JavaScript</strong> 语法。实现“模块”功能的奥妙就在于 <strong>JavaScript</strong> 是一种函数式编程语言，它支持闭包。如果我们把一段 <strong>JavaScript</strong> 代码用一个函数包装起来，这段代码的所有“全局”变量就变成了函数内部的局部变量。</p>
+      
+    </div>
+    
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/03/NodeJS-Module-Principle/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-NodeJS-Common-Module" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/02/NodeJS-Common-Module/" class="article-date">
+  	<time datetime="2016-07-02T07:05:53.000Z" itemprop="datePublished">2016-07-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/02/NodeJS-Common-Module/">NodeJS 基础模块</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Node.js</strong> 是运行在服务器端的 <strong>JavaScript</strong> 环境，服务器程序和浏览器程序相比，最大的特点是没有浏览器的安全限制了，而且，服务器程序必须能接收网络请求，读写文件，处理二进制内容，所以， <strong>Node.js</strong> 内置的常用模块就是为了实现基本的服务器功能。这些模块在浏览器环境中是无法被执行的，因为它们的底层代码是用 <strong>C/C++</strong> 在 <strong>Node.js</strong> 运行环境中实现的。<br>
+      
+    </div>
+    
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/">NodeJS</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/07/02/NodeJS-Common-Module/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-NodeJS-Begin" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -665,128 +787,6 @@
       
         <p class="article-more-link">
           <a  href="/2016/05/07/Retrofit-Annotation/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Android-Retrofit" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/06/Android-Retrofit/" class="article-date">
-  	<time datetime="2016-05-06T07:37:59.000Z" itemprop="datePublished">2016-05-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/06/Android-Retrofit/">Android中用Retrofit2进行网络请求</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在 <strong>Android</strong> 开发中，有多种网络请求框架，从一开始自己写”框架”，到后面使用第三方框架，接触下来个人最喜欢的是 <strong>Retfofit</strong>，然而 <strong>Retrofit</strong> 并不是网络请求框架，可以把它看作是对网络请求接口进行优化配置的一个框架，真正的网络请求处理是它所依赖的 <strong>OkHttp</strong>处理的，本篇主要记录使用 <strong>Retrofit2</strong> + <strong>RxJava</strong> 框架来进行网络请求的一些方法。<br>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/06/Android-Retrofit/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-ClassLoader" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/21/Java-ClassLoader/" class="article-date">
-  	<time datetime="2016-02-21T01:18:54.000Z" itemprop="datePublished">2016-02-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/21/Java-ClassLoader/">Java 类加载器 ClassLoader</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>.java</strong> 文件经过Java编译器编译后生成<strong>.class</strong>文件，<strong>.class</strong>文件中保存着Java代码经转换后的虚拟机指令，当需要使用某个类时，虚拟机将会加载它的<strong>.class</strong> 文件，并创建对应的Class对象，将Class文件加载到虚拟机的内存，这个过程称为类加载。</p>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/02/21/Java-ClassLoader/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

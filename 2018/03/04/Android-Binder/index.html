@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android Binder | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android中Binder机制的应用，在bindService和unBindService中流程分解。">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Binder">
+<meta property="og:url" content="http://yoursite.com/2018/03/04/Android-Binder/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Android中Binder机制的应用，在bindService和unBindService中流程分解。">
+<meta property="og:updated_time" content="2018-03-04T14:25:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Binder">
+<meta name="twitter:description" content="Android中Binder机制的应用，在bindService和unBindService中流程分解。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 17px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 18px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 19px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-Binder" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/04/Android-Binder/" class="article-date">
+  	<time datetime="2018-03-04T14:22:17.000Z" itemprop="datePublished">2018-03-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Binder
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android中<strong>Binder</strong>机制的应用，在<strong>bindService</strong>和<strong>unBindService</strong>中流程分解。</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Activity.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="title">bindService</span><span class="params">(new Intent(MainActivity.<span class="keyword">this</span>, MyService.class)</span>, conn, Service.BIND_AUTO_CREATE);</div><div class="line"></div><div class="line">ContextWrapper.java</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">bindService</span><span class="params">(Intent service, ServiceConnection conn,</span></span></div><div class="line">        <span class="keyword">int</span> flags) &#123;</div><div class="line">    <span class="keyword">return</span> mBase.bindService(service, conn, flags);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="ContextImpl-java"><a href="#ContextImpl-java" class="headerlink" title="ContextImpl.java"></a>ContextImpl.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">bindService</span><span class="params">(Intent service, ServiceConnection conn,</span></span></div><div class="line">        <span class="keyword">int</span> flags) &#123;</div><div class="line">    warnIfCallingFromSystemProcess();</div><div class="line">    <span class="keyword">return</span> bindServiceCommon(service, conn, flags, mMainThread.getHandler(),</div><div class="line">            Process.myUserHandle());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">bindServiceCommon</span><span class="params">(Intent service, ServiceConnection conn, <span class="keyword">int</span> flags, Handler</span></span></div><div class="line">        handler, UserHandle user) &#123;</div><div class="line">    IServiceConnection sd;</div><div class="line">    <span class="keyword">if</span> (mPackageInfo != <span class="keyword">null</span>) &#123;</div><div class="line">    	<span class="comment">// ccf: =&gt; Binder#attachInterface(...);</span></div><div class="line">        sd = mPackageInfo.getServiceDispatcher(conn, getOuterContext(), handler, flags);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Not supported in system context"</span>);</div><div class="line">    &#125;</div><div class="line">    validateServiceIntent(service);</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        IBinder token = getActivityToken();</div><div class="line">        <span class="keyword">if</span> (token == <span class="keyword">null</span> &amp;&amp; (flags&amp;BIND_AUTO_CREATE) == <span class="number">0</span> &amp;&amp; mPackageInfo != <span class="keyword">null</span></div><div class="line">                &amp;&amp; mPackageInfo.getApplicationInfo().targetSdkVersion</div><div class="line">                &lt; android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) &#123;</div><div class="line">            flags |= BIND_WAIVE_PRIORITY;</div><div class="line">        &#125;</div><div class="line">        service.prepareToLeaveProcess(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        <span class="comment">// ccf: =&gt; ActivityManagerNative#bindService(...);</span></div><div class="line">        <span class="keyword">int</span> res = ActivityManagerNative.getDefault().bindService(</div><div class="line">            mMainThread.getApplicationThread(), getActivityToken(), service,</div><div class="line">            service.resolveTypeIfNeeded(getContentResolver()),</div><div class="line">            sd, flags, getOpPackageName(), user.getIdentifier());</div><div class="line">        <span class="keyword">if</span> (res &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(</div><div class="line">                    <span class="string">"Not allowed to bind to service "</span> + service);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> res != <span class="number">0</span>;</div><div class="line">    &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</div><div class="line">        <span class="keyword">throw</span> e.rethrowFromSystemServer();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Binder.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachInterface</span><span class="params">(IInterface owner, String descriptor)</span> &#123;</div><div class="line">    mOwner = owner;</div><div class="line">    mDescriptor = descriptor;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">ActivityManagerNative.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bindService</span><span class="params">(IApplicationThread caller, IBinder token,</span></div><div class="line">        Intent service, String resolvedType, IServiceConnection connection,</div><div class="line">        <span class="keyword">int</span> flags,  String callingPackage, <span class="keyword">int</span> userId) <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">    Parcel data = Parcel.obtain();</div><div class="line">    Parcel reply = Parcel.obtain();</div><div class="line">    data.writeInterfaceToken(IActivityManager.descriptor);</div><div class="line">    data.writeStrongBinder(caller != <span class="keyword">null</span> ? caller.asBinder() : <span class="keyword">null</span>);</div><div class="line">    data.writeStrongBinder(token);</div><div class="line">    service.writeToParcel(data, <span class="number">0</span>);</div><div class="line">    data.writeString(resolvedType);</div><div class="line">    data.writeStrongBinder(connection.asBinder());</div><div class="line">    data.writeInt(flags);</div><div class="line">    data.writeString(callingPackage);</div><div class="line">    data.writeInt(userId);</div><div class="line">    <span class="comment">// ccf: mRemote(BinderProxy)</span></div><div class="line">    <span class="comment">// ccf: =&gt; BinderProxy#transact(...);</span></div><div class="line">    mRemote.transact(BIND_SERVICE_TRANSACTION, data, reply, <span class="number">0</span>);</div><div class="line">    reply.readException();</div><div class="line">    <span class="keyword">int</span> res = reply.readInt();</div><div class="line">    data.recycle();</div><div class="line">    reply.recycle();</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Binder$BinderProxy.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">transact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">    Binder.checkParcel(<span class="keyword">this</span>, code, data, <span class="string">"Unreasonably large binder buffer"</span>);</div><div class="line">    <span class="keyword">if</span> (Binder.isTracingEnabled()) &#123; Binder.getTransactionTracker().addTrace(); &#125;</div><div class="line">    <span class="comment">// ccf: =&gt; Binder#execTransact(...);</span></div><div class="line">    <span class="keyword">return</span> transactNative(code, data, reply, flags);</div><div class="line">&#125;</div><div class="line"></div><div class="line">Binder.java </div><div class="line">(LoadedApk$ServiceDispatcher$InnerConnection)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">execTransact</span><span class="params">(<span class="keyword">int</span> code, <span class="keyword">long</span> dataObj, <span class="keyword">long</span> replyObj,</span></span></div><div class="line">        <span class="keyword">int</span> flags) &#123;</div><div class="line">    Parcel data = Parcel.obtain(dataObj);</div><div class="line">    Parcel reply = Parcel.obtain(replyObj);</div><div class="line">    <span class="comment">// theoretically, we should call transact, which will call onTransact,</span></div><div class="line">    <span class="comment">// but all that does is rewind it, and we just got these from an IPC,</span></div><div class="line">    <span class="comment">// so we'll just call it directly.</span></div><div class="line">    <span class="keyword">boolean</span> res;</div><div class="line">    <span class="comment">// Log any exceptions as warnings, don't silently suppress them.</span></div><div class="line">    <span class="comment">// If the call was FLAG_ONEWAY then these exceptions disappear into the ether.</span></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="comment">// ccf: =&gt; Binder$BinderProxy#BinderProxy(...);</span></div><div class="line">        res = onTransact(code, data, reply, flags);</div><div class="line">    &#125; <span class="keyword">catch</span> (RemoteException|RuntimeException e) &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        res = <span class="keyword">true</span>;</div><div class="line">    &#125; <span class="keyword">catch</span> (OutOfMemoryError e) &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        res = <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    checkParcel(<span class="keyword">this</span>, code, reply, <span class="string">"Unreasonably large binder reply buffer"</span>);</div><div class="line">    reply.recycle();</div><div class="line">    data.recycle();</div><div class="line"></div><div class="line">    <span class="comment">// Just in case -- we are done with the IPC, so there should be no more strict</span></div><div class="line">    <span class="comment">// mode violations that have gathered for this thread.  Either they have been</span></div><div class="line">    <span class="comment">// parceled and are now in transport off to the caller, or we are returning back</span></div><div class="line">    <span class="comment">// to the main transaction loop to wait for another incoming transaction.  Either</span></div><div class="line">    <span class="comment">// way, strict mode begone!</span></div><div class="line">    StrictMode.clearGatheredViolations();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Binder$BinderProxy.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="title">BinderProxy</span><span class="params">()</span> &#123;</div><div class="line">    mSelf = <span class="keyword">new</span> WeakReference(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 生成Binder中间驱动，onServiceConnected中的第二个参数，实际上就是该对象!</span></div><div class="line"></div><div class="line">onServiceConnected</div><div class="line"></div><div class="line">ServiceConnection conn = <span class="keyword">new</span> ServiceConnection() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</div><div class="line">        Log.w(TAG, <span class="string">"onServiceConnected: "</span> + service.hashCode() + <span class="string">" - "</span> + Thread.currentThread().getName());</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// ccf: =&gt; Binder$BinderProxy#transact(...);</span></div><div class="line">            service.transact(<span class="number">101010</span>, Parcel.obtain(), Parcel.obtain(), <span class="number">0</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">Binder$BinderProxy.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">transact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">    Binder.checkParcel(<span class="keyword">this</span>, code, data, <span class="string">"Unreasonably large binder buffer"</span>);</div><div class="line">    <span class="keyword">if</span> (Binder.isTracingEnabled()) &#123; Binder.getTransactionTracker().addTrace(); &#125;</div><div class="line">    <span class="keyword">return</span> transactNative(code, data, reply, flags);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">unBindService(conn);</div><div class="line"></div><div class="line">ContextWrapper.java</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unbindService</span><span class="params">(ServiceConnection conn)</span> </span>&#123;</div><div class="line">    mBase.unbindService(conn);</div><div class="line">&#125;</div><div class="line"></div><div class="line">ContextImpl.java</div><div class="line"></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unbindService</span><span class="params">(ServiceConnection conn)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mPackageInfo != <span class="keyword">null</span>) &#123;</div><div class="line">        IServiceConnection sd = mPackageInfo.forgetServiceDispatcher(</div><div class="line">                getOuterContext(), conn);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// ccf: =&gt; ActivityManagerNative#unbindService(...);</span></div><div class="line">            ActivityManagerNative.getDefault().unbindService(sd);</div><div class="line">        &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</div><div class="line">            <span class="keyword">throw</span> e.rethrowFromSystemServer();</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Not supported in system context"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ActivityManagerNative.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">unbindService</span><span class="params">(IServiceConnection connection)</span> <span class="keyword">throws</span> RemoteException</div><div class="line">&#123;</div><div class="line">    Parcel data = Parcel.obtain();</div><div class="line">    Parcel reply = Parcel.obtain();</div><div class="line">    data.writeInterfaceToken(IActivityManager.descriptor);</div><div class="line">    data.writeStrongBinder(connection.asBinder());</div><div class="line">    <span class="comment">// ccf: =&gt; Binder$BinderProxy#transact(...);</span></div><div class="line">    mRemote.transact(UNBIND_SERVICE_TRANSACTION, data, reply, <span class="number">0</span>);</div><div class="line">    reply.readException();</div><div class="line">    <span class="keyword">boolean</span> res = reply.readInt() != <span class="number">0</span>;</div><div class="line">    data.recycle();</div><div class="line">    reply.recycle();</div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Binder$BinderProxy.<span class="function">java</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">transact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">    Binder.checkParcel(<span class="keyword">this</span>, code, data, <span class="string">"Unreasonably large binder buffer"</span>);</div><div class="line">    <span class="keyword">if</span> (Binder.isTracingEnabled()) &#123; Binder.getTransactionTracker().addTrace(); &#125;</div><div class="line">    <span class="comment">// ccf: =&gt; Binder#execTransact(...);</span></div><div class="line">    <span class="keyword">return</span> transactNative(code, data, reply, flags);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/04/Android-DexClassLoader/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 类加载器 DexClassLoader和PathClassLoader</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
