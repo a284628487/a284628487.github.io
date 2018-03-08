@@ -217,7 +217,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Android中<strong>Binder</strong>机制的应用，在<strong>bindService</strong>和<strong>unBindService</strong>中流程分解。</p>
+        <p>在Android中，<strong>Binder</strong>用于完成进程间通信（IPC），即把多个进程关联在一起。<br><strong>Binder</strong>工作在Linux层面，属于一个驱动，只是这个驱动不需要硬件，或者说其操作的硬件是基于一小段内存。从线程的角度来讲，<strong>Binder</strong>驱动代码运行在内核态，客户端程序调用Binder是通过系统调用完成的。</p>
       
     </div>
     

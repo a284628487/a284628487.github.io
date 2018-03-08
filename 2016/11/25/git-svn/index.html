@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/11/25/git-svn/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="Git / SVN 实用命令">
-<meta property="og:updated_time" content="2017-11-26T01:11:35.000Z">
+<meta property="og:updated_time" content="2018-03-08T14:47:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git&#x2F;SVN 实用命令">
 <meta name="twitter:description" content="Git / SVN 实用命令">
@@ -255,7 +255,7 @@
 <li><p>更新到从分支远程仓库<br><code>git push</code></p>
 </li>
 </ol>
-<h2 id="git-远程信息"><a href="#git-远程信息" class="headerlink" title="git 远程信息"></a>git 远程信息</h2><ol>
+<h2 id="git-仓库信息"><a href="#git-仓库信息" class="headerlink" title="git 仓库信息"></a>git 仓库信息</h2><ol>
 <li><p>添加新的 <strong>remote</strong> 信息<br><code>git remote add master EMAP/app2.git</code></p>
 </li>
 <li><p>获取远程分支信息<br><code>git fetch EMAP/app2.git</code></p>
@@ -273,7 +273,11 @@
 </li>
 <li><p>删除分支<br><code>git branch -d b_branch</code></p>
 </li>
+<li><p>合并单个文件</p>
+</li>
 </ol>
+<p>将<code>branch1</code>某个文件<strong>打补丁 patch</strong>合并到分支<code>master</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git checkout --patch branch1 c.txt</div></pre></td></tr></table></figure></p>
+<p>将<code>branch1</code>某个文件<strong>copy</strong>到分支<code>master</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout master</div><div class="line">git checkout branch1 c.txt</div></pre></td></tr></table></figure></p>
 <h2 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a>git tag</h2><p><strong>tag</strong>：标签，可以针对某一时间点的版本做标记，常用于版本发布。</p>
 <h3 id="列出标签"><a href="#列出标签" class="headerlink" title="列出标签"></a>列出标签</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git tag <span class="comment"># 在控制台打印出当前仓库的所有标签</span></div><div class="line">$ git tag <span class="_">-l</span> ‘v0.1.*’ <span class="comment"># 搜索符合模式的标签</span></div></pre></td></tr></table></figure>
 <h3 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h3><p><strong>git</strong> 标签分为两种类型：轻量标签和附注标签。轻量标签是指向提交对象的引用，附注标签则是仓库中的一个独立对象。建议使用附注标签。</p>
