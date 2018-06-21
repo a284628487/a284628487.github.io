@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/11/25/git-svn/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="Git / SVN 实用命令">
-<meta property="og:updated_time" content="2018-03-08T14:47:50.000Z">
+<meta property="og:updated_time" content="2018-06-21T21:43:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git&#x2F;SVN 实用命令">
 <meta name="twitter:description" content="Git / SVN 实用命令">
@@ -292,6 +292,18 @@
 <p>打标签不必要在 <strong>head</strong> 之上，也可在之前的版本上打，这需要你知道某个提交对象的 <strong>commitId</strong></p>
 <h3 id="标签发布"><a href="#标签发布" class="headerlink" title="标签发布"></a>标签发布</h3><p><strong>git push</strong> 不会将标签对象提交到git服务器，我们需要进行显式的操作：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git push origin v0.1.2 <span class="comment"># 将v0.1.2标签提交到git服务器</span></div><div class="line">$ git push origin –tags <span class="comment"># 将本地所有标签一次性提交到git服务器</span></div></pre></td></tr></table></figure>
+<h2 id="git-版本管理"><a href="#git-版本管理" class="headerlink" title="git 版本管理"></a>git 版本管理</h2><ol>
+<li><p>回退到指定提交的版本<br><code>git reset --hard commitId</code></p>
+</li>
+<li><p>将回退修改推到远程分支<br><code>git push -f -u origin master</code></p>
+</li>
+<li><p>将指定分支的指定文件 <strong>copy</strong> 到当前分支<br><code>git checkout master xx.txt</code></p>
+</li>
+<li><p>将指定分支的文件修改 <strong>patch</strong> 补丁合并到当前分支<br><code>git checkout --patch master xx.txt</code></p>
+</li>
+<li><p>回退某个文件到指定版本<br><code>git checkout commitId xx.txt</code></p>
+</li>
+</ol>
 <p><a href="https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE" target="_blank" rel="external">参考</a></p>
 
       
