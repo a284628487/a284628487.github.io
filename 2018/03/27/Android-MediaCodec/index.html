@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android MediaCodec 视频解码 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="结合MediaExtractor提取元数据，使用MediaCodec视频编解码。  使用MediaCoder来解码video，也可以使用来进行视频编码。(decoding/encoding) 使用TimeAnimator来用来同步动画帧。 使用TextureView来进行render显示。">
+<meta name="keywords" content="Android,Media">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android MediaCodec 视频解码">
+<meta property="og:url" content="http://yoursite.com/2018/03/27/Android-MediaCodec/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="结合MediaExtractor提取元数据，使用MediaCodec视频编解码。  使用MediaCoder来解码video，也可以使用来进行视频编码。(decoding/encoding) 使用TimeAnimator来用来同步动画帧。 使用TextureView来进行render显示。">
+<meta property="og:updated_time" content="2018-07-27T12:54:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android MediaCodec 视频解码">
+<meta name="twitter:description" content="结合MediaExtractor提取元数据，使用MediaCodec视频编解码。  使用MediaCoder来解码video，也可以使用来进行视频编码。(decoding/encoding) 使用TimeAnimator来用来同步动画帧。 使用TextureView来进行render显示。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11.11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 18.89px;">Android</a> <a href="/tags/Android源码/" style="font-size: 11.11px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11.11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14.44px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11.11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11.11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11.11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12.22px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17.78px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15.56px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11.11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14.44px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11.11px;">Promise</a> <a href="/tags/React/" style="font-size: 18.89px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.56px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16.67px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.22px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.33px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-MediaCodec" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/27/Android-MediaCodec/" class="article-date">
+  	<time datetime="2018-03-27T12:34:11.000Z" itemprop="datePublished">2018-03-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android MediaCodec 视频解码
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Media/">Media</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>结合<strong>MediaExtractor</strong>提取元数据，使用<strong>MediaCodec</strong>视频编解码。</p>
+<ul>
+<li>使用MediaCoder来解码video，也可以使用来进行视频编码。(decoding/encoding)</li>
+<li>使用TimeAnimator来用来同步动画帧。</li>
+<li>使用TextureView来进行render显示。<a id="more"></a>
+</li>
+</ul>
+<h1 id="Main-Step"><a href="#Main-Step" class="headerlink" title="Main Step"></a>Main Step</h1><ol>
+<li>创建<strong>TextureView</strong>，创建<strong>MediaExtractor</strong><code>new MediaExtractor()</code>和<strong>TimeAnimator</strong><code>new TimeAnimator()</code>.</li>
+<li>调用<code>MediaExtractor#setDataSource(this, videoUri, null)</code>启动播放.</li>
+<li>调用<code>MediaExtractor#getTrackCount()</code>获取track数量，它们不是全部都是video track，调用<code>MediaExtractor#unselectTrack(i)</code>取消选中track.</li>
+<li>使用<code>MediaExtractor#getTrackFormat(i).getString(MediaFormat.KEY_MIME)</code>获取track类型，如果类型包括”video/“，则表示是video，调用<code>MediaExtractor#selectTrack(i)</code>选择它.</li>
+<li>创建<strong>MediaCodec</strong>: <code>MediaCodec.createDecoderByType(mimeType)</code>,配置MediaCodec，通过<code>configure(trackFormat, textureView, null, 0)</code>, <code>trackFormat</code>通过<code>调用MediaExtractor#getTrackFormat(i)</code>获取.</li>
+<li>给<strong>TimeAnimation</strong>设置TimeListener重写<code>onTimeUpdate(final TimeAnimator animation, final long totalTime, final long deltaTime)</code>.在<strong>onTimeUpdate</strong>中，检查media track是否已经到达尾部, 使用<code>MediaExtractor#getSampleFlags()</code>确保flag不是<strong>MediaCodec.BUFFER_FLAG_END_OF_STREAM</strong>.</li>
+<li>在<strong>onTimeUpdate</strong>中，如果不是end，则使用<code>queueInputBuffer(index, 0, size, presentationTimeUs, flags)</code>让MediaDecoder开始解码。如何设置buffer参考<a href="http://developer.android.com/reference/android/media/MediaCodec.html" target="_blank" rel="external">MediaCodec</a>.</li>
+<li>在media sample解码之后, media sample需要前进, 调用<code>MediaExtractor#advance()</code>(阻塞操作，需要放到后台线程).</li>
+<li>获取解码好的帧：<code>dequeueOutputBuffer(info, timeout)</code> 并且释放 <code>releaseOutputBuffer(i, true)</code>, 参考<a href="http://developer.android.com/reference/android/media/MediaCodec.html" target="_blank" rel="external">MediaCodec</a>.</li>
+<li>在<code>onPause()</code>或者达到视频尾部，调用<code>TimeAnimation#end()</code>方法，之后调用<code>MediaCodec#stop()</code>和<code>MediaCodec#release()</code>，最后调用<code>MediaExtractor#release()</code>.<blockquote>
+<p>From <a href="http://developer.android.com/reference/android/media/MediaCodec.html" target="_blank" rel="external">MediaCodec</a>，流程太繁琐，通过官方的Demo有个更好的认知。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="MediaCodecWrapper-java"><a href="#MediaCodecWrapper-java" class="headerlink" title="MediaCodecWrapper.java"></a>MediaCodecWrapper.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MediaCodecWrapper</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String TAG = <span class="string">"MediaCodecWrapper"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> MediaCodec.CryptoInfo cryptoInfo = <span class="keyword">new</span> MediaCodec.CryptoInfo();</div><div class="line"></div><div class="line">    <span class="comment">// MediaFormat 发生改变</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OutputFormatChangedListener</span> </span>&#123;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">outputFormatChanged</span><span class="params">(MediaCodecWrapper sender, MediaFormat newFormat)</span></span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> OutputFormatChangedListener mOutputFormatChangedListener = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OutputSampleListener</span> </span>&#123;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">outputSample</span><span class="params">(MediaCodecWrapper sender, MediaCodec.BufferInfo info, ByteBuffer buffer)</span></span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> OutputSampleListener mOutputSampleListener = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> MediaCodec mDecoder;</div><div class="line">    <span class="comment">// MediaCodec内部的buffers。codec通过index来管理使用这些buffer，而不是直接通过引用。</span></div><div class="line">    <span class="keyword">private</span> ByteBuffer[] mInputBuffers;</div><div class="line">    <span class="keyword">private</span> ByteBuffer[] mOutputBuffers;</div><div class="line"></div><div class="line">    <span class="comment">// 当前可用(writing)input buffers的索引，按它们从codec中dequeue的顺序来消费他。</span></div><div class="line">    <span class="keyword">private</span> Queue&lt;Integer&gt; mAvailableInputBuffers;</div><div class="line"></div><div class="line">    <span class="comment">// 已经成功解码完成的frame，按它们从codec中produced的顺序排列。</span></div><div class="line">    <span class="keyword">private</span> Queue&lt;Integer&gt; mAvailableOutputBuffers;</div><div class="line"></div><div class="line">    <span class="comment">// 每一帧的输出buffer的BufferInfo，通过index来索引。</span></div><div class="line">    <span class="keyword">private</span> MediaCodec.BufferInfo[] mOutputBufferInfo;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MediaCodecWrapper</span><span class="params">(MediaCodec codec)</span> </span>&#123;</div><div class="line">        mDecoder = codec;</div><div class="line">        mDecoder.start();</div><div class="line">        mInputBuffers = mDecoder.getInputBuffers();</div><div class="line">        mOutputBuffers = mDecoder.getOutputBuffers();</div><div class="line">        Log.e(TAG, <span class="string">"MediaCodecWrapper: "</span> + mInputBuffers.length + <span class="string">" &lt;-&gt; "</span> + mOutputBuffers.length);</div><div class="line">        mOutputBufferInfo = <span class="keyword">new</span> MediaCodec.BufferInfo[mOutputBuffers.length];</div><div class="line">        mAvailableInputBuffers = <span class="keyword">new</span> ArrayDeque&lt;Integer&gt;(mOutputBuffers.length);</div><div class="line">        mAvailableOutputBuffers = <span class="keyword">new</span> ArrayDeque&lt;Integer&gt;(mInputBuffers.length);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Releases resources and ends the encoding/decoding session.</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopAndRelease</span><span class="params">()</span> </span>&#123;</div><div class="line">        mDecoder.stop();</div><div class="line">        mDecoder.release();</div><div class="line">        mDecoder = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MediaCodecWrapper <span class="title">findVideoMediaCodecWrapper</span><span class="params">(<span class="keyword">final</span> MediaFormat trackFormat,</span></span></div><div class="line">                                                               Surface surface) <span class="keyword">throws</span> IOException &#123;</div><div class="line">        MediaCodecWrapper result = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">final</span> String mimeType = trackFormat.getString(MediaFormat.KEY_MIME);</div><div class="line">        <span class="comment">// 查找video trace，并根据mimeType创建MediaCodec</span></div><div class="line">        <span class="keyword">if</span> (mimeType.contains(<span class="string">"video/"</span>)) &#123;</div><div class="line">            MediaCodec videoCodec = MediaCodec.createDecoderByType(mimeType);</div><div class="line">            <span class="comment">// 配置videoCodec，设置解码输出到surface。</span></div><div class="line">            videoCodec.configure(trackFormat, surface, <span class="keyword">null</span>, <span class="number">0</span>);</div><div class="line">            <span class="comment">// 创建Wrapper实例</span></div><div class="line">            result = <span class="keyword">new</span> MediaCodecWrapper(videoCodec);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 提交解码buffer index</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">writeSample</span><span class="params">(<span class="keyword">final</span> MediaExtractor extractor,</span></span></div><div class="line">                               <span class="keyword">final</span> <span class="keyword">boolean</span> isSecure,</div><div class="line">                               <span class="keyword">final</span> <span class="keyword">long</span> presentationTimeUs,</div><div class="line">                               <span class="keyword">int</span> flags) &#123;</div><div class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">if</span> (!mAvailableInputBuffers.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> index = mAvailableInputBuffers.remove();</div><div class="line">            ByteBuffer buffer = mInputBuffers[index];</div><div class="line">            <span class="comment">// extractor将视频帧的raw data提取出来并存放到传递的参数buffer中，并返回sampleSize。</span></div><div class="line">            <span class="comment">// 之后交由MediaCodec来将raw data解码图像。</span></div><div class="line">            <span class="keyword">int</span> size = extractor.readSampleData(buffer, <span class="number">0</span>);</div><div class="line">            <span class="keyword">if</span> (size &lt;= <span class="number">0</span>) &#123;</div><div class="line">                flags |= MediaCodec.BUFFER_FLAG_END_OF_STREAM;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 提交buffer index开始解码。presentationTimeUs即当前帧的position(play time)</span></div><div class="line">            <span class="keyword">if</span> (!isSecure) &#123;</div><div class="line">                Log.e(TAG, <span class="string">"writeSample: "</span> + index + <span class="string">" -&gt; "</span> + size);</div><div class="line">                mDecoder.queueInputBuffer(index, <span class="number">0</span>, size, presentationTimeUs, flags);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                extractor.getSampleCryptoInfo(cryptoInfo);</div><div class="line">                mDecoder.queueSecureInputBuffer(index, <span class="number">0</span>, cryptoInfo, presentationTimeUs, flags);</div><div class="line">            &#125;</div><div class="line">            result = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 获取可以release的buffer，并根据buffer提取出media info。</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">peekSample</span><span class="params">(MediaCodec.BufferInfo out_bufferInfo)</span> </span>&#123;</div><div class="line">        update();</div><div class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">if</span> (!mAvailableOutputBuffers.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> index = mAvailableOutputBuffers.peek(); <span class="comment">// peekFirst()</span></div><div class="line">            MediaCodec.BufferInfo info = mOutputBufferInfo[index];</div><div class="line">            <span class="comment">// metadata of the sample</span></div><div class="line">            out_bufferInfo.set(</div><div class="line">                    info.offset,</div><div class="line">                    info.size,</div><div class="line">                    info.presentationTimeUs,</div><div class="line">                    info.flags);</div><div class="line">            result = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Processes, releases and optionally renders the output buffer available at the head of the queue.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">popSample</span><span class="params">(<span class="keyword">boolean</span> render)</span> </span>&#123;</div><div class="line">        update();</div><div class="line">        <span class="keyword">if</span> (!mAvailableOutputBuffers.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> index = mAvailableOutputBuffers.remove(); <span class="comment">// removeFirst</span></div><div class="line">            Log.e(TAG, <span class="string">"popSample: "</span> + index );</div><div class="line">            <span class="keyword">if</span> (render &amp;&amp; mOutputSampleListener != <span class="keyword">null</span>) &#123;</div><div class="line">                ByteBuffer buffer = mOutputBuffers[index];</div><div class="line">                MediaCodec.BufferInfo info = mOutputBufferInfo[index];</div><div class="line">                mOutputSampleListener.outputSample(<span class="keyword">this</span>, info, buffer);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// release buffer，并且将帧渲染到Surface。</span></div><div class="line">            mDecoder.releaseOutputBuffer(index, render);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> index;</div><div class="line">        <span class="comment">// 从coder中获取可用的input buffer的索引，之后使用同样的顺序来填充buffer，</span></div><div class="line">        <span class="comment">// 如果没有可用的有效的buffer，返回-1。</span></div><div class="line">        <span class="keyword">while</span> ((index = mDecoder.dequeueInputBuffer(<span class="number">0</span>)) != MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</div><div class="line">            Log.e(TAG, <span class="string">"update#dequeueInputBuffer: "</span> + index);</div><div class="line">            mAvailableInputBuffers.add(index);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 如果output buffers发生改变，则使用新的output buffer集合。</span></div><div class="line">        MediaCodec.BufferInfo info = <span class="keyword">new</span> MediaCodec.BufferInfo();</div><div class="line">        <span class="comment">// 获取已经被成功解码的帧Buffer，或者是 INFO_* 常量，如果是buffer，则将信息保存到info中。</span></div><div class="line">        <span class="keyword">while</span> ((index = mDecoder.dequeueOutputBuffer(info, <span class="number">0</span>)) != MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</div><div class="line">            Log.e(TAG, <span class="string">"update#dequeueOutputBuffer: "</span> + index);</div><div class="line">            <span class="keyword">switch</span> (index) &#123;</div><div class="line">                <span class="keyword">case</span> MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED: <span class="comment">// output buffers changed</span></div><div class="line">                    mOutputBuffers = mDecoder.getOutputBuffers();</div><div class="line">                    mOutputBufferInfo = <span class="keyword">new</span> MediaCodec.BufferInfo[mOutputBuffers.length];</div><div class="line">                    mAvailableOutputBuffers.clear();</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> MediaCodec.INFO_OUTPUT_FORMAT_CHANGED: <span class="comment">// format changed</span></div><div class="line">                    outputFormatChanged();</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    <span class="comment">// 确保Index是有效的然后再添加到buffers中。</span></div><div class="line">                    <span class="keyword">if</span> (index &gt;= <span class="number">0</span>) &#123;</div><div class="line">                        mOutputBufferInfo[index] = info;</div><div class="line">                        mAvailableOutputBuffers.add(index);</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// FormatChanged</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">outputFormatChanged</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mOutputFormatChangedListener != <span class="keyword">null</span>) &#123;</div><div class="line">            mOutputFormatChangedListener.outputFormatChanged(MediaCodecWrapper.<span class="keyword">this</span>,</div><div class="line">                    mDecoder.getOutputFormat());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">WriteException</span> <span class="keyword">extends</span> <span class="title">Throwable</span> </span>&#123;</div><div class="line">        <span class="function"><span class="keyword">private</span> <span class="title">WriteException</span><span class="params">(<span class="keyword">final</span> String detailMessage)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(detailMessage);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Write a media sample to the decoder.</div><div class="line">     * &lt;p&gt;</div><div class="line">     * A "sample" here refers to a single atomic access unit in the media stream. The definition</div><div class="line">     * of "access unit" is dependent on the type of encoding used, but it typically refers to</div><div class="line">     * a single frame of video or a few seconds of audio. &#123;<span class="doctag">@link</span> MediaExtractor&#125;</div><div class="line">     * extracts data from a stream one sample at a time.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> input              A ByteBuffer containing the input data for one sample. The buffer must be set</div><div class="line">     *                           up for reading, with its position set to the beginning of the sample data and its limit</div><div class="line">     *                           set to the end of the sample data.</div><div class="line">     * <span class="doctag">@param</span> presentationTimeUs The time, relative to the beginning of the media stream,</div><div class="line">     *                           at which this buffer should be rendered.</div><div class="line">     * <span class="doctag">@param</span> flags              Flags to pass to the decoder. See &#123;<span class="doctag">@link</span> MediaCodec#queueInputBuffer(int,</div><div class="line">     *                           int, int, long, int)&#125;</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">writeSample</span><span class="params">(<span class="keyword">final</span> ByteBuffer input,</span></span></div><div class="line">                               <span class="keyword">final</span> MediaCodec.CryptoInfo crypto,</div><div class="line">                               <span class="keyword">final</span> <span class="keyword">long</span> presentationTimeUs,</div><div class="line">                               <span class="keyword">final</span> <span class="keyword">int</span> flags) <span class="keyword">throws</span> MediaCodec.CryptoException, WriteException &#123;</div><div class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">int</span> size = input.remaining();</div><div class="line"></div><div class="line">        <span class="comment">// check if we have dequed input buffers available from the codec</span></div><div class="line">        <span class="keyword">if</span> (size &gt; <span class="number">0</span> &amp;&amp; !mAvailableInputBuffers.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> index = mAvailableInputBuffers.remove();</div><div class="line">            ByteBuffer buffer = mInputBuffers[index];</div><div class="line"></div><div class="line">            <span class="comment">// we can't write our sample to a lesser capacity input buffer.</span></div><div class="line">            <span class="keyword">if</span> (size &gt; buffer.capacity()) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> WriteException(String.format(</div><div class="line">                        <span class="string">"Insufficient capacity in MediaCodec buffer: "</span></div><div class="line">                                + <span class="string">"tried to write %d, buffer capacity is %d."</span>,</div><div class="line">                        input.remaining(),</div><div class="line">                        buffer.capacity()));</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            buffer.clear();</div><div class="line">            buffer.put(input);</div><div class="line"></div><div class="line">            <span class="comment">// 提交buffer index到codec開始解碼，presentationTimeUs表示当前sample的position(play time)</span></div><div class="line">            <span class="keyword">if</span> (crypto == <span class="keyword">null</span>) &#123;</div><div class="line">                mDecoder.queueInputBuffer(index, <span class="number">0</span>, size, presentationTimeUs, flags);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                mDecoder.queueSecureInputBuffer(index, <span class="number">0</span>, crypto, presentationTimeUs, flags);</div><div class="line">            &#125;</div><div class="line">            result = <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="MainActivity-java"><a href="#MainActivity-java" class="headerlink" title="MainActivity.java"></a>MainActivity.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    Handler h = <span class="keyword">new</span> Handler();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> TextureView mPlaybackView;</div><div class="line">    <span class="keyword">private</span> TimeAnimator mTimeAnimator = <span class="keyword">new</span> TimeAnimator();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> MediaCodecWrapper mCodecWrapper;</div><div class="line">    <span class="keyword">private</span> MediaExtractor mExtractor;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        <span class="comment">//</span></div><div class="line">        mPlaybackView = findViewById(R.id.textureView);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onResume();</div><div class="line">        <span class="keyword">if</span> (mPlaybackView.isAvailable()) &#123;</div><div class="line">            startPlayback();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            mPlaybackView.setSurfaceTextureListener(<span class="keyword">new</span> TextureView.SurfaceTextureListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureAvailable</span><span class="params">(SurfaceTexture surface, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">                    startPlayback();</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureSizeChanged</span><span class="params">(SurfaceTexture surface, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSurfaceTextureDestroyed</span><span class="params">(SurfaceTexture surface)</span> </span>&#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceTextureUpdated</span><span class="params">(SurfaceTexture surface)</span> </span>&#123;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onPause();</div><div class="line">        <span class="keyword">if</span> (mTimeAnimator != <span class="keyword">null</span> &amp;&amp; mTimeAnimator.isRunning()) &#123;</div><div class="line">            mTimeAnimator.end();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (mCodecWrapper != <span class="keyword">null</span>) &#123;</div><div class="line">            mCodecWrapper.stopAndRelease();</div><div class="line">            mExtractor.release();</div><div class="line">            mExtractor = <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startPlayback</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="comment">//        Uri videoUri = Uri.parse("android.resource://"</span></div><div class="line"><span class="comment">//                + getPackageName() + "/"</span></div><div class="line"><span class="comment">//                + R.raw.vid_bigbuckbunny);</span></div><div class="line">        mExtractor = <span class="keyword">new</span> MediaExtractor();</div><div class="line">        Uri videoUri = Uri.fromFile(<span class="keyword">new</span> File(Environment.getExternalStorageDirectory().getAbsolutePath() + <span class="string">"/video.mp4"</span>));</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// BEGIN_INCLUDE(initialize_extractor)</span></div><div class="line">            mExtractor.setDataSource(<span class="keyword">this</span>, videoUri, <span class="keyword">null</span>);</div><div class="line">            <span class="keyword">int</span> nTracks = mExtractor.getTrackCount();</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nTracks; ++i) &#123;</div><div class="line">                mExtractor.unselectTrack(i);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nTracks; ++i) &#123;</div><div class="line">                mCodecWrapper = MediaCodecWrapper.findVideoMediaCodecWrapper(mExtractor.getTrackFormat(i),</div><div class="line">                        <span class="keyword">new</span> Surface(mPlaybackView.getSurfaceTexture()));</div><div class="line">                <span class="keyword">if</span> (mCodecWrapper != <span class="keyword">null</span>) &#123;</div><div class="line">                    mExtractor.selectTrack(i);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// END_INCLUDE(initialize_extractor)</span></div><div class="line">            mTimeAnimator.setTimeListener(<span class="keyword">new</span> TimeAnimator.TimeListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTimeUpdate</span><span class="params">(<span class="keyword">final</span> TimeAnimator animation,</span></span></div><div class="line">                                         <span class="keyword">final</span> <span class="keyword">long</span> totalTime,</div><div class="line">                                         <span class="keyword">final</span> <span class="keyword">long</span> deltaTime) &#123;</div><div class="line">                    <span class="keyword">boolean</span> isEos = ((mExtractor.getSampleFlags() &amp; MediaCodec</div><div class="line">                            .BUFFER_FLAG_END_OF_STREAM) == MediaCodec.BUFFER_FLAG_END_OF_STREAM);</div><div class="line">                    <span class="comment">// BEGIN_INCLUDE(write_sample)</span></div><div class="line">                    <span class="keyword">if</span> (!isEos) &#123;</div><div class="line">                        <span class="comment">// 提交sample到codec，如果成功，前进(advance)extractor到一下帧sample</span></div><div class="line">                        <span class="keyword">boolean</span> result = mCodecWrapper.writeSample(mExtractor, <span class="keyword">false</span>,</div><div class="line">                                mExtractor.getSampleTime(), mExtractor.getSampleFlags());</div><div class="line">                        <span class="keyword">if</span> (result) &#123; <span class="comment">// blocking operation =&gt; worker thread</span></div><div class="line">                            mExtractor.advance();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    <span class="comment">// END_INCLUDE(write_sample)</span></div><div class="line"></div><div class="line">                    <span class="comment">// 检查queue中的第一个sample是否解码完成并且可以release，如果是，则render到surface上。</span></div><div class="line">                    MediaCodec.BufferInfo out_bufferInfo = <span class="keyword">new</span> MediaCodec.BufferInfo();</div><div class="line">                    mCodecWrapper.peekSample(out_bufferInfo);</div><div class="line">                    <span class="comment">// BEGIN_INCLUDE(render_sample)</span></div><div class="line">                    <span class="keyword">if</span> (out_bufferInfo.size &lt;= <span class="number">0</span> &amp;&amp; isEos) &#123;</div><div class="line">                        mTimeAnimator.end();</div><div class="line">                        mCodecWrapper.stopAndRelease();</div><div class="line">                        mExtractor.release();</div><div class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (out_bufferInfo.presentationTimeUs / <span class="number">1000</span> &lt; totalTime) &#123;</div><div class="line">                        <span class="comment">// 取出sample并且发送到surface进行渲染。</span></div><div class="line">                        mCodecWrapper.popSample(<span class="keyword">true</span>);</div><div class="line">                    &#125;</div><div class="line">                    <span class="comment">// END_INCLUDE(render_sample)</span></div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            <span class="comment">//</span></div><div class="line">            mTimeAnimator.start();</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h2><p><strong>MediaCodec</strong>解码核心流程：</p>
+<ol>
+<li><code>MediaCodec#dequeueInputBuffer()</code> 获取空闲可用的buffers的索引。</li>
+<li><code>MediaExtractor#readSampleData()</code> 传入1中根据索引提到的ByteBuffer使用MediaExtractor提取Sample。</li>
+<li><code>MediaExtractor#advance()</code> 向前前进一帧。</li>
+<li><code>MediaCodec#queueInputBuffer()</code> 提交buffer index将MediaExtractor提取到的Sample解码。</li>
+<li><code>MediaCodec#dequeueOutputBuffer()</code> 获取已经被成功解码的帧的buffer索引。</li>
+<li><code>MediaCodec#releaseOutputBuffer()</code> 释放buffer，并且渲染。</li>
+</ol>
+<h3 id="SourcDir"><a href="#SourcDir" class="headerlink" title="SourcDir"></a>SourcDir</h3><p><code>/developers/samples/android/media/BasicMediaDecoder/</code></p>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/11/Android-startAty/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Acitivity启动流程</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
