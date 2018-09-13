@@ -641,7 +641,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/30/Java-Thread-sync/">Java 线程同步</a>
+      <a class="article-title" href="/2015/07/30/Java-Thread-sync/">Java 线程同步之 synchronized 和 Lock</a>
     </h1>
   
 
@@ -650,7 +650,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。</p>
+        <p>线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。<br>Java中线程执行步骤：</p>
+<ol>
+<li>清空工作内存；</li>
+<li>从主内存拷贝对象副本到工作内存；</li>
+<li>执行代码(计算或者输出等)；</li>
+<li>刷新主内存数据；</li>
+</ol>
       
     </div>
     

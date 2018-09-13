@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Java 线程同步 | Full Stacker</title>
+  <title>Java 线程同步之 synchronized 和 Lock | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。">
+  <meta name="description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。Java中线程执行步骤：  清空工作内存； 从主内存拷贝对象副本到工作内存； 执行代码(计算或者输出等)； 刷新主内存数据；">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 线程同步">
+<meta property="og:title" content="Java 线程同步之 synchronized 和 Lock">
 <meta property="og:url" content="http://yoursite.com/2015/07/30/Java-Thread-sync/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。">
-<meta property="og:updated_time" content="2018-01-21T00:19:41.000Z">
+<meta property="og:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。Java中线程执行步骤：  清空工作内存； 从主内存拷贝对象副本到工作内存； 执行代码(计算或者输出等)； 刷新主内存数据；">
+<meta property="og:updated_time" content="2018-09-13T12:52:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 线程同步">
-<meta name="twitter:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。">
+<meta name="twitter:title" content="Java 线程同步之 synchronized 和 Lock">
+<meta name="twitter:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。Java中线程执行步骤：  清空工作内存； 从主内存拷贝对象副本到工作内存； 执行代码(计算或者输出等)； 刷新主内存数据；">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
   
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java 线程同步
+      Java 线程同步之 synchronized 和 Lock
     </h1>
   
 
@@ -237,7 +237,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。</p>
+        <p>线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。<br>Java中线程执行步骤：</p>
+<ol>
+<li>清空工作内存；</li>
+<li>从主内存拷贝对象副本到工作内存；</li>
+<li>执行代码(计算或者输出等)；</li>
+<li>刷新主内存数据；</li>
+</ol>
 <a id="more"></a>
 <p>Java线程的两个特性，可见性和有序性。多个线程之间是不能直接传递数据交互的，它们之间的交互只能通过共享变量来实现。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Count</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> num = <span class="number">0</span>;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">count</span><span class="params">()</span></span>&#123;</div><div class="line">		num++;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -246,7 +252,7 @@
 <li><strong>可见性</strong>: 当一个对象在多个内存中都存在副本时，如果一个内存修改了共享变量，其它线程也应该能够看到被修改后的值。</li>
 <li><strong>有序性</strong>: 多个线程执行时，CPU对线程的调度是随机的，我们不知道当前程序被执行到哪步就切换到了下一个线程，一个最经典的例子就是银行汇款问题，一个银行账户存款100，这时一个人从该账户取10元，同时另一个人向该账户汇10元，那么余额应该还是100。那么此时可能发生这种情况，A线程负责取款，B线程负责汇款，A从主内存读到100，B从主内存读到100，A执行减10操作，并将数据刷新到主内存，这时主内存数据100-10=90，而B内存执行加10操作，并将数据刷新到主内存，最后主内存数据100+10=110，我们要保证A线程和B线程有序执行，先取款后汇款或者先汇款后取款，此为有序性。</li>
 </ul>
-<h2 id="同步方法"><a href="#同步方法" class="headerlink" title="同步方法"></a>同步方法</h2><p>使用<strong>synchronized</strong>关键字修饰的方法</p>
+<h1 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a><strong>synchronized</strong></h1><h2 id="同步方法"><a href="#同步方法" class="headerlink" title="同步方法"></a>同步方法</h2><p>使用<strong>synchronized</strong>关键字修饰的方法</p>
 <p>Java的每个对象都有一个内置锁，当调用<strong>synchronized</strong>修饰的方法时，需要先获得内置锁，否则线程就处于阻塞状态。内置锁会保护整个方法，方法执行完成之后线程释放该内置锁。所以，同一时刻，对象的synchronized方法只能有一个处于执行状态。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">modify</span><span class="params">()</span></span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
@@ -258,26 +264,25 @@
 <blockquote>
 <p>同步是一种高开销的操作，因此应该尽量减少同步的内容，通常没有必要同步整个方法，使用<strong>synchronized</strong>代码块同步关键代码即可。</p>
 </blockquote>
-<h3 id="锁对象"><a href="#锁对象" class="headerlink" title="锁对象"></a>锁对象</h3><p>每个锁对象(JLS中叫monitor)都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个线程被唤醒(notify)后，才会进入到就绪队列，等待CPU的调度，反之，当一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。当第一个线程执行输出方法时，获得同步锁，执行输出方法，恰好此时第二个线程也要执行输出方法，但发现同步锁没有被释放，第二个线程就会进入就绪队列，等待锁被释放。</p>
-<ol>
-<li>获得同步锁；</li>
-<li>清空工作内存；</li>
-<li>从主内存拷贝对象副本到工作内存；</li>
-<li>执行代码(计算或者输出等)；</li>
-<li>刷新主内存数据；</li>
-<li>释放同步锁；</li>
-</ol>
+<h3 id="锁对象"><a href="#锁对象" class="headerlink" title="锁对象"></a>锁对象</h3><p>每个锁对象(JLS中叫monitor)都有两个队列，一个是<strong>就绪队列</strong>，一个是<strong>阻塞队列</strong>，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个线程被唤醒(notify)后，才会进入到就绪队列，等待CPU的调度，反之，当一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。当第一个线程执行输出方法时，获得同步锁，执行输出方法，恰好此时第二个线程也要执行输出方法，但发现同步锁没有被释放，第二个线程就会进入就绪队列，等待锁被释放。</p>
 <p><strong>synchronized</strong> 既保证了多线程的并发有序性，又保证了多线程的内存可见性。</p>
-<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock(); <span class="comment">// 锁对象</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">float</span> v)</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        lock.lock(); <span class="comment">// 得到锁</span></div><div class="line">        <span class="keyword">this</span>.money += v;</div><div class="line">        System.out.println(<span class="keyword">this</span>.getMoney());</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        lock.unlock(); <span class="comment">// 释放锁</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a><strong>Lock</strong></h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock(); <span class="comment">// 锁对象</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">float</span> v)</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        lock.lock(); <span class="comment">// 得到锁</span></div><div class="line">        <span class="keyword">this</span>.money += v;</div><div class="line">        System.out.println(<span class="keyword">this</span>.getMoney());</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        lock.unlock(); <span class="comment">// 释放锁</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
 <p>注意：用sychronized修饰的方法或者语句块在代码执行完之后锁自动释放，而用Lock需要我们手动释放锁，所以为了保证锁最终被释放(发生异常情况)，要把互斥区放在try内，释放锁放在finally内。</p>
 </blockquote>
-<h2 id="ReadWriteLock"><a href="#ReadWriteLock" class="headerlink" title="ReadWriteLock"></a>ReadWriteLock</h2><p>在对数据进行读写的时候，为了保证数据的一致性和完整性，需要读和写是互斥的，写和写是互斥的，但是读和读是不需要互斥，这样读和读不互斥性能就会更高。</p>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a><strong>ReentrantLock</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">T1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</div><div class="line">    ReentrantLock l;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">T1</span><span class="params">(ReentrantLock l)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.l = l;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="keyword">this</span> + <span class="string">" TryLock------------------------"</span>);</div><div class="line">        l.lock();</div><div class="line">        System.out.println(<span class="keyword">this</span> + <span class="string">" Locked....: "</span> + System.currentTimeMillis());</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Thread.sleep(<span class="number">1000</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        l.unlock();</div><div class="line">        System.out.println(<span class="keyword">this</span> + <span class="string">" AfterLock: "</span> + System.currentTimeMillis());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>lock()方法用于获取锁对象，如果获取到了锁对象，则线程继续向下执行，反之则线程进入等待阻塞状态。</li>
+<li>unlock()方法用于释放锁对象，锁被释放后，其它处于阻塞状态的线程将获取到锁对象。</li>
+<li>和synchronized不同的是，多个由于调用lock()方法进入阻塞状态的线程，将根据调用lock()方法的时间先后顺序获取到锁，而synchronized则是无序的。</li>
+<li>lock()、unlock()通常用于比较复杂的业务场景，在线程池(ThreadPoolExecutor)中有使用到。</li>
+</ul>
+<h2 id="ReadWriteLock"><a href="#ReadWriteLock" class="headerlink" title="ReadWriteLock"></a><strong>ReadWriteLock</strong></h2><p>在对数据进行读写的时候，为了保证数据的一致性和完整性，需要读和写是互斥的，写和写是互斥的，但是读和读是不需要互斥，这样读和读不互斥性能就会更高。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">22</span>;</div><div class="line">    <span class="keyword">private</span> ReadWriteLock lock = <span class="keyword">new</span> ReentrantReadWriteLock();</div><div class="line">    <span class="keyword">private</span> Random random = <span class="keyword">new</span> Random();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age, <span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            lock.writeLock().lock(); <span class="comment">// 获取写锁</span></div><div class="line">            Thread.sleep(<span class="number">200</span> * index);</div><div class="line">            <span class="keyword">this</span>.age = age;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            print(<span class="string">"-- endSetAge..."</span> + Thread.currentThread().getName() + <span class="string">" : "</span> + <span class="keyword">this</span>.age);</div><div class="line">            lock.writeLock().unlock(); <span class="comment">// 释放写锁</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            lock.readLock().lock(); <span class="comment">// 获取读锁</span></div><div class="line">            Thread.sleep(random.nextInt(<span class="number">500</span>));</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.readLock().unlock(); <span class="comment">// 释放读锁</span></div><div class="line">            print(<span class="string">"&gt;&gt; endGetAge..."</span> + Thread.currentThread().getName() + <span class="string">" : "</span> + <span class="keyword">this</span>.age);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.age;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>模拟线程调用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> Data data = <span class="keyword">new</span> Data();</div><div class="line">    <span class="keyword">final</span> Random random = <span class="keyword">new</span> Random();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> o = i;</div><div class="line">        <span class="keyword">new</span> Thread() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    Thread.sleep(random.nextInt(<span class="number">100</span>));</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">                data.setAge(<span class="number">80</span> + o, (o + <span class="number">1</span>));</div><div class="line">            &#125;</div><div class="line">        &#125;.start();</div><div class="line">        <span class="keyword">new</span> Thread() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    Thread.sleep(random.nextInt(<span class="number">100</span>));</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">                data.getAge();</div><div class="line">            &#125;</div><div class="line">        &#125;.start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><a href="http://blog.csdn.net/ghsau/article/details/7461369" target="_blank" rel="external">锁对象Lock</a></p>
-<h3 id="锁-amp-amp-同步"><a href="#锁-amp-amp-同步" class="headerlink" title="锁 &amp;&amp; 同步"></a>锁 &amp;&amp; 同步</h3><ol>
+<h1 id="其它"><a href="#其它" class="headerlink" title="其它"></a><strong>其它</strong></h1><ol>
 <li>只能同步方法，而不能同步变量和类；</li>
 <li>每个对象只有一个锁；当提到同步时，应该清楚在什么上同步？也就是说，在哪个对象上同步？</li>
 <li>不必同步类中所有的方法，类可以同时拥有同步和非同步方法。</li>
@@ -288,6 +293,15 @@
 <li>同步损害并发性，应该尽可能缩小同步范围。同步除了同步整个方法，还可以同步方法中一部分代码块。</li>
 <li>在使用同步代码块时候，应该指定在哪个对象上同步，也就是说要获取哪个对象的锁。</li>
 <li>当两个线程被阻塞，每个线程在等待另一个线程时就发生死锁。</li>
+</ol>
+<p>文章开头提到了线程执行步骤，在加锁之后，步骤可以简述为：</p>
+<ol>
+<li>获得同步锁；</li>
+<li>清空工作内存；</li>
+<li>从主内存拷贝对象副本到工作内存；</li>
+<li>执行代码(计算或者输出等)；</li>
+<li>刷新主内存数据；</li>
+<li>释放同步锁；</li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.51cto.com/lavasoft/99155" target="_blank" rel="external">Java线程同步与锁</a><br><a href="http://blog.csdn.net/ghsau/article/details/7424694" target="_blank" rel="external">Java线程同步synchronized</a></p>
 
