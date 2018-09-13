@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Java Object 对象的 wait 和 notify | Full Stacker</title>
+  <title>Java 线程调度之 wait 和 notify | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="wait()，notify()，notifyAll() 是属于Object对象的jvm级native方法，用于线程调度；">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java Object 对象的 wait 和 notify">
+<meta property="og:title" content="Java 线程调度之 wait 和 notify">
 <meta property="og:url" content="http://yoursite.com/2015/08/04/Java-wait-notify/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="wait()，notify()，notifyAll() 是属于Object对象的jvm级native方法，用于线程调度；">
-<meta property="og:updated_time" content="2018-01-21T01:31:48.000Z">
+<meta property="og:updated_time" content="2018-09-13T13:18:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java Object 对象的 wait 和 notify">
+<meta name="twitter:title" content="Java 线程调度之 wait 和 notify">
 <meta name="twitter:description" content="wait()，notify()，notifyAll() 是属于Object对象的jvm级native方法，用于线程调度；">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java Object 对象的 wait 和 notify
+      Java 线程调度之 wait 和 notify
     </h1>
   
 
@@ -274,6 +274,12 @@
 <p>注意 addEgg 和 getEgg 方法中，notify和wait时，锁对象是不同的！</p>
 </blockquote>
 <ul>
+<li>wait()、notify()方法都需要在获取到对象的锁(monitor)之后，才能够进行调用，否则将抛异常。获取锁通过synchronized关键字获取，锁对象与调用wait()、notify()的对象必须是同一个对象。</li>
+<li>synchronized方法或代码块在执行的时候获取到对象锁，调用wait()方法当前线程会进入等待状态，并且会释放掉锁，之后其它线程也可以获取该对象的锁，即其它线程可以继续调用wait()方法，notify()方法。</li>
+<li>notify()方法是无序的，notify()之后，其它等待状态中的线程(调用wait()方法进入等待状态)或者尝试获取锁对象的线程(synchronized关键字修饰的代码块或方法)根据CPU的调度随机获取到锁。</li>
+<li>notifyAll()方法用于激活所有进入等待状态的线程。</li>
+</ul>
+<h2 id="其它链接"><a href="#其它链接" class="headerlink" title="其它链接"></a>其它链接</h2><ul>
 <li><a href="http://blog.csdn.net/jianiuqi/article/details/53448849" target="_blank" rel="external">wait和notify的理解与使用</a></li>
 <li><a href="http://blog.csdn.net/wangpanbaoding/article/details/9225689" target="_blank" rel="external">wait、sleep、interrupt、notify</a></li>
 <li><a href="https://www.cnblogs.com/andlp/p/5886151.html" target="_blank" rel="external">wait、sleep、interrupt、notify</a></li>
