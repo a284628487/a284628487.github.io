@@ -4,17 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Full Stacker</title>
+  <title>Java-Queue | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="start">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Full Stacker">
-<meta property="og:url" content="http://yoursite.com/page/8/index.html">
+  <meta name="description" content="Collection的子类，除了List和Map外，还有一类集合Queue，Queue它是线程安全的，并且可以指定它们的容量，而不像List和Map，会不停的自动扩容。线程安全的集合类，都定义在java.util.concurrent包下面。 Queue1234567891011121314public interface Queue&amp;lt;E&amp;gt; extends Collection&amp;lt;">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-Queue">
+<meta property="og:url" content="http://yoursite.com/2015/05/18/Java-Queue/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="start">
+<meta property="og:description" content="Collection的子类，除了List和Map外，还有一类集合Queue，Queue它是线程安全的，并且可以指定它们的容量，而不像List和Map，会不停的自动扩容。线程安全的集合类，都定义在java.util.concurrent包下面。 Queue1234567891011121314public interface Queue&amp;lt;E&amp;gt; extends Collection&amp;lt;">
+<meta property="og:updated_time" content="2018-09-16T13:32:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Full Stacker">
-<meta name="twitter:description" content="start">
+<meta name="twitter:title" content="Java-Queue">
+<meta name="twitter:description" content="Collection的子类，除了List和Map外，还有一类集合Queue，Queue它是线程安全的，并且可以指定它们的容量，而不像List和Map，会不停的自动扩容。线程安全的集合类，都定义在java.util.concurrent包下面。 Queue1234567891011121314public interface Queue&amp;lt;E&amp;gt; extends Collection&amp;lt;">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
   
@@ -189,509 +191,7 @@
 	</div>
 </nav>
 
-      <div class="body-wrap">
-  
-    <article id="post-Java-Unsafe" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/07/Java-Unsafe/" class="article-date">
-  	<time datetime="2015-12-07T03:42:30.000Z" itemprop="datePublished">2015-12-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/07/Java-Unsafe/">Java Unsafe 类解读</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Java不能直接访问操作系统底层，而是通过本地方法来访问。<strong>Unsafe</strong>类提供了硬件级别的原子操作。<br><strong>Unsafe</strong>提供了主要提供了3个功能:</p>
-<ul>
-<li>通过Unsafe分配内存，释放内存；</li>
-<li>定位对象字段的内存位置，通过内存位置修改对象的字段值；</li>
-<li>挂起线程与恢复线程；</li>
-<li>CAS操作</li>
-</ul>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/12/07/Java-Unsafe/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-Lock-Condition" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/03/Java-Lock-Condition/" class="article-date">
-  	<time datetime="2015-10-03T11:57:38.000Z" itemprop="datePublished">2015-10-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/03/Java-Lock-Condition/">Java Condition 线程间通信</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Lock</strong>常用于处理线程同步，解决并发操作，然而，<strong>Lock</strong>也可以用来实现线程间通信。但是，<strong>Lock</strong>并不能直接进行线程通信，而是要借助<strong>Condition</strong>。<br>根据<strong>Condition</strong>接口的定义，<strong>Condition</strong>提供了<strong>await</strong>、<strong>signal</strong>、<strong>signalAll</strong>等几个方法，分别对标<strong>Object</strong>对象的<strong>wait</strong>、<strong>notify</strong>、<strong>notifyAll</strong>方法。<br><strong>Object</strong>对象的<strong>wait</strong>等方法，需要使用在<strong>synchronized</strong>方法或者代码块中，也即在调用这些方法前，需要获取到锁对象；同样，<strong>Condition</strong>对象的<strong>await</strong>等方法，也是首先需要获取到锁，只是获取锁的方式有所不同，使用的是<strong>Lock</strong>锁。</p>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/10/03/Java-Lock-Condition/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-ReentrantLock" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/02/Java-ReentrantLock/" class="article-date">
-  	<time datetime="2015-10-02T11:39:13.000Z" itemprop="datePublished">2015-10-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/02/Java-ReentrantLock/">Java ReentrantLock 多线程同步锁</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Java</strong> 锁对象 <strong>ReentrantLock</strong>，用于处理线程同步，和<strong>synchronized</strong>方法或者代码块类似，获取到锁对象的线程，将独享代码块，其它线程不能访问；<br><strong>ReentrantLock</strong>实现了<strong>Lock</strong>接口(提供了<strong>lock</strong>，<strong>unlock</strong>，<strong>newCondition</strong>等方法)，实际是真正处理加锁，释放锁的是它的内部类<strong>Sync</strong>，而<strong>Sync</strong>又继承自 <strong>AbstractQueuedSynchronizer</strong>；</p>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/10/02/Java-ReentrantLock/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-ReentrantLock-Node" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/02/Java-ReentrantLock-Node/" class="article-date">
-  	<time datetime="2015-10-01T23:26:46.000Z" itemprop="datePublished">2015-10-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/02/Java-ReentrantLock-Node/">Java AbstractQueuedSynchronizer 中的 Node 节点</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>AbstractQueuedSynchronizer</strong> 中的 <strong>Node</strong> 节点，等待队列中的单个节点对象；<br>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/10/02/Java-ReentrantLock-Node/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-Callable-Future" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/10/Java-Callable-Future/" class="article-date">
-  	<time datetime="2015-08-10T12:57:33.000Z" itemprop="datePublished">2015-08-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/10/Java-Callable-Future/">Java 线程中的Callable和Future</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Java 线程中两个非常有用的并发控制类，<strong>Callable</strong>用来产生结果，<strong>Future</strong>用来获取结果；<br>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/10/Java-Callable-Future/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-Threadpool" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/07/Java-Threadpool/" class="article-date">
-  	<time datetime="2015-08-07T12:15:02.000Z" itemprop="datePublished">2015-08-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/07/Java-Threadpool/">Java ThreadPool 线程池</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Java 中线程池源码分析。</p>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/07/Java-Threadpool/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-wait-notify" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/08/04/Java-wait-notify/" class="article-date">
-  	<time datetime="2015-08-04T13:59:54.000Z" itemprop="datePublished">2015-08-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/04/Java-wait-notify/">Java 线程调度之 wait 和 notify</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>wait</strong>()，<strong>notify</strong>()，<strong>notifyAll</strong>() 是属于Object对象的jvm级native方法，用于线程调度；</p>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/08/04/Java-wait-notify/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-Thread-sync" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/07/30/Java-Thread-sync/" class="article-date">
-  	<time datetime="2015-07-30T12:19:50.000Z" itemprop="datePublished">2015-07-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/30/Java-Thread-sync/">Java 线程同步之 synchronized 和 Lock</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。<br>Java中线程执行步骤：</p>
-<ol>
-<li>清空工作内存；</li>
-<li>从主内存拷贝对象副本到工作内存；</li>
-<li>执行代码(计算或者输出等)；</li>
-<li>刷新主内存数据；</li>
-</ol>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/07/30/Java-Thread-sync/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java-Queue" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Java-Queue" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2015/05/18/Java-Queue/" class="article-date">
@@ -707,12 +207,32 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/18/Java-Queue/">Java-Queue</a>
+    <h1 class="article-title" itemprop="name">
+      Java-Queue
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -751,86 +271,52 @@
       
     </div>
     
+      
     
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
     
   </div>
   
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-JS-Promise" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/05/16/JS-Promise/" class="article-date">
-  	<time datetime="2015-05-16T03:13:16.000Z" itemprop="datePublished">2015-05-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+<nav id="article-nav">
+  
+    <a href="/2015/07/30/Java-Thread-sync/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
         
+          Java 线程同步之 synchronized 和 Lock
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/16/JS-Promise/">JavaScript Promise 异步流程控制</a>
-    </h1>
   
+    <a href="/2015/05/16/JS-Promise/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript Promise 异步流程控制</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Promise</strong> 对象可以理解为一次执行的异步操作，使用 <strong>promise</strong> 对象之后可以使用一种链式调用的方式来组织代码。比如使用 <strong>ajax</strong> 发一个A请求后，成功后拿到数据，我们需要把数据传给B请求，传统的写法会有多个嵌套一层层写下去，或者把第二个请求提取成另外一个方法，但这样增加了阅读成本，并不能一眼看出这两个请求是流程化两个连续请求；<br>
-      
-    </div>
-    
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6-ES7/">ES6/ES7</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Promise/">Promise</a></li></ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a  href="/2015/05/16/JS-Promise/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
   
 </article>
 
 
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
@@ -838,12 +324,7 @@
 
 
 
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
-    </nav>
-  
+
 </div>
       <footer id="footer">
   <div class="outer">
@@ -876,8 +357,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

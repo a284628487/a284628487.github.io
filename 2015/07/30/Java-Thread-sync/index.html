@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/07/30/Java-Thread-sync/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。Java中线程执行步骤：  清空工作内存； 从主内存拷贝对象副本到工作内存； 执行代码(计算或者输出等)； 刷新主内存数据；">
-<meta property="og:updated_time" content="2018-09-13T12:52:58.000Z">
+<meta property="og:updated_time" content="2018-09-16T01:57:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 线程同步之 synchronized 和 Lock">
 <meta name="twitter:description" content="线程的同步是为了防止多个线程访问一个数据对象时，对数据造成破坏。在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。Java中线程执行步骤：  清空工作内存； 从主内存拷贝对象副本到工作内存； 执行代码(计算或者输出等)； 刷新主内存数据；">
@@ -264,6 +264,8 @@
 <blockquote>
 <p>同步是一种高开销的操作，因此应该尽量减少同步的内容，通常没有必要同步整个方法，使用<strong>synchronized</strong>代码块同步关键代码即可。</p>
 </blockquote>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>两个线程相互等待锁都进入阻塞状态，则发生死锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deadLock</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">	<span class="keyword">synchronized</span> (mLock) &#123;</div><div class="line">		System.out.println(<span class="string">"OuterLock"</span>);</div><div class="line">		Future&lt;String&gt; fu = mExecutor.submit(<span class="keyword">new</span> Callable&lt;String&gt;() &#123;</div><div class="line">			<span class="meta">@Override</span></div><div class="line">			<span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">				System.out.println(<span class="string">"InnerLock"</span>);</div><div class="line">				<span class="comment">// 下面的代码将不会得到执行</span></div><div class="line">				<span class="keyword">synchronized</span> (mLock) &#123;</div><div class="line">					System.out.println(<span class="string">"InnerLockGetted"</span>);</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">return</span> <span class="string">"NeverRetunedValue"</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		<span class="comment">// 下面的代码将不会得到执行</span></div><div class="line">		String rs = fu.get();</div><div class="line">		System.out.println(<span class="string">"OuterLockWillUnLock: "</span> + rs);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="锁对象"><a href="#锁对象" class="headerlink" title="锁对象"></a>锁对象</h3><p>每个锁对象(JLS中叫monitor)都有两个队列，一个是<strong>就绪队列</strong>，一个是<strong>阻塞队列</strong>，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个线程被唤醒(notify)后，才会进入到就绪队列，等待CPU的调度，反之，当一个线程被wait后，就会进入阻塞队列，等待下一次被唤醒。当第一个线程执行输出方法时，获得同步锁，执行输出方法，恰好此时第二个线程也要执行输出方法，但发现同步锁没有被释放，第二个线程就会进入就绪队列，等待锁被释放。</p>
 <p><strong>synchronized</strong> 既保证了多线程的并发有序性，又保证了多线程的内存可见性。</p>
 <h1 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a><strong>Lock</strong></h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock(); <span class="comment">// 锁对象</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">float</span> v)</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        lock.lock(); <span class="comment">// 得到锁</span></div><div class="line">        <span class="keyword">this</span>.money += v;</div><div class="line">        System.out.println(<span class="keyword">this</span>.getMoney());</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        lock.unlock(); <span class="comment">// 释放锁</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -326,8 +328,8 @@
     </a>
   
   
-    <a href="/2015/05/16/JS-Promise/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JavaScript Promise 异步流程控制</div>
+    <a href="/2015/05/18/Java-Queue/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java-Queue</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
