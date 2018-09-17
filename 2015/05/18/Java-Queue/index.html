@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Java-Queue | Full Stacker</title>
+  <title>Java Collection 之 Queue | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Collection的子类，除了List和Map外，还有一类集合Queue，Queue它是线程安全的，并且可以指定它们的容量，而不像List和Map，会不停的自动扩容。线程安全的集合类，都定义在java.util.concurrent包下面。 Queue1234567891011121314public interface Queue&amp;lt;E&amp;gt; extends Collection&amp;lt;">
+  <meta name="description" content="Collection的子类，除了List和Map外，还有一类集合Queue，它是在两端出入的List，所以也可以用数组或链表来实现。队列可分为两类，普通队列和线程安全队列。普通队列包含LinkedList，ArrayDeque。线程安全队列又分为无界队列和有界队列，有界队列常用于类似于生产者消费者的需求。">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java-Queue">
+<meta property="og:title" content="Java Collection 之 Queue">
 <meta property="og:url" content="http://yoursite.com/2015/05/18/Java-Queue/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="Collection的子类，除了List和Map外，还有一类集合Queue，Queue它是线程安全的，并且可以指定它们的容量，而不像List和Map，会不停的自动扩容。线程安全的集合类，都定义在java.util.concurrent包下面。 Queue1234567891011121314public interface Queue&amp;lt;E&amp;gt; extends Collection&amp;lt;">
-<meta property="og:updated_time" content="2018-09-16T13:32:10.000Z">
+<meta property="og:description" content="Collection的子类，除了List和Map外，还有一类集合Queue，它是在两端出入的List，所以也可以用数组或链表来实现。队列可分为两类，普通队列和线程安全队列。普通队列包含LinkedList，ArrayDeque。线程安全队列又分为无界队列和有界队列，有界队列常用于类似于生产者消费者的需求。">
+<meta property="og:updated_time" content="2018-09-17T13:41:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java-Queue">
-<meta name="twitter:description" content="Collection的子类，除了List和Map外，还有一类集合Queue，Queue它是线程安全的，并且可以指定它们的容量，而不像List和Map，会不停的自动扩容。线程安全的集合类，都定义在java.util.concurrent包下面。 Queue1234567891011121314public interface Queue&amp;lt;E&amp;gt; extends Collection&amp;lt;">
+<meta name="twitter:title" content="Java Collection 之 Queue">
+<meta name="twitter:description" content="Collection的子类，除了List和Map外，还有一类集合Queue，它是在两端出入的List，所以也可以用数组或链表来实现。队列可分为两类，普通队列和线程安全队列。普通队列包含LinkedList，ArrayDeque。线程安全队列又分为无界队列和有界队列，有界队列常用于类似于生产者消费者的需求。">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
   
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java-Queue
+      Java Collection 之 Queue
     </h1>
   
 
@@ -237,7 +237,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Collection</strong>的子类，除了<strong>List</strong>和<strong>Map</strong>外，还有一类集合<strong>Queue</strong>，<strong>Queue</strong>它是线程安全的，并且可以指定它们的容量，而不像<strong>List</strong>和<strong>Map</strong>，会不停的自动扩容。线程安全的集合类，都定义在<code>java.util.concurrent</code>包下面。</p>
+        <p><strong>Collection</strong>的子类，除了<strong>List</strong>和<strong>Map</strong>外，还有一类集合<strong>Queue</strong>，它是在两端出入的<strong>List</strong>，所以也可以用数组或链表来实现。队列可分为两类，普通队列和线程安全队列。普通队列包含<strong>LinkedList</strong>，<strong>ArrayDeque</strong>。<br>线程安全队列又分为<strong>无界队列</strong>和<strong>有界队列</strong>，有界队列常用于类似于生产者消费者的需求。<br><a id="more"></a></p>
+<p>线程安全队列：</p>
+<ul>
+<li><strong>ConcurrentLinkedQueue</strong>/<strong>ConcurrentLinkedDeque</strong>：基于链表的无界的并发优化的Queue，实现了依赖于CAS的无锁算法。</li>
+<li><strong>LinkedBlockingQueue</strong>/<strong>LinkedBlockingDeque</strong>：基于链表的可选定长的并发优化的BlockingQueue。利用链表的特征，分离了takeLock与putLock两把锁，继续用notEmpty、notFull管理队列满或空时的阻塞状态。</li>
+<li><strong>ArrayBlockingQueue</strong>：定长的并发优化的BlockingQueue，基于循环数组实现。有一把公共的读写锁与notFull、notEmpty两个Condition管理队列满或空时的阻塞状态。</li>
+<li><strong>SynchronousQueue</strong>：<code>Executors.newCachedThreadPool()</code>中所使用的队列，只有当队列有由<code>take()</code>方法或者<code>poll(timeout, unit)</code>进入等待状态时，才能由<code>offer()</code>和<code>add()</code>把element添加到队列中。</li>
+</ul>
 <h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a><strong>Queue</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Queue</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e)</span></span>;</div><div class="line"></div><div class="line">    <span class="function">E <span class="title">remove</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">E <span class="title">poll</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">E <span class="title">element</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="function">E <span class="title">peek</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>Queue</strong>继承自<strong>Collection</strong>并添加了6个方法，此6个方法分可为3组：</p>
 <ul>
