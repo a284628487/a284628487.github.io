@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Android Activity 启动流程分析(二) | Full Stacker</title>
+  <title>Android Activity View 加载流程 | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android中View的绘制流程，始于ViewRootImpl#performTraversals，而ViewRootImpl是怎么和DecorView相关联起来的呢？带着这样的疑问，于是对Activity两个关键方法onCreate和onResume方法的流程调度进行分析，得出Activity中PhoneWindow，以及DecorView、ViewRootImpl创建过程，最终解答了上面的疑">
 <meta name="keywords" content="Android,Android源码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android Activity 启动流程分析(二)">
-<meta property="og:url" content="http://yoursite.com/2017/08/24/Android-Activity-start/index.html">
+<meta property="og:title" content="Android Activity View 加载流程">
+<meta property="og:url" content="http://yoursite.com/2017/08/24/Android-Activity-ViewInflate/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="Android中View的绘制流程，始于ViewRootImpl#performTraversals，而ViewRootImpl是怎么和DecorView相关联起来的呢？带着这样的疑问，于是对Activity两个关键方法onCreate和onResume方法的流程调度进行分析，得出Activity中PhoneWindow，以及DecorView、ViewRootImpl创建过程，最终解答了上面的疑">
 <meta property="og:image" content="http://yoursite.com/assets/imgSite/StartActivity.png">
-<meta property="og:updated_time" content="2018-08-26T02:11:38.000Z">
+<meta property="og:updated_time" content="2018-09-23T12:16:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Activity 启动流程分析(二)">
+<meta name="twitter:title" content="Android Activity View 加载流程">
 <meta name="twitter:description" content="Android中View的绘制流程，始于ViewRootImpl#performTraversals，而ViewRootImpl是怎么和DecorView相关联起来的呢？带着这样的疑问，于是对Activity两个关键方法onCreate和onResume方法的流程调度进行分析，得出Activity中PhoneWindow，以及DecorView、ViewRootImpl创建过程，最终解答了上面的疑">
 <meta name="twitter:image" content="http://yoursite.com/assets/imgSite/StartActivity.png">
   
@@ -193,10 +193,10 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Android-Activity-start" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android-Activity-ViewInflate" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/08/24/Android-Activity-start/" class="article-date">
+      <a href="/2017/08/24/Android-Activity-ViewInflate/" class="article-date">
   	<time datetime="2017-08-24T14:11:36.000Z" itemprop="datePublished">2017-08-24</time>
 </a>
     </div>
@@ -210,7 +210,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android Activity 启动流程分析(二)
+      Android Activity View 加载流程
     </h1>
   
 
@@ -272,6 +272,9 @@
 <p>View.java</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">View.java</div><div class="line">&#123;</div><div class="line">	AttachInfo mAttachInfo;</div><div class="line"></div><div class="line">	<span class="comment">// 设置View的AttachInfo，保存了ViewRootImpl对象引用。</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dispatchAttachedToWindow</span><span class="params">(AttachInfo info, <span class="keyword">int</span> visibility)</span> </span>&#123;</div><div class="line">        mAttachInfo = info;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> ViewRootImpl <span class="title">getViewRootImpl</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mAttachInfo != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> mAttachInfo.mViewRootImpl;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    AttachInfo(IWindowSession session, IWindow window, Display display,</div><div class="line">        ViewRootImpl viewRootImpl, Handler handler, Callbacks effectPlayer,</div><div class="line">        Context context) &#123;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="/assets/imgSite/StartActivity.png" alt="StartActivity"></p>
+<blockquote>
+<p>上图中，<code>step3</code>和<code>step4</code>在真实情况下，并不是这样直接调用过去了，而是<code>Instrumentation#execStartActivity</code>方法，会最终调用到<strong>ActivityManagerService</strong>，AMS在创建好启动<code>Activity</code>所需要的相关环境后，会调用<code>ApplicaitonThread#scheduleLaunchActivity</code>，该方法才调用到<code>ActivityThread#handleLaunchActivity</code>。</p>
+</blockquote>
 
       
     </div>
@@ -288,14 +291,14 @@
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Android-AMS
+          Android ActivityManagerService Activity 启动流程
         
       </div>
     </a>
   
   
-    <a href="/2017/08/22/Android-startAty/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android Activity 启动流程分析(一)</div>
+    <a href="/2017/08/22/Android-Activity-StartAty/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Activity 启动流程分析</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
