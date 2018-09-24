@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Android ImageView 图片加载流程源码解读 | Full Stacker</title>
+  <title>Android ImageView 图片加载流程 | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android ImageView 源码解读，通过分析ImageView设置图片的流程，查看ImageView是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。">
 <meta name="keywords" content="Android,Android源码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android ImageView 图片加载流程源码解读">
+<meta property="og:title" content="Android ImageView 图片加载流程">
 <meta property="og:url" content="http://yoursite.com/2017/08/07/Android-ImageView/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="Android ImageView 源码解读，通过分析ImageView设置图片的流程，查看ImageView是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。">
-<meta property="og:updated_time" content="2017-11-19T06:24:24.000Z">
+<meta property="og:updated_time" content="2018-09-24T02:08:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android ImageView 图片加载流程源码解读">
+<meta name="twitter:title" content="Android ImageView 图片加载流程">
 <meta name="twitter:description" content="Android ImageView 源码解读，通过分析ImageView设置图片的流程，查看ImageView是如何加载图片的，可以帮助我们更好的理解图片加载，以及性能优化。">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
@@ -86,7 +86,7 @@
 						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -119,7 +119,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 19px;">Android</a> <a href="/tags/Android源码/" style="font-size: 14px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 19px;">Android</a> <a href="/tags/Android源码/" style="font-size: 15px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
 					</div>
 				</section>
 				
@@ -208,7 +208,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android ImageView 图片加载流程源码解读
+      Android ImageView 图片加载流程
     </h1>
   
 

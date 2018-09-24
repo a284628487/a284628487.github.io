@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android AMS 架构之 ApplicationThread | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android的每个应用程序中，都有一个ApplicationThread对象，用于和AMS进行交互，最典型的就是处理生命周期的流程，在SystemProcess和App应用进程中进行交互。">
+<meta name="keywords" content="Android,Android源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android AMS 架构之 ApplicationThread">
+<meta property="og:url" content="http://yoursite.com/2017/09/24/Android-AMS-ApplicationThread/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Android的每个应用程序中，都有一个ApplicationThread对象，用于和AMS进行交互，最典型的就是处理生命周期的流程，在SystemProcess和App应用进程中进行交互。">
+<meta property="og:image" content="http://yoursite.com/assets/imgSite/ApplicationThread.png">
+<meta property="og:updated_time" content="2018-09-24T01:50:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android AMS 架构之 ApplicationThread">
+<meta name="twitter:description" content="Android的每个应用程序中，都有一个ApplicationThread对象，用于和AMS进行交互，最典型的就是处理生命周期的流程，在SystemProcess和App应用进程中进行交互。">
+<meta name="twitter:image" content="http://yoursite.com/assets/imgSite/ApplicationThread.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 19px;">Android</a> <a href="/tags/Android源码/" style="font-size: 15px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 20px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-AMS-ApplicationThread" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/24/Android-AMS-ApplicationThread/" class="article-date">
+  	<time datetime="2017-09-24T01:09:57.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android AMS 架构之 ApplicationThread
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android源码/">Android源码</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android的每个应用程序中，都有一个<strong>ApplicationThread</strong>对象，用于和<strong>AMS</strong>进行交互，最典型的就是处理生命周期的流程，在<strong>SystemProcess</strong>和<strong>App应用进程</strong>中进行交互。</p>
+<a id="more"></a>
+<h2 id="IApplicationThread-java"><a href="#IApplicationThread-java" class="headerlink" title="IApplicationThread.java"></a><strong>IApplicationThread</strong>.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * System private API for communicating with the application.  This is given to</div><div class="line"> * the activity manager by an application  when it starts up, for the activity</div><div class="line"> * manager to tell the application about things it needs to do.</div><div class="line"> *</div><div class="line"> * &#123;<span class="doctag">@hide</span>&#125;</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IApplicationThread</span> <span class="keyword">extends</span> <span class="title">IInterface</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">schedulePauseActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> finished, <span class="keyword">boolean</span> userLeaving,</span></span></div><div class="line">            <span class="keyword">int</span> configChanges, <span class="keyword">boolean</span> dontReport) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleStopActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> showWindow,</span></span></div><div class="line">            <span class="keyword">int</span> configChanges) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleWindowVisibility</span><span class="params">(IBinder token, <span class="keyword">boolean</span> showWindow)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleSleeping</span><span class="params">(IBinder token, <span class="keyword">boolean</span> sleeping)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleResumeActivity</span><span class="params">(IBinder token, <span class="keyword">int</span> procState, <span class="keyword">boolean</span> isForward, Bundle resumeArgs)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleSendResult</span><span class="params">(IBinder token, List&lt;ResultInfo&gt; results)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleLaunchActivity</span><span class="params">(Intent intent, IBinder token, <span class="keyword">int</span> ident,</span></span></div><div class="line">            ActivityInfo info, Configuration curConfig, Configuration overrideConfig,</div><div class="line">            CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,</div><div class="line">            <span class="keyword">int</span> procState, Bundle state, PersistableBundle persistentState,</div><div class="line">            List&lt;ResultInfo&gt; pendingResults, List&lt;ReferrerIntent&gt; pendingNewIntents,</div><div class="line">            <span class="keyword">boolean</span> notResumed, <span class="keyword">boolean</span> isForward, ProfilerInfo profilerInfo) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleRelaunchActivity</span><span class="params">(IBinder token, List&lt;ResultInfo&gt; pendingResults,</span></span></div><div class="line">            List&lt;ReferrerIntent&gt; pendingNewIntents, <span class="keyword">int</span> configChanges, <span class="keyword">boolean</span> notResumed,</div><div class="line">            Configuration config, Configuration overrideConfig) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleNewIntent</span><span class="params">(List&lt;ReferrerIntent&gt; intent, IBinder token)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleDestroyActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> finished,</span></span></div><div class="line">            <span class="keyword">int</span> configChanges) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleReceiver</span><span class="params">(Intent intent, ActivityInfo info, CompatibilityInfo compatInfo,</span></span></div><div class="line">            <span class="keyword">int</span> resultCode, String data, Bundle extras, <span class="keyword">boolean</span> sync,</div><div class="line">            <span class="keyword">int</span> sendingUser, <span class="keyword">int</span> processState) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BACKUP_MODE_INCREMENTAL = <span class="number">0</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BACKUP_MODE_FULL = <span class="number">1</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BACKUP_MODE_RESTORE = <span class="number">2</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BACKUP_MODE_RESTORE_FULL = <span class="number">3</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleCreateBackupAgent</span><span class="params">(ApplicationInfo app, CompatibilityInfo compatInfo,</span></span></div><div class="line">            <span class="keyword">int</span> backupMode) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleDestroyBackupAgent</span><span class="params">(ApplicationInfo app, CompatibilityInfo compatInfo)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleCreateService</span><span class="params">(IBinder token, ServiceInfo info,</span></span></div><div class="line">            CompatibilityInfo compatInfo, <span class="keyword">int</span> processState) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleBindService</span><span class="params">(IBinder token,</span></span></div><div class="line">            Intent intent, <span class="keyword">boolean</span> rebind, <span class="keyword">int</span> processState) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleUnbindService</span><span class="params">(IBinder token,</span></span></div><div class="line">            Intent intent) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleServiceArgs</span><span class="params">(IBinder token, <span class="keyword">boolean</span> taskRemoved, <span class="keyword">int</span> startId,</span></span></div><div class="line">            <span class="keyword">int</span> flags, Intent args) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleStopService</span><span class="params">(IBinder token)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEBUG_OFF = <span class="number">0</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEBUG_ON = <span class="number">1</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEBUG_WAIT = <span class="number">2</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">bindApplication</span><span class="params">(String packageName, ApplicationInfo info, List&lt;ProviderInfo&gt; providers,</span></span></div><div class="line">            ComponentName testName, ProfilerInfo profilerInfo, Bundle testArguments,</div><div class="line">            IInstrumentationWatcher testWatcher, IUiAutomationConnection uiAutomationConnection,</div><div class="line">            <span class="keyword">int</span> debugMode, <span class="keyword">boolean</span> openGlTrace, <span class="keyword">boolean</span> restrictedBackupMode, <span class="keyword">boolean</span> persistent,</div><div class="line">            Configuration config, CompatibilityInfo compatInfo, Map&lt;String, IBinder&gt; services,</div><div class="line">            Bundle coreSettings) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleExit</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleSuicide</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleConfigurationChanged</span><span class="params">(Configuration config)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updateTimeZone</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clearDnsCache</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setHttpProxy</span><span class="params">(String proxy, String port, String exclList,</span></span></div><div class="line">            Uri pacFileUrl) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">processInBackground</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dumpService</span><span class="params">(FileDescriptor fd, IBinder servicetoken, String[] args)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dumpProvider</span><span class="params">(FileDescriptor fd, IBinder servicetoken, String[] args)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleRegisteredReceiver</span><span class="params">(IIntentReceiver receiver, Intent intent,</span></span></div><div class="line">            <span class="keyword">int</span> resultCode, String data, Bundle extras, <span class="keyword">boolean</span> ordered,</div><div class="line">            <span class="keyword">boolean</span> sticky, <span class="keyword">int</span> sendingUser, <span class="keyword">int</span> processState) <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleLowMemory</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleActivityConfigurationChanged</span><span class="params">(IBinder token, Configuration overrideConfig)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">profilerControl</span><span class="params">(<span class="keyword">boolean</span> start, ProfilerInfo profilerInfo, <span class="keyword">int</span> profileType)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dumpHeap</span><span class="params">(<span class="keyword">boolean</span> managed, String path, ParcelFileDescriptor fd)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setSchedulingGroup</span><span class="params">(<span class="keyword">int</span> group)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PACKAGE_REMOVED = <span class="number">0</span>;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> EXTERNAL_STORAGE_UNAVAILABLE = <span class="number">1</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dispatchPackageBroadcast</span><span class="params">(<span class="keyword">int</span> cmd, String[] packages)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleCrash</span><span class="params">(String msg)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dumpActivity</span><span class="params">(FileDescriptor fd, IBinder servicetoken, String prefix, String[] args)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setCoreSettings</span><span class="params">(Bundle coreSettings)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">scheduleTrimMemory</span><span class="params">(<span class="keyword">int</span> level)</span> <span class="keyword">throws</span> RemoteException</span>;</div><div class="line">    <span class="comment">// ...</span></div><div class="line"></div><div class="line">    String descriptor = <span class="string">"android.app.IApplicationThread"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> SCHEDULE_PAUSE_ACTIVITY_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_STOP_ACTIVITY_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">2</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_WINDOW_VISIBILITY_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">3</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_RESUME_ACTIVITY_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">4</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_SEND_RESULT_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">5</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">6</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_NEW_INTENT_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">7</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_FINISH_ACTIVITY_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">8</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_RECEIVER_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">9</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_CREATE_SERVICE_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">10</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_STOP_SERVICE_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">11</span>;</div><div class="line">    <span class="keyword">int</span> BIND_APPLICATION_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">12</span>;</div><div class="line">    <span class="keyword">int</span> SCHEDULE_EXIT_TRANSACTION = IBinder.FIRST_CALL_TRANSACTION+<span class="number">13</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>IApplicationThread</strong>定义了一系列的<strong>scheduleXXX</strong>方法，从方法名可以看出，基本都是和<strong>Activity</strong>生命周期相关的方法，除了<strong>Activity</strong>外，还可以看到<strong>Service</strong>和<strong>Broadcast</strong>相关处理方法。</p>
+<blockquote>
+<p>它还继承自<strong>IInterface</strong>，说明它是使用到了<strong>Binder</strong>机制，有客户端和服务端进行通信，来完成上面的定义的接口。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Base class for Binder interfaces.  When defining a new interface,</div><div class="line"> * you must derive it from IInterface.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IInterface</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Retrieve the Binder object associated with this interface.</div><div class="line">     * You must use this instead of a plain cast, so that proxy objects</div><div class="line">     * can return the correct result.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">asBinder</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="ApplicationThreadNative-java"><a href="#ApplicationThreadNative-java" class="headerlink" title="ApplicationThreadNative.java"></a><strong>ApplicationThreadNative</strong>.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** &#123;<span class="doctag">@hide</span>&#125; */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationThreadNative</span> <span class="keyword">extends</span> <span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">IApplicationThread</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Cast a Binder object into an application thread interface, generating</div><div class="line">     * a proxy if needed.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">public</span> IApplicationThread <span class="title">asInterface</span><span class="params">(IBinder obj)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        IApplicationThread in =</div><div class="line">            (IApplicationThread)obj.queryLocalInterface(descriptor);</div><div class="line">        <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> in;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApplicationThreadProxy(obj);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ApplicationThreadNative</span><span class="params">()</span> </span>&#123;</div><div class="line">        attachInterface(<span class="keyword">this</span>, descriptor);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        <span class="keyword">switch</span> (code) &#123;</div><div class="line">        <span class="keyword">case</span> SCHEDULE_PAUSE_ACTIVITY_TRANSACTION:</div><div class="line">        &#123;</div><div class="line">            data.enforceInterface(IApplicationThread.descriptor);</div><div class="line">            IBinder b = data.readStrongBinder();</div><div class="line">            <span class="keyword">boolean</span> finished = data.readInt() != <span class="number">0</span>;</div><div class="line">            <span class="keyword">boolean</span> userLeaving = data.readInt() != <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> configChanges = data.readInt();</div><div class="line">            <span class="keyword">boolean</span> dontReport = data.readInt() != <span class="number">0</span>;</div><div class="line">            schedulePauseActivity(b, finished, userLeaving, configChanges, dontReport);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> SCHEDULE_STOP_ACTIVITY_TRANSACTION:</div><div class="line">        &#123;</div><div class="line">            data.enforceInterface(IApplicationThread.descriptor);</div><div class="line">            IBinder b = data.readStrongBinder();</div><div class="line">            <span class="keyword">boolean</span> show = data.readInt() != <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> configChanges = data.readInt();</div><div class="line">            scheduleStopActivity(b, show, configChanges);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">case</span> SCHEDULE_WINDOW_VISIBILITY_TRANSACTION:</div><div class="line">        &#123;</div><div class="line">            data.enforceInterface(IApplicationThread.descriptor);</div><div class="line">            IBinder b = data.readStrongBinder();</div><div class="line">            <span class="keyword">boolean</span> show = data.readInt() != <span class="number">0</span>;</div><div class="line">            scheduleWindowVisibility(b, show);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> SCHEDULE_RESUME_ACTIVITY_TRANSACTION:</div><div class="line">        &#123;</div><div class="line">            data.enforceInterface(IApplicationThread.descriptor);</div><div class="line">            IBinder b = data.readStrongBinder();</div><div class="line">            <span class="keyword">int</span> procState = data.readInt();</div><div class="line">            <span class="keyword">boolean</span> isForward = data.readInt() != <span class="number">0</span>;</div><div class="line">            Bundle resumeArgs = data.readBundle();</div><div class="line">            scheduleResumeActivity(b, procState, isForward, resumeArgs);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">case</span> SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION:</div><div class="line">        &#123;</div><div class="line">            data.enforceInterface(IApplicationThread.descriptor);</div><div class="line">            Intent intent = Intent.CREATOR.createFromParcel(data);</div><div class="line">            IBinder b = data.readStrongBinder();</div><div class="line">            <span class="keyword">int</span> ident = data.readInt();</div><div class="line">            ActivityInfo info = ActivityInfo.CREATOR.createFromParcel(data);</div><div class="line">            Configuration curConfig = Configuration.CREATOR.createFromParcel(data);</div><div class="line">            Configuration overrideConfig = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">if</span> (data.readInt() != <span class="number">0</span>) &#123;</div><div class="line">                overrideConfig = Configuration.CREATOR.createFromParcel(data);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 上层App中调用，-&gt; ApplicationThread#scheduleLaunchActivity</span></div><div class="line">            scheduleLaunchActivity(intent, b, ident, info, curConfig, overrideConfig, compatInfo,</div><div class="line">                    referrer, voiceInteractor, procState, state, persistentState, ri, pi,</div><div class="line">                    notResumed, isForward, profilerInfo);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">asBinder</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>ApplicationThreadNative</strong>是一个抽象类，它有一个子类<strong>ApplicationThread</strong>定义在<strong>ActivityThread</strong>中，<strong>ActivityThread</strong>运行在上层App进程中，所以它也是运行在上层App的进程当中。</p>
+<blockquote>
+<p>上面<strong>onTransact</strong>中，调用到了<strong>scheduleLaunchActivity</strong>，它在<strong>ActivityThread$ApplicationThread</strong>中有具体实现。</p>
+</blockquote>
+<h2 id="ApplicationThread-java"><a href="#ApplicationThread-java" class="headerlink" title="ApplicationThread.java"></a><strong>ApplicationThread</strong>.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationThread</span> <span class="keyword">extends</span> <span class="title">ApplicationThreadNative</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DB_INFO_FORMAT = <span class="string">"  %8s %8s %14s %14s  %s"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLastProcessState = -<span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">schedulePauseActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> finished,</span></span></div><div class="line">            <span class="keyword">boolean</span> userLeaving, <span class="keyword">int</span> configChanges, <span class="keyword">boolean</span> dontReport) &#123;</div><div class="line">        sendMessage(finished ? H.PAUSE_ACTIVITY_FINISHING : H.PAUSE_ACTIVITY,</div><div class="line">                token, (userLeaving ? <span class="number">1</span> : <span class="number">0</span>) | (dontReport ? <span class="number">2</span> : <span class="number">0</span>),</div><div class="line">                configChanges);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleStopActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> showWindow,</span></span></div><div class="line">            <span class="keyword">int</span> configChanges) &#123;</div><div class="line">       sendMessage(showWindow ? H.STOP_ACTIVITY_SHOW : H.STOP_ACTIVITY_HIDE,</div><div class="line">            token, <span class="number">0</span>, configChanges);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleWindowVisibility</span><span class="params">(IBinder token, <span class="keyword">boolean</span> showWindow)</span> </span>&#123;</div><div class="line">        sendMessage(showWindow ? H.SHOW_WINDOW : H.HIDE_WINDOW,</div><div class="line">            token);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleResumeActivity</span><span class="params">(IBinder token, <span class="keyword">int</span> processState,</span></span></div><div class="line">            <span class="keyword">boolean</span> isForward, Bundle resumeArgs) &#123;</div><div class="line">        updateProcessState(processState, <span class="keyword">false</span>);</div><div class="line">        sendMessage(H.RESUME_ACTIVITY, token, isForward ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleSendResult</span><span class="params">(IBinder token, List&lt;ResultInfo&gt; results)</span> </span>&#123;</div><div class="line">        ResultData res = <span class="keyword">new</span> ResultData();</div><div class="line">        res.token = token;</div><div class="line">        res.results = results;</div><div class="line">        sendMessage(H.SEND_RESULT, res);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// we use token to identify this activity without having to send the</span></div><div class="line">    <span class="comment">// activity itself back to the activity manager. (matters more with ipc)</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleLaunchActivity</span><span class="params">(Intent intent, IBinder token, <span class="keyword">int</span> ident,</span></span></div><div class="line">            ActivityInfo info, Configuration curConfig, Configuration overrideConfig,</div><div class="line">            CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,</div><div class="line">            <span class="keyword">int</span> procState, Bundle state, PersistableBundle persistentState,</div><div class="line">            List&lt;ResultInfo&gt; pendingResults, List&lt;ReferrerIntent&gt; pendingNewIntents,</div><div class="line">            <span class="keyword">boolean</span> notResumed, <span class="keyword">boolean</span> isForward, ProfilerInfo profilerInfo) &#123;</div><div class="line"></div><div class="line">        updateProcessState(procState, <span class="keyword">false</span>);</div><div class="line"></div><div class="line">        ActivityClientRecord r = <span class="keyword">new</span> ActivityClientRecord();</div><div class="line"></div><div class="line">        r.token = token;</div><div class="line">        r.ident = ident;</div><div class="line">        r.intent = intent;</div><div class="line">        r.referrer = referrer;</div><div class="line">        r.voiceInteractor = voiceInteractor;</div><div class="line">        r.activityInfo = info;</div><div class="line">        r.compatInfo = compatInfo;</div><div class="line">        r.state = state;</div><div class="line">        r.persistentState = persistentState;</div><div class="line"></div><div class="line">        r.pendingResults = pendingResults;</div><div class="line">        r.pendingIntents = pendingNewIntents;</div><div class="line"></div><div class="line">        r.startsNotResumed = notResumed;</div><div class="line">        r.isForward = isForward;</div><div class="line"></div><div class="line">        r.profilerInfo = profilerInfo;</div><div class="line"></div><div class="line">        r.overrideConfig = overrideConfig;</div><div class="line">        updatePendingConfiguration(curConfig);</div><div class="line">        <span class="comment">// 发送消息，上层应用启动Activity</span></div><div class="line">        sendMessage(H.LAUNCH_ACTIVITY, r);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>ApplicationThread</strong>继承自<strong>ApplicationThreadNative</strong>，也是一个<strong>Binder</strong>，它在接收到客户端的请求之后，会根据不同的消息，执行相应的方法。<br><strong>ApplicationThread</strong>中<strong>scheduleLaunchActivity</strong>通过Handler发送消息<strong>H.LAUNCH_ACTIVITY</strong>，该消息对应了方法<strong>handleLaunchActivity</strong>，继而调用<strong>performLaunchActivity</strong>，开始启动Activity，到此，上层的调用流程基本清晰了。</p>
+<h2 id="ApplicationThreadProxy"><a href="#ApplicationThreadProxy" class="headerlink" title="ApplicationThreadProxy"></a><strong>ApplicationThreadProxy</strong></h2><p><strong>IApplicationThread</strong>还有一个子类<strong>ApplicationThreadProxy</strong>，该类实现了<strong>IApplicationThread</strong>的所有方法。该类在AMS系统服务层调用，在<strong>AMS</strong>处理好请求之后，往<strong>Binder</strong>服务端发送消息。</p>
+<blockquote>
+<p>需要注意的是，此时<strong>SystemProcess</strong>是作为客户端的角色，往上层App服务端发送消息。</p>
+</blockquote>
+<p>在<code>ActivityStackSupervisor#realStartActivityLocked</code>中，通过调用<code>app.thread.scheduleLaunchActivity</code>发送消息给上层App，此时<code>app.thread</code>即是<strong>ApplicationThreadProxy</strong>实例对象，该实例对象是在创建应用程序进程的时候生成的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">realStartActivityLocked</span><span class="params">(ActivityRecord r,</span></span></div><div class="line">        ProcessRecord app, <span class="keyword">boolean</span> andResume, <span class="keyword">boolean</span> checkConfig)</div><div class="line">    <span class="comment">// 告诉上层App开始启动Activity，app.thread即是ApplicationThreadProxy对象。</span></div><div class="line">    app.thread.<span class="title">scheduleLaunchActivity</span><span class="params">(new Intent(r.intent)</span>, r.appToken, ...);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ApplicationThreadProxy.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApplicationThreadProxy</span> <span class="keyword">implements</span> <span class="title">IApplicationThread</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> IBinder mRemote;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ApplicationThreadProxy</span><span class="params">(IBinder remote)</span> </span>&#123;</div><div class="line">        mRemote = remote;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> IBinder <span class="title">asBinder</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mRemote;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">schedulePauseActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> finished,</span></span></div><div class="line">            <span class="keyword">boolean</span> userLeaving, <span class="keyword">int</span> configChanges, <span class="keyword">boolean</span> dontReport) <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeInt(finished ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        data.writeInt(userLeaving ? <span class="number">1</span> :<span class="number">0</span>);</div><div class="line">        data.writeInt(configChanges);</div><div class="line">        data.writeInt(dontReport ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        mRemote.transact(SCHEDULE_PAUSE_ACTIVITY_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleStopActivity</span><span class="params">(IBinder token, <span class="keyword">boolean</span> showWindow,</span></span></div><div class="line">            <span class="keyword">int</span> configChanges) <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeInt(showWindow ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        data.writeInt(configChanges);</div><div class="line">        mRemote.transact(SCHEDULE_STOP_ACTIVITY_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleWindowVisibility</span><span class="params">(IBinder token,</span></span></div><div class="line">            <span class="keyword">boolean</span> showWindow) <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeInt(showWindow ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        mRemote.transact(SCHEDULE_WINDOW_VISIBILITY_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleSleeping</span><span class="params">(IBinder token,</span></span></div><div class="line">            <span class="keyword">boolean</span> sleeping) <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeInt(sleeping ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        mRemote.transact(SCHEDULE_SLEEPING_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleResumeActivity</span><span class="params">(IBinder token, <span class="keyword">int</span> procState, <span class="keyword">boolean</span> isForward,</span></span></div><div class="line">            Bundle resumeArgs)</div><div class="line">            <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeInt(procState);</div><div class="line">        data.writeInt(isForward ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        data.writeBundle(resumeArgs);</div><div class="line">        mRemote.transact(SCHEDULE_RESUME_ACTIVITY_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleSendResult</span><span class="params">(IBinder token, List&lt;ResultInfo&gt; results)</span></span></div><div class="line">            <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeTypedList(results);</div><div class="line">        mRemote.transact(SCHEDULE_SEND_RESULT_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleLaunchActivity</span><span class="params">(Intent intent, IBinder token, <span class="keyword">int</span> ident,</span></span></div><div class="line">            ActivityInfo info, Configuration curConfig, Configuration overrideConfig,</div><div class="line">            CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,</div><div class="line">            <span class="keyword">int</span> procState, Bundle state, PersistableBundle persistentState,</div><div class="line">            List&lt;ResultInfo&gt; pendingResults, List&lt;ReferrerIntent&gt; pendingNewIntents,</div><div class="line">            <span class="keyword">boolean</span> notResumed, <span class="keyword">boolean</span> isForward, ProfilerInfo profilerInfo) <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">        Parcel data = Parcel.obtain();</div><div class="line">        data.writeInterfaceToken(IApplicationThread.descriptor);</div><div class="line">        intent.writeToParcel(data, <span class="number">0</span>);</div><div class="line">        data.writeStrongBinder(token);</div><div class="line">        data.writeInt(ident);</div><div class="line">        info.writeToParcel(data, <span class="number">0</span>);</div><div class="line">        curConfig.writeToParcel(data, <span class="number">0</span>);</div><div class="line">        <span class="keyword">if</span> (overrideConfig != <span class="keyword">null</span>) &#123;</div><div class="line">            data.writeInt(<span class="number">1</span>);</div><div class="line">            overrideConfig.writeToParcel(data, <span class="number">0</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            data.writeInt(<span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">        compatInfo.writeToParcel(data, <span class="number">0</span>);</div><div class="line">        data.writeString(referrer);</div><div class="line">        data.writeStrongBinder(voiceInteractor != <span class="keyword">null</span> ? voiceInteractor.asBinder() : <span class="keyword">null</span>);</div><div class="line">        data.writeInt(procState);</div><div class="line">        data.writeBundle(state);</div><div class="line">        data.writePersistableBundle(persistentState);</div><div class="line">        data.writeTypedList(pendingResults);</div><div class="line">        data.writeTypedList(pendingNewIntents);</div><div class="line">        data.writeInt(notResumed ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        data.writeInt(isForward ? <span class="number">1</span> : <span class="number">0</span>);</div><div class="line">        <span class="keyword">if</span> (profilerInfo != <span class="keyword">null</span>) &#123;</div><div class="line">            data.writeInt(<span class="number">1</span>);</div><div class="line">            profilerInfo.writeToParcel(data, Parcelable.PARCELABLE_WRITE_RETURN_VALUE);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            data.writeInt(<span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">        mRemote.transact(SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION, data, <span class="keyword">null</span>,</div><div class="line">                IBinder.FLAG_ONEWAY);</div><div class="line">        data.recycle();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>scheduleLaunchActivity</strong>方法，调用<strong>mRemote.transact</strong>发送消息，该消息最终发送给<strong>ActivityThread</strong>，在<strong>ActivityThread#onTransact</strong>中，根据消息的标志<code>SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION</code>，开始启动Activity。</p>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="/assets/imgSite/ApplicationThread.png" alt="ApplicationThread"></p>
+<blockquote>
+<p>左边两个是在SystemProcess，右边三个是在应用进程。</p>
+</blockquote>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/27/Android-AMS-ActivityManager/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android AMS 架构之 ActivityManager
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/19/Android-Optimize-code/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 性能优化之 代码层次优化</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
