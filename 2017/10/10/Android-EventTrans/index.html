@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android 事件传递机制 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android中的事件包括两类，Touch触摸事件和Key按键事件，我们都知道事件会先传递给Activity，但事件不是凭空产生的，那么它是从哪里传递到Activity的呢？">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 事件传递机制">
+<meta property="og:url" content="http://yoursite.com/2017/10/10/Android-EventTrans/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Android中的事件包括两类，Touch触摸事件和Key按键事件，我们都知道事件会先传递给Activity，但事件不是凭空产生的，那么它是从哪里传递到Activity的呢？">
+<meta property="og:updated_time" content="2018-10-09T14:24:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 事件传递机制">
+<meta name="twitter:description" content="Android中的事件包括两类，Touch触摸事件和Key按键事件，我们都知道事件会先传递给Activity，但事件不是凭空产生的，那么它是从哪里传递到Activity的呢？">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-EventTrans" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/10/Android-EventTrans/" class="article-date">
+  	<time datetime="2017-10-10T14:00:03.000Z" itemprop="datePublished">2017-10-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 事件传递机制
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android中的事件包括两类，<strong>Touch触摸事件</strong>和<strong>Key按键事件</strong>，我们都知道事件会先传递给Activity，但事件不是凭空产生的，那么它是从哪里传递到Activity的呢？<br><a id="more"></a></p>
+<p>Android中的事件，在底层涉及到<strong>InputReader</strong>，<strong>InputDispatcher</strong>，<strong>InputManager</strong>，<strong>EventHub</strong>。在上层涉及到<strong>Window</strong>，<strong>Activity</strong>，<strong>ViewGroup</strong>，<strong>View</strong>。<br>它们是怎么传递的呢？传递则涉及到<strong>InputChannel</strong>，<strong>InputEventReceiver</strong>。</p>
+<h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p>驱动层：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/frameworks/native/services/inputflinger/</div><div class="line">InputReader.cpp (Thread)</div><div class="line">InputDispatcher.cpp (Thread)</div><div class="line">InputManager.cpp</div><div class="line">EventHub.cpp</div></pre></td></tr></table></figure>
+<p>中间传输层：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/frameworks/base/core/jni/</div><div class="line">android_view_InputChannel.cpp</div><div class="line">android_view_InputEventReceiver.cpp</div></pre></td></tr></table></figure>
+<p>应用层：<br>dispatchTouchEvent下行流程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Activity -&gt; ViewGroup -&gt; ViewGroup.onInterceptTouchEvent -&gt; View -&gt; View.onTouchEvent -&gt; ViewGroup.onTouchEvent;</div></pre></td></tr></table></figure>
+<h2 id="InputManagerService创建"><a href="#InputManagerService创建" class="headerlink" title="InputManagerService创建"></a><strong>InputManagerService</strong>创建</h2><p><strong>InputManagerService</strong>的创建是在<code>SystemServer#startOtherServices</code>中，直接通过<code>new 
+InputManagerService()</code>创建实例对象，然后调用<code>IMS#nativeInit()</code>方法来对底层进行初始化。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">SystemServer#startOtherServices &#123;</div><div class="line"></div><div class="line">	ims = new InputManagerService() &#123;</div><div class="line">		nativeInit(this, mContext, mHandler.getLooper().getQueue());</div><div class="line">		LocalServices.addService(InputManagerInternal.class, new LocalService());</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	ims.setWindowManagerCallbacks(wm.getInputMonitor());</div><div class="line">    ims.start();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>InputManagerService构造函数中的主要工作</p>
+<ol>
+<li>创建一个<strong>InputDispatcher</strong>对象用于分发事件</li>
+<li>创建一个<strong>InputReader</strong>对象用于读事件并把事件交给<strong>InputDispatcher</strong>分发</li>
+<li>调用<strong>initialize()</strong>初始化，其实也就是创建了<strong>InputReaderThread</strong>和<strong>InputDispatcherThread</strong>。</li>
+</ol>
+<h2 id="事件传递"><a href="#事件传递" class="headerlink" title="事件传递"></a><strong>事件传递</strong></h2><p>使用<strong>InputEventReceiver</strong>和<strong>InputChannel</strong>传递事件。</p>
+<ol>
+<li><code>ViewRootImpl#setView</code>中创建<strong>InputEventReceiver</strong>。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">if</span> (mInputQueueCallback != <span class="keyword">null</span>) &#123;</div><div class="line">       mInputQueue = <span class="keyword">new</span> InputQueue();</div><div class="line">       mInputQueueCallback.onInputQueueCreated(mInputQueue);</div><div class="line">   &#125;</div><div class="line"><span class="comment">// InputEventReceiver</span></div><div class="line">   mInputEventReceiver = <span class="keyword">new</span> WindowInputEventReceiver(mInputChannel, Looper.myLooper());</div></pre></td></tr></table></figure>
+<p><strong>InputEventReceiver</strong>.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">// Called from native code.</span></div><div class="line">   <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchInputEvent</span><span class="params">(<span class="keyword">int</span> seq, InputEvent event, <span class="keyword">int</span> displayId)</span> </span>&#123;</div><div class="line">	<span class="comment">// ...</span></div><div class="line">	onInputEvent(event, displayId);</div><div class="line">&#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onInputEvent</span><span class="params">(InputEvent event, <span class="keyword">int</span> displayId)</span> </span>&#123;</div><div class="line">       finishInputEvent(event, <span class="keyword">false</span>);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>底层<strong>android_view_InputEventReceiver.cpp</strong>中有个for循环，如果捕获到输入事件，则通过Java层<strong>dispatchInputEvent</strong>方法的<strong>methodId</strong>，调用到Java层的<strong>dispatchInputEvent</strong>方法，这样就将事件从native层传递到了Java层。</p>
+</blockquote>
+<p>InputEventReceiver接收到的事件，并不是InputDispatcher直接调用到了InputEventReceiver的方法，从上面的创建过程可以得知，InputEventReceiver是运行于应用程序进程内的，而事件是产生在系统进程的，这中间涉及到了进程通信，实际是它是使用InputChannel来通信的。</p>
+<h2 id="InputChannel"><a href="#InputChannel" class="headerlink" title="InputChannel"></a><strong>InputChannel</strong></h2><p>Linux本地socket，可以在进程间进行通信。</p>
+<h2 id="设置FocusWindow"><a href="#设置FocusWindow" class="headerlink" title="设置FocusWindow"></a>设置<strong>FocusWindow</strong></h2><p>事件从System_Process中，传递到应用程序进程中，怎么对应上需要接收事件的Window呢，这就是需要了解<strong>FocusWindow</strong>了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">WMS.addWindow</div><div class="line">	-&gt; WMS.mInputMonitor.updateInputWindowsLw(<span class="keyword">false</span> <span class="comment">/*force*/</span>);</div><div class="line">		-&gt; IMS.updateInputWindows</div><div class="line">			-&gt; IMS.setInputWindows</div></pre></td></tr></table></figure>
+<p><strong>InputManagerService</strong>.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setInputWindows</span><span class="params">(InputWindowHandle[] windowHandles,</span></span></div><div class="line">          InputWindowHandle focusedWindowHandle) &#123;</div><div class="line">      <span class="keyword">final</span> IWindow newFocusedWindow =</div><div class="line">          focusedWindowHandle != <span class="keyword">null</span> ? focusedWindowHandle.clientWindow : <span class="keyword">null</span>;</div><div class="line">      <span class="keyword">if</span> (mFocusedWindow != newFocusedWindow) &#123;</div><div class="line">          mFocusedWindow = newFocusedWindow;</div><div class="line">          <span class="keyword">if</span> (mFocusedWindowHasCapture) &#123;</div><div class="line">              setPointerCapture(<span class="keyword">false</span>);</div><div class="line">          &#125;</div><div class="line">      &#125;</div><div class="line"><span class="comment">// 设置本地窗口</span></div><div class="line">      nativeSetInputWindows(mPtr, windowHandles);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/02/Andriod-Optimize-hprof/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Andriod 性能优化之 HPROF 文件分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/09/Android-ContentProvider/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 四大组件之 ContentProvider</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

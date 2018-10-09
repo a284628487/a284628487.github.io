@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android 四大组件之 ContentProvider | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ContentProvider是应用程序之间数据存储和检索的一个桥梁，它的作用就是使得各个应用程序之间实现数据共享。ContentProvider是一个抽象类，它提供了一套标准的接口来获取和操作数据。可以把数据封装到ContentProvider中，从而使这些数据可以被其他的应用程序所共享。">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 四大组件之 ContentProvider">
+<meta property="og:url" content="http://yoursite.com/2017/10/09/Android-ContentProvider/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="ContentProvider是应用程序之间数据存储和检索的一个桥梁，它的作用就是使得各个应用程序之间实现数据共享。ContentProvider是一个抽象类，它提供了一套标准的接口来获取和操作数据。可以把数据封装到ContentProvider中，从而使这些数据可以被其他的应用程序所共享。">
+<meta property="og:updated_time" content="2018-10-09T13:56:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 四大组件之 ContentProvider">
+<meta name="twitter:description" content="ContentProvider是应用程序之间数据存储和检索的一个桥梁，它的作用就是使得各个应用程序之间实现数据共享。ContentProvider是一个抽象类，它提供了一套标准的接口来获取和操作数据。可以把数据封装到ContentProvider中，从而使这些数据可以被其他的应用程序所共享。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-ContentProvider" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/09/Android-ContentProvider/" class="article-date">
+  	<time datetime="2017-10-09T13:44:55.000Z" itemprop="datePublished">2017-10-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 四大组件之 ContentProvider
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>ContentProvider</strong>是应用程序之间数据存储和检索的一个桥梁，它的作用就是使得各个应用程序之间实现数据共享。<strong>ContentProvider</strong>是一个抽象类，它提供了一套标准的接口来获取和操作数据。可以把数据封装到<strong>ContentProvider</strong>中，从而使这些数据可以被其他的应用程序所共享。<br><a id="more"></a></p>
+<h2 id="ContentProvider"><a href="#ContentProvider" class="headerlink" title="ContentProvider"></a><strong>ContentProvider</strong></h2><p>ContentProvider架构思想：</p>
+<ol>
+<li>对数据的抽象，为所有的组件提供统一的访问数据的方式，从而让组件不必关心具体数据的呈现形式（文件or数据库）。</li>
+<li>接口更加方便，ContentProvider的访问标识为Uri，通过统一的ContentResolver进行访问，而ContentResolver和Uri跟Application的上下文Context以及组件之间的信息传送工具Intent都是无缝接合，这就让组件之间进行数据共享和数据传递更加的方便和快捷。</li>
+</ol>
+<h2 id="Uri类"><a href="#Uri类" class="headerlink" title="Uri类"></a><strong>Uri</strong>类</h2><p><strong>Uri</strong>通用资源标志符（Universal Resource Identifier, 简称”URI”）。<br>代表了要操作的数据，一个Uri由以下几部分组成：</p>
+<ol>
+<li>scheme: ContentProvider的scheme由Android规定为：<code>content://</code>。</li>
+<li>主机名(Authority): 用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它。</li>
+<li>路径(path): 可以用来表示我们要操作的数据，路径的构建应根据业务而定，如下：</li>
+</ol>
+<p>比如：</p>
+<ul>
+<li>要操作contact表中id为10的记录: /contact/10</li>
+<li>要操作contact表中id为10的记录的name字段: /contact/10/name</li>
+<li>要操作contact表中的所有记录: /contact</li>
+</ul>
+<p>如果要把一个字符串转换成Uri，可以使用Uri类中的<strong>parse()</strong>方法，<code>Uri uri = Uri.parse(&quot;content://rcsim/chat&quot;)</code>;</p>
+<p>##　<strong>ContentProvider</strong>的创建</p>
+<p>要创建我们自己的ContentProvider的话，我们需要遵循以下几步：</p>
+<ol>
+<li>创建一个继承ContentProvider的类，需要实现其主要的抽象方法：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreate</span><span class="params">()</span></span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Uri <span class="title">insert</span><span class="params">(Uri uri, ContentValues values)</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">delete</span><span class="params">(Uri uri, String selection, String[] selectionArgs)</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(Uri uri, ContentValues values, String selection, String[] selectionArgs)</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Cursor <span class="title">query</span><span class="params">(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">(Uri uri)</span></div></pre></td></tr></table></figure>
+<ol>
+<li>声明<strong>CONTENT_URI</strong>，实现<strong>UriMatcher</strong></li>
+</ol>
+<p>Uri代表了要操作的数据，我们需要解析Uri，并从Uri中获取数据。Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher和ContentUris。UriMatcher类用于匹配Uri。</p>
+<p>如下是<strong>SettingsProvider</strong>中的声明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String AUTHORITY = <span class="string">"settings"</span>;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">System</span> <span class="keyword">extends</span> <span class="title">NameValueTable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_FONT_SCALE = <span class="number">1.0f</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Uri CONTENT_URI =</div><div class="line">        Uri.parse(<span class="string">"content://"</span> + AUTHORITY + <span class="string">"/system"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> UriMatcher sURLMatcher = <span class="keyword">new</span> UriMatcher(UriMatcher.NO_MATCH);</div><div class="line"></div><div class="line"><span class="comment">// 添加需要匹配的Uri，匹配则返回相应的匹配码</span></div><div class="line">Urimatcher.addURI(AUTHORITY, <span class="string">"chat"</span>, CHAT_ALL);</div><div class="line">Urimatcher.addURI(AUTHORITY, <span class="string">"chat/#"</span>, CHAT_ID);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>常量 <strong>UriMatcher.NO_MATCH</strong> 表示不匹配任何路径的返回码</p>
+</blockquote>
+<p><code>#</code> 号为通配符，<code>*</code> 号为任意字符。</p>
+<p>ContentUris类用于操作Uri路径后面的ID部分，它有两个比较实用的方法：</p>
+<p><strong>withAppendedId</strong>(uri, id)用于为路径加上ID部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(<span class="string">"content://rcsim/chat"</span>)</div><div class="line">Uri resultUri = ContentUris.withAppendedId(uri, <span class="number">10</span>);</div></pre></td></tr></table></figure>
+<p><strong>parseId</strong>(uri)方法用于从路径中获取ID部分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Uri uri = Uri.parse(<span class="string">"content: //rcsim/chat /10"</span>)</div><div class="line"><span class="keyword">long</span> msgId = ContentUris.parseId(uri);</div><div class="line">ContentUris.withAppendedId() 和 Uri.withAppendedPath()。</div></pre></td></tr></table></figure>
+<ol>
+<li>在<strong>AndroidMenifest.xml</strong>中使用&lt;<strong>provider</strong>&gt;标签来配置<strong>ContentProvider</strong>。</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">provider</span> <span class="attr">android:name</span>=<span class="string">"RcsimProvider"</span></span></div><div class="line">            <span class="attr">android:authorities</span>=<span class="string">"rcsim"</span>/&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果要处理的数据类型是一种比较新的类型，你就必须先定义一个新的MIME类型，以供ContentProvider.geType(url)来返回。MIME类型有两种形式:一种是为指定的单个记录的，还有一种是为多条记录的。</p>
+</blockquote>
+<h2 id="使用ContentProvider"><a href="#使用ContentProvider" class="headerlink" title="使用ContentProvider"></a>使用<strong>ContentProvider</strong></h2><p>当外部应用需要对ContentProvider中的数据进行添加、删除、修改和查询操作时，可以使用<strong>ContentResolver</strong>类来完成，要获取<strong>ContentResolver</strong>对象，可以使用Activity提供的<strong>getContentResolver()</strong>方法。ContentResolver类提供了与ContentProvider类相同签名的四个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Uri <span class="title">insert</span><span class="params">(Uri uri, ContentValues values)</span></span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">delete</span><span class="params">(Uri uri, String selection, String[] selectionArgs)</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(Uri uri, ContentValues values, String selection, String[] selectionArgs)</span></div><div class="line"></div><div class="line"><span class="keyword">public</span> Cursor <span class="title">query</span><span class="params">(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)</span></div></pre></td></tr></table></figure>
+<p>这些方法的第一个参数为Uri，代表要操作的ContentProvider和对其中的什么数据进行操作。 </p>
+<h2 id="监听ContentProvider中数据的变化"><a href="#监听ContentProvider中数据的变化" class="headerlink" title="监听ContentProvider中数据的变化"></a>监听<strong>ContentProvider</strong>中数据的变化</h2><p>如果ContentProvider的访问者需要知道ContentProvider中的数据发生变化，可以在ContentProvider发生数据变化时调用<code>getContentResolver().notifyChange(uri, null)</code>来通知注册在此URI上的访问者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XXXContentProvider</span> <span class="keyword">extends</span> <span class="title">ContentProvider</span> </span>&#123;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> Uri <span class="title">insert</span><span class="params">(Uri uri, ContentValues values)</span> </span>&#123;</div><div class="line">      db.insert(table, <span class="keyword">null</span>, values);</div><div class="line">      getContext().getContentResolver().notifyChange(uri, <span class="keyword">null</span>);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果ContentProvider的访问者需要得到数据变化通知，必须使用ContentObserver对数据进行监听。ContentObserver——内容观察者，目的是观察(捕捉)特定Uri引起的数据库的变化。<br>它类似于数据库技术中的触发器(Trigger)，当ContentObserver所观察的Uri发生变化时，便会触发它。当监听到数据变化通知时，系统就会调用ContentObserver的onChange()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">getContentResolver().registerContentObserver(uri, <span class="keyword">true</span>, <span class="keyword">new</span> XXXObserver (<span class="keyword">new</span> Handler()));</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XXXObserver</span> <span class="keyword">extends</span> <span class="title">ContentObserver</span></span>&#123;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="title">XXXObserver</span> <span class="params">(Handler handler)</span> </span>&#123;</div><div class="line">       <span class="keyword">super</span>(handler);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(<span class="keyword">boolean</span> selfChange)</span> </span>&#123;</div><div class="line">      <span class="comment">// TODO</span></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>ContentProvider的存储介质可以是<strong>文件</strong>，也可以是<strong>SQLite数据库</strong>。</p>
+</blockquote>
+<h2 id="SQLite数据库"><a href="#SQLite数据库" class="headerlink" title="SQLite数据库"></a><strong>SQLite</strong>数据库</h2><p>Android提供了<strong>SQLiteDatabase</strong>类，该类封装了一些操作数据库的API，使用该类可以完成对数据进行添加(Create)、查询(Retrieve)、更新(Update)和删除(Delete)操作（这些操作简称为CRUD）。</p>
+<blockquote>
+<p><em>SQLiteDatabase</em>实例对象可以通过<code>SQLiteOpenHelper.getWriteableDatabase()</code>获取。</p>
+</blockquote>
+<p>通过继承<strong>SQLiteOpenHelper</strong>，来实现应用自身的数据存储。</p>
+<p>SQLiteOpenHelper.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> SQLiteDatabase <span class="title">getDatabaseLocked</span><span class="params">(<span class="keyword">boolean</span> writable)</span> </span>&#123;</div><div class="line">	<span class="comment">// ...</span></div><div class="line">    db.beginTransaction();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">if</span> (version == <span class="number">0</span>) &#123;</div><div class="line">            onCreate(db);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">if</span> (version &gt; mNewVersion) &#123;</div><div class="line">                onDowngrade(db, version, mNewVersion);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                onUpgrade(db, version, mNewVersion);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        db.setVersion(mNewVersion);</div><div class="line">        db.setTransactionSuccessful();</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        db.endTransaction();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/10/Android-EventTrans/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android 事件传递机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/27/Android-AMS-ActivityManager/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android AMS 架构之 ActivityManager</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
