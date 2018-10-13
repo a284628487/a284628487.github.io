@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android 进程间通信工具 AIDL | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在使用Binder进行进程间通信，服务端和客户端进行数据传递时，数据的传递(请求、响应)需要将数据打包成Parcel数据包，Parcel数据包写入和读取都需要按相同的顺序，给编码工作造成额外的工作量。而AIDL作为一个工具，可以将符合规范的aidl文件转换为java文件，将数据打包，解包成Parcel的工作给我们实现了，让我们专注于核心业务。">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 进程间通信工具 AIDL">
+<meta property="og:url" content="http://yoursite.com/2016/10/13/Android-AIDL/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="在使用Binder进行进程间通信，服务端和客户端进行数据传递时，数据的传递(请求、响应)需要将数据打包成Parcel数据包，Parcel数据包写入和读取都需要按相同的顺序，给编码工作造成额外的工作量。而AIDL作为一个工具，可以将符合规范的aidl文件转换为java文件，将数据打包，解包成Parcel的工作给我们实现了，让我们专注于核心业务。">
+<meta property="og:updated_time" content="2018-10-13T01:53:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 进程间通信工具 AIDL">
+<meta name="twitter:description" content="在使用Binder进行进程间通信，服务端和客户端进行数据传递时，数据的传递(请求、响应)需要将数据打包成Parcel数据包，Parcel数据包写入和读取都需要按相同的顺序，给编码工作造成额外的工作量。而AIDL作为一个工具，可以将符合规范的aidl文件转换为java文件，将数据打包，解包成Parcel的工作给我们实现了，让我们专注于核心业务。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-AIDL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/13/Android-AIDL/" class="article-date">
+  	<time datetime="2016-10-13T01:04:05.000Z" itemprop="datePublished">2016-10-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 进程间通信工具 AIDL
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用<strong>Binder</strong>进行进程间通信，服务端和客户端进行数据传递时，数据的传递(请求、响应)需要将数据打包成<strong>Parcel</strong>数据包，<strong>Parcel</strong>数据包写入和读取都需要按相同的顺序，给编码工作造成额外的工作量。而AIDL作为一个工具，可以将符合规范的aidl文件转换为java文件，将数据打包，解包成<strong>Parcel</strong>的工作给我们实现了，让我们专注于核心业务。</p>
+<a id="more"></a>
+<h2 id="aidl文件"><a href="#aidl文件" class="headerlink" title="aidl文件"></a><strong>aidl文件</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// IAidlEx.aidl</span></div><div class="line"><span class="keyword">package</span> com.ccflying;</div><div class="line"></div><div class="line"><span class="comment">// Declare any non-default types here with import statements</span></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IAidlEx</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getAge</span><span class="params">(String name)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">setNameAndAge</span><span class="params">(String name, <span class="keyword">int</span> age)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的aidl文件中，定义了两个接口，编译器会自动生成<strong>IAidlEx.java</strong>文件。</p>
+<h2 id="IAidlEx-java"><a href="#IAidlEx-java" class="headerlink" title="IAidlEx.java"></a><strong>IAidlEx.java</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IAidlEx</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">IInterface</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">/** Local-side IPC implementation stub class. */</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Stub</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">ccflying</span>.<span class="title">IAidlEx</span> </span>&#123;</div><div class="line">    </div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">ccflying</span>.<span class="title">IAidlEx</span> </span>&#123;</div><div class="line">        </div><div class="line">        &#125;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编译工具生成的<strong>IAidlEx</strong>文件中，定义了三个类，分别是:</p>
+<ul>
+<li><strong>IAidlEx</strong>: 接口定义，该类里面包含了aidl文件中定义的两个方法。</li>
+<li><strong>IAidlEx.Stub</strong>: 内部类<strong>Stub</strong>，继承自<strong>Binder</strong>，并且<code>实现</code>了<strong>IAidlEx</strong>接口，具体业务实现，由<strong>Stub</strong>子类实现，服务端需要继承此类，实现接口中定义的方法。</li>
+<li><strong>IAidlEx.Stub.Proxy</strong>: 内部类<strong>Stub.Proxy</strong>，在客户端中使用，用于向服务端发起请求，主要工作是将数据打包，调用<strong>mRemote.transact</strong>发起请求，获取服务端的响应结果。</li>
+</ul>
+<h3 id="IAidlEx"><a href="#IAidlEx" class="headerlink" title="IAidlEx"></a><strong>IAidlEx</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IAidlEx2</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">IInterface</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">(java.lang.String name)</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">setNameAndAge</span><span class="params">(java.lang.String name, <span class="keyword">int</span> age)</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="IAidlEx-Stub"><a href="#IAidlEx-Stub" class="headerlink" title="IAidlEx.Stub"></a><strong>IAidlEx.Stub</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Stub</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">ccflying</span>.<span class="title">IAidlEx</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> java.lang.String DESCRIPTOR = <span class="string">"com.ccflying.IAidlEx"</span>;</div><div class="line">     <span class="comment">/** Construct the stub at attach it to the interface. */</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="title">Stub</span><span class="params">()</span> </span>&#123;</div><div class="line">         <span class="keyword">this</span>.attachInterface(<span class="keyword">this</span>, DESCRIPTOR);</div><div class="line">     &#125;</div><div class="line">     <span class="comment">/**</span></div><div class="line">      * Cast an IBinder object into an com.ccflying.IAidlEx interface,</div><div class="line">      * generating a proxy if needed.</div><div class="line">      */</div><div class="line">     <span class="keyword">public</span> <span class="keyword">static</span> com.ccflying.<span class="function">IAidlEx <span class="title">asInterface</span><span class="params">(android.os.IBinder obj)</span> </span>&#123;</div><div class="line">         <span class="keyword">if</span> ((obj==<span class="keyword">null</span>)) &#123;</div><div class="line">             <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">         &#125;</div><div class="line">         android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);</div><div class="line">         <span class="keyword">if</span> (((iin!=<span class="keyword">null</span>)&amp;&amp;(iin <span class="keyword">instanceof</span> com.ccflying.IAidlEx))) &#123;</div><div class="line">             <span class="keyword">return</span> ((com.ccflying.IAidlEx)iin);</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">new</span> com.ccflying.IAidlEx2.Stub.Proxy(obj);</div><div class="line">     &#125;</div><div class="line">     <span class="meta">@Override</span> <span class="keyword">public</span> android.os.<span class="function">IBinder <span class="title">asBinder</span><span class="params">()</span> </span>&#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, android.os.Parcel data, android.os.Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> android.os.RemoteException</span></div><div class="line">     &#123;</div><div class="line">         <span class="keyword">switch</span> (code)</div><div class="line">         &#123;</div><div class="line">             <span class="keyword">case</span> INTERFACE_TRANSACTION:</div><div class="line">             &#123;</div><div class="line">                 reply.writeString(DESCRIPTOR);</div><div class="line">                 <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">             &#125;</div><div class="line">             <span class="keyword">case</span> TRANSACTION_getAge:</div><div class="line">             &#123;</div><div class="line">                 data.enforceInterface(DESCRIPTOR);</div><div class="line">                 java.lang.String _arg0;</div><div class="line">                 _arg0 = data.readString();</div><div class="line">                 <span class="keyword">int</span> _result = <span class="keyword">this</span>.getAge(_arg0);</div><div class="line">                 reply.writeNoException();</div><div class="line">                 reply.writeInt(_result);</div><div class="line">                 <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">             &#125;</div><div class="line">             <span class="keyword">case</span> TRANSACTION_setNameAndAge:</div><div class="line">             &#123;</div><div class="line">                 data.enforceInterface(DESCRIPTOR);</div><div class="line">                 java.lang.String _arg0;</div><div class="line">                 _arg0 = data.readString();</div><div class="line">                 <span class="keyword">int</span> _arg1;</div><div class="line">                 _arg1 = data.readInt();</div><div class="line">                 <span class="keyword">boolean</span> _result = <span class="keyword">this</span>.setNameAndAge(_arg0, _arg1);</div><div class="line">                 reply.writeNoException();</div><div class="line">                 reply.writeInt(((_result)?(<span class="number">1</span>):(<span class="number">0</span>)));</div><div class="line">                 <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">super</span>.onTransact(code, data, reply, flags);</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TRANSACTION_getAge = (android.os.IBinder.FIRST_CALL_TRANSACTION + <span class="number">1</span>);</div><div class="line">     <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TRANSACTION_setNameAndAge = (android.os.IBinder.FIRST_CALL_TRANSACTION + <span class="number">2</span>);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p><strong>onTransact</strong>方法中，根据请求标识，<code>解包数据包 -&gt; 调用业务方法 -&gt; 打包数据包返回</code>。</p>
+<h3 id="IAidlEx-Stub-Proxy"><a href="#IAidlEx-Stub-Proxy" class="headerlink" title="IAidlEx.Stub.Proxy"></a><strong>IAidlEx.Stub.Proxy</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">com</span>.<span class="title">ccflying</span>.<span class="title">IAidlEx</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> android.os.IBinder mRemote;</div><div class="line">    Proxy(android.os.IBinder remote) &#123;</div><div class="line">        mRemote = remote;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span> <span class="keyword">public</span> android.os.<span class="function">IBinder <span class="title">asBinder</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mRemote;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> java.lang.<span class="function">String <span class="title">getInterfaceDescriptor</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> DESCRIPTOR;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">(java.lang.String name)</span> <span class="keyword">throws</span> android.os.RemoteException</span></div><div class="line">    &#123;</div><div class="line">        android.os.Parcel _data = android.os.Parcel.obtain();</div><div class="line">        android.os.Parcel _reply = android.os.Parcel.obtain();</div><div class="line">        <span class="keyword">int</span> _result;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            _data.writeInterfaceToken(DESCRIPTOR);</div><div class="line">            _data.writeString(name);</div><div class="line">            mRemote.transact(Stub.TRANSACTION_getAge, _data, _reply, <span class="number">0</span>);</div><div class="line">            _reply.readException();</div><div class="line">            _result = _reply.readInt();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">finally</span> &#123;</div><div class="line">            _reply.recycle();</div><div class="line">            _data.recycle();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> _result;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">setNameAndAge</span><span class="params">(java.lang.String name, <span class="keyword">int</span> age)</span> <span class="keyword">throws</span> android.os.RemoteException</span></div><div class="line">    &#123;</div><div class="line">        android.os.Parcel _data = android.os.Parcel.obtain();</div><div class="line">        android.os.Parcel _reply = android.os.Parcel.obtain();</div><div class="line">        <span class="keyword">boolean</span> _result;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            _data.writeInterfaceToken(DESCRIPTOR);</div><div class="line">            _data.writeString(name);</div><div class="line">            _data.writeInt(age);</div><div class="line">            mRemote.transact(Stub.TRANSACTION_setNameAndAge, _data, _reply, <span class="number">0</span>);</div><div class="line">            _reply.readException();</div><div class="line">            _result = (<span class="number">0</span>!=_reply.readInt());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">finally</span> &#123;</div><div class="line">            _reply.recycle();</div><div class="line">            _data.recycle();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> _result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实现了<strong>IAidlEx</strong>接口，调用<code>mRemote.transact</code>向远程服务端发起请求。</p>
+<h2 id="实现Service服务"><a href="#实现Service服务" class="headerlink" title="实现Service服务"></a>实现<strong>Service</strong>服务</h2><p>继承<strong>IAidlEx.Stub</strong>类，实现远程服务<strong>Binder</strong>业务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AidlExServiceImpl</span> <span class="keyword">extends</span> <span class="title">IAidlEx</span>.<span class="title">Stub</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> String TAG = <span class="string">"AidlExServiceImpl"</span>;</div><div class="line">    <span class="keyword">private</span> HashMap&lt;String, Integer&gt; users;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AidlExServiceImpl</span><span class="params">()</span> </span>&#123;</div><div class="line">        users = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">(String name)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</div><div class="line">        Log.e(TAG, <span class="string">"getAge: "</span> + name);</div><div class="line">        Integer it = users.get(name);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == it)</div><div class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">        <span class="keyword">return</span> it.intValue();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">setNameAndAge</span><span class="params">(String name, <span class="keyword">int</span> age)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</div><div class="line">        Log.e(TAG, <span class="string">"setNameAndAge: "</span> + name + <span class="string">", "</span> + age);</div><div class="line">        users.put(name, age);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>继承<strong>Service</strong>类，实现远程服务<strong>Service</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public class AidlExService extends Service &#123;</div><div class="line"></div><div class="line">    private final String TAG = &quot;AidlExService&quot;;</div><div class="line"></div><div class="line">    private AidlExServiceImpl serviceImpl;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onCreate() &#123;</div><div class="line">        super.onCreate();</div><div class="line">        Log.e(TAG, &quot;onCreate: &quot;);</div><div class="line">        serviceImpl = new AidlExServiceImpl();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Nullable</div><div class="line">    @Override</div><div class="line">    public IBinder onBind(Intent intent) &#123;</div><div class="line">        Log.e(TAG, &quot;onBind: &quot; + serviceImpl.hashCode());</div><div class="line">        return serviceImpl;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean onUnbind(Intent intent) &#123;</div><div class="line">        Log.e(TAG, &quot;onUnbind: &quot;);</div><div class="line">        return super.onUnbind(intent);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>发布服务</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">"com.ccflying.AidlExService"</span></span></div><div class="line">         <span class="attr">android:process</span>=<span class="string">":remote"</span> /&gt;</div></pre></td></tr></table></figure>
+<h2 id="跨进程调用Service"><a href="#跨进程调用Service" class="headerlink" title="跨进程调用Service"></a>跨进程调用<strong>Service</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">conn = <span class="keyword">new</span> ServiceConnection() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</div><div class="line">        <span class="comment">// service : android.os.BinderProxy@6fb8e95</span></div><div class="line">        mAidlExService = IAidlEx.Stub.asInterface(service);</div><div class="line">        <span class="comment">// mAidlExService: com.ccflying.IAidlEx$Stub$Proxy</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</div><div class="line">        conn = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">bindService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, AidlExService.class), conn, Service.BIND_AUTO_CREATE);</div><div class="line"></div><div class="line"><span class="comment">// 请求setNameAndAge</span></div><div class="line"><span class="keyword">boolean</span> rs = mAidlExService.setNameAndAge(<span class="string">"ccf"</span>, <span class="number">27</span>);</div><div class="line"><span class="comment">// 请求getAge</span></div><div class="line"><span class="keyword">int</span> age = mAidlExService.getAge(<span class="string">"ccf"</span>);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/15/React+Redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          React 中使用 Redux 入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/23/NodeJS-Other/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NodeJS-Other</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
