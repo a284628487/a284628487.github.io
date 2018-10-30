@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/11/25/git-svn/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="Git / SVN 实用命令">
-<meta property="og:updated_time" content="2018-06-21T21:43:34.000Z">
+<meta property="og:updated_time" content="2018-10-30T13:48:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git&#x2F;SVN 实用命令">
 <meta name="twitter:description" content="Git / SVN 实用命令">
@@ -238,7 +238,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>Git</strong> / <strong>SVN</strong> 实用命令<br><a id="more"></a></p>
-<h2 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h2><p><code>$ git log -p -2</code><br><strong>-p</strong> 选项展开显示每次提交的内容差异，用 <strong>-2</strong> 则仅显示最近的两次更新。</p>
+<h2 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h2><p><code>git log -p</code> 或者 <code>git log -p filename</code><br><strong>-p</strong> 展开显示每次提交的内容差异，可以指定文件名只查看某文件的个性历史。</p>
+<p><code>git log -2</code><br><strong>-2</strong> 仅获取最近的两次更新。</p>
 <p><code>git diff HEAD tt.txt</code><br>查看当前文件被修改过的内容(相比于上一次提交)</p>
 <p><code>$ git log --stat</code><br><strong>–stat</strong>，仅显示简要的增改行数统计。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git commit -m <span class="string">'initial commit'</span></div><div class="line">$ git add forgotten_file</div><div class="line">$ git commit --amend</div></pre></td></tr></table></figure>
@@ -302,6 +303,8 @@
 <li><p>将指定分支的文件修改 <strong>patch</strong> 补丁合并到当前分支<br><code>git checkout --patch master xx.txt</code></p>
 </li>
 <li><p>回退某个文件到指定版本<br><code>git checkout commitId xx.txt</code></p>
+</li>
+<li><p>查看文件修改记录<br><code>git blame -- filename</code></p>
 </li>
 </ol>
 <p><a href="https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE" target="_blank" rel="external">参考</a></p>
