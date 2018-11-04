@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Settings 体系架构二 PreferenceGroup | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Preference只是设置菜单中的某一项，PreferenceGroup则是Preference的容器，负责多个Preference的显示管理，它也是Preference的子类。">
+<meta name="keywords" content="Android,Settings">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Settings 体系架构二 PreferenceGroup">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/Settings-PreferenceGroup/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Preference只是设置菜单中的某一项，PreferenceGroup则是Preference的容器，负责多个Preference的显示管理，它也是Preference的子类。">
+<meta property="og:updated_time" content="2018-11-04T04:56:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Settings 体系架构二 PreferenceGroup">
+<meta name="twitter:description" content="Preference只是设置菜单中的某一项，PreferenceGroup则是Preference的容器，负责多个Preference的显示管理，它也是Preference的子类。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 12px;">Settings</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 11px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Settings-PreferenceGroup" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/02/Settings-PreferenceGroup/" class="article-date">
+  	<time datetime="2017-11-02T15:45:36.000Z" itemprop="datePublished">2017-11-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Settings 体系架构二 PreferenceGroup
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Settings/">Settings</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Preference</strong>只是设置菜单中的某一项，<strong>PreferenceGroup</strong>则是<strong>Preference</strong>的容器，负责多个<strong>Preference</strong>的显示管理，它也是<strong>Preference</strong>的子类。<br><a id="more"></a></p>
+<h2 id="PreferenceGroup"><a href="#PreferenceGroup" class="headerlink" title="PreferenceGroup"></a><strong>PreferenceGroup</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">PreferenceGroup</span> <span class="keyword">extends</span> <span class="title">Preference</span> <span class="keyword">implements</span> <span class="title">GenericInflater</span>.<span class="title">Parent</span>&lt;<span class="title">Preference</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Preference列表，里面的元素默认情况下根据Preference的order排序。</div><div class="line">     * 添加的时候，请使用addPreference，而不要直接使用List#add方法。</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> List&lt;Preference&gt; mPreferenceList;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mOrderingAsAdded = <span class="keyword">true</span>; <span class="comment">// 菜单排序顺序是否和添加的顺序保持一致。</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加Preference到List</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addPreference</span><span class="params">(Preference preference)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mPreferenceList.contains(preference)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (preference.getOrder() == Preference.DEFAULT_ORDER) &#123;</div><div class="line">            <span class="keyword">if</span> (mOrderingAsAdded) &#123;</div><div class="line">                preference.setOrder(mCurrentPreferenceOrder++);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</div><div class="line">            <span class="keyword">int</span> insertionIndex = Collections.binarySearch(mPreferenceList, preference);</div><div class="line">            <span class="keyword">if</span> (insertionIndex &lt; <span class="number">0</span>) &#123;</div><div class="line">                insertionIndex = insertionIndex * -<span class="number">1</span> - <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            mPreferenceList.add(insertionIndex, preference); <span class="comment">// 根据Order添加到指定位置</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        preference.onAttachedToHierarchy(getPreferenceManager());</div><div class="line">        <span class="comment">// 回调Preference的onAttachedToHierarchy，在该方法中，会去设置Preference的一些默认值。</span></div><div class="line">        preference.assignParent(<span class="keyword">this</span>);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (mAttachedToActivity) &#123;</div><div class="line">            preference.onAttachedToActivity();</div><div class="line">        &#125;</div><div class="line">        notifyHierarchyChanged();</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">removePreference</span><span class="params">(Preference preference)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> returnValue = removePreferenceInt(preference);</div><div class="line">        notifyHierarchyChanged();</div><div class="line">        <span class="keyword">return</span> returnValue;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">removePreferenceInt</span><span class="params">(Preference preference)</span> </span>&#123;</div><div class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</div><div class="line">            preference.onPrepareForRemoval();</div><div class="line">            <span class="keyword">if</span> (preference.getParent() == <span class="keyword">this</span>) &#123;</div><div class="line">                preference.assignParent(<span class="keyword">null</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> mPreferenceList.remove(preference);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Finds a &#123;<span class="doctag">@link</span> Preference&#125; based on its key. </div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> Preference <span class="title">findPreference</span><span class="params">(CharSequence key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (TextUtils.equals(getKey(), key)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> preferenceCount = getPreferenceCount();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; preferenceCount; i++) &#123;</div><div class="line">            <span class="keyword">final</span> Preference preference = getPreference(i);</div><div class="line">            <span class="keyword">final</span> String curKey = preference.getKey();</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (curKey != <span class="keyword">null</span> &amp;&amp; curKey.equals(key)) &#123;</div><div class="line">                <span class="keyword">return</span> preference;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (preference <span class="keyword">instanceof</span> PreferenceGroup) &#123;</div><div class="line">                <span class="keyword">final</span> Preference returnedPreference = ((PreferenceGroup)preference)</div><div class="line">                        .findPreference(key);</div><div class="line">                <span class="keyword">if</span> (returnedPreference != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> returnedPreference;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onAttachedToActivity</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onAttachedToActivity();</div><div class="line">        <span class="comment">// Mark as attached so if a preference is later added to this group, we</span></div><div class="line">        <span class="comment">// can tell it we are already attached</span></div><div class="line">        mAttachedToActivity = <span class="keyword">true</span>;</div><div class="line">        <span class="comment">// Dispatch to all contained preferences</span></div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> preferenceCount = getPreferenceCount();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; preferenceCount; i++) &#123;</div><div class="line">            getPreference(i).onAttachedToActivity();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>PreferenceGroup</strong>是一个抽象类，它有两个子类<strong>PreferenceScreen</strong>和<strong>PreferenceCategory</strong>。</p>
+</blockquote>
+<h2 id="PreferenceCategory"><a href="#PreferenceCategory" class="headerlink" title="PreferenceCategory"></a><strong>PreferenceCategory</strong></h2><p>Used to group {@link Preference} objects and provide a disabled title above the group.</p>
+<h2 id="PreferenceScreen"><a href="#PreferenceScreen" class="headerlink" title="PreferenceScreen"></a><strong>PreferenceScreen</strong></h2><p>Preference元素根容器，在<strong>PreferenceActivity</strong>或者<strong>PreferenceFragment</strong>中，用来显示Preference，使用<code>PreferenceManager#createPreferenceScreen(Context)</code>创建实例对象。</p>
+<p>该类有两种使用方法：</p>
+<ul>
+<li>使用在<strong>PreferenceActivity</strong>或者<strong>PreferenceFragment</strong>中，作为root元素，不会显示该类的一些信息，比如Title，只显示里面的Preference。</li>
+<li>嵌套使用在<strong>Preference</strong>中，它作为另一个<strong>PreferenceScreen</strong>页面(可能是Dialog，也可以是配置Intent跳转到另一个Activity)的入口，并不直接显示里面的<strong>Preference</strong>子元素。</li>
+</ul>
+<p>下面是一个示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">PreferenceScreen</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:settings</span>=<span class="string">"http://schemas.android.com/apk/res/com.android.settings"</span></div><div class="line">    <span class="attr">android:title</span>=<span class="string">"@string/network_dashboard_title"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">com.android.settings.widget.MasterSwitchPreference</span></span></div><div class="line">        <span class="attr">android:fragment</span>=<span class="string">"com.android.settings.wifi.WifiSettings"</span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"toggle_wifi"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/wifi_settings"</span></div><div class="line">        <span class="attr">android:summary</span>=<span class="string">"@string/summary_placeholder"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_settings_wireless"</span></div><div class="line">        <span class="attr">android:order</span>=<span class="string">"-30"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">intent</span></span></div><div class="line">            <span class="attr">android:action</span>=<span class="string">"android.settings.WIFI_SETTINGS"</span></div><div class="line">            <span class="attr">android:targetClass</span>=<span class="string">"Settings$WifiSettingsActivity"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">com.android.settings.widget.MasterSwitchPreference</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">Preference</span></span></div><div class="line">        <span class="attr">android:fragment</span>=<span class="string">"com.android.settings.ProxySelector"</span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"proxy_settings"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/proxy_settings_title"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">PreferenceScreen</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>PreferenceScreen</strong>.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">PreferenceScreen</span> <span class="keyword">extends</span> <span class="title">PreferenceGroup</span> <span class="keyword">implements</span> <span class="title">AdapterView</span>.<span class="title">OnItemClickListener</span>,</span></div><div class="line">        <span class="title">DialogInterface</span>.<span class="title">OnDismissListener</span> &#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ListAdapter mRootAdapter;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> ListView mListView;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView parent, View view, <span class="keyword">int</span> position, <span class="keyword">long</span> id)</span> </span>&#123;</div><div class="line">        <span class="comment">// If the list has headers, subtract them from the index.</span></div><div class="line">        <span class="keyword">if</span> (parent <span class="keyword">instanceof</span> ListView) &#123;</div><div class="line">            position -= ((ListView) parent).getHeaderViewsCount();</div><div class="line">        &#125;</div><div class="line">        Object item = getRootAdapter().getItem(position);</div><div class="line">        <span class="keyword">if</span> (!(item <span class="keyword">instanceof</span> Preference)) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> Preference preference = (Preference) item; </div><div class="line">        preference.performClick(<span class="keyword">this</span>); <span class="comment">// 分发点击事件</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/04/Settings-PreferenceFragment/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Settings 体系架构三 PreferenceFragment
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/02/Settings-Preference/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Settings 体系架构一 Preference</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
