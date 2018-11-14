@@ -6,19 +6,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>Settings 体系架构三 PreferenceFragment | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Settings中的DashboardFragment，是大多数页面的父类，基本所有的页面都是基于它实现的，它是PreferenceFragment的子类。">
+  <meta name="description" content="PreferenceFragment，在整个Settings应用中，基本所有的页面都继承自它，比如DashboardFragment，它是大多数页面的父类。">
 <meta name="keywords" content="Android,Settings">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Settings 体系架构三 PreferenceFragment">
 <meta property="og:url" content="http://yoursite.com/2017/11/04/Settings-PreferenceFragment/index.html">
 <meta property="og:site_name" content="Full Stacker">
-<meta property="og:description" content="Settings中的DashboardFragment，是大多数页面的父类，基本所有的页面都是基于它实现的，它是PreferenceFragment的子类。">
+<meta property="og:description" content="PreferenceFragment，在整个Settings应用中，基本所有的页面都继承自它，比如DashboardFragment，它是大多数页面的父类。">
 <meta property="og:image" content="http://yoursite.com/assets/imgSite/PreferenceFragment.png">
 <meta property="og:image" content="http://yoursite.com/assets/imgSite/PreferenceScreen_init.png">
-<meta property="og:updated_time" content="2018-11-13T12:12:39.000Z">
+<meta property="og:updated_time" content="2018-11-14T14:27:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Settings 体系架构三 PreferenceFragment">
-<meta name="twitter:description" content="Settings中的DashboardFragment，是大多数页面的父类，基本所有的页面都是基于它实现的，它是PreferenceFragment的子类。">
+<meta name="twitter:description" content="PreferenceFragment，在整个Settings应用中，基本所有的页面都继承自它，比如DashboardFragment，它是大多数页面的父类。">
 <meta name="twitter:image" content="http://yoursite.com/assets/imgSite/PreferenceFragment.png">
   
     <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
@@ -240,7 +240,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Settings</strong>中的<strong>DashboardFragment</strong>，是大多数页面的父类，基本所有的页面都是基于它实现的，它是<strong>PreferenceFragment</strong>的子类。</p>
+        <p><strong>PreferenceFragment</strong>，在整个Settings应用中，基本所有的页面都继承自它，比如<strong>DashboardFragment</strong>，它是大多数页面的父类。</p>
 <a id="more"></a>
 <p><strong>PreferenceFragment</strong>将Preference显示成列表，Preference将自动保存到<strong>SharedPreferences</strong>中(如果<strong>Preference</strong>的persist设置为true的情况下)。调用<code>PreferenceManager#getDefaultSharedPreferences()</code>会自动生成对应的存储设置值的<strong>SharedPreferences</strong>，在该类中将使用这个<strong>SharedPreferences</strong>。</p>
 <p><strong>PreferenceScreen</strong>应当作为root根元素容器，它里面包含了子<strong>Preference</strong>，<strong>PreferenceScreen</strong>有两种创建方式：</p>
