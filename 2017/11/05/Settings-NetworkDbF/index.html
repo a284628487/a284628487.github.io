@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Settings 体系架构五 NetworkDashboardFragment | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="NetworkDashboardFragment在Settings应用中，对应的是网络管理页面，它是继承自DashboardFragment，以该类来具体看一个DashboardFragment是怎么管理UI页面中。">
+<meta name="keywords" content="Android,Settings">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Settings 体系架构五 NetworkDashboardFragment">
+<meta property="og:url" content="http://yoursite.com/2017/11/05/Settings-NetworkDbF/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="NetworkDashboardFragment在Settings应用中，对应的是网络管理页面，它是继承自DashboardFragment，以该类来具体看一个DashboardFragment是怎么管理UI页面中。">
+<meta property="og:updated_time" content="2018-11-15T14:17:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Settings 体系架构五 NetworkDashboardFragment">
+<meta name="twitter:description" content="NetworkDashboardFragment在Settings应用中，对应的是网络管理页面，它是继承自DashboardFragment，以该类来具体看一个DashboardFragment是怎么管理UI页面中。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 14px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 14px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 14px;">Settings</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 12px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Settings-NetworkDbF" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/05/Settings-NetworkDbF/" class="article-date">
+  	<time datetime="2017-11-05T14:36:00.000Z" itemprop="datePublished">2017-11-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Settings 体系架构五 NetworkDashboardFragment
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Settings/">Settings</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>NetworkDashboardFragment</strong>在Settings应用中，对应的是网络管理页面，它是继承自DashboardFragment，以该类来具体看一个DashboardFragment是怎么管理UI页面中。</p>
+<a id="more"></a>
+<h2 id="NetworkDashboardFragment-java"><a href="#NetworkDashboardFragment-java" class="headerlink" title="NetworkDashboardFragment.java"></a><strong>NetworkDashboardFragment</strong>.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetworkDashboardFragment</span> <span class="keyword">extends</span> <span class="title">DashboardFragment</span> <span class="keyword">implements</span></span></div><div class="line">        <span class="title">MobilePlanPreferenceController</span>.<span class="title">MobilePlanPreferenceHost</span> &#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"NetworkDashboardFrag"</span>;</div><div class="line">    <span class="comment">// 重置网络</span></div><div class="line">    <span class="keyword">private</span> NetworkResetActionMenuController mNetworkResetController;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getPreferenceScreenResId</span><span class="params">()</span> </span>&#123; <span class="comment">// 返回页面布局Id。</span></div><div class="line">        <span class="keyword">return</span> R.xml.network_and_internet;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAttach</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onAttach(context);</div><div class="line">        mNetworkResetController = <span class="keyword">new</span> NetworkResetActionMenuController(context);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu, MenuInflater inflater)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreateOptionsMenu(menu, inflater);</div><div class="line">        mNetworkResetController.buildMenuItem(menu); <span class="comment">// 添加重置网络菜单项</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span> <span class="comment">// 返回Preference对应的Controller。</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> List&lt;PreferenceController&gt; <span class="title">getPreferenceControllers</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> AirplaneModePreferenceController airplaneModePreferenceController =</div><div class="line">                <span class="keyword">new</span> AirplaneModePreferenceController(context, <span class="keyword">this</span> <span class="comment">/* fragment */</span>);</div><div class="line">        <span class="keyword">final</span> MobilePlanPreferenceController mobilePlanPreferenceController =</div><div class="line">                <span class="keyword">new</span> MobilePlanPreferenceController(context, <span class="keyword">this</span>);</div><div class="line">        <span class="keyword">final</span> WifiMasterSwitchPreferenceController wifiPreferenceController =</div><div class="line">                <span class="keyword">new</span> WifiMasterSwitchPreferenceController(context, mMetricsFeatureProvider);</div><div class="line">        <span class="keyword">final</span> MobileNetworkPreferenceController mobileNetworkPreferenceController =</div><div class="line">                <span class="keyword">new</span> MobileNetworkPreferenceController(context);</div><div class="line">        <span class="keyword">final</span> VpnPreferenceController vpnPreferenceController =</div><div class="line">                <span class="keyword">new</span> VpnPreferenceController(context);</div><div class="line">        <span class="keyword">final</span> Lifecycle lifecycle = getLifecycle();</div><div class="line">        lifecycle.addObserver(airplaneModePreferenceController); <span class="comment">// 飞行模式</span></div><div class="line">        lifecycle.addObserver(mobilePlanPreferenceController); <span class="comment">// 数据管理</span></div><div class="line">        lifecycle.addObserver(wifiPreferenceController); <span class="comment">// Wifi</span></div><div class="line">        lifecycle.addObserver(mobileNetworkPreferenceController); <span class="comment">// 移动数据</span></div><div class="line">        lifecycle.addObserver(vpnPreferenceController); <span class="comment">// vpn</span></div><div class="line"></div><div class="line">        <span class="keyword">final</span> List&lt;PreferenceController&gt; controllers = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        controllers.add(airplaneModePreferenceController);</div><div class="line">        controllers.add(mobileNetworkPreferenceController);</div><div class="line">        controllers.add(<span class="keyword">new</span> TetherPreferenceController(context, lifecycle));</div><div class="line">        controllers.add(vpnPreferenceController);</div><div class="line">        controllers.add(<span class="keyword">new</span> ProxyPreferenceController(context));</div><div class="line">        controllers.add(mobilePlanPreferenceController);</div><div class="line">        controllers.add(wifiPreferenceController);</div><div class="line">        <span class="keyword">return</span> controllers;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showMobilePlanMessageDialog</span><span class="params">()</span> </span>&#123;</div><div class="line">        showDialog(MANAGE_MOBILE_PLAN_DIALOG_ID);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Dialog <span class="title">onCreateDialog</span><span class="params">(<span class="keyword">int</span> dialogId)</span> </span>&#123;</div><div class="line">        Log.d(TAG, <span class="string">"onCreateDialog: dialogId="</span> + dialogId);</div><div class="line">        <span class="keyword">switch</span> (dialogId) &#123;</div><div class="line">            <span class="keyword">case</span> MANAGE_MOBILE_PLAN_DIALOG_ID:</div><div class="line">                <span class="keyword">final</span> MobilePlanPreferenceController controller =</div><div class="line">                        getPreferenceController(MobilePlanPreferenceController.class);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> AlertDialog.Builder(getActivity())</div><div class="line">                        .setMessage(controller.getMobilePlanDialogMessage())</div><div class="line">                        .setCancelable(<span class="keyword">false</span>)</div><div class="line">                        .setPositiveButton(com.android.internal.R.string.ok,</div><div class="line">                                (dialog, id) -&gt; controller.setMobilePlanDialogMessage(<span class="keyword">null</span>))</div><div class="line">                        .create();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onCreateDialog(dialogId);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDialogMetricsCategory</span><span class="params">(<span class="keyword">int</span> dialogId)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (MANAGE_MOBILE_PLAN_DIALOG_ID == dialogId) &#123;</div><div class="line">            <span class="keyword">return</span> MetricsProto.MetricsEvent.DIALOG_MANAGE_MOBILE_PLAN;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="network-and-internet-xml"><a href="#network-and-internet-xml" class="headerlink" title="network_and_internet.xml"></a><strong>network_and_internet</strong>.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">PreferenceScreen</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">xmlns:settings</span>=<span class="string">"http://schemas.android.com/apk/res/com.android.settings"</span></div><div class="line">    <span class="attr">android:title</span>=<span class="string">"@string/network_dashboard_title"</span>&gt;</div><div class="line">    <span class="comment">&lt;!--WifiSettings--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">com.android.settings.widget.MasterSwitchPreference</span></span></div><div class="line">        <span class="attr">android:fragment</span>=<span class="string">"com.android.settings.wifi.WifiSettings"</span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"toggle_wifi"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/wifi_settings"</span></div><div class="line">        <span class="attr">android:summary</span>=<span class="string">"@string/summary_placeholder"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_settings_wireless"</span></div><div class="line">        <span class="attr">android:order</span>=<span class="string">"-30"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">intent</span></span></div><div class="line">            <span class="attr">android:action</span>=<span class="string">"android.settings.WIFI_SETTINGS"</span></div><div class="line">            <span class="attr">android:targetClass</span>=<span class="string">"Settings$WifiSettingsActivity"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">com.android.settings.widget.MasterSwitchPreference</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--MobileNetwork--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">com.android.settingslib.RestrictedPreference</span></span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"mobile_network_settings"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/network_settings_title"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_network_cell"</span></div><div class="line">        <span class="attr">android:dependency</span>=<span class="string">"toggle_airplane"</span></div><div class="line">        <span class="attr">android:order</span>=<span class="string">"-15"</span></div><div class="line">        <span class="attr">settings:keywords</span>=<span class="string">"@string/keywords_more_mobile_networks"</span></div><div class="line">        <span class="attr">settings:userRestriction</span>=<span class="string">"no_config_mobile_networks"</span></div><div class="line">        <span class="attr">settings:useAdminDisabledSummary</span>=<span class="string">"true"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">intent</span></span></div><div class="line">            <span class="attr">android:action</span>=<span class="string">"android.intent.action.MAIN"</span></div><div class="line">            <span class="attr">android:targetPackage</span>=<span class="string">"com.android.phone"</span></div><div class="line">            <span class="attr">android:targetClass</span>=<span class="string">"com.android.phone.MobileNetworkSettings"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">com.android.settingslib.RestrictedPreference</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--Tether--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">com.android.settingslib.RestrictedPreference</span></span></div><div class="line">        <span class="attr">android:fragment</span>=<span class="string">"com.android.settings.TetherSettings"</span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"tether_settings"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/tether_settings_title_all"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_wifi_tethering"</span></div><div class="line">        <span class="attr">android:order</span>=<span class="string">"-5"</span></div><div class="line">        <span class="attr">android:summary</span>=<span class="string">"@string/summary_placeholder"</span></div><div class="line">        <span class="attr">settings:userRestriction</span>=<span class="string">"no_config_tethering"</span></div><div class="line">        <span class="attr">settings:useAdminDisabledSummary</span>=<span class="string">"true"</span>/&gt;</div><div class="line">    <span class="comment">&lt;!--VPN--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">com.android.settingslib.RestrictedPreference</span></span></div><div class="line">        <span class="attr">android:fragment</span>=<span class="string">"com.android.settings.vpn2.VpnSettings"</span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"vpn_settings"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/vpn_settings_title"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_vpn_key"</span></div><div class="line">        <span class="attr">android:order</span>=<span class="string">"0"</span></div><div class="line">        <span class="attr">android:summary</span>=<span class="string">"@string/summary_placeholder"</span></div><div class="line">        <span class="attr">settings:userRestriction</span>=<span class="string">"no_config_vpn"</span></div><div class="line">        <span class="attr">settings:useAdminDisabledSummary</span>=<span class="string">"true"</span>/&gt;</div><div class="line">    <span class="comment">&lt;!--MobilePlan--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">com.android.settingslib.RestrictedPreference</span></span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"manage_mobile_plan"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/manage_mobile_plan_title"</span></div><div class="line">        <span class="attr">android:persistent</span>=<span class="string">"false"</span></div><div class="line">        <span class="attr">settings:userRestriction</span>=<span class="string">"no_config_mobile_networks"</span></div><div class="line">        <span class="attr">settings:useAdminDisabledSummary</span>=<span class="string">"true"</span>/&gt;</div><div class="line">    <span class="comment">&lt;!--Airplane--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">SwitchPreference</span></span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"toggle_airplane"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/airplane_mode"</span></div><div class="line">        <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_airplanemode_active"</span></div><div class="line">        <span class="attr">android:disableDependentsState</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:order</span>=<span class="string">"5"</span>/&gt;</div><div class="line">    <span class="comment">&lt;!--Proxy--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Preference</span></span></div><div class="line">        <span class="attr">android:fragment</span>=<span class="string">"com.android.settings.ProxySelector"</span></div><div class="line">        <span class="attr">android:key</span>=<span class="string">"proxy_settings"</span></div><div class="line">        <span class="attr">android:title</span>=<span class="string">"@string/proxy_settings_title"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">PreferenceScreen</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>xml中定义了<strong>PreferenceScreen</strong>和包含的子<strong>Preference</strong></p>
+</blockquote>
+<h2 id="WifiMasterSwitchPreferenceController-java"><a href="#WifiMasterSwitchPreferenceController-java" class="headerlink" title="WifiMasterSwitchPreferenceController.java"></a><strong>WifiMasterSwitchPreferenceController</strong>.java</h2><p>拿<strong>WifiSettings</strong>作为例子分析，在<code>getPreferenceControllers</code>中，创建了该类的实例对象并返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WifiMasterSwitchPreferenceController</span> <span class="keyword">extends</span> <span class="title">PreferenceController</span></span></div><div class="line">        <span class="keyword">implements</span> <span class="title">SummaryUpdater</span>.<span class="title">OnSummaryChangeListener</span>,</div><div class="line">        <span class="title">LifecycleObserver</span>, <span class="title">OnResume</span>, <span class="title">OnPause</span>, <span class="title">OnStart</span>, <span class="title">OnStop</span> &#123;</div><div class="line">    <span class="comment">// key，同上面network_and_internet.xml中定义的key</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_TOGGLE_WIFI = <span class="string">"toggle_wifi"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> MasterSwitchPreference mWifiPreference;</div><div class="line">    <span class="keyword">private</span> WifiEnabler mWifiEnabler;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> WifiSummaryUpdater mSummaryHelper;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MetricsFeatureProvider mMetricsFeatureProvider;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WifiMasterSwitchPreferenceController</span><span class="params">(Context context,</span></span></div><div class="line">            MetricsFeatureProvider metricsFeatureProvider) &#123;</div><div class="line">        <span class="keyword">super</span>(context);</div><div class="line">        mMetricsFeatureProvider = metricsFeatureProvider;</div><div class="line">        mSummaryHelper = <span class="keyword">new</span> WifiSummaryUpdater(mContext, <span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">displayPreference</span><span class="params">(PreferenceScreen screen)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.displayPreference(screen);</div><div class="line">        mWifiPreference = (MasterSwitchPreference) screen.findPreference(KEY_TOGGLE_WIFI);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</div><div class="line">        mSummaryHelper.register(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">if</span> (mWifiEnabler != <span class="keyword">null</span>) &#123;</div><div class="line">            mWifiEnabler.resume(mContext); </div><div class="line">            <span class="comment">// WifiEnabler#resume启动广播监听</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mWifiEnabler != <span class="keyword">null</span>) &#123;</div><div class="line">            mWifiEnabler.pause();</div><div class="line">        &#125;</div><div class="line">        mSummaryHelper.register(<span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</div><div class="line">        mWifiEnabler = <span class="keyword">new</span> WifiEnabler(mContext, <span class="keyword">new</span> MasterSwitchController(mWifiPreference),</div><div class="line">            mMetricsFeatureProvider);</div><div class="line">        <span class="comment">// 创建WifiEnabler，onResume的时候去监听广播，onPause时注销广播监听。</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mWifiEnabler != <span class="keyword">null</span>) &#123;</div><div class="line">            mWifiEnabler.teardownSwitchController();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSummaryChanged</span><span class="params">(String summary)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mWifiPreference != <span class="keyword">null</span>) &#123;</div><div class="line">            mWifiPreference.setSummary(summary);</div><div class="line">            <span class="comment">// 监听，比如wifi连接上了，会在当前页面显示连接的wifi名称</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="WifiEnabler-java"><a href="#WifiEnabler-java" class="headerlink" title="WifiEnabler.java"></a><strong>WifiEnabler</strong>.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WifiEnabler</span> <span class="keyword">implements</span> <span class="title">SwitchWidgetController</span>.<span class="title">OnSwitchChangeListener</span>  </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SwitchWidgetController mSwitchWidget;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> WifiManager mWifiManager;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ConnectivityManagerWrapper mConnectivityManager;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MetricsFeatureProvider mMetricsFeatureProvider;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Context mContext;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mListeningToOnSwitchChange = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">private</span> AtomicBoolean mConnected = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">false</span>);</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mStateMachineEvent;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> IntentFilter mIntentFilter;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> BroadcastReceiver mReceiver = <span class="keyword">new</span> BroadcastReceiver() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">            String action = intent.getAction();</div><div class="line">            <span class="comment">// WIFI状态发生改变</span></div><div class="line">            <span class="keyword">if</span> (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) &#123;</div><div class="line">                handleWifiStateChanged(mWifiManager.getWifiState());</div><div class="line">                <span class="comment">// 处理state</span></div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (WifiManager.SUPPLICANT_STATE_CHANGED_ACTION.equals(action)) &#123;</div><div class="line">                <span class="keyword">if</span> (!mConnected.get()) &#123;</div><div class="line">                    handleStateChanged(WifiInfo.getDetailedStateOf((SupplicantState)</div><div class="line">                            intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE)));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="comment">// Network状态改变。</span></div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) &#123;</div><div class="line">                NetworkInfo info = (NetworkInfo) intent.getParcelableExtra(</div><div class="line">                        WifiManager.EXTRA_NETWORK_INFO);</div><div class="line">                mConnected.set(info.isConnected());</div><div class="line">                handleStateChanged(info.getDetailedState());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String EVENT_DATA_IS_WIFI_ON = <span class="string">"is_wifi_on"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> EVENT_UPDATE_INDEX = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WifiEnabler</span><span class="params">(Context context, SwitchWidgetController switchWidget,</span></span></div><div class="line">        MetricsFeatureProvider metricsFeatureProvider) &#123;</div><div class="line">        <span class="keyword">this</span>(context, switchWidget, metricsFeatureProvider, <span class="keyword">new</span> ConnectivityManagerWrapper(</div><div class="line">            (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@VisibleForTesting</span></div><div class="line">    WifiEnabler(Context context, SwitchWidgetController switchWidget,</div><div class="line">            MetricsFeatureProvider metricsFeatureProvider,</div><div class="line">            ConnectivityManagerWrapper connectivityManagerWrapper) &#123;</div><div class="line">        mContext = context;</div><div class="line">        mSwitchWidget = switchWidget;</div><div class="line">        mSwitchWidget.setListener(<span class="keyword">this</span>);</div><div class="line">        mMetricsFeatureProvider = metricsFeatureProvider;</div><div class="line">        mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);</div><div class="line">        mConnectivityManager = connectivityManagerWrapper;</div><div class="line"></div><div class="line">        mIntentFilter = <span class="keyword">new</span> IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);</div><div class="line">        <span class="comment">// The order matters! We really should not depend on this. :(</span></div><div class="line">        mIntentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);</div><div class="line">        mIntentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);</div><div class="line"></div><div class="line">        setupSwitchController();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setupSwitchController</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> state = mWifiManager.getWifiState();</div><div class="line">        handleWifiStateChanged(state); <span class="comment">// 更新state</span></div><div class="line">        <span class="comment">// ...</span></div><div class="line">        mSwitchWidget.setupView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">teardownSwitchController</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mListeningToOnSwitchChange) &#123;</div><div class="line">            mSwitchWidget.stopListening();</div><div class="line">            mListeningToOnSwitchChange = <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        mSwitchWidget.teardownView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resume</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        mContext = context;</div><div class="line">        <span class="comment">// Wi-Fi state is sticky, so just let the receiver update UI</span></div><div class="line">        mContext.registerReceiver(mReceiver, mIntentFilter);</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pause</span><span class="params">()</span> </span>&#123;</div><div class="line">        mContext.unregisterReceiver(mReceiver);</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 更新wifi状态改变。</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleWifiStateChanged</span><span class="params">(<span class="keyword">int</span> state)</span> </span>&#123;</div><div class="line">        <span class="comment">// Clear any previous state</span></div><div class="line">        mSwitchWidget.setDisabledByAdmin(<span class="keyword">null</span>);</div><div class="line">        <span class="keyword">switch</span> (state) &#123;</div><div class="line">            <span class="keyword">case</span> WifiManager.WIFI_STATE_ENABLING:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> WifiManager.WIFI_STATE_ENABLED:</div><div class="line">                setSwitchBarChecked(<span class="keyword">true</span>);</div><div class="line">                mSwitchWidget.setEnabled(<span class="keyword">true</span>);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> WifiManager.WIFI_STATE_DISABLING:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> WifiManager.WIFI_STATE_DISABLED:</div><div class="line">                setSwitchBarChecked(<span class="keyword">false</span>);</div><div class="line">                mSwitchWidget.setEnabled(<span class="keyword">true</span>);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                setSwitchBarChecked(<span class="keyword">false</span>);</div><div class="line">                mSwitchWidget.setEnabled(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (mayDisableTethering(!mSwitchWidget.isChecked())) &#123;</div><div class="line">            <span class="keyword">if</span> (RestrictedLockUtils.hasBaseUserRestriction(mContext,</div><div class="line">                    UserManager.DISALLOW_CONFIG_TETHERING, UserHandle.myUserId())) &#123;</div><div class="line">                mSwitchWidget.setEnabled(<span class="keyword">false</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">final</span> EnforcedAdmin admin = RestrictedLockUtils.checkIfRestrictionEnforced(mContext,</div><div class="line">                    UserManager.DISALLOW_CONFIG_TETHERING, UserHandle.myUserId());</div><div class="line">                mSwitchWidget.setDisabledByAdmin(admin);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setSwitchBarChecked</span><span class="params">(<span class="keyword">boolean</span> checked)</span> </span>&#123;</div><div class="line">        mStateMachineEvent = <span class="keyword">true</span>;</div><div class="line">        mSwitchWidget.setChecked(checked);</div><div class="line">        mStateMachineEvent = <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleStateChanged</span><span class="params">(@SuppressWarnings(<span class="string">"unused"</span>)</span> NetworkInfo.DetailedState state) </span>&#123;</div><div class="line">        <span class="comment">// After the refactoring from a CheckBoxPreference to a Switch, this method is useless since</span></div><div class="line">        <span class="comment">// there is nowhere to display a summary.</span></div><div class="line">        <span class="comment">// This code is kept in case a future change re-introduces an associated text.</span></div><div class="line">        <span class="comment">/*</span></div><div class="line">        // WifiInfo is valid if and only if Wi-Fi is enabled.</div><div class="line">        // Here we use the state of the switch as an optimization.</div><div class="line">        if (state != null &amp;&amp; mSwitch.isChecked()) &#123;</div><div class="line">            WifiInfo info = mWifiManager.getConnectionInfo();</div><div class="line">            if (info != null) &#123;</div><div class="line">                //setSummary(Summary.get(mContext, info.getSSID(), state));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        */</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSwitchToggled</span><span class="params">(<span class="keyword">boolean</span> isChecked)</span> </span>&#123;</div><div class="line">        <span class="comment">//Do nothing if called as a result of a state machine event</span></div><div class="line">        <span class="keyword">if</span> (mStateMachineEvent) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Show toast message if Wi-Fi is not allowed in airplane mode</span></div><div class="line">        <span class="keyword">if</span> (isChecked &amp;&amp; !WirelessUtils.isRadioAllowed(mContext, Settings.Global.RADIO_WIFI)) &#123;</div><div class="line">            Toast.makeText(mContext, R.string.wifi_in_airplane_mode, Toast.LENGTH_SHORT).show();</div><div class="line">            <span class="comment">// Reset switch to off. No infinite check/listenenr loop.</span></div><div class="line">            mSwitchWidget.setChecked(<span class="keyword">false</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Disable tethering if enabling Wifi</span></div><div class="line">        <span class="keyword">if</span> (mayDisableTethering(isChecked)) &#123;</div><div class="line">            mConnectivityManager.stopTethering(ConnectivityManager.TETHERING_WIFI);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (isChecked) &#123;</div><div class="line">            mMetricsFeatureProvider.action(mContext, MetricsEvent.ACTION_WIFI_ON);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// Log if user was connected at the time of switching off.</span></div><div class="line">            mMetricsFeatureProvider.action(mContext, MetricsEvent.ACTION_WIFI_OFF,</div><div class="line">                    mConnected.get());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!mWifiManager.setWifiEnabled(isChecked)) &#123;</div><div class="line">            <span class="comment">// Error</span></div><div class="line">            mSwitchWidget.setEnabled(<span class="keyword">true</span>);</div><div class="line">            Toast.makeText(mContext, R.string.wifi_error, Toast.LENGTH_SHORT).show();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">mayDisableTethering</span><span class="params">(<span class="keyword">boolean</span> isChecked)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> wifiApState = mWifiManager.getWifiApState();</div><div class="line">        <span class="keyword">return</span> isChecked &amp;&amp; ((wifiApState == WifiManager.WIFI_AP_STATE_ENABLING) ||</div><div class="line">            (wifiApState == WifiManager.WIFI_AP_STATE_ENABLED));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/02/Andriod-Optimize-hprof/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Andriod 性能优化之 HPROF 文件分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/05/Settings-DashboardFragment/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Settings 体系架构四 DashboardFragment</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
