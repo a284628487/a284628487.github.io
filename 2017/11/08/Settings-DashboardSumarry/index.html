@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Settings 体系架构六 DashboardSumarry | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DashboardSumarry，即Settings应用首页面，和其它页面不同的是，它是以一个RecyclerView的形式来显示列表，并没有使用Preference。">
+<meta name="keywords" content="Android,Settings">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Settings 体系架构六 DashboardSumarry">
+<meta property="og:url" content="http://yoursite.com/2017/11/08/Settings-DashboardSumarry/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="DashboardSumarry，即Settings应用首页面，和其它页面不同的是，它是以一个RecyclerView的形式来显示列表，并没有使用Preference。">
+<meta property="og:image" content="http://yoursite.com/assets/imgSite/SettingsDashboard.png">
+<meta property="og:updated_time" content="2018-11-18T03:15:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Settings 体系架构六 DashboardSumarry">
+<meta name="twitter:description" content="DashboardSumarry，即Settings应用首页面，和其它页面不同的是，它是以一个RecyclerView的形式来显示列表，并没有使用Preference。">
+<meta name="twitter:image" content="http://yoursite.com/assets/imgSite/SettingsDashboard.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 10.91px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16.36px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 10.91px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 13.64px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 10.91px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 10.91px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10.91px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 11.82px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17.27px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15.45px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19.09px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 10.91px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 13.64px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 10.91px;">Promise</a> <a href="/tags/React/" style="font-size: 18.18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.45px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16.36px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 11.82px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 12.73px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 14.55px;">Settings</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 11.82px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Settings-DashboardSumarry" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/11/08/Settings-DashboardSumarry/" class="article-date">
+  	<time datetime="2017-11-08T01:42:55.000Z" itemprop="datePublished">2017-11-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Settings 体系架构六 DashboardSumarry
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Settings/">Settings</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>DashboardSumarry</strong>，即Settings应用首页面，和其它页面不同的是，它是以一个<strong>RecyclerView</strong>的形式来显示列表，并没有使用<strong>Preference</strong>。<br><a id="more"></a></p>
+<p><img src="/assets/imgSite/SettingsDashboard.png" alt="Settings"></p>
+<p>首页中有几个比较重要的概念</p>
+<ul>
+<li><strong>Condition</strong> : 某些特定情况下才会出现的菜单，比如飞行模式，低电情况下，点击能展开/折叠，展开后有相应的可操作功能。</li>
+<li><strong>Tile</strong> : 单个菜单项，点击可进入二级页面，但它又存储为两类，一类是固定的<strong>DashboardTile</strong>，另一类是常用的<strong>SuggestionTile</strong>。</li>
+<li><strong>SuggestionHeader</strong> : 当<strong>SuggestionTile</strong>多于2项之后，可以点击它展开/折叠菜单。</li>
+</ul>
+<h2 id="DashboardSummary"><a href="#DashboardSummary" class="headerlink" title="DashboardSummary"></a><strong>DashboardSummary</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DashboardSummary</span> <span class="keyword">extends</span> <span class="title">InstrumentedFragment</span></span></div><div class="line">        <span class="keyword">implements</span> <span class="title">SettingsDrawerActivity</span>.<span class="title">CategoryListener</span>, <span class="title">ConditionManager</span>.<span class="title">ConditionListener</span>,</div><div class="line">        <span class="title">FocusRecyclerView</span>.<span class="title">FocusListener</span> &#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_WAIT_MILLIS = <span class="number">700</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SUGGESTIONS = <span class="string">"suggestions"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String EXTRA_SCROLL_POSITION = <span class="string">"scroll_position"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Handler mHandler = <span class="keyword">new</span> Handler();</div><div class="line"></div><div class="line">    <span class="keyword">private</span> FocusRecyclerView mDashboard;</div><div class="line">    <span class="keyword">private</span> DashboardAdapter mAdapter; <span class="comment">// adapter</span></div><div class="line">    <span class="keyword">private</span> SummaryLoader mSummaryLoader;</div><div class="line">    <span class="keyword">private</span> ConditionManager mConditionManager;</div><div class="line">    <span class="keyword">private</span> SuggestionParser mSuggestionParser;</div><div class="line">    <span class="keyword">private</span> LinearLayoutManager mLayoutManager;</div><div class="line">    <span class="keyword">private</span> SuggestionsChecks mSuggestionsChecks;</div><div class="line">    <span class="keyword">private</span> DashboardFeatureProvider mDashboardFeatureProvider;</div><div class="line">    <span class="keyword">private</span> SuggestionFeatureProvider mSuggestionFeatureProvider;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isOnCategoriesChangedCalled;</div><div class="line">    <span class="keyword">private</span> SuggestionDismissController mSuggestionDismissHandler;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        <span class="keyword">final</span> Activity activity = getActivity();</div><div class="line">        mDashboardFeatureProvider = FeatureFactory.getFactory(activity)</div><div class="line">                .getDashboardFeatureProvider(activity);</div><div class="line">        mSuggestionFeatureProvider = FeatureFactory.getFactory(activity)</div><div class="line">                .getSuggestionFeatureProvider(activity);</div><div class="line">                <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        mSummaryLoader.release();</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">        <span class="keyword">super</span>.onResume();</div><div class="line"></div><div class="line">        ((SettingsDrawerActivity) getActivity()).addCategoryListener(<span class="keyword">this</span>);</div><div class="line">        mSummaryLoader.setListening(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> metricsCategory = getMetricsCategory();</div><div class="line">        <span class="keyword">for</span> (Condition c : mConditionManager.getConditions()) &#123;</div><div class="line">            <span class="keyword">if</span> (c.shouldShow()) &#123;</div><div class="line">                mMetricsFeatureProvider.visible(getContext(), metricsCategory,</div><div class="line">                        c.getMetricsConstant());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (DEBUG_TIMING) &#123;</div><div class="line">            Log.d(TAG, <span class="string">"onResume took "</span> + (System.currentTimeMillis() - startTime) + <span class="string">" ms"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onPause();</div><div class="line"></div><div class="line">        ((SettingsDrawerActivity) getActivity()).remCategoryListener(<span class="keyword">this</span>);</div><div class="line">        mSummaryLoader.setListening(<span class="keyword">false</span>);</div><div class="line">        <span class="keyword">for</span> (Condition c : mConditionManager.getConditions()) &#123;</div><div class="line">            <span class="keyword">if</span> (c.shouldShow()) &#123;</div><div class="line">                mMetricsFeatureProvider.hidden(getContext(), c.getMetricsConstant());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!getActivity().isChangingConfigurations()) &#123;</div><div class="line">            mAdapter.onPause();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onWindowFocusChanged</span><span class="params">(<span class="keyword">boolean</span> hasWindowFocus)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">        <span class="keyword">if</span> (hasWindowFocus) &#123; <span class="comment">// 添加Condtion监听器，比如到达低电模式，更新UI</span></div><div class="line">            mConditionManager.addListener(<span class="keyword">this</span>); <span class="comment">// -&gt; onConditionsChanged</span></div><div class="line">            mConditionManager.refreshAll();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            mConditionManager.remListener(<span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSaveInstanceState</span><span class="params">(Bundle outState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onSaveInstanceState(outState);</div><div class="line">        <span class="keyword">if</span> (mLayoutManager == <span class="keyword">null</span>) <span class="keyword">return</span>;</div><div class="line">        outState.putInt(EXTRA_SCROLL_POSITION, mLayoutManager.findFirstVisibleItemPosition());</div><div class="line">        <span class="keyword">if</span> (mAdapter != <span class="keyword">null</span>) &#123;</div><div class="line">            mAdapter.onSaveInstanceState(outState);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 保存滚动位置.</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onViewCreated</span><span class="params">(View view, Bundle bundle)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</div><div class="line">        mDashboard = view.findViewById(R.id.dashboard_container);</div><div class="line">        mLayoutManager = <span class="keyword">new</span> LinearLayoutManager(getContext());</div><div class="line">        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);</div><div class="line">        <span class="keyword">if</span> (bundle != <span class="keyword">null</span>) &#123; <span class="comment">// 获取保存好的滚动位置</span></div><div class="line">            <span class="keyword">int</span> scrollPosition = bundle.getInt(EXTRA_SCROLL_POSITION);</div><div class="line">            mLayoutManager.scrollToPosition(scrollPosition);</div><div class="line">        &#125;</div><div class="line">        mDashboard.setLayoutManager(mLayoutManager);</div><div class="line">        mDashboard.setHasFixedSize(<span class="keyword">true</span>);</div><div class="line">        mDashboard.addItemDecoration(<span class="keyword">new</span> DashboardDecorator(getContext()));</div><div class="line">        mDashboard.setListener(<span class="keyword">this</span>);</div><div class="line">        mAdapter = <span class="keyword">new</span> DashboardAdapter(getContext(), bundle, mConditionManager.getConditions()); <span class="comment">// 创建Adapter</span></div><div class="line">        mDashboard.setAdapter(mAdapter);</div><div class="line">        mSuggestionDismissHandler = <span class="keyword">new</span> SuggestionDismissController(</div><div class="line">                getContext(), mDashboard, mSuggestionParser, mAdapter);</div><div class="line">        mDashboard.setItemAnimator(<span class="keyword">new</span> DashboardItemAnimator());</div><div class="line">        mSummaryLoader.setSummaryConsumer(mAdapter);</div><div class="line">        ConditionAdapterUtils.addDismiss(mDashboard);</div><div class="line">        rebuildUI(); <span class="comment">// rebuildUI</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@VisibleForTesting</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rebuildUI</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> SuggestionLoader().execute();</div><div class="line">        <span class="comment">// 调用SuggestionLoader加载SuggestionTile</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConditionsChanged</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> scrollToTop = mLayoutManager.findFirstCompletelyVisibleItemPosition() &lt;= <span class="number">1</span>;</div><div class="line">        mAdapter.setConditions(mConditionManager.getConditions());</div><div class="line">        <span class="comment">// 设置Conditions.</span></div><div class="line">        <span class="keyword">if</span> (scrollToTop) &#123;</div><div class="line">            mDashboard.scrollToPosition(<span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">SuggestionLoader</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">List</span>&lt;<span class="title">Tile</span>&gt;&gt; </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> List&lt;Tile&gt; <span class="title">doInBackground</span><span class="params">(Void... params)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> Context context = getContext();</div><div class="line">            <span class="keyword">boolean</span> isSmartSuggestionEnabled =</div><div class="line">                    mSuggestionFeatureProvider.isSmartSuggestionEnabled(context);</div><div class="line">            List&lt;Tile&gt; suggestions = mSuggestionParser.getSuggestions(isSmartSuggestionEnabled);</div><div class="line">            <span class="keyword">if</span> (isSmartSuggestionEnabled) &#123;</div><div class="line">                List&lt;String&gt; suggestionIds = <span class="keyword">new</span> ArrayList&lt;&gt;(suggestions.size());</div><div class="line">                <span class="keyword">for</span> (Tile suggestion : suggestions) &#123;</div><div class="line">                    suggestionIds.add(mSuggestionFeatureProvider.getSuggestionIdentifier(</div><div class="line">                            context, suggestion));</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// <span class="doctag">TODO:</span> create a Suggestion class to maintain the id and other info</span></div><div class="line">                mSuggestionFeatureProvider.rankSuggestions(suggestions, suggestionIds);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; suggestions.size(); i++) &#123;</div><div class="line">                Tile suggestion = suggestions.get(i);</div><div class="line">                <span class="keyword">if</span> (mSuggestionsChecks.isSuggestionComplete(suggestion)) &#123;</div><div class="line">                    mSuggestionFeatureProvider.dismissSuggestion(</div><div class="line">                            context, mSuggestionParser, suggestion);</div><div class="line">                    suggestions.remove(i--);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> suggestions;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(List&lt;Tile&gt; tiles)</span> </span>&#123;</div><div class="line">            <span class="comment">// 加载完成，更新UI。</span></div><div class="line">            mHandler.removeCallbacksAndMessages(<span class="keyword">null</span>);</div><div class="line">            updateCategoryAndSuggestion(tiles);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@VisibleForTesting</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updateCategoryAndSuggestion</span><span class="params">(List&lt;Tile&gt; suggestions)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        <span class="comment">// Temporary hack to wrap homepage category into a list. Soon we will create adapter</span></div><div class="line">        <span class="comment">// API that takes a single category.</span></div><div class="line">        List&lt;DashboardCategory&gt; categories = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="comment">// 加载固定的Tile，这些tile被包含在一个Category里面。</span></div><div class="line">        categories.add(mDashboardFeatureProvider.getTilesForCategory(</div><div class="line">                CategoryKey.CATEGORY_HOMEPAGE));</div><div class="line">        <span class="keyword">if</span> (suggestions != <span class="keyword">null</span>) &#123;</div><div class="line">            mAdapter.setCategoriesAndSuggestions(categories, suggestions);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            mAdapter.setCategory(categories);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 设置Category</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="DashboardAdapter"><a href="#DashboardAdapter" class="headerlink" title="DashboardAdapter"></a><strong>DashboardAdapter</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DashboardAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">DashboardAdapter</span>.<span class="title">DashboardItemHolder</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"DashboardAdapter"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String STATE_SUGGESTION_LIST = <span class="string">"suggestion_list"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String STATE_CATEGORY_LIST = <span class="string">"category_list"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String STATE_SUGGESTION_MODE = <span class="string">"suggestion_mode"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String STATE_SUGGESTIONS_SHOWN_LOGGED = <span class="string">"suggestions_shown_logged"</span>;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> DashboardItemHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DashboardItemHolder(LayoutInflater.from(parent.getContext()).inflate(</div><div class="line">                viewType, parent, <span class="keyword">false</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(DashboardItemHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> type = mDashboardData.getItemTypeByPosition(position);</div><div class="line">        <span class="keyword">switch</span> (type) &#123;</div><div class="line">            <span class="keyword">case</span> R.layout.dashboard_category: <span class="comment">// category</span></div><div class="line">                onBindCategory(holder,</div><div class="line">                        (DashboardCategory) mDashboardData.getItemEntityByPosition(position));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.layout.dashboard_tile: <span class="comment">// dashboardTyle</span></div><div class="line">                <span class="keyword">final</span> Tile tile = (Tile) mDashboardData.getItemEntityByPosition(position);</div><div class="line">                onBindTile(holder, tile); <span class="comment">// 设置Tile</span></div><div class="line">                holder.itemView.setTag(tile);</div><div class="line">                holder.itemView.setOnClickListener(mTileClickListener);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.layout.suggestion_header: <span class="comment">// suggestionHeader</span></div><div class="line">                onBindSuggestionHeader(holder, (DashboardData.SuggestionHeaderData)</div><div class="line">                        mDashboardData.getItemEntityByPosition(position));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.layout.suggestion_tile: <span class="comment">// suggestionTile</span></div><div class="line">                <span class="keyword">final</span> Tile suggestion = (Tile) mDashboardData.getItemEntityByPosition(position);</div><div class="line">                <span class="keyword">final</span> String suggestionId = mSuggestionFeatureProvider.getSuggestionIdentifier(</div><div class="line">                        mContext, suggestion);</div><div class="line">                <span class="comment">// This is for cases when a suggestion is dismissed and the next one comes to view</span></div><div class="line">                <span class="keyword">if</span> (!mSuggestionsShownLogged.contains(suggestionId)) &#123;</div><div class="line">                    mMetricsFeatureProvider.action(</div><div class="line">                            mContext, MetricsEvent.ACTION_SHOW_SETTINGS_SUGGESTION, suggestionId);</div><div class="line">                    mSuggestionsShownLogged.add(suggestionId);</div><div class="line">                &#125;</div><div class="line">                onBindTile(holder, suggestion); <span class="comment">// 设置Tile</span></div><div class="line">                <span class="comment">// 设置点击事件</span></div><div class="line">                holder.itemView.setOnClickListener(v -&gt; &#123;</div><div class="line">                    mMetricsFeatureProvider.action(mContext,</div><div class="line">                            MetricsEvent.ACTION_SETTINGS_SUGGESTION, suggestionId);</div><div class="line">                    ((SettingsActivity) mContext).startSuggestion(suggestion.intent);</div><div class="line">                &#125;);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> R.layout.condition_card: <span class="comment">// ConditonCard</span></div><div class="line">                <span class="keyword">final</span> <span class="keyword">boolean</span> isExpanded = mDashboardData.getItemEntityByPosition(position)</div><div class="line">                        == mDashboardData.getExpandedCondition();</div><div class="line">                ConditionAdapterUtils.bindViews( <span class="comment">/** 设置点击事件 */</span></div><div class="line">                        (Condition) mDashboardData.getItemEntityByPosition(position),</div><div class="line">                        holder, isExpanded, mConditionClickListener, v -&gt; onExpandClick(v));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Condition点击事件监听器</span></div><div class="line">    <span class="keyword">private</span> View.OnClickListener mConditionClickListener = <span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            Condition expandedCondition = mDashboardData.getExpandedCondition();</div><div class="line">            <span class="comment">//<span class="doctag">TODO:</span> get rid of setTag/getTag</span></div><div class="line">            <span class="keyword">if</span> (v.getTag() == expandedCondition) &#123; <span class="comment">// 点击进入对应的设置页面</span></div><div class="line">                mMetricsFeatureProvider.action(mContext,</div><div class="line">                        MetricsEvent.ACTION_SETTINGS_CONDITION_CLICK,</div><div class="line">                        expandedCondition.getMetricsConstant());</div><div class="line">                expandedCondition.onPrimaryClick(); <span class="comment">// Condition处理相应的事件</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                expandedCondition = (Condition) v.getTag();</div><div class="line">                mMetricsFeatureProvider.action(mContext,</div><div class="line">                        MetricsEvent.ACTION_SETTINGS_CONDITION_EXPAND,</div><div class="line">                        expandedCondition.getMetricsConstant());</div><div class="line">                updateExpandedCondition(expandedCondition);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    <span class="comment">// 点击Tile打开Intent</span></div><div class="line">    <span class="keyword">private</span> View.OnClickListener mTileClickListener = <span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            <span class="comment">//<span class="doctag">TODO:</span> get rid of setTag/getTag</span></div><div class="line">            mDashboardFeatureProvider.openTileIntent((Activity) mContext, (Tile) v.getTag());</div><div class="line">        &#125;</div><div class="line">    &#125;;    </div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onBindTile</span><span class="params">(DashboardItemHolder holder, Tile tile)</span> </span>&#123;</div><div class="line">        holder.icon.setImageDrawable(mCache.getIcon(tile.icon));</div><div class="line">        holder.title.setText(tile.title);</div><div class="line">        <span class="keyword">if</span> (!TextUtils.isEmpty(tile.summary)) &#123;</div><div class="line">            holder.summary.setText(tile.summary);</div><div class="line">            holder.summary.setVisibility(View.VISIBLE);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            holder.summary.setVisibility(View.GONE);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/02/Andriod-Optimize-hprof/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Andriod 性能优化之 HPROF 文件分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/05/Settings-NetworkDbF/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Settings 体系架构五 NetworkDashboardFragment</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
