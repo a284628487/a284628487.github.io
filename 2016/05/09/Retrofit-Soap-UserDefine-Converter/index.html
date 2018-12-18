@@ -7,13 +7,13 @@
   <title>使用Retrofit提交Soap请求以及自定义Converter解析数据 | Full Stacker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="HTTP 只负责把数据传送过去，不会管这个数据是 XML、HTML、图片、文本文件或者别的什么。而 SOAP 协议则定义了怎么把一个对象变成 XML 文本，在远程如何调用等。">
-<meta name="keywords" content="Retrofit2,Soap">
+<meta name="keywords" content="Retrofit2,RxJava">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Retrofit提交Soap请求以及自定义Converter解析数据">
 <meta property="og:url" content="http://yoursite.com/2016/05/09/Retrofit-Soap-UserDefine-Converter/index.html">
 <meta property="og:site_name" content="Full Stacker">
 <meta property="og:description" content="HTTP 只负责把数据传送过去，不会管这个数据是 XML、HTML、图片、文本文件或者别的什么。而 SOAP 协议则定义了怎么把一个对象变成 XML 文本，在远程如何调用等。">
-<meta property="og:updated_time" content="2017-05-23T06:00:45.000Z">
+<meta property="og:updated_time" content="2018-12-18T14:56:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Retrofit提交Soap请求以及自定义Converter解析数据">
 <meta name="twitter:description" content="HTTP 只负责把数据传送过去，不会管这个数据是 XML、HTML、图片、文本文件或者别的什么。而 SOAP 协议则定义了怎么把一个对象变成 XML 文本，在远程如何调用等。">
@@ -119,7 +119,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Algorighm/" style="font-size: 10.91px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16.36px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 10.91px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 13.64px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 10.91px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 10.91px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10.91px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 11.82px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17.27px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15.45px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19.09px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 10.91px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 13.64px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 10.91px;">Promise</a> <a href="/tags/React/" style="font-size: 18.18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.45px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16.36px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 11.82px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 12.73px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 14.55px;">Settings</a> <a href="/tags/Soap/" style="font-size: 10px;">Soap</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 11.82px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 13px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 13px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 14px;">Settings</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 12px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
 					</div>
 				</section>
 				
@@ -217,7 +217,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Soap/">Soap</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retrofit2/">Retrofit2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
 	</div>
 
         

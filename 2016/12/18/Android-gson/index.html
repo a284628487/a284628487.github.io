@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android Gson 数据解析记录 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android Gson库泛型数据解析，定义数据类型为泛型时，直接使用Gson.fromJson(String, Type)并不能正确的将数据解析出来，而使用Retrofit的时候，定义到接口返回数据中，却能正确解析出来，这两者有什么区别，Retrofit又是怎么实现的？带着这个疑问来分析学习Gson。">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Gson 数据解析记录">
+<meta property="og:url" content="http://yoursite.com/2016/12/18/Android-gson/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="Android Gson库泛型数据解析，定义数据类型为泛型时，直接使用Gson.fromJson(String, Type)并不能正确的将数据解析出来，而使用Retrofit的时候，定义到接口返回数据中，却能正确解析出来，这两者有什么区别，Retrofit又是怎么实现的？带着这个疑问来分析学习Gson。">
+<meta property="og:updated_time" content="2018-12-18T14:54:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Gson 数据解析记录">
+<meta name="twitter:description" content="Android Gson库泛型数据解析，定义数据类型为泛型时，直接使用Gson.fromJson(String, Type)并不能正确的将数据解析出来，而使用Retrofit的时候，定义到接口返回数据中，却能正确解析出来，这两者有什么区别，Retrofit又是怎么实现的？带着这个疑问来分析学习Gson。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>Über</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 11px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 11px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 13px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 11px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 11px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 11px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 12px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 10px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 11px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 13px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 11px;">Promise</a> <a href="/tags/React/" style="font-size: 18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 14px;">Settings</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 12px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android-gson" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/18/Android-gson/" class="article-date">
+  	<time datetime="2016-12-18T14:22:52.000Z" itemprop="datePublished">2016-12-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Gson 数据解析记录
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Gson库泛型数据解析，定义数据类型为泛型时，直接使用<strong>Gson.fromJson(String, Type)</strong>并不能正确的将数据解析出来，而使用<strong>Retrofit</strong>的时候，定义到接口返回数据中，却能正确解析出来，这两者有什么区别，<strong>Retrofit</strong>又是怎么实现的？带着这个疑问来分析学习<strong>Gson</strong>。<br><a id="more"></a></p>
+<h2 id="数据Model实体类"><a href="#数据Model实体类" class="headerlink" title="数据Model实体类"></a>数据<strong>Model</strong>实体类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// User</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> String name;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"User."</span> + name + <span class="string">",age="</span> + age;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Dog</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> String name;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String color;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">(String name, String color)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.color = color;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"Dog."</span> + name;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Room</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Room</span>&lt;<span class="title">T</span>, <span class="title">K</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">public</span> T user;</div><div class="line">    <span class="keyword">public</span> K dog;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Room</span><span class="params">(T user, K dog)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.user = user;</div><div class="line">        <span class="keyword">this</span>.dog = dog;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> user.toString() + <span class="string">" &amp; "</span> + dog.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Room</strong> 中定义了两个泛型成员变量 <strong>user</strong>, <strong>dog</strong>;</p>
+</blockquote>
+<h2 id="Gson-fromJson"><a href="#Gson-fromJson" class="headerlink" title="Gson.fromJson"></a><strong>Gson.fromJson</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> Room&lt;User, Dog&gt; <span class="title">getRoom</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">    User ur = <span class="keyword">new</span> User(<span class="string">"Trace"</span>, age);</div><div class="line">    Dog dg = <span class="keyword">new</span> Dog(<span class="string">"Andy"</span>, <span class="string">"white"</span>);</div><div class="line"></div><div class="line">    Room&lt;User, Dog&gt; room = <span class="keyword">new</span> Room&lt;&gt;(ur, dg);</div><div class="line">    <span class="keyword">return</span> room;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gsonTest</span><span class="params">()</span> </span>&#123;</div><div class="line">    Gson gson = <span class="keyword">new</span> Gson();</div><div class="line">    Room&lt;User, Dog&gt; room = getRoom(<span class="number">27</span>);</div><div class="line">    String jsonStr = gson.toJson(room);</div><div class="line">    print(jsonStr);</div><div class="line">    <span class="comment">// &#123;"user":&#123;"name":"Trace","age":27&#125;,"dog":&#123;"name":"Andy","color":"white"&#125;&#125;</span></div><div class="line">    Room room2 = gson.fromJson(jsonStr, Room.class);</div><div class="line">    print(room2);</div><div class="line">    <span class="comment">// &#123;name=Trace, age=27.0&#125; &amp; &#123;name=Andy, color=white&#125;</span></div><div class="line">    print(room2.user.getClass());</div><div class="line">    <span class="comment">// class com.google.gson.internal.LinkedTreeMap</span></div><div class="line">    print(room2.dog.getClass());</div><div class="line">    <span class="comment">// class com.google.gson.internal.LinkedTreeMap</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>直接使用<strong>gson.fromJson</strong>，解析出来的user和dog，并不是<strong>User</strong>和<strong>Dog</strong>数据类型，而是<strong>LinkedTreeMap</strong>。</p>
+<h2 id="定义ParameterizedType"><a href="#定义ParameterizedType" class="headerlink" title="定义ParameterizedType"></a>定义<strong>ParameterizedType</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Type <span class="title">getType</span><span class="params">(<span class="keyword">final</span> Class rawClazz, <span class="keyword">final</span> Class... typeArgs)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ParameterizedType() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> Type[] getActualTypeArguments() &#123;</div><div class="line">            <span class="keyword">return</span> typeArgs;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Type <span class="title">getRawType</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> rawClazz;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Type <span class="title">getOwnerType</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gsonTest</span><span class="params">()</span> </span>&#123;</div><div class="line">    Gson gson = <span class="keyword">new</span> Gson();</div><div class="line"></div><div class="line">    Room&lt;User, Dog&gt; room = getRoom(<span class="number">27</span>);</div><div class="line">    print(room);</div><div class="line">    <span class="comment">// User.Trace,age=27 &amp; Dog.Andy</span></div><div class="line"></div><div class="line">    String jsonStr = gson.toJson(room);</div><div class="line">    print(jsonStr);</div><div class="line">    <span class="comment">// &#123;"user":&#123;"name":"Trace","age":27&#125;,"dog":&#123;"name":"Andy","color":"white"&#125;&#125;</span></div><div class="line">    Room&lt;User, Dog&gt; roomNew = gson.fromJson(jsonStr, </div><div class="line">    	getType(Room.class, User.class, Dog.class));</div><div class="line">    print(roomNew);</div><div class="line">    <span class="comment">// User.Trace,age=27 &amp; Dog.Andy</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用<strong>ParameterizedType</strong>定义<strong>Type</strong>数据类型，实现<strong>getActualTypeArguments</strong>方法，指定数据类型<strong>T</strong>和<strong>K</strong>，再使用<strong>gson.fromJson</strong>，正确的解析出来user和dog。</p>
+</blockquote>
+<p>对比上面两种方法，实际是就是<strong>fromJson</strong>的第二个参数<strong>Type</strong>有区别，一个是<strong>Room.class</strong>，而另一个是<strong>Room<user, dog="">.class</user,></strong>。</p>
+<h2 id="Type"><a href="#Type" class="headerlink" title="Type"></a><strong>Type</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gsonTest2</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</div><div class="line">    Method m = What.class.getDeclaredMethod(<span class="string">"getRoom"</span>);</div><div class="line">    Type returnType = m.getGenericReturnType();</div><div class="line">    print(returnType);</div><div class="line">    <span class="comment">// x.com.appdemo.Room&lt;x.com.appdemo.User, x.com.appdemo.Dog&gt;</span></div><div class="line">    ParameterizedType actualType = (ParameterizedType) returnType;</div><div class="line">    <span class="comment">//</span></div><div class="line">    Type[] args = actualType.getActualTypeArguments();</div><div class="line">    print(args[<span class="number">0</span>]);</div><div class="line">    <span class="comment">// class x.com.appdemo.User</span></div><div class="line">    print(args[<span class="number">1</span>]);</div><div class="line">    <span class="comment">// class x.com.appdemo.Dog</span></div><div class="line"></div><div class="line">    Room&lt;User, Dog&gt; room = getRoom(<span class="number">28</span>);</div><div class="line">    Gson gson = <span class="keyword">new</span> Gson();</div><div class="line">    String jsonStr = gson.toJson(room);</div><div class="line">    Room&lt;User, Dog&gt; room2 = gson.fromJson(jsonStr, returnType);</div><div class="line">    print(room2);</div><div class="line">    <span class="comment">// User.Trace,age=28 &amp; Dog.Andy</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gsonTest3</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</div><div class="line">    Method m = What.class.getDeclaredMethod(<span class="string">"getRoomList"</span>);</div><div class="line">    Type returnType = m.getGenericReturnType();</div><div class="line">    print(returnType);</div><div class="line">    <span class="comment">// java.util.List&lt;x.com.appdemo.Room&lt;x.com.appdemo.User, x.com.appdemo.Dog&gt;&gt;</span></div><div class="line">    ParameterizedType actualType = (ParameterizedType) returnType;</div><div class="line">    <span class="comment">//</span></div><div class="line">    Type[] args = actualType.getActualTypeArguments();</div><div class="line">    print(args[<span class="number">0</span>]);</div><div class="line">    <span class="comment">// x.com.appdemo.Room&lt;x.com.appdemo.User, x.com.appdemo.Dog&gt;</span></div><div class="line">    args = ((ParameterizedType) args[<span class="number">0</span>]).getActualTypeArguments();</div><div class="line">    print(args[<span class="number">0</span>]);</div><div class="line">    <span class="comment">// class x.com.appdemo.User</span></div><div class="line">    print(args[<span class="number">1</span>]);</div><div class="line">    <span class="comment">// class x.com.appdemo.Dog</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gsonTest4</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</div><div class="line">    Method m = What.class.getDeclaredMethod(<span class="string">"getRoomArray"</span>);</div><div class="line">    Type returnType = m.getGenericReturnType();</div><div class="line">    print(returnType);</div><div class="line">    <span class="comment">// x.com.appdemo.Room&lt;x.com.appdemo.User, x.com.appdemo.Dog&gt;[]</span></div><div class="line">    GenericArrayType actualType = (GenericArrayType) returnType;</div><div class="line">    <span class="comment">//</span></div><div class="line">    Type eleType = actualType.getGenericComponentType();</div><div class="line">    print(eleType);</div><div class="line">    <span class="comment">// x.com.appdemo.Room&lt;x.com.appdemo.User, x.com.appdemo.Dog&gt;</span></div><div class="line">    Type[] args = ((ParameterizedType) eleType).getActualTypeArguments();</div><div class="line">    print(args[<span class="number">0</span>]);</div><div class="line">    <span class="comment">// class x.com.appdemo.User</span></div><div class="line">    print(args[<span class="number">1</span>]);</div><div class="line">    <span class="comment">// class x.com.appdemo.Dog</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接口<strong>Method</strong>定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">What</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Room&lt;User, Dog&gt; <span class="title">getRoom</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Room&lt;User, Dog&gt;&gt; getRoomList() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Room&lt;User, Dog&gt;[] getRoomArray() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>What</strong>类中定义了三个方法，有返回值，和使用<strong>Retrofit</strong>的时候接口定义相似，在上面的三个test方法中，可以看出通过<strong>Method</strong>的定义，可以准确的得出泛型类的具体类型，所以<strong>Retrofit</strong>能够正确的解析出实体数据类。</p>
+</blockquote>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/21/Android-Style-Theme/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android 主题和样式设置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/16/Android-gradle/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android gradle 配置</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
