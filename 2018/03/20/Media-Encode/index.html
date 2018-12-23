@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android MediaCodec 视频编码 | Full Stacker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用MediaCodec和MediaMuxer，实现视频编码。">
+<meta name="keywords" content="Android,Media">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android MediaCodec 视频编码">
+<meta property="og:url" content="http://yoursite.com/2018/03/20/Media-Encode/index.html">
+<meta property="og:site_name" content="Full Stacker">
+<meta property="og:description" content="使用MediaCodec和MediaMuxer，实现视频编码。">
+<meta property="og:updated_time" content="2018-12-21T02:55:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android MediaCodec 视频编码">
+<meta name="twitter:description" content="使用MediaCodec和MediaMuxer，实现视频编码。">
+  
+    <link rel="alternative" href="/atom.xml" title="Full Stacker" type="application/atom+xml">
+  
+  
+    
+      <link rel="icon" href="/favicon.png">
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+				
+					<img lazy-src="/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Michael Cai</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Enjoy coding</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">首页</a></li>
+				        
+							<li><a href="/archives">归档</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+					        
+								<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Algorighm/" style="font-size: 10.91px;">Algorighm</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android源码/" style="font-size: 16.36px;">Android源码</a> <a href="/tags/Animation/" style="font-size: 10.91px;">Animation</a> <a href="/tags/Annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/CSS3/" style="font-size: 10px;">CSS3</a> <a href="/tags/Cordova/" style="font-size: 10px;">Cordova</a> <a href="/tags/ES6-ES7/" style="font-size: 13.64px;">ES6/ES7</a> <a href="/tags/Express/" style="font-size: 10.91px;">Express</a> <a href="/tags/Fetch/" style="font-size: 10px;">Fetch</a> <a href="/tags/Git-SVN/" style="font-size: 10px;">Git/SVN</a> <a href="/tags/HTTP/" style="font-size: 10.91px;">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 10.91px;">HTTPS</a> <a href="/tags/Html/" style="font-size: 10px;">Html</a> <a href="/tags/IO/" style="font-size: 11.82px;">IO</a> <a href="/tags/Interceptor/" style="font-size: 10px;">Interceptor</a> <a href="/tags/Java/" style="font-size: 17.27px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 15.45px;">JavaScript</a> <a href="/tags/Media/" style="font-size: 11.82px;">Media</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 19.09px;">NodeJS</a> <a href="/tags/Observable/" style="font-size: 10px;">Observable</a> <a href="/tags/OkHttp3/" style="font-size: 10.91px;">OkHttp3</a> <a href="/tags/Optimize/" style="font-size: 13.64px;">Optimize</a> <a href="/tags/Promise/" style="font-size: 10.91px;">Promise</a> <a href="/tags/React/" style="font-size: 18.18px;">React</a> <a href="/tags/React-Redux/" style="font-size: 15.45px;">React-Redux</a> <a href="/tags/React-Router/" style="font-size: 16.36px;">React-Router</a> <a href="/tags/Retrofit2/" style="font-size: 12.73px;">Retrofit2</a> <a href="/tags/RxJava/" style="font-size: 13.64px;">RxJava</a> <a href="/tags/Settings/" style="font-size: 14.55px;">Settings</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Telephony/" style="font-size: 11.82px;">Telephony</a> <a href="/tags/async/" style="font-size: 10px;">async</a> <a href="/tags/await/" style="font-size: 10px;">await</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/a284628487/">原cnblog1</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cnblogs.com/284628487a/">原cnblogs2</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">全栈工程师一枚</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Michael Cai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="null/assets/imgSite/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Michael Cai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Enjoy coding</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">首页</a></li>
+		        
+					<li><a href="/archives">归档</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/a284628487" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="mailto:284628487@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Media-Encode" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/20/Media-Encode/" class="article-date">
+  	<time datetime="2018-03-20T13:43:32.000Z" itemprop="datePublished">2018-03-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android MediaCodec 视频编码
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Media/">Media</a></li></ul>
+	</div>
+
+        
+
+
+        
+            <div class="bookicon"></div>
+            <div class="article-hit">
+              <span id="busuanzi_container_page_pv">
+                    热度 <span id="busuanzi_value_page_pv"></span>℃</span>
+            </div>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用<strong>MediaCodec</strong>和<strong>MediaMuxer</strong>，实现视频编码。<br><a id="more"></a><br>编码流程如下：</p>
+<ul>
+<li>1.<code>new MediaFormat()</code></li>
+<li>2.<code>MediaCodec.createEncoderByType()</code></li>
+<li>3.<code>MediaCodec.configure(format)</code></li>
+<li>4.<code>MediaCodec.start()</code></li>
+<li>5.<code>new MediaMuxer()</code></li>
+<li>6.<code>MediaMuxer.start()</code></li>
+<li>7.<code>mEncoder.getOutputBuffers() -&gt; ByteBuffer[]</code></li>
+<li>8.<code>mEncoder.dequeueOutputBuffer() -&gt; status/index</code></li>
+<li>9.<code>MediaMuxer.writeSampleData()</code></li>
+<li>10.<code>mEncoder.releaseOutputBuffer()</code></li>
+<li>11.<code>loop[7-10]</code></li>
+<li>12.<code>mEncoder.signalEndOfInputStream()</code></li>
+</ul>
+<h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a><strong>Config</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MIME_TYPE = <span class="string">"video/avc"</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> WIDTH = <span class="number">640</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HEIGHT = <span class="number">480</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BIT_RATE = <span class="number">4000000</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FRAMES_PER_SECOND = <span class="number">4</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> IFRAME_INTERVAL = <span class="number">4</span>;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM_FRAMES = <span class="number">8</span>;</div><div class="line"></div><div class="line"><span class="comment">// "live" state during recording</span></div><div class="line"><span class="keyword">private</span> MediaCodec.BufferInfo mBufferInfo;</div><div class="line"><span class="keyword">private</span> MediaCodec mEncoder;</div><div class="line"><span class="keyword">private</span> MediaMuxer mMuxer;</div><div class="line"><span class="keyword">private</span> Surface mInputSurface;</div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> mTrackIndex;</div><div class="line"><span class="keyword">private</span> <span class="keyword">boolean</span> mMuxerStarted;</div><div class="line"><span class="keyword">private</span> <span class="keyword">long</span> mFakePts;</div></pre></td></tr></table></figure>
+<h2 id="配置编码器Encoder"><a href="#配置编码器Encoder" class="headerlink" title="配置编码器Encoder"></a>配置编码器<strong>Encoder</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">prepareEncoder</span><span class="params">(File outputFile)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    mBufferInfo = <span class="keyword">new</span> MediaCodec.BufferInfo();</div><div class="line">    <span class="comment">// 指定视频格式(video/avc)和宽高</span></div><div class="line">    MediaFormat format = MediaFormat.createVideoFormat(MIME_TYPE, WIDTH, HEIGHT);</div><div class="line"></div><div class="line">    <span class="comment">// Set some properties.  Failing to specify some of these can cause the MediaCodec</span></div><div class="line">    <span class="comment">// configure() call to throw an unhelpful exception.</span></div><div class="line">    format.setInteger(MediaFormat.KEY_COLOR_FORMAT,</div><div class="line">            MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface); <span class="comment">// color格式</span></div><div class="line">    format.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE); <span class="comment">// bitrate</span></div><div class="line">    format.setInteger(MediaFormat.KEY_FRAME_RATE, FRAMES_PER_SECOND); <span class="comment">// 帧率(frames/sec)</span></div><div class="line">    format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, IFRAME_INTERVAL); <span class="comment">// 关键帧</span></div><div class="line">    Log.d(TAG, <span class="string">"format: "</span> + format);</div><div class="line"></div><div class="line">    <span class="comment">// Create a MediaCodec encoder, and configure it with our format.  Get a Surface</span></div><div class="line">    <span class="comment">// we can use for input and wrap it with a class that handles the EGL work.</span></div><div class="line">    mEncoder = MediaCodec.createEncoderByType(MIME_TYPE); <span class="comment">// 创建Encoder编码器</span></div><div class="line">    <span class="comment">// 根据format配置编码器</span></div><div class="line">    mEncoder.configure(format, <span class="keyword">null</span>, <span class="keyword">null</span>, MediaCodec.CONFIGURE_FLAG_ENCODE);</div><div class="line">    <span class="comment">// 创建Surface，之后在这个Surface上面进行绘制操作</span></div><div class="line">    mInputSurface = mEncoder.createInputSurface();</div><div class="line">    mEncoder.start(); <span class="comment">// 启动编码器</span></div><div class="line"></div><div class="line">    <span class="comment">// Create a MediaMuxer. We can't add the video track and start() the muxer here,</span></div><div class="line">    <span class="comment">// because our MediaFormat doesn't have the Magic Goodies.  These can only be</span></div><div class="line">    <span class="comment">// obtained from the encoder after it has started processing data.</span></div><div class="line">    <span class="comment">//</span></div><div class="line">    <span class="comment">// We're not actually interested in multiplexing audio.  We just want to convert</span></div><div class="line">    <span class="comment">// the raw H.264 elementary stream we get from MediaCodec into a .mp4 file.</span></div><div class="line">    Log.d(TAG, <span class="string">"output will go to "</span> + outputFile);</div><div class="line">    <span class="comment">// 创建MediaMuxer</span></div><div class="line">    mMuxer = <span class="keyword">new</span> MediaMuxer(outputFile.toString(), MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);</div><div class="line"></div><div class="line">    mTrackIndex = -<span class="number">1</span>;</div><div class="line">    mMuxerStarted = <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="drainEncoder"><a href="#drainEncoder" class="headerlink" title="drainEncoder"></a><strong>drainEncoder</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Extracts all pending data from the encoder.</div><div class="line"> * </div><div class="line"> * If endOfStream is not set, this returns when there is no more data to drain.  If it</div><div class="line"> * is set, we send EOS to the encoder, and then iterate until we see EOS on the output.</div><div class="line"> * Calling this with endOfStream set should be done once, right before stopping the muxer.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drainEncoder</span><span class="params">(<span class="keyword">boolean</span> endOfStream)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> TIMEOUT_USEC = <span class="number">10000</span>;</div><div class="line">    <span class="keyword">if</span> (VERBOSE) Log.d(TAG, <span class="string">"drainEncoder("</span> + endOfStream + <span class="string">")"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (endOfStream) &#123;</div><div class="line">        <span class="keyword">if</span> (VERBOSE) Log.d(TAG, <span class="string">"sending EOS to encoder"</span>);</div><div class="line">        mEncoder.signalEndOfInputStream();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Retrieve the set of OutputBuffers</span></div><div class="line">    ByteBuffer[] encoderOutputBuffers = mEncoder.getOutputBuffers();</div><div class="line">    <span class="comment">// 获取编码数据数组</span></div><div class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">        <span class="comment">// Returns the index of an output buffer that has been successfully decoded.</span></div><div class="line">        <span class="comment">// or one of the INFO_* constants.</span></div><div class="line">        <span class="keyword">int</span> encoderStatus = mEncoder.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC);</div><div class="line">        <span class="keyword">if</span> (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</div><div class="line">            Log.d(TAG, <span class="string">"try again later"</span>);</div><div class="line">            <span class="comment">// no output available yet</span></div><div class="line">            <span class="keyword">if</span> (!endOfStream) &#123;</div><div class="line">                <span class="keyword">break</span>; <span class="comment">// out of while</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (VERBOSE) Log.d(TAG, <span class="string">"no output available, spinning to await EOS"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) &#123;</div><div class="line">            <span class="comment">// not expected for an encoder</span></div><div class="line">            Log.d(TAG, <span class="string">"output buffers changed"</span>);</div><div class="line">            encoderOutputBuffers = mEncoder.getOutputBuffers();</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) &#123;</div><div class="line">            <span class="comment">// should happen before receiving buffers, and should only happen once</span></div><div class="line">            <span class="keyword">if</span> (mMuxerStarted) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"format changed twice"</span>);</div><div class="line">            &#125;</div><div class="line">            MediaFormat newFormat = mEncoder.getOutputFormat();</div><div class="line">            Log.d(TAG, <span class="string">"encoder output format changed: "</span> + newFormat);</div><div class="line"></div><div class="line">            <span class="comment">// now that we have the Magic Goodies, start the muxer</span></div><div class="line">            mTrackIndex = mMuxer.addTrack(newFormat);</div><div class="line">            mMuxer.start();</div><div class="line">            mMuxerStarted = <span class="keyword">true</span>;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoderStatus &lt; <span class="number">0</span>) &#123;</div><div class="line">            Log.w(TAG, <span class="string">"unexpected result from encoder.dequeueOutputBuffer: "</span> +</div><div class="line">                    encoderStatus);</div><div class="line">            <span class="comment">// let's ignore it</span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            ByteBuffer encodedData = encoderOutputBuffers[encoderStatus];</div><div class="line">            <span class="keyword">if</span> (encodedData == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"encoderOutputBuffer "</span> + encoderStatus +</div><div class="line">                        <span class="string">" was null"</span>);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> ((mBufferInfo.flags &amp; MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != <span class="number">0</span>) &#123;</div><div class="line">                <span class="comment">// The codec config data was pulled out and fed to the muxer when we got</span></div><div class="line">                <span class="comment">// the INFO_OUTPUT_FORMAT_CHANGED status, Ignore it.</span></div><div class="line">                Log.d(TAG, <span class="string">"ignoring BUFFER_FLAG_CODEC_CONFIG: "</span> + mBufferInfo.flags);</div><div class="line">                mBufferInfo.size = <span class="number">0</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (mBufferInfo.size != <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!mMuxerStarted) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"muxer hasn't started"</span>);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="comment">// adjust the ByteBuffer values to match BufferInfo</span></div><div class="line">                encodedData.position(mBufferInfo.offset); <span class="comment">// 设置偏移量</span></div><div class="line">                encodedData.limit(mBufferInfo.offset + mBufferInfo.size); <span class="comment">// 设置limit</span></div><div class="line">                mBufferInfo.presentationTimeUs = mFakePts;</div><div class="line">                mFakePts += <span class="number">1000000L</span> / FRAMES_PER_SECOND;</div><div class="line">                <span class="comment">// 使用Muxer写入视频数据</span></div><div class="line">                mMuxer.writeSampleData(mTrackIndex, encodedData, mBufferInfo);</div><div class="line">                Log.d(TAG, <span class="string">"sent "</span> + mBufferInfo.offset + <span class="string">"/"</span> + mBufferInfo.size + <span class="string">" bytes to muxer"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// release释放索引位置对应的buffer</span></div><div class="line">            mEncoder.releaseOutputBuffer(encoderStatus, <span class="keyword">false</span>);</div><div class="line">            <span class="comment">// endOfStream -&gt; break;</span></div><div class="line">            <span class="keyword">if</span> ((mBufferInfo.flags &amp; MediaCodec.BUFFER_FLAG_END_OF_STREAM) != <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">if</span> (!endOfStream) &#123;</div><div class="line">                    Log.w(TAG, <span class="string">"reached end of stream unexpectedly"</span>);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (VERBOSE) Log.d(TAG, <span class="string">"end of stream reached"</span>);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>; <span class="comment">// out of while</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="generateMovie"><a href="#generateMovie" class="headerlink" title="generateMovie"></a><strong>generateMovie</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">generateMovie</span><span class="params">(File outputFile)</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="comment">// 准备并配置编码器</span></div><div class="line">        prepareEncoder(outputFile);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NUM_FRAMES; i++) &#123;</div><div class="line">            <span class="comment">// Drain any data from the encoder into the muxer.</span></div><div class="line">            <span class="comment">// 将数据从编码器中抽取到文件中</span></div><div class="line">            drainEncoder(<span class="keyword">false</span>);</div><div class="line">            <span class="comment">// Generate a frame and submit it.</span></div><div class="line">            generateFrame(i);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Send end-of-stream and drain remaining output.</span></div><div class="line">        drainEncoder(<span class="keyword">true</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (IOException ioe) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(ioe);</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        releaseEncoder(); <span class="comment">// release 编解码器</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">releaseEncoder</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (VERBOSE) Log.d(TAG, <span class="string">"releasing encoder objects"</span>);</div><div class="line">    <span class="keyword">if</span> (mEncoder != <span class="keyword">null</span>) &#123;</div><div class="line">        mEncoder.stop();</div><div class="line">        mEncoder.release();</div><div class="line">        mEncoder = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (mInputSurface != <span class="keyword">null</span>) &#123;</div><div class="line">        mInputSurface.release();</div><div class="line">        mInputSurface = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (mMuxer != <span class="keyword">null</span>) &#123;</div><div class="line">        mMuxer.stop();</div><div class="line">        mMuxer.release();</div><div class="line">        mMuxer = <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="generateFrame"><a href="#generateFrame" class="headerlink" title="generateFrame"></a><strong>generateFrame</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">generateFrame</span><span class="params">(<span class="keyword">int</span> frameNum)</span> </span>&#123;</div><div class="line">    Canvas canvas = mInputSurface.lockCanvas(<span class="keyword">null</span>);</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">int</span> width = canvas.getWidth();</div><div class="line">        <span class="keyword">int</span> height = canvas.getHeight();</div><div class="line"></div><div class="line">        Paint paint = <span class="keyword">new</span> Paint();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</div><div class="line">            <span class="keyword">int</span> color = <span class="number">0xff000000</span>;</div><div class="line">            <span class="keyword">if</span> ((i &amp; <span class="number">0x01</span>) != <span class="number">0</span>) &#123;</div><div class="line">                color |= <span class="number">0x00ff0000</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> ((i &amp; <span class="number">0x02</span>) != <span class="number">0</span>) &#123;</div><div class="line">                color |= <span class="number">0x0000ff00</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> ((i &amp; <span class="number">0x04</span>) != <span class="number">0</span>) &#123;</div><div class="line">                color |= <span class="number">0x000000ff</span>;</div><div class="line">            &#125;</div><div class="line">            paint.setColor(color);</div><div class="line">            <span class="keyword">float</span> sliceWidth = width / <span class="number">8</span>;</div><div class="line">            canvas.drawRect(sliceWidth * i, <span class="number">0</span>, sliceWidth * (i + <span class="number">1</span>), height, paint);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        paint.setColor(<span class="number">0x80808080</span>);</div><div class="line">        <span class="keyword">float</span> sliceHeight = height / <span class="number">8</span>;</div><div class="line">        <span class="keyword">int</span> frameMod = frameNum % <span class="number">8</span>;</div><div class="line">        canvas.drawRect(<span class="number">0</span>, sliceHeight * frameMod, width, sliceHeight * (frameMod + <span class="number">1</span>), paint);</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        mInputSurface.unlockCanvasAndPost(canvas);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Log输出"><a href="#Log输出" class="headerlink" title="Log输出"></a><strong>Log</strong>输出</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.225</span> SoftInputActivity: Generating movie...</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.232</span> SoftInputActivity: format: &#123;color-format=<span class="number">2130708361</span>, i-frame-interval=<span class="number">4</span>,</div><div class="line"> mime=video/avc, width=<span class="number">640</span>, bitrate=<span class="number">4000000</span>, frame-rate=<span class="number">4</span>, height=<span class="number">480</span>&#125;</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.256</span> SoftInputActivity: output will go to /storage/emulated/<span class="number">0</span>/soft-input-surface.mp4</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.261</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.275</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.286</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.294</span> SoftInputActivity: encoder output format changed: &#123;max-bitrate=<span class="number">4000000</span>, </div><div class="line">csd-<span class="number">1</span>=java.nio.HeapByteBuffer[pos=<span class="number">0</span> lim=<span class="number">10</span> cap=<span class="number">10</span>], color-transfer=<span class="number">3</span>, </div><div class="line">mime=video/avc, width=<span class="number">640</span>, bitrate=<span class="number">4000000</span>, color-range=<span class="number">2</span>, color-standard=<span class="number">4</span>, </div><div class="line">height=<span class="number">480</span>, csd-<span class="number">0</span>=java.nio.HeapByteBuffer[pos=<span class="number">0</span> lim=<span class="number">18</span> cap=<span class="number">18</span>]&#125;</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.298</span> SoftInputActivity: ignoring BUFFER_FLAG_CODEC_CONFIG: <span class="number">2</span></div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.309</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">2456</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.321</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.328</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.336</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">1151</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.348</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.355</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.364</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">502</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.375</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.380</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.385</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">884</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.396</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.401</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.408</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">1014</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.420</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.427</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.435</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">1018</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.446</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.455</span> SoftInputActivity: drainEncoder(<span class="keyword">false</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.466</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.485</span> SoftInputActivity: drainEncoder(<span class="keyword">true</span>)</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.485</span> SoftInputActivity: sending EOS to encoder</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.498</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">2013</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.512</span> SoftInputActivity: <span class="keyword">try</span> again later</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.485</span> SoftInputActivity: no output available, spinning to await EOS</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.525</span> SoftInputActivity: sent <span class="number">0</span>/<span class="number">3506</span> bytes to muxer</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.527</span> SoftInputActivity: end of stream reached</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.485</span> SoftInputActivity: releasing encoder objects</div><div class="line"><span class="number">12</span>-<span class="number">20</span> <span class="number">22</span>:<span class="number">40</span>:<span class="number">39.536</span> SoftInputActivity: Movie generation complete</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      
+    
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/27/Android-MediaCodec/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android MediaCodec 视频解码
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/10/Android-SystemService/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android SystemService 系统服务</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2014 - 2018 Michael Cai
+    	</div>
+      <div class="footer-left">
+        &nbsp;&copy; 
+        <span  id="busuanzi_container_site_pv"  style="display: none;">
+          本站访问量<span id="busuanzi_value_site_pv"></span>次
+        </span>
+        <span id="busuanzi_container_site_uv" style="display: none;">
+          访客数<span id="busuanzi_value_site_uv"></span>人
+        </span>
+      </div>
+      	<div class="footer-right">
+      		Theme of <a href="https://github.com/Mike-bel/hexo-theme-yilia-optimization" target="_blank">yilia-opti</a>, by Michael Cai
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: '/'
+	}
+</script>
+<script src="/js/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-83125745-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script>
+	(function(){
+		document.write('<scr'+'ipt type="text/javascript" src="'+document.location.protocol+'//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">'+'</sc'+'ript>');
+	})();
+</script>
+
+
+
+<script async src="/js/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
